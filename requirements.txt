@@ -1,0 +1,5 @@
+requests
+lxml
+cssselect
+Django
+python-dateutil
