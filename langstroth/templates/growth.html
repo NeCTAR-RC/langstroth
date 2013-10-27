@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="row">
+  <div id="graph-buttons" class="btn-group pull-right">
+    <button id="2years" type="button" class="btn btn-default">2 years</button>
+    <button id="1year" type="button" class="btn btn-default">12 months</button>
+    <button id="6months" type="button" class="btn btn-default active">6 months</button>
+    <button id="1month" type="button" class="btn btn-default">1 month</button>
+  </div>
+</div>
+
+<div class="row">
+  <p class="lead">Cloud growth over the last 6 months.</p>
+  <div class="col-md-6"><img class="graphite" src="/growth/instance_count"/></div>
+  <div class="col-md-6"><img class="graphite" src="/growth/used_cores"/></div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/growth.js"></script>
+{% endblock %}

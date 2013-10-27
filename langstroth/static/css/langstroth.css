@@ -1,0 +1,15 @@
+
+.table-sorter th {
+    cursor: pointer;
+}
+
+
+table .service {
+    width: 200px;
+}
+
+
+#averages {
+    padding-right:  200px;
+
+}
