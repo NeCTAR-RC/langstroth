@@ -85,6 +85,7 @@ def total_instance_count(request):
                  ("lineMode", "connected"),
                  ("from", q_from),
                  ("vtitle", "Instances"),
+                 ('format', 'svg'),
                  ("template", "solarized-white"),
                  ("title", "Total Instances"),
                  ("target", "total_instances"),
@@ -98,6 +99,7 @@ def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     arguments = [("width", 555),
                  ("height", 400),
+                 ('format', 'svg'),
                  ("lineMode", "connected"),
                  ("from", q_from),
                  ("vtitle", "VCPU's"),
