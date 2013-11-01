@@ -86,10 +86,14 @@ def total_instance_count(request):
                  ("from", q_from),
                  ("vtitle", "Instances"),
                  ('format', 'svg'),
-                 ("template", "solarized-white"),
+                 ("areaMode", "stacked"),
+                 ("template", "tango"),
                  ("title", "Total Instances"),
-                 ("target", "total_instances"),
-                 ("target", "*.total_instances"),
+                 ("target", "alias(sa.total_instances, 'ERSA')"),
+                 ("target", "alias(qld.total_instances, 'QCIF')"),
+                 ("target", "alias(monash-01.total_instances, 'Monash University')"),
+                 ("target", "alias(sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances),'Melbourne University')"),
+
     ]
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
@@ -103,10 +107,13 @@ def total_used_cores(request):
                  ("lineMode", "connected"),
                  ("from", q_from),
                  ("vtitle", "VCPU's"),
-                 ("template", "solarized-white"),
+                 ("areaMode", "stacked"),
+                 ("template", "tango"),
                  ("title", "Used VCPU's"),
-                 ("target", "used_vcpus"),
-                 ("target", "*.used_vcpus"),
+                 ("target", "alias(sa.used_vcpus, 'ERSA')"),
+                 ("target", "alias(qld.used_vcpus, 'QCIF')"),
+                 ("target", "alias(monash-01.used_vcpus, 'Monash University')"),
+                 ("target", "alias(sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus),'Melbourne University')"),
     ]
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
