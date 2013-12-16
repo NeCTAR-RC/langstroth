@@ -135,8 +135,15 @@ def choose_first(datapoints):
             yield value
 
 
-QUERY = {'melbourne': [("target", "melbourne-qh2.domains.*.used_vcpus"),
-                       ("target", "melbourne-np.domains.*.used_vcpus")]}
+QUERY = {
+    'melbourne': [("target", "melbourne-qh2.domains.*.used_vcpus"),
+                  ("target", "melbourne-np.domains.*.used_vcpus")],
+    'all': [("target", "melbourne-qh2.domains.*.used_vcpus"),
+            ("target", "melbourne-np.domains.*.used_vcpus"),
+            ("target", "monash-01.domains.*.used_vcpus"),
+            ("target", "sa.domains.*.used_vcpus"),
+            ("target", "qld.domains.*.used_vcpus")]
+}
 
 
 def total_cores_per_domain(request):
