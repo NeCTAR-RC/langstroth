@@ -55,13 +55,9 @@ path.transition()  // update
 
 d3.selectAll("button").on("click", change);
 
-var timeout = setTimeout(function() {
-  $("input#melbourne-np").click();
-}, 2000);
-
-function computeTextRotation(d) {
-  return 6;
-}
+// var timeout = setTimeout(function() {
+//   $("button").click();
+// }, 2000);
 
 function change() {
   $.get( "/domain/cores_per_domain", {'az': this.id}, function( data ) {
@@ -186,3 +182,5 @@ function arcTweenOut(a) {
     return arc(i(t));
   };
 }
+
+$("#all").click();
