@@ -89,11 +89,12 @@ def domain(request):
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
+    q_format = request.GET.get('format', 'svg'),
 
     arguments = [("width", 555),
                  ("height", 400),
                  ("lineMode", "connected"),
-                 ("from", q_from),
+                 ('format', q_format),
                  ("vtitle", "Instances"),
                  ('format', 'svg'),
                  ("areaMode", "stacked"),
@@ -111,9 +112,11 @@ def total_instance_count(request):
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
+    q_format = request.GET.get('format', 'svg'),
+
     arguments = [("width", 555),
                  ("height", 400),
-                 ('format', 'svg'),
+                 ('format', q_format),
                  ("lineMode", "connected"),
                  ("from", q_from),
                  ("vtitle", "VCPU's"),
