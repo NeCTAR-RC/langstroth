@@ -89,45 +89,50 @@ def domain(request):
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
-    q_format = request.GET.get('format', 'svg'),
+    q_format = request.GET.get('format', 'svg')
 
-    arguments = [("width", 555),
-                 ("height", 400),
-                 ('format', q_format),
-                 ("lineMode", "connected"),
+    arguments = [('format', q_format),
                  ("from", q_from),
-                 ("vtitle", "Instances"),
-                 ("areaMode", "stacked"),
-                 ("template", "tango"),
-                 ("title", "Total Instances"),
                  ("target", "alias(sa.total_instances, 'ERSA')"),
                  ("target", "alias(qld.total_instances, 'QCIF')"),
                  ("target", "alias(monash-01.total_instances, 'Monash University')"),
-                 ("target", "alias(sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances),'Melbourne University')"),
+                 ("target", "alias(sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances),'Melbourne University')")]
 
-    ]
+    if q_format != 'json':
+        arguments.extend(
+            [("width", 555),
+             ("height", 400),
+             ("lineMode", "connected"),
+             ("vtitle", "Instances"),
+             ("areaMode", "stacked"),
+             ("template", "tango"),
+             ("title", "Total Instances")])
+
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
 
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
-    q_format = request.GET.get('format', 'svg'),
+    q_format = request.GET.get('format', 'svg')
 
-    arguments = [("width", 555),
-                 ("height", 400),
-                 ('format', q_format),
-                 ("lineMode", "connected"),
+    arguments = [('format', q_format),
                  ("from", q_from),
-                 ("vtitle", "VCPU's"),
-                 ("areaMode", "stacked"),
-                 ("template", "tango"),
-                 ("title", "Used VCPU's"),
                  ("target", "alias(sa.used_vcpus, 'ERSA')"),
                  ("target", "alias(qld.used_vcpus, 'QCIF')"),
                  ("target", "alias(monash-01.used_vcpus, 'Monash University')"),
-                 ("target", "alias(sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus),'Melbourne University')"),
-    ]
+                 ("target", "alias(sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus),'Melbourne University')")]
+
+    if q_format != 'json':
+        arguments.extend(
+            [("width", 555),
+             ("height", 400),
+             ("lineMode", "connected"),
+             ("vtitle", "VCPU's"),
+             ("areaMode", "stacked"),
+             ("template", "tango"),
+             ("title", "Used VCPU's")])
+
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
 
