@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^$', 'langstroth.views.index', name='home'),
     # url(r'^langstroth/', include('langstroth.foo.urls')),
     url(r'^growth/$', 'langstroth.views.growth', name='growth'),
+    url(r'^domain/$', 'langstroth.views.domain', name='domain'),
+    url(r'^domain/cores_per_domain$', 'langstroth.views.total_cores_per_domain', name='domain'),
     url(r'^growth/instance_count$', 'langstroth.views.total_instance_count'),
     url(r'^growth/used_cores$', 'langstroth.views.total_used_cores'),
 

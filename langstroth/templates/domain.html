@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="row">
+  <div id="graph-buttons" class="btn-group pull-right">
+    <button id="melbourne" type="button" class="btn btn-default">Melbourne</button>
+    <button id="monash-01" type="button" class="btn btn-default">Monash</button>
+    <button id="qld" type="button" class="btn btn-default">QLD</button>
+    <button id="sa" type="button" class="btn btn-default">SA</button>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div id="viz"></div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+<script src="{{ STATIC_URL }}js/domains.js"></script>
+{% endblock %}

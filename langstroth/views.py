@@ -3,7 +3,10 @@ import datetime
 import requests
 import cssselect
 import lxml.etree
+from json import dumps
+from operator import itemgetter
 from urllib import urlencode
+from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse
 from django.conf import settings
@@ -77,6 +80,13 @@ def growth(request):
     return render(request, "growth.html", context)
 
 
+def domain(request):
+    context = {
+        "title": "By domain",
+        "tagline": ""}
+    return render(request, "domain.html", context)
+
+
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
 
@@ -117,3 +127,39 @@ def total_used_cores(request):
     ]
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
+
+
+def choose_first(datapoints):
+    for value, time in datapoints:
+        if value:
+            yield value
+
+
+QUERY = {'melbourne': [("target", "melbourne-qh2.domains.*.used_vcpus"),
+                       ("target", "melbourne-np.domains.*.used_vcpus")]}
+
+
+def total_cores_per_domain(request):
+    q_from = request.GET.get('from', "-60minutes")
+    q_az = request.GET.get('az', "melbourne")
+    arguments = [('format', 'json'),
+                 ("from", q_from),
+                 ]
+    if q_az in QUERY:
+        arguments.extend(QUERY[q_az])
+    else:
+        arguments.append(("target", "%s.domains.*.used_vcpus" % q_az))
+    req = requests.get(GRAPHITE + "?" + urlencode(arguments))
+    cleaned = defaultdict(dict)
+    for domain in req.json():
+        domain_name = '.'.join(domain['target'].split('.')[-2].split('_'))
+        data = cleaned[domain_name]
+        data['target'] = domain_name
+        count = choose_first(domain['datapoints']).next()
+        if data.get('value'):
+            data['value'] += count
+        else:
+            data['value'] = count
+    cleaned = cleaned.values()
+    cleaned.sort(key=itemgetter('value'))
+    return HttpResponse(dumps(cleaned), req.headers['content-type'])
