@@ -60,6 +60,9 @@ d3.selectAll("button").on("click", change);
 // }, 2000);
 
 function change() {
+  $('#graph-buttons button').removeClass('active');
+  $(this).addClass('active');
+
   $.get( "/domain/cores_per_domain", {'az': this.id}, function( data ) {
     // clearTimeout(timeout);
     var new_path = svg.selectAll("g.slice").data(pie(data));
