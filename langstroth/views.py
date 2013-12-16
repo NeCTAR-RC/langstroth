@@ -93,10 +93,10 @@ def total_instance_count(request):
 
     arguments = [("width", 555),
                  ("height", 400),
-                 ("lineMode", "connected"),
                  ('format', q_format),
+                 ("lineMode", "connected"),
+                 ("from", q_from),
                  ("vtitle", "Instances"),
-                 ('format', 'svg'),
                  ("areaMode", "stacked"),
                  ("template", "tango"),
                  ("title", "Total Instances"),
