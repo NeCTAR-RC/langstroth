@@ -86,17 +86,26 @@ def domain(request):
         "tagline": ""}
     return render(request, "domain.html", context)
 
+INST_TARGETS = {
+    'ERSA': "sa.total_instances",
+    'QCIF': "qld.total_instances",
+    'Monash University': "monash-01.total_instances",
+    'Melbourne University': "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)"}
+
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_format = request.GET.get('format', 'svg')
+    q_summarise = request.GET.get('summarise', None)
 
     arguments = [('format', q_format),
-                 ("from", q_from),
-                 ("target", "alias(sa.total_instances, 'ERSA')"),
-                 ("target", "alias(qld.total_instances, 'QCIF')"),
-                 ("target", "alias(monash-01.total_instances, 'Monash University')"),
-                 ("target", "alias(sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances),'Melbourne University')")]
+                 ("from", q_from)]
+
+    for alias, target in INST_TARGETS.items():
+        if q_summarise:
+            target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
+        target = 'alias(%s, "%s")' % (target, alias)
+        arguments.append(('target', target))
 
     if q_format != 'json':
         arguments.extend(
@@ -112,16 +121,26 @@ def total_instance_count(request):
     return HttpResponse(req, req.headers['content-type'])
 
 
+CORES_TARGETS = {
+    'ERSA': "sa.used_vcpus",
+    'QCIF': "qld.used_vcpus",
+    'Monash University': "monash-01.used_vcpus",
+    'Melbourne University': "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)"}
+
+
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     q_format = request.GET.get('format', 'svg')
+    q_summarise = request.GET.get('summarise', None)
 
     arguments = [('format', q_format),
-                 ("from", q_from),
-                 ("target", "alias(sa.used_vcpus, 'ERSA')"),
-                 ("target", "alias(qld.used_vcpus, 'QCIF')"),
-                 ("target", "alias(monash-01.used_vcpus, 'Monash University')"),
-                 ("target", "alias(sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus),'Melbourne University')")]
+                 ("from", q_from)]
+
+    for alias, target in CORES_TARGETS.items():
+        if q_summarise:
+            target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
+        target = 'alias(%s, "%s")' % (target, alias)
+        arguments.append('target', target)
 
     if q_format != 'json':
         arguments.extend(
