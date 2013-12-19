@@ -140,7 +140,7 @@ def total_used_cores(request):
         if q_summarise:
             target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
         target = 'alias(%s, "%s")' % (target, alias)
-        arguments.append('target', target)
+        arguments.append(('target', target))
 
     if q_format != 'json':
         arguments.extend(
