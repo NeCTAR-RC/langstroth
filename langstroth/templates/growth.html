@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block page-header %}
+<h1>{{ title }}
+  <small class="lead">Cloud growth over the last 6 months.
+  </small>
+</h1>
+{% endblock %}
 
 {% block content %}
 
@@ -13,16 +19,21 @@
 </div>
 
 <div class="row">
-  <p class="lead">Cloud growth over the last 6 months.</p>
-  <div class="col-sd-12 col-md-6 col-ld-6">
-    <img class="graphite img-responsive" src="/growth/instance_count"/>
-  </div>
-  <div class="col-sd-12 col-md-6 col-ld-6">
-    <img class="graphite img-responsive" src="/growth/used_cores"/>
-  </div>
+  <h4>Total Instances</h4>
+  <svg class="chart" id="instance_count" data-url="/growth/instance_count"></svg>
+</div>
+<div class="row">
+  <h4>Used VCPUs</h4>
+  <svg class="chart" id="vcpu_used" data-url="/growth/used_cores"></svg>
 </div>
 {% endblock %}
 
+{% block extra_head %}
+<link href='{{ STATIC_URL }}css/nv.d3.min.css' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
 {% block extra_script %}
+<script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+<script src="{{ STATIC_URL }}js/nv.d3.js"></script>
 <script src="{{ STATIC_URL }}js/growth.js"></script>
 {% endblock %}

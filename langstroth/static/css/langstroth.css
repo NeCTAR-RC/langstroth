@@ -19,3 +19,7 @@ img.graphite {
     background-position: center;
     min-height: 300px;
 }
+
+.chart {
+    height: 400px;
+}
