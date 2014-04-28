@@ -10,6 +10,14 @@ unix_timestamp = function(timestamp){
 format_data = function(data) {
   return data.map(function(series) {
     series.values = series.datapoints;
+    series.values = series.values.map(
+      function (value) {
+        if (!value[0]) {
+          value[0] = 0;
+        }
+        return value;
+    });
+
     delete series.datapoints;
     series.key = series.target;
     return series;
