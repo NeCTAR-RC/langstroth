@@ -90,7 +90,9 @@ INST_TARGETS = {
     'ERSA': "sa.total_instances",
     'QCIF': "qld.total_instances",
     'Monash University': "monash-01.total_instances",
-    'Melbourne University': "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)"}
+    'Melbourne University': "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)",
+    'NCI': "NCI.total_instances",
+}
 
 
 def total_instance_count(request):
@@ -125,7 +127,9 @@ CORES_TARGETS = {
     'ERSA': "sa.used_vcpus",
     'QCIF': "qld.used_vcpus",
     'Monash University': "monash-01.used_vcpus",
-    'Melbourne University': "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)"}
+    'Melbourne University': "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)",
+    'NCI': "NCI.used_vcpus",
+}
 
 
 def total_used_cores(request):
@@ -168,6 +172,7 @@ QUERY = {
     'all': [("target", "melbourne-qh2.domains.*.used_vcpus"),
             ("target", "melbourne-np.domains.*.used_vcpus"),
             ("target", "monash-01.domains.*.used_vcpus"),
+            ("target", "NCI.domains.*.used_vcpus"),
             ("target", "sa.domains.*.used_vcpus"),
             ("target", "qld.domains.*.used_vcpus")]
 }
