@@ -86,13 +86,13 @@ def domain(request):
         "tagline": ""}
     return render(request, "domain.html", context)
 
-INST_TARGETS = {
-    'ERSA': "sa.total_instances",
-    'QCIF': "qld.total_instances",
-    'Monash University': "monash-01.total_instances",
-    'Melbourne University': "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)",
-    'NCI': "NCI.total_instances",
-}
+INST_TARGETS = [
+    ('Melbourne University', "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)"),
+    ('Monash University', "monash-01.total_instances"),
+    ('QCIF', "qld.total_instances"),
+    ('ERSA', "sa.total_instances"),
+    ('NCI', "NCI.total_instances"),
+]
 
 
 def total_instance_count(request):
@@ -103,7 +103,7 @@ def total_instance_count(request):
     arguments = [('format', q_format),
                  ("from", q_from)]
 
-    for alias, target in INST_TARGETS.items():
+    for alias, target in INST_TARGETS:
         if q_summarise:
             target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
         target = 'alias(%s, "%s")' % (target, alias)
@@ -123,14 +123,13 @@ def total_instance_count(request):
     return HttpResponse(req, req.headers['content-type'])
 
 
-CORES_TARGETS = {
-    'ERSA': "sa.used_vcpus",
-    'QCIF': "qld.used_vcpus",
-    'Monash University': "monash-01.used_vcpus",
-    'Melbourne University': "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)",
-    'NCI': "NCI.used_vcpus",
-}
-
+CORES_TARGETS = [
+    ('Melbourne University', "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)"),
+    ('Monash University', "monash-01.used_vcpus"),
+    ('QCIF', "qld.used_vcpus"),
+    ('ERSA', "sa.used_vcpus"),
+    ('NCI', "NCI.used_vcpus"),
+]
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
@@ -140,7 +139,7 @@ def total_used_cores(request):
     arguments = [('format', q_format),
                  ("from", q_from)]
 
-    for alias, target in CORES_TARGETS.items():
+    for alias, target in CORES_TARGETS:
         if q_summarise:
             target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
         target = 'alias(%s, "%s")' % (target, alias)
