@@ -72,7 +72,7 @@ graphduration =
 graphduration('#1month', '1hour', '-1months', 'month.');
 graphduration('#6months','12hours', '-6months', '6 months.');
 graphduration('#1year', '1days', '-1years', 'year.');
-graphduration('#2years', '7days', '-2years', '2 years.');
+graphduration('#3years', '3days', '-3years', '3 years.');
 
 $('.chart').each(function (index, graph) {
   url = $(graph).data('url');
