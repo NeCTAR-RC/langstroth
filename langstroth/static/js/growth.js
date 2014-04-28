@@ -33,7 +33,7 @@ var charts = {};
     //Format x-axis labels with custom function.
     chart.xAxis
       .tickFormat(function(d) {
-        return d3.time.format('%x')(unix_timestamp(d));
+        return d3.time.format("%Y-%m-%d")(unix_timestamp(d));
       });
 
     chart.yAxis
