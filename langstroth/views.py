@@ -29,7 +29,6 @@ def index(request):
     url = settings.NAGIOS_AVAILABILITY % (calendar.timegm(then.utctimetuple()),
                                           calendar.timegm(now.utctimetuple()))
     url = settings.NAGIOS_URL + url
-    print url
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     tr = cssselect.GenericTranslator()
     h = lxml.etree.HTML(resp.text)
@@ -87,11 +86,11 @@ def domain(request):
     return render(request, "domain.html", context)
 
 INST_TARGETS = [
-    ('Melbourne University', "sumSeries(melbourne-qh2.total_instances,melbourne-np.total_instances)"),
-    ('Monash University', "monash-01.total_instances"),
-    ('QCIF', "qld.total_instances"),
-    ('ERSA', "sa.total_instances"),
-    ('NCI', "NCI.total_instances"),
+    ('Melbourne University', "sumSeries(cells.melbourne-qh2.total_instances,cells.melbourne-np.total_instances)"),
+    ('Monash University', "cells.monash-01.total_instances"),
+    ('QCIF', "cells.qld.total_instances"),
+    ('ERSA', "cells.sa.total_instances"),
+    ('NCI', "cells.NCI.total_instances"),
 ]
 
 
@@ -124,12 +123,13 @@ def total_instance_count(request):
 
 
 CORES_TARGETS = [
-    ('Melbourne University', "sumSeries(melbourne-qh2.used_vcpus,melbourne-np.used_vcpus)"),
-    ('Monash University', "monash-01.used_vcpus"),
-    ('QCIF', "qld.used_vcpus"),
-    ('ERSA', "sa.used_vcpus"),
-    ('NCI', "NCI.used_vcpus"),
+    ('Melbourne University', "sumSeries(cells.melbourne-qh2.used_vcpus,cells.melbourne-np.used_vcpus)"),
+    ('Monash University', "cells.monash-01.used_vcpus"),
+    ('QCIF', "cells.qld.used_vcpus"),
+    ('ERSA', "cells.sa.used_vcpus"),
+    ('NCI', "cells.NCI.used_vcpus"),
 ]
+
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
@@ -166,14 +166,14 @@ def choose_first(datapoints):
 
 
 QUERY = {
-    'melbourne': [("target", "melbourne-qh2.domains.*.used_vcpus"),
-                  ("target", "melbourne-np.domains.*.used_vcpus")],
-    'all': [("target", "melbourne-qh2.domains.*.used_vcpus"),
-            ("target", "melbourne-np.domains.*.used_vcpus"),
-            ("target", "monash-01.domains.*.used_vcpus"),
-            ("target", "NCI.domains.*.used_vcpus"),
-            ("target", "sa.domains.*.used_vcpus"),
-            ("target", "qld.domains.*.used_vcpus")]
+    'melbourne': [("target", "cells.melbourne-qh2.domains.*.used_vcpus"),
+                  ("target", "cells.melbourne-np.domains.*.used_vcpus")],
+    'all': [("target", "cells.melbourne-qh2.domains.*.used_vcpus"),
+            ("target", "cells.melbourne-np.domains.*.used_vcpus"),
+            ("target", "cells.monash-01.domains.*.used_vcpus"),
+            ("target", "cells.NCI.domains.*.used_vcpus"),
+            ("target", "cells.sa.domains.*.used_vcpus"),
+            ("target", "cells.qld.domains.*.used_vcpus")]
 }
 
 
@@ -186,7 +186,7 @@ def total_cores_per_domain(request):
     if q_az in QUERY:
         arguments.extend(QUERY[q_az])
     else:
-        arguments.append(("target", "%s.domains.*.used_vcpus" % q_az))
+        arguments.append(("target", "cells.%s.domains.*.used_vcpus" % q_az))
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     cleaned = defaultdict(dict)
     for domain in req.json():
