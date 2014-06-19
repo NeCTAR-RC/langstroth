@@ -193,7 +193,10 @@ def total_cores_per_domain(request):
         domain_name = '.'.join(domain['target'].split('.')[-2].split('_'))
         data = cleaned[domain_name]
         data['target'] = domain_name
-        count = choose_first(domain['datapoints']).next()
+        try:
+            count = choose_first(domain['datapoints']).next()
+        except:
+            count = 0
         if data.get('value'):
             data['value'] += count
         else:
