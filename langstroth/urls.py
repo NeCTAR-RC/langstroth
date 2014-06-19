@@ -1,4 +1,7 @@
+from django.conf.urls.defaults import handler500
 from django.conf.urls import patterns, include, url
+
+from langstroth import error
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -20,3 +23,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+handler500 = error.handler500
