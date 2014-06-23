@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import handler500
+from django.conf.urls import handler500
 from django.conf.urls import patterns, include, url
 
 from langstroth import error
