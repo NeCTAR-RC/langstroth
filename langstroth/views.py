@@ -53,8 +53,10 @@ def index(request):
                            "critical": crit.text.split(' ')[0]}
                 continue
             host, service, ok, warn, unknown, crit, undet = row.getchildren()
-            service_name = SERVICE_NAMES["".join([t for t in
-                                                  service.itertext()])]
+            nagios_service_name = "".join([t for t in service.itertext()])
+            if nagios_service_name not in SERVICE_NAMES:
+                continue
+            service_name = SERVICE_NAMES[nagios_service_name]
             services.append({"name": service_name,
                              "ok": ok.text.split(' ')[0],
                              "warning": warn.text.split(' ')[0],
