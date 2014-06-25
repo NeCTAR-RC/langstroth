@@ -1,0 +1,83 @@
+/* Details Panel */
+
+.details-container { 
+	width: 23em;
+	vertical-align: middle;
+	background-color: #aaaaaa; 
+	border-radius:3px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+table.details-table { 
+	width: 100%;
+	vertical-align: middle;
+	font: 12px sans-serif;
+	text-align: center;
+	background-color: white; 
+	border-radius:3px;
+	margin: 0 auto;
+}
+
+table.details-table td {
+	padding: 3px 5px 3px 5px;
+	vertical-align: top;
+	text-align: left;
+}
+
+table.details-table th {
+	padding: 3px 5px 3px 5px;
+	width: 8em;
+	vertical-align: top;
+	text-align: right;
+}
+
+/* Master List */
+
+.master-list-container { 
+	width: 52.5em;
+	vertical-align: middle;
+	text-align: left;
+	background-color: #dddddd; 
+	border-radius:3px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+table.master-list-table { 
+	width: 32em;
+	vertical-align: middle;
+	font: 12px sans-serif;
+	background-color: yellow; 
+	border-radius:3px;
+}
+
+table.master-list-table td {
+	padding: 3px 5px 3px 5px;
+	width: 100%;
+	background-color: white; 
+}
+
+table.master-list-table th {
+	padding: 3px 5px 3px 5px;
+	width: 100%;
+	background-color: white; 
+}
+
+.master-list-text {
+  text-align: left;
+  font-size: 12px;
+}
+
+caption.master-list-text {
+  font-weight: bold;
+}
+
+.glyphicon-inactive {
+	color: #dddddd;
+}
+
+.glyphicon-active {
+	color: #000000;
+}
+
