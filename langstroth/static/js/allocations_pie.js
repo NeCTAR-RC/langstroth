@@ -676,7 +676,7 @@ function selectedCoreQuota() {
 	return isCoreQuota;
 }
 
-function processResponse(allocationTree, forList, resource) {
+function processResponse(allocationTree, resource) {
 	var isCoreQuota = selectedCoreQuota();
 	var dataset = restructureAllocations(allocationTree, isCoreQuota);
 	var sum = d3.sum(dataset, function (d) {
@@ -696,7 +696,7 @@ function load() {
 			restructureForCodes(forList);
 			allocationTree = allocationObjects;
 			var resource = {};
-			var dataset = processResponse(allocationTree, forList, resource);
+			var dataset = processResponse(allocationTree, resource);
 			visualise(dataset, resource.total);	
 		});
 	});
@@ -712,7 +712,7 @@ function change() {
 	var route = breadCrumbs.slice(1).reverse();
 	var children = traverseHierarchy(route, allocationTree);
 	var resource = {};
-	var dataset = processResponse(children, forList, resource);
+	var dataset = processResponse(children, resource);
 	visualise(dataset, resource.total);	
 }
 
