@@ -19,7 +19,7 @@ if [ ! -d "$LANGSTROTH_DISTRIBUTION" ]; then
 fi
 
 # Backup the previous web app.
-TODAY=`date +"%Y%m%d"`
+TODAY=`date +"%Y%m%d-%T"`
 sudo mv /usr/local/django/langstroth /usr/local/django/langstroth-$TODAY
 sudo mv ~/langstroth /usr/local/django
 

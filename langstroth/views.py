@@ -27,7 +27,7 @@ def index(request):
     now = datetime.datetime.now()
     then = now - relativedelta(months=6)
     url = ""
-    if not settings.TEST_ENVIRONMENT:
+    if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
         url = settings.NAGIOS_AVAILABILITY % (calendar.timegm(then.utctimetuple()),
                                           calendar.timegm(now.utctimetuple()))
     url = settings.NAGIOS_URL + url

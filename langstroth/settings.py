@@ -1,7 +1,11 @@
 # Django settings for langstroth project.
 from os import path
 
-TEST_ENVIRONMENT = True
+PROD_ENVIRONMENT = 0
+DEV_ENVIRONMENT = 1
+UAT_ENVIRONMENT = 2
+
+CURRENT_ENVIRONMENT = DEV_ENVIRONMENT
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -24,17 +28,21 @@ DATABASES = {
     }
 }
 
-if TEST_ENVIRONMENT:
+if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
-else:
+elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
+    NAGIOS_URL = "http://localhost/static/avail.html"
+elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
 
 NAGIOS_AVAILABILITY = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=f5-endpoints&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
    
 
-if TEST_ENVIRONMENT:
+if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_AUTH = ("user", "password")
-else:
+elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
+    NAGIOS_AUTH = ("user", "password")
+elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_AUTH = ("sam", "nectar")
 
 
