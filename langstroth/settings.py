@@ -31,7 +31,7 @@ DATABASES = {
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
 elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
-    NAGIOS_URL = "http://localhost/static/avail.html"
+    NAGIOS_URL = "http://langstroth.doesntexist.com/static/avail.html"
 elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
 

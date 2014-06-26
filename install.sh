@@ -35,6 +35,9 @@ sudo cp -R /usr/local/django/langstroth/langstroth/static/* /usr/local/django/la
 sudo cp -R /usr/local/django/langstroth/langstroth/data/* /usr/local/django/langstroth/static
 
 # Obsolete: at one time the js needed a tweak.
-# Kept only as a recored.
+# Kept only as a record.
 #cd /usr/local/django/langstroth/langstroth/static/js
 #sudo vi allocations_pie.js
+
+#Set as UAT environment
+sed -i 's/CURRENT_ENVIRONMENT = DEV_ENVIRONMENT/CURRENT_ENVIRONMENT = UAT_ENVIRONMENT/' /usr/local/django/langstroth/langstroth/settings.py
