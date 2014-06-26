@@ -33,15 +33,15 @@ DATABASES = {
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
     NAGIOS_AUTH = ("user", "password")
-    GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
+    GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
 elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
     NAGIOS_URL = "http://langstroth.doesntexist.com/static/avail.html"
     NAGIOS_AUTH = ("user", "password")
-    GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
+    GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
 elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
     NAGIOS_AUTH = ("sam", "nectar")
-    GRAPHITE_URL = "http://localhost"
+    GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
 
 NAGIOS_AVAILABILITY = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=f5-endpoints&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
 
