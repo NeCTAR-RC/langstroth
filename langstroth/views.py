@@ -26,9 +26,12 @@ GRAPHITE = settings.GRAPHITE_URL + "/render/"
 def index(request):
     now = datetime.datetime.now()
     then = now - relativedelta(months=6)
-    url = settings.NAGIOS_AVAILABILITY % (calendar.timegm(then.utctimetuple()),
+    url = ""
+    if not settings.TEST_ENVIRONMENT:
+        url = settings.NAGIOS_AVAILABILITY % (calendar.timegm(then.utctimetuple()),
                                           calendar.timegm(now.utctimetuple()))
     url = settings.NAGIOS_URL + url
+    print url
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     tr = cssselect.GenericTranslator()
     h = lxml.etree.HTML(resp.text)

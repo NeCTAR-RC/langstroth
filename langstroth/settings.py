@@ -1,6 +1,8 @@
 # Django settings for langstroth project.
 from os import path
 
+TEST_ENVIRONMENT = True
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -22,11 +24,17 @@ DATABASES = {
     }
 }
 
-NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
-
-NAGIOS_AUTH = ("user", "password")
+if TEST_ENVIRONMENT:
+    NAGIOS_URL = "http://localhost:8000/static/avail.html"
+else:
+    NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
 
 NAGIOS_AVAILABILITY = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=f5-endpoints&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
+   
+
+NAGIOS_AUTH = ("user", "password")
+NAGIOS_AUTH = ("sam", "nectar")
+
 
 NAGIOS_SERVICE_GROUP = 'f5-endpoints'
 
