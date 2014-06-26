@@ -32,8 +32,10 @@ else:
 NAGIOS_AVAILABILITY = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=f5-endpoints&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
    
 
-NAGIOS_AUTH = ("user", "password")
-NAGIOS_AUTH = ("sam", "nectar")
+if TEST_ENVIRONMENT:
+    NAGIOS_AUTH = ("user", "password")
+else:
+    NAGIOS_AUTH = ("sam", "nectar")
 
 
 NAGIOS_SERVICE_GROUP = 'f5-endpoints'
