@@ -5,6 +5,8 @@ PROD_ENVIRONMENT = 0
 DEV_ENVIRONMENT = 1
 UAT_ENVIRONMENT = 2
 
+# Adjust this depending on the environment.
+# The install.sh script modifies this to be UAT_ENVIRONMENT.
 CURRENT_ENVIRONMENT = DEV_ENVIRONMENT
 
 DEBUG = True
@@ -30,25 +32,21 @@ DATABASES = {
 
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
+    NAGIOS_AUTH = ("user", "password")
+    GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
 elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
     NAGIOS_URL = "http://langstroth.doesntexist.com/static/avail.html"
+    NAGIOS_AUTH = ("user", "password")
+    GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
 elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
+    NAGIOS_AUTH = ("sam", "nectar")
+    GRAPHITE_URL = "http://localhost"
 
 NAGIOS_AVAILABILITY = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=f5-endpoints&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
-   
-
-if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
-    NAGIOS_AUTH = ("user", "password")
-elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
-    NAGIOS_AUTH = ("user", "password")
-elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
-    NAGIOS_AUTH = ("sam", "nectar")
-
 
 NAGIOS_SERVICE_GROUP = 'f5-endpoints'
 
-GRAPHITE_URL = "http://localhost"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
