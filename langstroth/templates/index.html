@@ -8,10 +8,10 @@
     <table class="table">
       <tbody>
         <tr>
-          <td class="success" title="Service OK">{{ average.ok }}</td>
-          <td class="warning" title="Service Warning">{{ average.warning }}</td>
-          <td class="danger" title="Service Critical">{{ average.critical }}</td>
-          <td class="active" title="Service Unknown">{{ average.unknown }}</td>
+          <td class="success" title="Service OK">OK: {{ average.ok }}</td>
+          <td class="warning" title="Service Warning">Warning: {{ average.warning }}</td>
+          <td class="danger" title="Service Critical">Critical: {{ average.critical }}</td>
+          <td class="active" title="Service Unknown">Unknown: {{ average.unknown }}</td>
         </tr>
       </tbody>
     </table>
@@ -49,6 +49,7 @@
       </div>
       <table class="table">
         <tr>
+          <td>Availability</td>
           <td class="success" title="Service OK">{{ service.availability.ok }}</td>
           <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
           <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
