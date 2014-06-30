@@ -77,6 +77,7 @@ INST_TARGETS = [
     ('QCIF', "cells.qld.total_instances"),
     ('ERSA', "cells.sa.total_instances"),
     ('NCI', "cells.NCI.total_instances"),
+    ('Tasmania', "cells.tasmania.total_instances"),
 ]
 
 
@@ -114,6 +115,7 @@ CORES_TARGETS = [
     ('QCIF', "cells.qld.used_vcpus"),
     ('ERSA', "cells.sa.used_vcpus"),
     ('NCI', "cells.NCI.used_vcpus"),
+    ('Tasmania', "cells.tasmania.used_vcpus"),
 ]
 
 
@@ -159,7 +161,8 @@ QUERY = {
             ("target", "cells.monash-01.domains.*.used_vcpus"),
             ("target", "cells.NCI.domains.*.used_vcpus"),
             ("target", "cells.sa.domains.*.used_vcpus"),
-            ("target", "cells.qld.domains.*.used_vcpus")]
+            ("target", "cells.qld.domains.*.used_vcpus"),
+            ("target", "cells.tasmania.domains.*.used_vcpus")]
 }
 
 
