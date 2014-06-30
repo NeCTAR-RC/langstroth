@@ -1,22 +1,37 @@
+import logging
 import calendar
+
 import requests
 import cssselect
 import lxml.etree
 from django.conf import settings
+
+
+LOG = logging.getLogger(__name__)
 
 AVAILABILITY_URL = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=%s&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
 STATUS_URL = "status.cgi?servicegroup=%s&style=detail"
 
 SERVICE_NAMES = {'http_cinder-api': 'Cinder',
                  'https': 'Dashboard',
-                 'http_glance-registry': 'Glance (Registry)',
-                 'http_keystone-adm': 'Keystone (Admin)',
+                 'http_glance-registry': 'Glance Registry',
+                 'http_keystone-adm': 'Keystone Admin',
                  'http_keystone-pub': 'Keystone',
-                 'http_ec2': 'Nova (EC2)',
+                 'http_ec2': 'EC2',
                  'http_nova-api': "Nova",
                  'http_heat-api': "Heat",
                  'http_glance-api': "Glance",
                  'http_designate-api': "Designate"}
+
+
+def parse_service_availability(service):
+    host, service, ok, warn, unknown, crit, undet = service.getchildren()
+    nagios_service_name = "".join([t for t in service.itertext()])
+    return {"name": nagios_service_name,
+            "ok": ok.text.split(' ')[0],
+            "warning": warn.text.split(' ')[0],
+            "unknown": unknown.text.split(' ')[0],
+            "critical": crit.text.split(' ')[0]}
 
 
 def parse_availability(html):
@@ -30,7 +45,7 @@ def parse_availability(html):
             continue
         table = h.xpath(tr.css_to_xpath('table.data'))[i]
         break
-    services = []
+    services = {}
     average = {}
     if table is not None:
         for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
@@ -42,20 +57,10 @@ def parse_availability(html):
                            "unknown": unknown.text.split(' ')[0],
                            "critical": crit.text.split(' ')[0]}
                 continue
-            host, service, ok, warn, unknown, crit, undet = row.getchildren()
-            nagios_service_name = "".join([t for t in service.itertext()])
-            if nagios_service_name not in SERVICE_NAMES:
-                continue
-            service_name = SERVICE_NAMES[nagios_service_name]
-            services.append({"name": service_name,
-                             "ok": ok.text.split(' ')[0],
-                             "warning": warn.text.split(' ')[0],
-                             "unknown": unknown.text.split(' ')[0],
-                             "critical": crit.text.split(' ')[0]})
+            service = parse_service_availability(row)
+            services[service['name']] = service
 
-    report_range = h.xpath(tr.css_to_xpath('.reportRange'))[0].text
     context = {
-        "report_range": report_range,
         "services": services,
         "average": average}
     return context
@@ -68,8 +73,10 @@ def parse_hostlink(hostlink):
 
 def parse_service(service_columns):
     tr = cssselect.GenericTranslator()
+    name = service_columns[0].xpath(tr.css_to_xpath('a'))[0].text
     return {
-        'name': service_columns[0].xpath(tr.css_to_xpath('a'))[0].text,
+        'name': name,
+        'display_name': SERVICE_NAMES.get(name),
         'status': service_columns[1].text,
         'last_checked': service_columns[2].text,
         'duration': service_columns[3].text}
@@ -100,7 +107,7 @@ def parse_status(html):
 
             hostname = children[0].xpath(tr.css_to_xpath('a'))
             if len(hostname) > 1:
-                print "Error: too many links found"
+                LOG.warning("Too many links found.")
             elif len(hostname) == 1:
                 current_host = parse_hostlink(hostname[0])
                 hosts[current_host['hostname']] = current_host
@@ -124,8 +131,8 @@ def get_availability(start_date, end_date):
     return parse_availability(resp.text)
 
 
-def get_status(hostgroup):
+def get_status():
     url = STATUS_URL % settings.NAGIOS_SERVICE_GROUP
     url = settings.NAGIOS_URL + url
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
-    return parse_availability(resp.text)
+    return parse_status(resp.text)

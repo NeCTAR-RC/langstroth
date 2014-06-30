@@ -11,6 +11,7 @@ from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render
+from django.core.cache import cache
 
 
 from langstroth import nagios
@@ -18,14 +19,42 @@ from langstroth import nagios
 GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
 
+def round_to_day(datetime_object):
+    return datetime.datetime(datetime_object.year,
+                             datetime_object.month,
+                             datetime_object.day)
+
+
 def index(request):
     now = datetime.datetime.now()
-    then = now - relativedelta(months=6)
-    context = nagios.get_availability(then, now)
-    context.update({
-        "title": "Service Availability",
-        "tagline": ""})
+    then = round_to_day(now) - relativedelta(months=6)
 
+    try:
+        # Only refresh every 10 min, and keep a backup in case of
+        # nagios error.
+        availability = (cache.get('_nagios_availability')
+                        or nagios.get_availability(then, now))
+        cache.set('nagios_availability', availability)
+        cache.set('_nagios_availability', availability, 600)
+    except:
+        availability = cache.get('nagios_availability')
+
+    try:
+        status = nagios.get_status()
+        cache.set('nagios_status', status)
+    except:
+        status = cache.get('nagios_status')
+
+    context = {"title": "National Endpoint Status",
+               "tagline": "",
+               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
+    context['average'] = availability['average']
+    for host in status['hosts'].values():
+        for service in host['services']:
+            service['availability'] = availability['services'][service['name']]
+
+    context['hosts'] = sorted(status['hosts'].values(),
+                              key=itemgetter('hostname'))
     return render(request, "index.html", context)
 
 
@@ -144,6 +173,7 @@ def total_cores_per_domain(request):
         arguments.extend(QUERY[q_az])
     else:
         arguments.append(("target", "cells.%s.domains.*.used_vcpus" % q_az))
+    print GRAPHITE + "?" + urlencode(arguments)
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     cleaned = defaultdict(dict)
     for domain in req.json():
