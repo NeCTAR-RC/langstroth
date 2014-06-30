@@ -1,1 +1,1 @@
-from test_availability import *
+from test_nagios import *
