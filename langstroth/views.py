@@ -217,4 +217,8 @@ def total_cores_per_domain(request):
     cleaned = cleaned.values()
     cleaned.sort(key=itemgetter('value'))
     return HttpResponse(dumps(cleaned), req.headers['content-type'])
+
+def for_codes(request):
+    json = {}
+    return HttpResponse(json, "application/json")
    
