@@ -19,12 +19,27 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
+     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'langstroth',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'langstroth_user', # over-rides what is in my.cnf
-        'PASSWORD': 'langstroth_pass4#2!', # over-rides what is in my.cnf
+        'USER': 'langstroth_user', # over-rides what is in my.cnf [client]
+        'PASSWORD': 'langstroth_pass4#2!', # over-rides what is in my.cnf [client]
+        'HOST': '',             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
+        'OPTIONS': {
+            'read_default_file': '/private/etc/my.cnf',
+            'init_command': 'SET storage_engine=INNODB',    # Disable after the tables are created.
+        },
+    },
+     # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
+    'allocations_db': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'nectar_allocations',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'langstroth_user', # over-rides what is in my.cnf [client]
+        'PASSWORD': 'langstroth_pass4#2!', # over-rides what is in my.cnf [client]
         'HOST': '',             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
         'OPTIONS': {
@@ -33,6 +48,8 @@ DATABASES = {
         },
     }
 }
+
+DATABASE_ROUTERS = ['nectar_status.database_router.AllocationsRouter']
 
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
