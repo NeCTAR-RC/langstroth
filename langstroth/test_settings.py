@@ -49,7 +49,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['nectar_allocations.database_router.AllocationsRouter']
+DATABASE_ROUTERS = ['nectar_allocations.test_router.TestRouter']
 
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"

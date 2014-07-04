@@ -9,6 +9,6 @@
 <key>DJANGO_MANAGE_LOCATION</key>
 <value>manage.py</value>
 <key>DJANGO_SETTINGS_MODULE</key>
-<value>langstroth.settings</value>
+<value>langstroth.test_settings</value>
 </pydev_variables_property>
 </pydev_project>
