@@ -16,10 +16,10 @@ class ForCode(models.Model):
     @staticmethod
     def code_dict():
         pairs = ForCode.objects.all()
-        code_dict = {}
+        code_map = {}
         for pair in pairs:
             key = pair.code
             value = pair.name
-            code_dict[key] = value
-        return code_dict
+            code_map[key] = value
+        return code_map
     
