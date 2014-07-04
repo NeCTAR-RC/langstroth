@@ -6,7 +6,8 @@
 // Made up of an array of FOR codes.
 var breadCrumbs = ['*'];
 var allocationTree = {};
-//var forList = [];
+var forTitleMap = {};
+
 
 // Is this the level for FOR codes or projects.
 function isForCodeLevel() {
@@ -82,16 +83,6 @@ function nextLevelSum(children, isCoreQuota) {
 	}
 	return sum;
 }
-
-// Restructure FOR codes as a map.
-var forTitleMap = {};
-//function restructureForCodes(forList) {	
-//	var forItemCount = forList.length;
-//	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-//		var forItem = forList[forItemIndex];
-//		forTitleMap[forItem.FOR_CODE] = forItem.Title;
-//	}
-//}
 
 //==== Data visualisation
 
@@ -692,8 +683,6 @@ function load() {
 	d3.json("/allocations/for_codes", function(error, forObjects) {
 		d3.json("/static/allocation_tree.json", function(error, allocationObjects) {
 			breadCrumbs = ['*'];
-			//forList = forObjects;
-			//restructureForCodes(forList);
 			forTitleMap = forObjects;
 			allocationTree = allocationObjects;
 			var resource = {};
