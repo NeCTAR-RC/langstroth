@@ -13,6 +13,13 @@ class ForCode(models.Model):
         app_label = 'nectar_allocations'
         db_table = 'FOR_CODES'
         
-    def map_all(self):
-        return {}
+    @staticmethod
+    def code_dict():
+        pairs = ForCode.objects.all()
+        code_dict = {}
+        for pair in pairs:
+            key = pair.code
+            value = pair.name
+            code_dict[key] = value
+        return code_dict
     

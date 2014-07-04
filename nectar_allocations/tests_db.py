@@ -32,3 +32,11 @@ class ForCodeDBTest(TestCase):
         phys = ForCode.objects.get(code="4321")
         self.assertEqual(biol.name, 'Biological necessity')
         self.assertEqual(phys.name, 'Physical impossibility')
+        
+                
+    def test_forcode_map(self):
+        expected_map = {'1234': 'Biological necessity', '4321': 'Physical impossibility'}
+        actual_map = ForCode.code_dict()
+        different_items = set(expected_map.items()) ^ set(actual_map.items())
+        self.assertEqual(0, len(different_items))
+
