@@ -89,6 +89,7 @@ class AllocationRequest(models.Model):
         db_table = 'rcallocation_allocationrequest'
         managed = False if not settings.TEST_MODE else True
 
+    # Refer to query for view view_institution_clean (Alan).
     @staticmethod
     def strip_email_group(email_domain):
         domain = email_domain
@@ -112,5 +113,10 @@ class AllocationRequest(models.Model):
             #if case(): # default, could also just omit condition or 'if True'
                 # Do nothing to the domain
             return domain
-            
+        
+    @staticmethod
+    def extract_email_domain(email_address):
+        name, delimiter, domain = email_address.partition('@')       
+        return domain
+           
             

@@ -67,8 +67,10 @@ class AllocationTest(unittest.TestCase):
         with open(file_name) as institutions_file:    
             institutions = json.load(institutions_file)
         for institution in institutions:       
-            self.assertEqual(AllocationRequest.strip_email_group(institution['original']), institution['processed'])
+            self.assertEqual(AllocationRequest.strip_email_group(institution['original']), institution['processed'])       
         
+    def test_extract_email_domain(self):
+        self.assertEqual(AllocationRequest.extract_email_domain('ferd@myune.edu.au'), 'myune.edu.au')
         
 #     def test_extract_institution(self):
         
