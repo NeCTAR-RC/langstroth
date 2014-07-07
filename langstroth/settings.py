@@ -1,9 +1,12 @@
 # Django settings for langstroth project.
 from os import path
+from os import environ
 
 PROD_ENVIRONMENT = 0
 DEV_ENVIRONMENT = 1
 UAT_ENVIRONMENT = 2
+
+TEST_MODE = 'DJANGO_TEST' in environ and environ['DJANGO_TEST'] == 'True'
 
 # Adjust this depending on the environment.
 # The install.sh script modifies this to be UAT_ENVIRONMENT.
@@ -49,7 +52,11 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['nectar_allocations.database_router.AllocationsRouter']
+if TEST_MODE:
+    DATABASE_ROUTERS = ['nectar_allocations.test_router.TestRouter']
+else:
+    DATABASE_ROUTERS = ['nectar_allocations.database_router.AllocationsRouter']
+
 
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"

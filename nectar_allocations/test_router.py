@@ -1,3 +1,4 @@
+from nectar_allocations.models import AllocationRequest
 
 class TestRouter(object):
      
@@ -18,7 +19,10 @@ class TestRouter(object):
         if db == 'allocations_db':
             return model._meta.app_label == 'nectar_allocations'
         elif model._meta.app_label == 'nectar_allocations':
-            return False
+            if model == AllocationRequest:
+                return False
+            else:
+                return False
         return None        
         
     

@@ -1,48 +1,45 @@
 from django.db import models
-from django.conf import settings
 
-class ForCode(models.Model):
-    
-    code = models.CharField(max_length=6, primary_key=True, db_column="FOR_CODE")
-    name = models.CharField(max_length=111, db_column="title")
-    
-    def __unicode__(self):
-        return self.name
-    
-    class Meta:
-        ordering = ["code"]
-        app_label = 'nectar_allocations'
-        db_table = 'FOR_CODES'
+# class Allocation(models.Model):
+# 
+#     core_quota = models.FloatField(db_column="core_hours", null=False)
+#     for_2 = models.CharField(max_length=2, db_column="for_2", null=False)
+#     for_4 = models.CharField(max_length=4, db_column="for_4", null=False),
+#     for_6 = models.CharField(max_length=6, db_column="for_6", null=False),
+#     instance_quota = models.FloatField(db_column="instance_quota", null=False)
+#     institution = models.CharField(max_length=64, db_column="institution", null=False)
+#     project_name = models.CharField(max_length=64, db_column="project_name", null=False)
+#     usage_patterns = models.TextField(db_column="usage_patterns")
+#     use_case = models.TextField(db_column="use_case")
+# 
+#     def __unicode__(self):
+#         return self.project_name + '(' + self.id + ')'
+#     
+# class Meta:
+#         ordering = ["project_name"]
+#         app_label = 'nectar_allocations'
+#         db_table = 'allocations_tb'
         
-    @staticmethod
-    def code_dict():
-        pairs = ForCode.objects.all()
-        code_map = {}
-        for pair in pairs:
-            key = pair.code
-            value = pair.name
-            code_map[key] = value
-        return code_map
-    
+
 class AllocationRequest(models.Model):
 
     STATUS_CHOICES = (
         ('N', 'N'),
-        ('L', 'L'),
-        ('A', 'A'),
-        ('X', 'X'),
-        ('R', 'R'),
-        ('J', 'J'),
-        ('E', 'E'),
-    )
+		('L', 'L'),
+		('A', 'A'),
+		('X', 'X'),
+		('R', 'R'),
+		('J', 'J'),
+		('E', 'E'),
+	)
 
     INSTANCE_TYPE_CHOICES = (
         ('S', 'S'),
-        ('X', 'X'),
-        ('M', 'M'),
-        ('L', 'L'),
-        ('B', 'B'),
-    )
+		('X', 'X'),
+		('M', 'M'),
+		('L', 'L'),
+		('B', 'B'),
+	)
 
     status = models.CharField(max_length=1, db_column="status", null=False, choices=STATUS_CHOICES, default='N')
     created_by = models.CharField(max_length=100, db_column="created_by", null=False)
@@ -76,9 +73,9 @@ class AllocationRequest(models.Model):
     object_storage_zone = models.CharField(max_length=64, db_column="object_storage_zone", null=True)
     volume_quota = models.IntegerField(db_column="volume_quota", null=False, default=0)
     approver_email = models.CharField(max_length=75, db_column="approver_email", null=True)
-    modified_time = models.DateTimeField(db_column="modified_time", null=False)
+    modified_time = models.DateField(db_column="modified_time", null=False)
     
-    parent_request = models.ForeignKey('self', db_column="parent_request_id", null=True)
+    parent_request = models.ForeignKey('self', db_column="parent_request_id")
     
     def __unicode__(self):
         return self.project_name + '(' + self.id + ')'
@@ -87,4 +84,5 @@ class AllocationRequest(models.Model):
         ordering = ["project_name"]
         app_label = 'nectar_allocations'
         db_table = 'rcallocation_allocationrequest'
-        managed = False if not settings.TEST_MODE else True
+        managed = True
+
