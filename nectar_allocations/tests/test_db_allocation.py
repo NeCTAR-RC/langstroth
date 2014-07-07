@@ -27,4 +27,5 @@ class AllocationDBTest(TestCase):
         self.assertIsNotNone(allocation1)
         self.assertEqual(allocation1.instance_quota, 10)
         
-
+    def test_find_active_projects(self):
+        return

@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from nectar_allocations.switch import Switch
+
 # class Allocation(models.Model):
 # 
 #     core_quota = models.FloatField(db_column="core_hours", null=False)
@@ -87,3 +89,28 @@ class AllocationRequest(models.Model):
         db_table = 'rcallocation_allocationrequest'
         managed = False if not settings.TEST_MODE else True
 
+    @staticmethod
+    def strip_email_group(email_domain):
+        domain = email_domain
+        if email_domain.startswith('student') \
+            or email_domain.startswith('my.') \
+            or email_domain.startswith('ems.') \
+            or email_domain.startswith('exchange.') \
+            or email_domain.startswith('groupwise.'):
+            group, delimiter, domain = email_domain.partition('.')       
+        for case in Switch(domain):
+            if case('griffithuni.edu.au'):
+                return 'griffith.edu.au'
+            if case('waimr.uwa.edu.au'):
+                return 'uwa.edu.au'
+            if case('uni.sydney.edu.au'):
+                return 'sydney.edu.au'
+            if case('usyd.edu.au'):
+                return 'sydney.edu.au'
+            if case('myune.edu.au'):
+                return 'une.edu.au'
+            #if case(): # default, could also just omit condition or 'if True'
+                # Do nothing to the domain
+            return domain
+            
+            
