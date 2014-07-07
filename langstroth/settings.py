@@ -53,9 +53,9 @@ DATABASES = {
 }
 
 if TEST_MODE:
-    DATABASE_ROUTERS = ['nectar_allocations.test_router.TestRouter']
+    DATABASE_ROUTERS = ['nectar_allocations.router_for_testing.TestRouter']
 else:
-    DATABASE_ROUTERS = ['nectar_allocations.database_router.AllocationsRouter']
+    DATABASE_ROUTERS = ['nectar_allocations.router.AllocationsRouter']
 
 
 if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
