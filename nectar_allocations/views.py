@@ -1,7 +1,7 @@
 from json import dumps
 from django.http import HttpResponse
 from django.shortcuts import render
-from nectar_allocations.models import ForCode
+from nectar_allocations.models.forcode import ForCode
 
 
 def index(request):

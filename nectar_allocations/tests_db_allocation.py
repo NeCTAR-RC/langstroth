@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from nectar_allocations.models import AllocationRequest
+from nectar_allocations.models.allocation import AllocationRequest
 
 class AllocationDBTest(TestCase):
 

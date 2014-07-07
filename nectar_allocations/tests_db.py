@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from nectar_allocations.models import ForCode
+from nectar_allocations.models.forcode import ForCode
 
 class ForCodeDBTest(TestCase):
 

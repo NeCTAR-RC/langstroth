@@ -7,7 +7,7 @@ Replace this with more appropriate tests for your application.
 
 from django.utils import unittest
 
-from nectar_allocations.models import ForCode
+from nectar_allocations.models.forcode import ForCode
 
 class ForCodeTest(unittest.TestCase):
 #    def setUp(self):

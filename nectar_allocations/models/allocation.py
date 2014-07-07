@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # class Allocation(models.Model):
 # 
@@ -25,21 +26,21 @@ class AllocationRequest(models.Model):
 
     STATUS_CHOICES = (
         ('N', 'N'),
-		('L', 'L'),
-		('A', 'A'),
-		('X', 'X'),
-		('R', 'R'),
-		('J', 'J'),
-		('E', 'E'),
-	)
+        ('L', 'L'),
+        ('A', 'A'),
+        ('X', 'X'),
+        ('R', 'R'),
+        ('J', 'J'),
+        ('E', 'E'),
+    )
 
     INSTANCE_TYPE_CHOICES = (
         ('S', 'S'),
-		('X', 'X'),
-		('M', 'M'),
-		('L', 'L'),
-		('B', 'B'),
-	)
+        ('X', 'X'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('B', 'B'),
+    )
 
     status = models.CharField(max_length=1, db_column="status", null=False, choices=STATUS_CHOICES, default='N')
     created_by = models.CharField(max_length=100, db_column="created_by", null=False)
@@ -73,9 +74,9 @@ class AllocationRequest(models.Model):
     object_storage_zone = models.CharField(max_length=64, db_column="object_storage_zone", null=True)
     volume_quota = models.IntegerField(db_column="volume_quota", null=False, default=0)
     approver_email = models.CharField(max_length=75, db_column="approver_email", null=True)
-    modified_time = models.DateField(db_column="modified_time", null=False)
+    modified_time = models.DateTimeField(db_column="modified_time", null=False)
     
-    parent_request = models.ForeignKey('self', db_column="parent_request_id")
+    parent_request = models.ForeignKey('self', db_column="parent_request_id", null=True)
     
     def __unicode__(self):
         return self.project_name + '(' + self.id + ')'
@@ -84,5 +85,5 @@ class AllocationRequest(models.Model):
         ordering = ["project_name"]
         app_label = 'nectar_allocations'
         db_table = 'rcallocation_allocationrequest'
-        managed = True
+        managed = False if not settings.TEST_MODE else True
 
