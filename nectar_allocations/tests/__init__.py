@@ -1,3 +1,3 @@
 from test_db_allocation import *
-from tests_db import *
-from tests import *
+from nectar_allocations.tests.test_db_forcode import *
+from nectar_allocations.tests.test_forcode import *
