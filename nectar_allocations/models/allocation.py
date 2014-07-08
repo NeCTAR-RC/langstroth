@@ -150,4 +150,67 @@ class AllocationRequest(models.Model):
             if AllocationRequest.is_valid_for_code(code):
                 allocation_summaries.append(active_allocation.summary(code))
         return allocation_summaries
-            
+    
+    @staticmethod
+    def organise_allocations_tree():
+        allocations = AllocationRequest.partition_active_allocations()
+        allocations_tree = dict()
+         
+        for allocation in allocations:
+            allocation_code_2 = allocation['for_2']
+            if not allocation_code_2 in allocations_tree:
+                allocations_tree[allocation_code_2] = dict()
+            branch_major = allocations_tree[allocation_code_2]
+            allocation_code_4 = allocation['for_4']
+            if not allocation_code_4 in branch_major:
+                branch_major[allocation_code_4] = dict()
+            branch_minor = branch_major[allocation_code_4]
+            allocation_code_6 = allocation['for_6']
+            if not allocation_code_6 in branch_minor:
+                branch_minor[allocation_code_6] = list()
+            twig = dict()
+            twig['projectName'] = allocation['project_name']
+            twig['institution'] = allocation['institution']
+            twig['useCase'] = allocation['use_case']
+            twig['usagePatterns'] = allocation['usage_patterns']
+            twig['instanceQuota'] = allocation['instance_quota']
+            twig['coreQuota'] = allocation['core_quota']
+            branch_minor[allocation_code_6].append(twig)
+             
+        return allocations_tree
+
+    @staticmethod
+    def restructure_allocations_tree():
+        allocations_tree = AllocationRequest.organise_allocations_tree();
+        restructured_tree = dict()
+        restructured_tree['name'] = 'allocations'
+        restructured_tree['children'] = list()
+        
+        for code2 in allocations_tree.keys():
+            named_children_2 = dict()
+            named_children_2['name'] = code2
+            named_children_2['children'] = list()
+            restructured_tree['children'].append(named_children_2)            
+            for code4 in allocations_tree[code2].keys():
+                named_children_4 = dict()
+                named_children_4['name'] = code4
+                named_children_4['children'] = list()            
+                named_children_2['children'].append(named_children_4)            
+                for code6 in allocations_tree[code2][code4].keys(): 
+                    named_children_6 = dict()
+                    named_children_6['name'] = code6
+                    named_children_6['children'] = list()            
+                    named_children_4['children'].append(named_children_6)            
+                    allocation_summaries = allocations_tree[code2][code4][code6]
+                    for allocation_summary in allocation_summaries:
+                        allocation_items = dict()
+                        allocation_items['name'] = allocation_summary['projectName']
+                        allocation_items['institution'] = allocation_summary['institution']
+                        allocation_items['useCase'] = allocation_summary['useCase']
+                        allocation_items['usagePatterns'] = allocation_summary['usagePatterns']
+                        allocation_items['instanceQuota'] = allocation_summary['instanceQuota']
+                        allocation_items['coreQuota'] = allocation_summary['coreQuota']
+                        named_children_6['children'].append(allocation_items)            
+        return restructured_tree
+
+    
