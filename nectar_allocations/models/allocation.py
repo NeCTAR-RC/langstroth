@@ -1,28 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Q
 
 from nectar_allocations.switch import Switch
-
-# class Allocation(models.Model):
-# 
-#     core_quota = models.FloatField(db_column="core_hours", null=False)
-#     for_2 = models.CharField(max_length=2, db_column="for_2", null=False)
-#     for_4 = models.CharField(max_length=4, db_column="for_4", null=False),
-#     for_6 = models.CharField(max_length=6, db_column="for_6", null=False),
-#     instance_quota = models.FloatField(db_column="instance_quota", null=False)
-#     institution = models.CharField(max_length=64, db_column="institution", null=False)
-#     project_name = models.CharField(max_length=64, db_column="project_name", null=False)
-#     usage_patterns = models.TextField(db_column="usage_patterns")
-#     use_case = models.TextField(db_column="use_case")
-# 
-#     def __unicode__(self):
-#         return self.project_name + '(' + self.id + ')'
-#     
-# class Meta:
-#         ordering = ["project_name"]
-#         app_label = 'nectar_allocations'
-#         db_table = 'allocations_tb'
-        
 
 class AllocationRequest(models.Model):
 
@@ -118,5 +98,56 @@ class AllocationRequest(models.Model):
     def extract_email_domain(email_address):
         name, delimiter, domain = email_address.partition('@')       
         return domain
-           
+    
+    @staticmethod
+    def find_active_allocations():      
+        return AllocationRequest.objects.filter(Q(status ='A') | Q(status ='X'))
+    
+    @staticmethod
+    def is_valid_for_code(potential_for_code):
+        return potential_for_code is not None
+    
+    @staticmethod
+    def apply_for_code_to_summary(allocation_summary, code):
+        allocation_summary['for_2'] = code[:2]
+        allocation_summary['for_4'] = code[:4]
+        allocation_summary['for_6'] = code[:6]
+        
+    def apply_partitioned_quotas(self, allocation_summary, percentage):
+        fraction =  float(percentage) / 100.0
+        allocation_summary['instance_quota'] = self.instance_quota * fraction
+        allocation_summary['core_quota'] = self.core_quota * fraction
+    
+    def summary(self, code):
+        allocation_summary = dict()
+        email_domain = AllocationRequest.extract_email_domain(self.contact_email)
+        domain = AllocationRequest.strip_email_group(email_domain)
+        allocation_summary['institution'] = domain
+        allocation_summary['project_name'] = self.project_name
+        allocation_summary['usage_patterns'] = self.usage_patterns
+        allocation_summary['use_case'] = self.use_case
+        AllocationRequest.apply_for_code_to_summary(allocation_summary, code)
+        if code == self.field_of_research_1:
+            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_1)
+        elif code == self.field_of_research_2:
+            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_2)
+        elif code == self.field_of_research_3:
+            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_3)
+        return allocation_summary
+
+    @staticmethod
+    def partition_active_allocations(): 
+        allocation_summaries = list()
+        active_allocations = AllocationRequest.find_active_allocations()  
+        for active_allocation in active_allocations:
+            code = active_allocation.field_of_research_1
+            if AllocationRequest.is_valid_for_code(code):
+                allocation_summaries.append(active_allocation.summary(code))
+            code = active_allocation.field_of_research_2
+            if AllocationRequest.is_valid_for_code(code):
+                allocation_summaries.append(active_allocation.summary(code))
+            code = active_allocation.field_of_research_3
+            if AllocationRequest.is_valid_for_code(code):
+                allocation_summaries.append(active_allocation.summary(code))
+        return allocation_summaries
             

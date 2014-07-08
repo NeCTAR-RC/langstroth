@@ -72,7 +72,35 @@ class AllocationTest(unittest.TestCase):
     def test_extract_email_domain(self):
         self.assertEqual(AllocationRequest.extract_email_domain('ferd@myune.edu.au'), 'myune.edu.au')
         
-#     def test_extract_institution(self):
+    def test_is_valid_for_null(self):
+        self.assertFalse(AllocationRequest.is_valid_for_code(None))
+
+    def test_is_valid_for_none_null(self):
+        self.assertTrue(AllocationRequest.is_valid_for_code('00'))
+ 
+    def test_apply_for_code_to_summary_for6(self):
+        allocation_summary = dict()
+        code = '123456'
+        AllocationRequest.apply_for_code_to_summary(allocation_summary, code)
+        self.assertEqual(allocation_summary['for_6'], '123456')
+        self.assertEqual(allocation_summary['for_4'], '1234')
+        self.assertEqual(allocation_summary['for_2'], '12')
+ 
+    def test_apply_for_code_to_summary_for4(self):
+        allocation_summary = dict()
+        code = '1234'
+        AllocationRequest.apply_for_code_to_summary(allocation_summary, code)
+        self.assertEqual(allocation_summary['for_6'], '1234')
+        self.assertEqual(allocation_summary['for_4'], '1234')
+        self.assertEqual(allocation_summary['for_2'], '12')
+ 
+    def test_apply_for_code_to_summary_for2(self):
+        allocation_summary = dict()
+        code = '12'
+        AllocationRequest.apply_for_code_to_summary(allocation_summary, code)
+        self.assertEqual(allocation_summary['for_6'], '12')
+        self.assertEqual(allocation_summary['for_4'], '12')
+        self.assertEqual(allocation_summary['for_2'], '12')
         
         
         
