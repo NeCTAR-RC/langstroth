@@ -681,10 +681,11 @@ function processResponse(allocationTree, resource) {
 
 function load() {
 	d3.json("/allocations/for_codes", function(error, forObjects) {
-		d3.json("/static/allocation_tree.json", function(error, allocationObjects) {
+		//d3.json("/static/allocation_tree.json", function(error, allocationObjects) {
+		d3.json("/allocations/allocation_tree", function(error, allocationObjects) {
 			breadCrumbs = ['*'];
 			forTitleMap = forObjects;
-			allocationTree = allocationObjects;
+			allocationTree = allocationObjects.children;
 			var resource = {};
 			var dataset = processResponse(allocationTree, resource);
 			visualise(dataset, resource.total);	
