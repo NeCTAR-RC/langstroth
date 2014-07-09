@@ -214,5 +214,12 @@ class AllocationRequest(models.Model):
         return restructured_tree
 
     @staticmethod
-    def projects_from_allocation_request_id(allocation_request_id):
-        return {}
+    def project_from_allocation_request_id(allocation_request_id):
+        base_request = AllocationRequest.objects.get(pk=allocation_request_id)      
+        project_summary = dict()
+        project_summary['project_name'] = base_request.project_name
+        project_summary['start_date'] = base_request.start_date.strftime('%Y-%m-%d')
+        project_summary['end_date'] = base_request.end_date.strftime('%Y-%m-%d')
+        project_summary['use_case'] = base_request.use_case
+        project_summary['usage_patterns'] = base_request.usage_patterns
+        return project_summary

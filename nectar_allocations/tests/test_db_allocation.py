@@ -120,3 +120,15 @@ class AllocationDBTest(TestCase):
 
         project_items = children_6['children'][0]
         self.assertEquals('USQ eResearch Services Sandbox', project_items['name'])
+        
+    def test_projects_from_allocation_request_id(self):       
+        expected_usecase = "In this project, an algorithm has been developed to infer a persons road trajectory using POI information sent to a LBS such as Google Maps.\r\n\r\n" 
+
+        allocation_request_id = 1654
+        project_summary = AllocationRequest.project_from_allocation_request_id(allocation_request_id)
+        self.assertEquals('UoM_Trajectory_Inference_Attacks', project_summary['project_name'])
+        self.assertEquals('2014-01-06', project_summary['start_date'])
+        self.assertEquals('2014-01-31', project_summary['end_date'])
+        self.assertEquals(expected_usecase, project_summary['use_case'])
+        self.assertEquals('Data is stored on a remote server so no storage is needed.', project_summary['usage_patterns'])
+
