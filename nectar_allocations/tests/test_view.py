@@ -19,10 +19,18 @@ class AllocationViewTest(TestCase):
         response = self.client.get("/allocations/visualisation")
         self.assertEqual(200, response.status_code) 
    
+    def test_page_project(self):
+        response = self.client.get("/allocations/1654/project")
+        self.assertEqual(200, response.status_code) 
+   
     def test_rest_allocation_tree(self):
         response = self.client.get("/allocations/allocation_tree")
         self.assertEqual(200, response.status_code) 
           
     def test_rest_for_code(self):
         response = self.client.get("/allocations/for_codes")
+        self.assertEqual(200, response.status_code)          
+
+    def test_rest_for_project_from_allocation_request_id(self):
+        response = self.client.get("/allocations/1654/project_summary")
         self.assertEqual(200, response.status_code)

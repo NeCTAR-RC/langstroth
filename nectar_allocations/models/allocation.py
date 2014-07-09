@@ -213,4 +213,6 @@ class AllocationRequest(models.Model):
                         named_children_6['children'].append(allocation_items)            
         return restructured_tree
 
-    
+    @staticmethod
+    def projects_from_allocation_request_id(allocation_request_id):
+        return {}

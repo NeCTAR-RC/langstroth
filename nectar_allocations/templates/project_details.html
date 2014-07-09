@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+      <link href='{{ STATIC_URL }}css/allocation-visualisation.css' type='text/css' media='screen' rel='stylesheet'/>
+      <link href='{{ STATIC_URL }}css/master-detail.css' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
+{% block content %}
+		<div class="row">
+			<div class="col-md-12">
+				<div id="project-details" ></div>
+			</div>
+		</div>
+{% endblock %}
+	
+{% block extra_script %}
+	<script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+	<script src="{{ STATIC_URL }}js/project_details.js"></script>
+{% endblock %}
+	
+	
