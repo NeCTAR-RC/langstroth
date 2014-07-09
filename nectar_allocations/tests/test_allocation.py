@@ -101,6 +101,5 @@ class AllocationTest(unittest.TestCase):
         self.assertEqual(allocation_summary['for_6'], '12')
         self.assertEqual(allocation_summary['for_4'], '12')
         self.assertEqual(allocation_summary['for_2'], '12')
-        
-        
+
         
