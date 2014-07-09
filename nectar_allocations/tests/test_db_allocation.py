@@ -11,7 +11,7 @@ class AllocationDBTest(TestCase):
         return
         
     def test_fixtures(self):
-        self.assertEquals(AllocationRequest.objects.count(), 4)
+        self.assertEquals(5, AllocationRequest.objects.count())
 
     def test_allocation_has_project_name(self):
         try:
@@ -29,12 +29,12 @@ class AllocationDBTest(TestCase):
         
     def test_find_active_allocations(self):
         allocations = AllocationRequest.find_active_allocations()
-        self.assertEquals(len(allocations), 2)
+        self.assertEquals(3, len(allocations))
         
     def test_partition_active_allocations(self):
         sub_allocations = AllocationRequest.partition_active_allocations()
-        self.assertEquals(len(sub_allocations), 3)
-        sub_allocations.sort(key=lambda summary: summary['project_name'])
+        self.assertEquals(len(sub_allocations), 5)
+        sub_allocations.sort(key=lambda summary: summary['project_name'] + str(summary['id']))
         
         sub_allocation = sub_allocations[0]
         self.assertEquals('usq.edu.au', sub_allocation['institution'])
@@ -42,8 +42,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals('099901', sub_allocation['for_6'])
         self.assertEquals('0999', sub_allocation['for_4'])
         self.assertEquals('09', sub_allocation['for_2'])
-        self.assertAlmostEqual(1.2, sub_allocation['instance_quota'], 2)
-        self.assertAlmostEqual(2.4, sub_allocation['core_quota'], 2)
+        self.assertAlmostEqual(2.4, sub_allocation['instance_quota'], 2)
+        self.assertAlmostEqual(4.8, sub_allocation['core_quota'], 2)
         
         sub_allocation = sub_allocations[1]
         self.assertEquals('usq.edu.au', sub_allocation['institution'])
@@ -51,10 +51,28 @@ class AllocationDBTest(TestCase):
         self.assertEquals('070104', sub_allocation['for_6'])
         self.assertEquals('0701', sub_allocation['for_4'])
         self.assertEquals('07', sub_allocation['for_2'])
+        self.assertAlmostEqual(1.6, sub_allocation['instance_quota'], 2)
+        self.assertAlmostEqual(3.2, sub_allocation['core_quota'], 2)
+      
+        sub_allocation = sub_allocations[2]
+        self.assertEquals('usq.edu.au', sub_allocation['institution'])
+        self.assertEquals('USQ eResearch Services Sandbox', sub_allocation['project_name'])
+        self.assertEquals('099901', sub_allocation['for_6'])
+        self.assertEquals('0999', sub_allocation['for_4'])
+        self.assertEquals('09', sub_allocation['for_2'])
+        self.assertAlmostEqual(1.2, sub_allocation['instance_quota'], 2)
+        self.assertAlmostEqual(2.4, sub_allocation['core_quota'], 2)
+         
+        sub_allocation = sub_allocations[3]
+        self.assertEquals('usq.edu.au', sub_allocation['institution'])
+        self.assertEquals('USQ eResearch Services Sandbox', sub_allocation['project_name'])
+        self.assertEquals('070104', sub_allocation['for_6'])
+        self.assertEquals('0701', sub_allocation['for_4'])
+        self.assertEquals('07', sub_allocation['for_2'])
         self.assertAlmostEqual(0.8, sub_allocation['instance_quota'], 2)
         self.assertAlmostEqual(1.6, sub_allocation['core_quota'], 2)
-        
-        sub_allocation = sub_allocations[2]
+       
+        sub_allocation = sub_allocations[4]
         self.assertEquals('unimelb.edu.au', sub_allocation['institution'])
         self.assertEquals('UoM_Trajectory_Inference_Attacks', sub_allocation['project_name'])
         self.assertEquals('080109', sub_allocation['for_6'])
@@ -101,9 +119,12 @@ class AllocationDBTest(TestCase):
 
         children_6 = children_4['children'][0]
         self.assertEquals('099901', children_6['name'])
-        self.assertEquals(1, len(children_6['children']))
+        self.assertEquals(2, len(children_6['children']))
 
         project_items = children_6['children'][0]
+        self.assertEquals('USQ eResearch Services Sandbox', project_items['name'])
+
+        project_items = children_6['children'][1]
         self.assertEquals('USQ eResearch Services Sandbox', project_items['name'])
 
         children_2 = name_children_tree['children'][2]
@@ -116,19 +137,41 @@ class AllocationDBTest(TestCase):
 
         children_6 = children_4['children'][0]
         self.assertEquals('070104', children_6['name'])
-        self.assertEquals(1, len(children_6['children']))
+        self.assertEquals(2, len(children_6['children']))
 
         project_items = children_6['children'][0]
         self.assertEquals('USQ eResearch Services Sandbox', project_items['name'])
+
+        project_items = children_6['children'][1]
+        self.assertEquals('USQ eResearch Services Sandbox', project_items['name'])
         
     def test_projects_from_allocation_request_id(self):       
-        expected_usecase = "In this project, an algorithm has been developed to infer a persons road trajectory using POI information sent to a LBS such as Google Maps.\r\n\r\n" 
-
         allocation_request_id = 1654
         project_summary = AllocationRequest.project_from_allocation_request_id(allocation_request_id)
-        self.assertEquals('UoM_Trajectory_Inference_Attacks', project_summary['project_name'])
-        self.assertEquals('2014-01-06', project_summary['start_date'])
-        self.assertEquals('2014-01-31', project_summary['end_date'])
-        self.assertEquals(expected_usecase, project_summary['use_case'])
-        self.assertEquals('Data is stored on a remote server so no storage is needed.', project_summary['usage_patterns'])
+        self.assertEquals(1, len(project_summary))
+        self.assertEquals('UoM_Trajectory_Inference_Attacks', project_summary[0]['project_name'])
+        self.assertEquals('2014-01-06', project_summary[0]['start_date'])
+        self.assertEquals('2014-01-31', project_summary[0]['end_date'])
+        expected_usecase = "In this project, an algorithm has been developed to infer a persons road trajectory using POI information sent to a LBS such as Google Maps.\r\n\r\n" 
+        self.assertEquals(expected_usecase, project_summary[0]['use_case'])
+        self.assertEquals('Data is stored on a remote server so no storage is needed.', project_summary[0]['usage_patterns'])
+        
+    def test_projects_from_allocation_request_id_with_multi_requests(self):       
+        allocation_request_id = 1667
+        project_summary = AllocationRequest.project_from_allocation_request_id(allocation_request_id)
+        self.assertEquals(2, len(project_summary))
+
+        self.assertEquals('USQ eResearch Services Sandbox', project_summary[0]['project_name'])
+        self.assertEquals('2014-02-17', project_summary[0]['start_date'])
+        self.assertEquals('2014-05-17', project_summary[0]['end_date'])
+        expected_usecase = "The cloud instances will be used to set up quick demos for researchers at USQ to run test experiments, simulations, modelling and calculations.\r\n\r\n" 
+        self.assertEquals(expected_usecase, project_summary[0]['use_case'])
+        self.assertEquals('Many users and small data sets as well as small number of users and large data sets. This will vary depending on the tests and the resesearch group.', project_summary[0]['usage_patterns'])
+
+        self.assertEquals('USQ eResearch Services Sandbox', project_summary[1]['project_name'])
+        self.assertEquals('2014-02-17', project_summary[1]['start_date'])
+        self.assertEquals('2014-05-17', project_summary[1]['end_date'])
+        expected_usecase = "The cloud instances will be used to set up quick demos for researchers at USQ to run test experiments, simulations, modelling and calculations.\r\n\r\n" 
+        self.assertEquals(expected_usecase, project_summary[1]['use_case'])
+        self.assertEquals('Many users and small data sets as well as small number of users and large data sets. This will vary depending on the tests and the resesearch group.', project_summary[0]['usage_patterns'])
 

@@ -122,6 +122,7 @@ class AllocationRequest(models.Model):
         allocation_summary = dict()
         email_domain = AllocationRequest.extract_email_domain(self.contact_email)
         domain = AllocationRequest.strip_email_group(email_domain)
+        allocation_summary['id'] = self.id
         allocation_summary['institution'] = domain
         allocation_summary['project_name'] = self.project_name
         allocation_summary['usage_patterns'] = self.usage_patterns
@@ -169,6 +170,7 @@ class AllocationRequest(models.Model):
             if not allocation_code_6 in branch_minor:
                 branch_minor[allocation_code_6] = list()
             twig = dict()
+            twig['id'] = allocation['id']
             twig['projectName'] = allocation['project_name']
             twig['institution'] = allocation['institution']
             twig['useCase'] = allocation['use_case']
@@ -204,6 +206,7 @@ class AllocationRequest(models.Model):
                     allocation_summaries = allocations_tree[code2][code4][code6]
                     for allocation_summary in allocation_summaries:
                         allocation_items = dict()
+                        allocation_items['id'] = allocation_summary['id']
                         allocation_items['name'] = allocation_summary['projectName']
                         allocation_items['institution'] = allocation_summary['institution']
                         allocation_items['useCase'] = allocation_summary['useCase']
@@ -216,10 +219,24 @@ class AllocationRequest(models.Model):
     @staticmethod
     def project_from_allocation_request_id(allocation_request_id):
         base_request = AllocationRequest.objects.get(pk=allocation_request_id)      
-        project_summary = dict()
-        project_summary['project_name'] = base_request.project_name
-        project_summary['start_date'] = base_request.start_date.strftime('%Y-%m-%d')
-        project_summary['end_date'] = base_request.end_date.strftime('%Y-%m-%d')
-        project_summary['use_case'] = base_request.use_case
-        project_summary['usage_patterns'] = base_request.usage_patterns
+        project_summary = list()
+        project_record = AllocationRequest.project_summary_record(base_request)
+        project_summary.append(project_record)
+        other_requests = AllocationRequest.objects \
+            .filter(project_name = base_request.project_name) \
+            .exclude(id = allocation_request_id)
+        for other_request in other_requests:
+            project_record = AllocationRequest.project_summary_record(other_request)
+            project_summary.append(project_record)
         return project_summary
+    
+    @staticmethod
+    def project_summary_record(allocation_request):
+        project_record = dict()
+        project_record['id'] = allocation_request.id
+        project_record['project_name'] = allocation_request.project_name
+        project_record['start_date'] = allocation_request.start_date.strftime('%Y-%m-%d')
+        project_record['end_date'] = allocation_request.end_date.strftime('%Y-%m-%d')
+        project_record['use_case'] = allocation_request.use_case
+        project_record['usage_patterns'] = allocation_request.usage_patterns
+        return project_record
