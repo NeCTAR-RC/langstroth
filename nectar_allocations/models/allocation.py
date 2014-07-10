@@ -120,10 +120,8 @@ class AllocationRequest(models.Model):
     
     def summary(self, code):
         allocation_summary = dict()
-        email_domain = AllocationRequest.extract_email_domain(self.contact_email)
-        domain = AllocationRequest.strip_email_group(email_domain)
         allocation_summary['id'] = self.id
-        allocation_summary['institution'] = domain
+        allocation_summary['institution'] = AllocationRequest.institution_from_email(self.contact_email)
         allocation_summary['project_name'] = self.project_name
         allocation_summary['usage_patterns'] = self.usage_patterns
         allocation_summary['use_case'] = self.use_case
@@ -135,6 +133,13 @@ class AllocationRequest(models.Model):
         elif code == self.field_of_research_3:
             self.apply_partitioned_quotas(allocation_summary, self.for_percentage_3)
         return allocation_summary
+    
+    @staticmethod
+    def institution_from_email(contact_email): 
+        email_domain = AllocationRequest.extract_email_domain(contact_email)
+        domain = AllocationRequest.strip_email_group(email_domain)
+        return domain;
+   
 
     @staticmethod
     def partition_active_allocations(): 
@@ -217,7 +222,7 @@ class AllocationRequest(models.Model):
         return restructured_tree
 
     @staticmethod
-    def project_from_allocation_request_id(allocation_request_id):
+    def project_allocations_from_allocation_request_id(allocation_request_id):
         base_request = AllocationRequest.objects.get(pk=allocation_request_id)      
         project_summary = list()
         project_record = AllocationRequest.project_summary_record(base_request)
@@ -229,14 +234,35 @@ class AllocationRequest(models.Model):
             project_record = AllocationRequest.project_summary_record(other_request)
             project_summary.append(project_record)
         return project_summary
+
+    @staticmethod
+    def project_from_allocation_request_id(allocation_request_id):
+        base_request = AllocationRequest.objects.get(pk=allocation_request_id)      
+        project_summary = list()
+        project_record = AllocationRequest.project_summary_record(base_request)
+        project_summary.append(project_record)
+        other_requests = AllocationRequest.objects \
+            .filter(project_name = base_request.project_name) \
+            .exclude(id = allocation_request_id)
+        for other_request in other_requests:
+            project_record = AllocationRequest.project_summary_record(other_request)
+            project_summary.append(project_record)
+        project_summary.sort(key=lambda project_record: project_record['modified_time'])
+        return project_summary
     
     @staticmethod
     def project_summary_record(allocation_request):
         project_record = dict()
         project_record['id'] = allocation_request.id
         project_record['project_name'] = allocation_request.project_name
+        project_record['institution'] = AllocationRequest.institution_from_email(allocation_request.contact_email)
         project_record['start_date'] = allocation_request.start_date.strftime('%Y-%m-%d')
         project_record['end_date'] = allocation_request.end_date.strftime('%Y-%m-%d')
         project_record['use_case'] = allocation_request.use_case
         project_record['usage_patterns'] = allocation_request.usage_patterns
+        project_record['instance_quota'] = allocation_request.instance_quota
+        project_record['core_quota'] = allocation_request.core_quota
+        project_record['submit_date'] = allocation_request.submit_date.strftime('%Y-%m-%d')
+        project_record['modified_time'] = allocation_request.modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return project_record
+

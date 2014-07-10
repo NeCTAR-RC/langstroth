@@ -9,6 +9,22 @@
 	padding: 10px;
 }
 
+.project-details-container { 
+	vertical-align: middle;
+	background-color: #aaaaaa; 
+	border-radius:3px;
+	margin: 20 auto;
+	padding: 10px;
+}
+
+.project-allocations-container { 
+	vertical-align: middle;
+	background-color: #aaaaaa; 
+	border-radius:3px;
+	margin: 20 auto;
+	padding: 10px;
+}
+
 table.details-table { 
 	width: 100%;
 	vertical-align: middle;
@@ -31,6 +47,13 @@ table.details-table th {
 	vertical-align: top;
 	text-align: right;
 }
+
+table.details-table caption{ 
+	background-color: #aaaaaa; 
+	font-weight: bold;
+	color: yellow;
+}
+
 
 /* Master List */
 

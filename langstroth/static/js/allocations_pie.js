@@ -54,6 +54,7 @@ function restructureAllocations(allocationTree, isCoreQuota) {
 			sum = nextLevelSum(child.children, isCoreQuota);
     	} else {
     		// add the leaf value.
+			allocationItem.id = child.id;
 			allocationItem.projectName = child.name;
 			allocationItem.institutionName = child.institution;
 			allocationItem.coreQuota = child.coreQuota;
@@ -195,9 +196,8 @@ var totalText = statisticsArea.append("text")
 
 
 	 function zoomIn(p) {
-	 	var target = p.data.target;
 	 	if (isForCodeLevel()) {
-			var forCode = target;
+			var forCode = p.data.target;
 	 		breadCrumbs.push(forCode);
 	 		var route = breadCrumbs.slice(1).reverse();
 			var children = traverseHierarchy(route, allocationTree);
@@ -207,6 +207,9 @@ var totalText = statisticsArea.append("text")
 			  return d.value;
 			});
 			visualise(dataset, totalResource);	
+	 	} else {
+	 		//window.location.href = '/allocations/' + p.data.id + '/project';
+	 		window.location.href = '/allocations/' + p.data.id + '/project/allocations';
 	 	}
 	  }
 

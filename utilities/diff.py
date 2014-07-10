@@ -50,19 +50,19 @@ class Diff(object):
                 
         # if object is list, loop over it and check.
         elif isinstance(first, list):
-            for (index, item) in enumerate(first):
-                new_path = "%s[%s]" % (path, index)
-                # try to get the same index from second
+            for (index_page, item) in enumerate(first):
+                new_path = "%s[%s]" % (path, index_page)
+                # try to get the same index_page from second
                 sec = None
                 if second != None:
                     try:
-                        sec = second[index]
+                        sec = second[index_page]
                     except (IndexError, KeyError):
                         # goes to difference
                         self.save_diff('%s - %s, %s' % (new_path, type(first), type(second)), TYPE)
 
                 # recursive call
-                self.check(first[index], sec, path=new_path, with_values=with_values)
+                self.check(first[index_page], sec, path=new_path, with_values=with_values)
 
         # not list, not dict. check for equality (only if with_values is True) and return.
         else:
