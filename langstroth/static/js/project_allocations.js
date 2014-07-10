@@ -16,7 +16,7 @@ var headings = {
 
 
 function projectDetails(elementId) {
-	d3.json("/allocations/" + allocationId + "/project_summary", function(error, allocations) {
+	d3.json("/nacc/rest/allocations/" + allocationId + "/project/allocations", function(error, allocations) {
 		var allocation = null;
 		var allocationCount = allocations.length
 		for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {			

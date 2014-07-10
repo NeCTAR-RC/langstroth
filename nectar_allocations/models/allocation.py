@@ -233,21 +233,20 @@ class AllocationRequest(models.Model):
         for other_request in other_requests:
             project_record = AllocationRequest.project_summary_record(other_request)
             project_summary.append(project_record)
+            project_summary.sort(key=lambda project_record: project_record['modified_time'])
         return project_summary
 
     @staticmethod
     def project_from_allocation_request_id(allocation_request_id):
-        base_request = AllocationRequest.objects.get(pk=allocation_request_id)      
-        project_summary = list()
-        project_record = AllocationRequest.project_summary_record(base_request)
-        project_summary.append(project_record)
-        other_requests = AllocationRequest.objects \
-            .filter(project_name = base_request.project_name) \
-            .exclude(id = allocation_request_id)
-        for other_request in other_requests:
-            project_record = AllocationRequest.project_summary_record(other_request)
-            project_summary.append(project_record)
-        project_summary.sort(key=lambda project_record: project_record['modified_time'])
+        allocations = AllocationRequest.project_allocations_from_allocation_request_id(allocation_request_id)
+        project_summary = allocations[-1]
+        total_core_count = 0
+        total_instance_count = 0
+        for allocation in allocations:
+            total_core_count += allocation['core_quota']
+            total_instance_count += allocation['instance_quota']
+        project_summary['core_quota'] = total_core_count
+        project_summary['instance_quota'] = total_instance_count      
         return project_summary
     
     @staticmethod

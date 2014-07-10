@@ -208,8 +208,8 @@ var totalText = statisticsArea.append("text")
 			});
 			visualise(dataset, totalResource);	
 	 	} else {
-	 		//window.location.href = '/allocations/' + p.data.id + '/project';
-	 		window.location.href = '/allocations/' + p.data.id + '/project/allocations';
+	 		window.location.href = '/nacc/allocations/' + p.data.id + '/project';
+	 		//window.location.href = '/nacc/allocations/' + p.data.id + '/project/allocations';
 	 	}
 	  }
 
@@ -683,9 +683,9 @@ function processResponse(allocationTree, resource) {
 //---- Data Loading.
 
 function load() {
-	d3.json("/allocations/for_codes", function(error, forObjects) {
+	d3.json("/nacc/rest/for_codes", function(error, forObjects) {
 		//d3.json("/static/allocation_tree.json", function(error, allocationObjects) {
-		d3.json("/allocations/allocation_tree", function(error, allocationObjects) {
+		d3.json("/nacc/rest/allocation_tree", function(error, allocationObjects) {
 			breadCrumbs = ['*'];
 			forTitleMap = forObjects;
 			allocationTree = allocationObjects.children;
