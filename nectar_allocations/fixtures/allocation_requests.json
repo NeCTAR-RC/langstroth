@@ -85,7 +85,7 @@
     "fields": {
         "parent_request": null, 
         "tenant_name": "", 
-        "instances": 2, 
+        "instances": 3, 
         "approver_email": "graham.chen@uq.edu.au", 
         "ram_quota": 16, 
         "object_storage_GBs": 10, 
@@ -113,7 +113,7 @@
         "status_explanation": "", 
         "core_hours": 1000, 
         "instance_quota": 2, 
-        "cores": 4, 
+        "cores": 5, 
         "volume_gb": 100, 
         "tenant_uuid": "", 
         "usage_patterns": "Many users and small data sets as well as small number of users and large data sets. This will vary depending on the tests and the resesearch group."

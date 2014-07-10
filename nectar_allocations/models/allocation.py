@@ -242,11 +242,17 @@ class AllocationRequest(models.Model):
         project_summary = allocations[-1]
         total_core_count = 0
         total_instance_count = 0
+        total_cores = 0
+        total_instances = 0
         for allocation in allocations:
             total_core_count += allocation['core_quota']
             total_instance_count += allocation['instance_quota']
+            total_cores += allocation['cores']
+            total_instances += allocation['instances']
         project_summary['core_quota'] = total_core_count
         project_summary['instance_quota'] = total_instance_count      
+        project_summary['cores'] = total_cores
+        project_summary['instances'] = total_instances      
         return project_summary
     
     @staticmethod
@@ -261,6 +267,14 @@ class AllocationRequest(models.Model):
         project_record['usage_patterns'] = allocation_request.usage_patterns
         project_record['instance_quota'] = allocation_request.instance_quota
         project_record['core_quota'] = allocation_request.core_quota
+        project_record['instances'] = allocation_request.instances
+        project_record['cores'] = allocation_request.cores
+        project_record['field_of_research_1'] = allocation_request.field_of_research_1
+        project_record['for_percentage_1'] = allocation_request.for_percentage_1
+        project_record['field_of_research_2'] = allocation_request.field_of_research_2
+        project_record['for_percentage_2'] = allocation_request.for_percentage_2
+        project_record['field_of_research_3'] = allocation_request.field_of_research_3
+        project_record['for_percentage_3'] = allocation_request.for_percentage_3
         project_record['submit_date'] = allocation_request.submit_date.strftime('%Y-%m-%d')
         project_record['modified_time'] = allocation_request.modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return project_record

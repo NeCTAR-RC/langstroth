@@ -57,6 +57,20 @@ table.details-table caption{
 
 /* Master List */
 
+.project-visualisation-container { 
+	width: 120px;
+	vertical-align: middle;
+	text-align: left;
+	background-color: #eeeeee; 
+	border-radius:3px;
+	padding: 10px;
+}
+
+.project-visualisation-container h4 { 
+	font-size: 12px;
+}
+
+
 .master-list-container { 
 	width: 52.5em;
 	vertical-align: middle;

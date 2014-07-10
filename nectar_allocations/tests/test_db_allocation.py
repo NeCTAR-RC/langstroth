@@ -190,6 +190,14 @@ class AllocationDBTest(TestCase):
         self.assertEquals(30, project_summary['core_quota'])
         self.assertEquals('2014-01-05', project_summary['submit_date'])
         self.assertEquals('2014-02-16 23:21:59', project_summary['modified_time'])
+        self.assertEquals(2, project_summary['cores'])
+        self.assertEquals(30, project_summary['instances'])
+        self.assertEquals('080109', project_summary['field_of_research_1'])
+        self.assertEquals(100, project_summary['for_percentage_1'])
+        self.assertEquals(None, project_summary['field_of_research_2'])
+        self.assertEquals(0, project_summary['for_percentage_2'])
+        self.assertEquals(None, project_summary['field_of_research_3'])
+        self.assertEquals(0, project_summary['for_percentage_3'])
         
     def test_projects_from_allocation_request_id_with_multi_requests(self):       
         allocation_request_id = 1667
@@ -205,4 +213,12 @@ class AllocationDBTest(TestCase):
         self.assertEquals(12, project_summary['core_quota'])
         self.assertEquals('2014-02-17', project_summary['submit_date'])
         self.assertEquals('2014-03-24 22:01:54', project_summary['modified_time'])
+        self.assertEquals(9, project_summary['cores'])
+        self.assertEquals(5, project_summary['instances'])
+        self.assertEquals('099901', project_summary['field_of_research_1'])
+        self.assertEquals(60, project_summary['for_percentage_1'])
+        self.assertEquals('070104', project_summary['field_of_research_2'])
+        self.assertEquals(40, project_summary['for_percentage_2'])
+        self.assertEquals(None, project_summary['field_of_research_3'])
+        self.assertEquals(0, project_summary['for_percentage_3'])
 
