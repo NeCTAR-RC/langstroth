@@ -6,11 +6,19 @@ PROD_ENVIRONMENT = 0
 DEV_ENVIRONMENT = 1
 UAT_ENVIRONMENT = 2
 
-TEST_MODE = 'DJANGO_TEST' in environ and environ['DJANGO_TEST'] == 'True'
-
 # Adjust this depending on the environment.
 # The install.sh script modifies this to be UAT_ENVIRONMENT.
 CURRENT_ENVIRONMENT = DEV_ENVIRONMENT
+
+TEST_MODE = 'DJANGO_TEST' in environ and environ['DJANGO_TEST'] == 'True'
+
+DEFAULT_DATABASE_NAME = 'langstroth'
+ALLOCATION_DATABASE_NAME = 'allocations'
+if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
+    DEFAULT_DATABASE_NAME = 'langstroth'
+    ALLOCATION_DATABASE_NAME = 'nectar_allocations'
+    
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -25,7 +33,7 @@ DATABASES = {
      # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'langstroth',                      # Or path to database file if using sqlite3.
+        'NAME': DEFAULT_DATABASE_NAME,                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'langstroth_user', # over-rides what is in my.cnf [client]
         'PASSWORD': 'langstroth_pass4#2!', # over-rides what is in my.cnf [client]
@@ -39,7 +47,7 @@ DATABASES = {
      # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
     'allocations_db': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nectar_allocations',                      # Or path to database file if using sqlite3.
+        'NAME': ALLOCATION_DATABASE_NAME,                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'langstroth_user', # over-rides what is in my.cnf [client]
         'PASSWORD': 'langstroth_pass4#2!', # over-rides what is in my.cnf [client]

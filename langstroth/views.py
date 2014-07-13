@@ -23,7 +23,7 @@ SERVICE_NAMES = {'http_cinder-api': 'Cinder',
 GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
 
-def index_page(request):
+def index(request):
     now = datetime.datetime.now()
     then = now - relativedelta(months=6)
     url = ""
@@ -74,7 +74,7 @@ def index_page(request):
         "services": services,
         "average": average}
 
-    return render(request, "index_page.html", context)
+    return render(request, "index.html", context)
 
 
 def growth(request):
