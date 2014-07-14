@@ -1,70 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p class="lead">6 month average from {{ report_range }}</p>
 <div class="row">
-  <h2>Average</h2>
-  <div id="averages">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>OK</th>
-          <th>Warning</th>
-          <th>Unknown</th>
-          <th>Critical</th>
-        </tr>
-      </thead>
+
+  <div class="col-md-12">
+    <h4>6 month average from {{ report_range }}</h4>
+    <table class="table">
       <tbody>
         <tr>
-          <td class="success">{{ average.ok }}</td>
-          <td class="warning">{{ average.warning }}</td>
-          <td class="active">{{ average.unknown }}</td>
-          <td class="danger">{{ average.critical }}</td>
+          <td class="success" title="Service OK">OK: {{ average.ok }}</td>
+          <td class="warning" title="Service Warning">Warning: {{ average.warning }}</td>
+          <td class="danger" title="Service Critical">Critical: {{ average.critical }}</td>
+          <td class="active" title="Service Unknown">Unknown: {{ average.unknown }}</td>
         </tr>
       </tbody>
     </table>
   </div>
-</div>
-<div class="row">
-  <h2>Services</h2>
-  <table id="modules" class="table table-striped table-bordered table-sorter">
-    <thead>
-      <tr>
-        <th class="{sorter: 'percent'}">OK</th>
-        <th class="{sorter: 'percent'}">Warning</th>
-        <th class="{sorter: 'percent'}">Unknown</th>
-        <th class="{sorter: 'percent'}">Critical</th>
-        <th class="service">Service</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for service in services %}
-      <tr>
-        <td class="success">{{ service.ok }}</td>
-        <td class="warning">{{ service.warning }}</td>
-        <td class="active">{{ service.unknown }}</td>
-        <td class="danger">{{ service.critical }}</td>
-        <td class="service">{{ service.name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
 
-{% block extra_script %}
-<script src="{{ STATIC_URL }}js/jquery.tablesorter.js"></script>
-<script src="{{ STATIC_URL }}js/jquery.metadata.js"></script>
-<script type="text/javascript">
-  $(document).ready(function()
-  {
-  $(".table-sorter").tablesorter({'cancelSelection': true});
-  });
-  $( "#show-all" ).click(function() {
-  $("#modules tbody tr").removeClass("hidden");
-  });
-  $( "#show-changes" ).click(function() {
-  $("#modules tbody tr.noupdates").addClass("hidden");
-  });
-</script>
+  {% for host in hosts %}
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ host.hostname }}</h3>
+      </div>
+      {% for service in host.services %}
+      <div class="panel-body">
+        <h3 class="panel-title">
+          {% if service.status|lower == 'ok' %}
+          <span title="Service is {{service.status}}"
+                class="glyphicon glyphicon-ok text-success">
+          </span>
+          {% elif service.status|lower == 'warning' %}
+          <span title="Service is {{service.status}}"
+                class="glyphicon glyphicon-warning-sign text-warning">
+          </span>
+          {% elif service.status|lower == 'critical' %}
+          <span title="Service is {{service.status}}"
+                class="glyphicon glyphicon-remove text-danger">
+          </span>
+          {% else %}
+          <span title="Service is {{service.status}}"
+                class="glyphicon glyphicon-question-sign glyphicon-warning text-muted">
+          </span>
+          {% endif %}
+          {{ service.display_name }}
+          <small title="Last checked">{{ service.last_checked }}</small>
+        </h3>
+      </div>
+      <table class="table">
+        <tr>
+          <td>Availability</td>
+          <td class="success" title="Service OK">{{ service.availability.ok }}</td>
+          <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
+          <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
+          <td class="active" title="Service Unknown">{{ service.availability.unknown }}</td>
+        </tr>
+      </table>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
 {% endblock %}

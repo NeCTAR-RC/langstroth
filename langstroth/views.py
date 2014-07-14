@@ -11,69 +11,50 @@ from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render
+from django.core.cache import cache
 
-SERVICE_NAMES = {'http_cinder-api': 'Cinder',
-                 'https': 'Dashboard',
-                 'http_glance-registry': 'Glance',
-                 'http_keystone-adm': 'Keystone (Admin)',
-                 'http_keystone-pub': 'Keystone',
-                 'http_ec2': 'Nova (EC2)',
-                 'http_nova-api': "Nova"}
+
+from langstroth import nagios
 
 GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
 
+def round_to_day(datetime_object):
+    return datetime.datetime(datetime_object.year,
+                             datetime_object.month,
+                             datetime_object.day)
+
+
 def index(request):
     now = datetime.datetime.now()
-    then = now - relativedelta(months=6)
-    url = ""
-    if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
-        url = settings.NAGIOS_AVAILABILITY % (calendar.timegm(then.utctimetuple()),
-                                          calendar.timegm(now.utctimetuple()))
-    url = settings.NAGIOS_URL + url
-    print url
-    resp = requests.get(url, auth=settings.NAGIOS_AUTH)
-    tr = cssselect.GenericTranslator()
-    h = lxml.etree.HTML(resp.text)
-    table = None
-    for i, e in enumerate(h.xpath(tr.css_to_xpath('.dataTitle')), -1):
-        if settings.NAGIOS_SERVICE_GROUP not in e.text:
-            continue
-        if 'Service State Breakdowns' not in e.text:
-            continue
-        table = h.xpath(tr.css_to_xpath('table.data'))[i]
-        break
-    services = []
-    average = {}
-    if table is not None:
-        for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
-            if 'colspan' in row.getchildren()[0].attrib:
-                title, ok, warn, unknown, crit, undet = row.getchildren()
-                average = {"name": "Average",
-                           "ok": ok.text.split(' ')[0],
-                           "warning": warn.text.split(' ')[0],
-                           "unknown": unknown.text.split(' ')[0],
-                           "critical": crit.text.split(' ')[0]}
-                continue
-            host, service, ok, warn, unknown, crit, undet = row.getchildren()
-            nagios_service_name = "".join([t for t in service.itertext()])
-            if nagios_service_name not in SERVICE_NAMES:
-                continue
-            service_name = SERVICE_NAMES[nagios_service_name]
-            services.append({"name": service_name,
-                             "ok": ok.text.split(' ')[0],
-                             "warning": warn.text.split(' ')[0],
-                             "unknown": unknown.text.split(' ')[0],
-                             "critical": crit.text.split(' ')[0]})
+    then = round_to_day(now) - relativedelta(months=6)
 
-    report_range = h.xpath(tr.css_to_xpath('.reportRange'))[0].text
-    context = {
-        "title": "Service Availability",
-        "tagline": "",
-        "report_range": report_range,
-        "services": services,
-        "average": average}
+    try:
+        # Only refresh every 10 min, and keep a backup in case of
+        # nagios error.
+        availability = (cache.get('_nagios_availability')
+                        or nagios.get_availability(then, now))
+        cache.set('nagios_availability', availability)
+        cache.set('_nagios_availability', availability, 600)
+    except:
+        availability = cache.get('nagios_availability')
 
+    try:
+        status = nagios.get_status()
+        cache.set('nagios_status', status)
+    except:
+        status = cache.get('nagios_status')
+
+    context = {"title": "National Endpoint Status",
+               "tagline": "",
+               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
+    context['average'] = availability['average']
+    for host in status['hosts'].values():
+        for service in host['services']:
+            service['availability'] = availability['services'][service['name']]
+
+    context['hosts'] = sorted(status['hosts'].values(),
+                              key=itemgetter('hostname'))
     return render(request, "index.html", context)
 
 
@@ -97,6 +78,7 @@ INST_TARGETS = [
     ('QCIF', "cells.qld.total_instances"),
     ('ERSA', "cells.sa.total_instances"),
     ('NCI', "cells.NCI.total_instances"),
+    ('Tasmania', "cells.tasmania.total_instances"),
 ]
 
 
@@ -134,6 +116,7 @@ CORES_TARGETS = [
     ('QCIF', "cells.qld.used_vcpus"),
     ('ERSA', "cells.sa.used_vcpus"),
     ('NCI', "cells.NCI.used_vcpus"),
+    ('Tasmania', "cells.tasmania.used_vcpus"),
 ]
 
 
@@ -179,7 +162,8 @@ QUERY = {
             ("target", "cells.monash-01.domains.*.used_vcpus"),
             ("target", "cells.NCI.domains.*.used_vcpus"),
             ("target", "cells.sa.domains.*.used_vcpus"),
-            ("target", "cells.qld.domains.*.used_vcpus")]
+            ("target", "cells.qld.domains.*.used_vcpus"),
+            ("target", "cells.tasmania.domains.*.used_vcpus")]
 }
 
 
@@ -193,6 +177,7 @@ def total_cores_per_domain(request):
         arguments.extend(QUERY[q_az])
     else:
         arguments.append(("target", "cells.%s.domains.*.used_vcpus" % q_az))
+    print GRAPHITE + "?" + urlencode(arguments)
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     cleaned = defaultdict(dict)
     for domain in req.json():
