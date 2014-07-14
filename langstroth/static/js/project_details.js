@@ -66,6 +66,7 @@ function tabulateSummary(pageAreaSelector, project_summary) {
 var PIE_CHART_WIDTH = 100;
 var PIE_CHART_HEIGHT = 100;
 var PIE_CHART_RADIUS = Math.min(PIE_CHART_WIDTH, PIE_CHART_HEIGHT) / 2;
+var PIE_CHART_INNER_RADIUS = PIE_CHART_RADIUS*0.5;
 
 function graphQuota(pageAreaSelector, quotaKey, usage) {
 		
@@ -80,7 +81,7 @@ function graphQuota(pageAreaSelector, quotaKey, usage) {
 
 	var arc = d3.svg.arc()
 				.outerRadius(PIE_CHART_RADIUS)
-				.innerRadius(PIE_CHART_RADIUS*0.5)
+				.innerRadius(PIE_CHART_INNER_RADIUS)
 				.startAngle(function(d) { return 2*Math.PI - d.startAngle; })
 				.endAngle(function(d) { return 2*Math.PI - d.endAngle; });
 
@@ -126,7 +127,7 @@ function graphFieldOfResearch(pageAreaSelector, forUsage, forTranslation) {
 
 	var arc = d3.svg.arc()
 				.outerRadius(PIE_CHART_RADIUS)
-			    .innerRadius(PIE_CHART_RADIUS*0.5)
+			    .innerRadius(PIE_CHART_INNER_RADIUS)
 			    .startAngle(function(d) { return 2*Math.PI - d.startAngle; })
 			    .endAngle(function(d) { return 2*Math.PI - d.endAngle; });
 
@@ -136,7 +137,7 @@ function graphFieldOfResearch(pageAreaSelector, forUsage, forTranslation) {
 				.append("g")
 				.attr("transform", "translate(" + PIE_CHART_WIDTH / 2 + "," + PIE_CHART_HEIGHT / 2 + ")");
 
-	var path = svg.datum(forUsage).selectAll("path")
+	svg.datum(forUsage).selectAll("path")
 				.data(pie)
 				.enter().append("path")
 				.attr("fill", function(d, i) { return color(i); })
@@ -161,7 +162,7 @@ function graphFieldOfResearch(pageAreaSelector, forUsage, forTranslation) {
 					return d.data.code; 
 				});
 
-	//---- Popup showing details.
+	//---- Popup showing full FOR description.
 		
 	function showFor(d) {
 		var markup = "<div class='for-container'>" 
