@@ -85,8 +85,8 @@ function graphQuota(pageAreaSelector, quotaKey, usage) {
 				.endAngle(function(d) { return 2*Math.PI - d.endAngle; });
 
 	var svg = d3.select(pageAreaSelector).append("svg")
-				.attr("PIE_CHART_WIDTH", PIE_CHART_WIDTH)
-				.attr("PIE_CHART_HEIGHT", PIE_CHART_HEIGHT)
+				.attr("width", PIE_CHART_WIDTH)
+				.attr("height", PIE_CHART_HEIGHT)
 				.append("g")
 					.attr("transform", "translate(" + PIE_CHART_WIDTH / 2 + "," + PIE_CHART_HEIGHT / 2 + ")");
 
@@ -131,8 +131,8 @@ function graphFieldOfResearch(pageAreaSelector, forUsage, forTranslation) {
 			    .endAngle(function(d) { return 2*Math.PI - d.endAngle; });
 
 	var svg = d3.select(pageAreaSelector).append("svg")
-				.attr("PIE_CHART_WIDTH", PIE_CHART_WIDTH)
-				.attr("PIE_CHART_HEIGHT", PIE_CHART_HEIGHT)
+				.attr("width", PIE_CHART_WIDTH)
+				.attr("height", PIE_CHART_HEIGHT)
 				.append("g")
 				.attr("transform", "translate(" + PIE_CHART_WIDTH / 2 + "," + PIE_CHART_HEIGHT / 2 + ")");
 
