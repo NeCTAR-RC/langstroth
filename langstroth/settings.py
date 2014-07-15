@@ -75,7 +75,7 @@ elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
     NAGIOS_AUTH = ("user", "password")
     GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
     NAGIOS_AVAILABILITY_URL = NAGIOS_URL
-    NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
+    NAGIOS_STATUS_URL = "http://langstroth.doesntexist.com/static/status.html"
 elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
     NAGIOS_AUTH = ("sam", "nectar")
