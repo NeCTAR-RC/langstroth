@@ -123,18 +123,22 @@ def gm_timestamp(datetime_object):
 
 
 def get_availability(start_date, end_date):   
-    query = ""
     if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
         query = AVAILABILITY_QUERY_TEMPLATE % (gm_timestamp(start_date),
                               gm_timestamp(end_date),
                               settings.NAGIOS_SERVICE_GROUP)
-    url = settings.NAGIOS_URL + query
+        url = settings.NAGIOS_URL + query
+    else:
+        url = settings.NAGIOS_AVAILABILITY_URL
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_availability(resp.text)
 
 
 def get_status():
-    query = STATUS_QUERY_TEMPLATE % settings.NAGIOS_SERVICE_GROUP
-    url = settings.NAGIOS_URL + query
+    if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
+        query = STATUS_QUERY_TEMPLATE % settings.NAGIOS_SERVICE_GROUP
+        url = settings.NAGIOS_URL + query
+    else:
+        url = settings.NAGIOS_STATUS_URL    
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_status(resp.text)

@@ -18,8 +18,6 @@ if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     DEFAULT_DATABASE_NAME = 'langstroth'
     ALLOCATION_DATABASE_NAME = 'nectar_allocations'
     
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -70,10 +68,14 @@ if CURRENT_ENVIRONMENT == DEV_ENVIRONMENT:
     NAGIOS_URL = "http://localhost:8000/static/avail.html"
     NAGIOS_AUTH = ("user", "password")
     GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
+    NAGIOS_AVAILABILITY_URL = NAGIOS_URL
+    NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 elif CURRENT_ENVIRONMENT == UAT_ENVIRONMENT:
     NAGIOS_URL = "http://langstroth.doesntexist.com/static/avail.html"
     NAGIOS_AUTH = ("user", "password")
     GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
+    NAGIOS_AVAILABILITY_URL = NAGIOS_URL
+    NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 elif CURRENT_ENVIRONMENT == PROD_ENVIRONMENT:
     NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
     NAGIOS_AUTH = ("sam", "nectar")
