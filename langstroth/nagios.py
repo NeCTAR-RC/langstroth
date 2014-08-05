@@ -9,8 +9,8 @@ from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
-AVAILABILITY_URL = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=%s&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
-STATUS_URL = "status.cgi?servicegroup=%s&style=detail"
+AVAILABILITY_QUERY_TEMPLATE = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=%s&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
+STATUS_QUERY_TEMPLATE = "status.cgi?servicegroup=%s&style=detail"
 
 SERVICE_NAMES = {'http_cinder-api': 'Cinder',
                  'https': 'Dashboard',
@@ -122,17 +122,23 @@ def gm_timestamp(datetime_object):
     return calendar.timegm(datetime_object.utctimetuple())
 
 
-def get_availability(start_date, end_date):
-    url = AVAILABILITY_URL % (gm_timestamp(start_date),
+def get_availability(start_date, end_date):   
+    if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
+        query = AVAILABILITY_QUERY_TEMPLATE % (gm_timestamp(start_date),
                               gm_timestamp(end_date),
                               settings.NAGIOS_SERVICE_GROUP)
-    url = settings.NAGIOS_URL + url
+        url = settings.NAGIOS_URL + query
+    else:
+        url = settings.NAGIOS_AVAILABILITY_URL
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_availability(resp.text)
 
 
 def get_status():
-    url = STATUS_URL % settings.NAGIOS_SERVICE_GROUP
-    url = settings.NAGIOS_URL + url
+    if settings.CURRENT_ENVIRONMENT == settings.PROD_ENVIRONMENT:
+        query = STATUS_QUERY_TEMPLATE % settings.NAGIOS_SERVICE_GROUP
+        url = settings.NAGIOS_URL + query
+    else:
+        url = settings.NAGIOS_STATUS_URL    
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_status(resp.text)

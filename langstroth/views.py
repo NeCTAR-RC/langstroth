@@ -71,6 +71,7 @@ def domain(request):
         "tagline": ""}
     return render(request, "domain.html", context)
 
+
 INST_TARGETS = [
     ('Melbourne University', "sumSeries(cells.melbourne-qh2.total_instances,cells.melbourne-np.total_instances)"),
     ('Monash University', "cells.monash-01.total_instances"),
@@ -194,3 +195,4 @@ def total_cores_per_domain(request):
     cleaned = cleaned.values()
     cleaned.sort(key=itemgetter('value'))
     return HttpResponse(dumps(cleaned), req.headers['content-type'])
+   

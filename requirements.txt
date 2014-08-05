@@ -3,3 +3,19 @@ lxml
 cssselect
 Django
 python-dateutil
+
+
+On MacOS X
+----------------
+sudo pip install requests
+sudo pip install cssselect
+sudo pip install python-dateutil
+
+This will not work on MacOS X:
+sudo pip install lxml
+ 
+So make sure to run: 
+xcode-select --install 
+to update the XCode command line tools after a Mavericks upgrade.
+And then run:
+STATIC_DEPS=true sudo pip install lxml

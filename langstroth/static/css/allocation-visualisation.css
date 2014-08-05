@@ -1,0 +1,63 @@
+ul.breadcrumb {
+	height: 36px;
+}
+
+.top-buffer { 
+	margin-top:20px; 
+}
+
+.bottom-buffer { 
+	margin-bottom:100px; 
+}
+
+.chart-footer {
+	background-color: #eee;
+	border-radius: 4px;
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+
+.navigation-area {
+	background-color: #eee;
+}
+
+.plot-alignment {
+	text-align: center;
+}
+
+.opaque-plot-label {
+	opacity:0.5;
+}
+
+
+path {
+  /* stroke: #fff; */
+  /* stroke-width: 1.0; */
+  /* cursor: pointer; */
+}
+
+text {
+  /* font: 11px sans-serif; */
+  /* cursor: pointer; */
+}
+
+.plot-slice {
+  cursor: pointer;
+}
+
+.name-plot-label {
+  cursor: pointer;
+}
+
+.value-plot-label {
+  cursor: pointer;
+}
+
+.click-message {
+  cursor: pointer;
+}
