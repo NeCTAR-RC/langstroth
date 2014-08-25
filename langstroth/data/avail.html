@@ -1,0 +1,140 @@
+<html>
+<head>
+<link rel="shortcut icon" href="/nagios3/images/favicon.ico" type="image/ico">
+<title>
+Nagios Availability
+</title>
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios3/stylesheets/common.css'>
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios3/stylesheets/avail.css'>
+</head>
+<BODY CLASS='avail'>
+
+<!-- Produced by Nagios (http://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+<table border=0 width=100% cellspacing=0 cellpadding=0>
+<tr>
+<td align=left valign=top width=33%>
+<TABLE CLASS='infoBox' BORDER=1 CELLSPACING=0 CELLPADDING=0>
+<TR><TD CLASS='infoBox'>
+<DIV CLASS='infoBoxTitle'>Servicegroup Availability Report</DIV>
+Last Updated: Tue Jul 15 09:48:14 EST 2014<BR>
+Nagios&reg; Core&trade; 3.2.3 - <A HREF='http://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>
+Logged in as <i>sam</i><BR>
+</TD></TR>
+</TABLE>
+</td>
+<td align=center valign=top width=33%>
+<DIV ALIGN=CENTER CLASS='dataTitle'>
+Servicegroup 'f5-endpoints'</DIV>
+<BR>
+<IMG SRC='/nagios3/images/trends.gif' BORDER=0 ALT='Availability Report' TITLE='Availability Report'>
+<BR CLEAR=ALL>
+<div align=center class='reportRange'>2014-01-15 11:00:00 to 2014-07-15 09:48:14</div>
+<div align=center class='reportDuration'>Duration: 180d 23h 48m 14s</div>
+</td>
+<td align=right valign=bottom width=33%>
+<table border=0 CLASS='optBox'>
+<form method="GET" action="avail.cgi">
+<input type='hidden' name='t1' value='1389744000'>
+<input type='hidden' name='t2' value='1405381694'>
+<input type='hidden' name='show_log_entries' value=''>
+<input type='hidden' name='servicegroup' value='f5-endpoints'>
+<input type='hidden' name='assumeinitialstates' value='yes'>
+<input type='hidden' name='assumestateretention' value='yes'>
+<input type='hidden' name='assumestatesduringnotrunning' value='yes'>
+<input type='hidden' name='includesoftstates' value='yes'>
+<tr><td valign=top align=left class='optBoxItem'>First assumed host state:</td><td valign=top align=left class='optBoxItem'>First assumed service state</td></tr>
+<tr>
+<td valign=top align=left class='optBoxItem'>
+<select name='initialassumedhoststate'>
+<option value=0 >Unspecified
+<option value=-1 >Current State
+<option value=3 SELECTED>Host Up
+<option value=4 >Host Down
+<option value=5 >Host Unreachable
+</select>
+</td>
+<td CLASS='optBoxItem'>
+<select name='initialassumedservicestate'>
+<option value=0 >Unspecified
+<option value=-1 >Current State
+<option value=6 SELECTED>Service Ok
+<option value=8 >Service Warning
+<option value=7 >Service Unknown
+<option value=9 >Service Critical
+</select>
+</td>
+</tr>
+<tr><td valign=top align=left class='optBoxItem'>Report period:</td><td valign=top align=left class='optBoxItem'>Backtracked archives:</td></tr>
+<tr>
+<td valign=top align=left class='optBoxItem'>
+<select name='timeperiod'>
+<option SELECTED>[ Current time range ]
+<option value=today >Today
+<option value=last24hours >Last 24 Hours
+<option value=yesterday >Yesterday
+<option value=thisweek >This Week
+<option value=last7days >Last 7 Days
+<option value=lastweek >Last Week
+<option value=thismonth >This Month
+<option value=last31days >Last 31 Days
+<option value=lastmonth >Last Month
+<option value=thisyear >This Year
+<option value=lastyear >Last Year
+</select>
+</td>
+<td valign=top align=left CLASS='optBoxItem'>
+<input type='text' size='2' maxlength='2' name='backtrack' value='4'>
+</td>
+</tr>
+<tr><td valign=top align=left></td>
+<td valign=top align=left CLASS='optBoxItem'>
+<input type='submit' value='Update'>
+</td>
+</tr>
+</form>
+<tr><td></td><td align=right valign=bottom>
+<a href='/nagios3/contexthelp/H9.html' target='cshw' onClick='javascript:window.open("/nagios3/contexthelp/H9.html","cshw","width=550,height=600,toolbar=0,location=0,status=0,resizable=1,scrollbars=1");return true'><img src='/nagios3/images/contexthelp1.gif' border=0 alt='Display context-sensitive help for this screen' title='Display context-sensitive help for this screen'></a>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+<div align=center class='reportTime'>[ Availability report completed in 0 min 2 sec ]</div>
+<BR><BR>
+<BR><BR>
+<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup 'f5-endpoints' Host State Breakdowns:</DIV>
+<DIV ALIGN=CENTER>
+<TABLE BORDER=0 CLASS='data'>
+<TR><TH CLASS='data'>Host</TH><TH CLASS='data'>% Time Up</TH><TH CLASS='data'>% Time Down</TH><TH CLASS='data'>% Time Unreachable</TH><TH CLASS='data'>% Time Undetermined</TH></TR>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=cinder.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>cinder.rc.nectar.org.au</a></td><td CLASS='hostUP'>99.998% (99.998%)</td><td CLASS='hostDOWN'>0.002% (0.002%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=dashboard.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>dashboard.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=designate.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>designate.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=glance-registry.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>glance-registry.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=glance.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>glance.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=heat.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>heat.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=keystone.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>keystone.rc.nectar.org.au</a></td><td CLASS='hostUP'>99.992% (99.992%)</td><td CLASS='hostDOWN'>0.008% (0.008%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=nova.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>nova.rc.nectar.org.au</a></td><td CLASS='hostUP'>99.660% (99.660%)</td><td CLASS='hostDOWN'>0.340% (0.340%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'>Average</td><td CLASS='hostUP'>99.956% (99.956%)</td><td CLASS='hostDOWN'>0.044% (0.044%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr></table>
+</DIV>
+<BR>
+<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup 'f5-endpoints' Service State Breakdowns:</DIV>
+<DIV ALIGN=CENTER>
+<TABLE BORDER=0 CLASS='data'>
+<TR><TH CLASS='data'>Host</TH><TH CLASS='data'>Service</TH><TH CLASS='data'>% Time OK</TH><TH CLASS='data'>% Time Warning</TH><TH CLASS='data'>% Time Unknown</TH><TH CLASS='data'>% Time Critical</TH><TH CLASS='data'>% Time Undetermined</TH></TR>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=cinder.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>cinder.rc.nectar.org.au</a></td><td CLASS='dataEven'><a href='avail.cgi?host=cinder.rc.nectar.org.au&service=http_cinder-api&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_cinder-api</a></td><td CLASS='serviceOK'>99.945% (99.945%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.055% (0.055%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=dashboard.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>dashboard.rc.nectar.org.au</a></td><td CLASS='dataOdd'><a href='avail.cgi?host=dashboard.rc.nectar.org.au&service=https&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>https</a></td><td CLASS='serviceOK'>99.796% (99.796%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.204% (0.204%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=designate.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>designate.rc.nectar.org.au</a></td><td CLASS='dataEven'><a href='avail.cgi?host=designate.rc.nectar.org.au&service=http_designate-api&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_designate-api</a></td><td CLASS='serviceOK'>100.000% (100.000%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=glance-registry.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>glance-registry.rc.nectar.org.au</a></td><td CLASS='dataOdd'><a href='avail.cgi?host=glance-registry.rc.nectar.org.au&service=http_glance-registry&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_glance-registry</a></td><td CLASS='serviceOK'>99.897% (99.897%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.103% (0.103%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=glance.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>glance.rc.nectar.org.au</a></td><td CLASS='dataEven'><a href='avail.cgi?host=glance.rc.nectar.org.au&service=http_glance-api&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_glance-api</a></td><td CLASS='serviceOK'>99.982% (99.982%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.018% (0.018%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=heat.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>heat.rc.nectar.org.au</a></td><td CLASS='dataOdd'><a href='avail.cgi?host=heat.rc.nectar.org.au&service=http_heat-api&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_heat-api</a></td><td CLASS='serviceOK'>100.000% (100.000%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=keystone.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>keystone.rc.nectar.org.au</a></td><td CLASS='dataEven'><a href='avail.cgi?host=keystone.rc.nectar.org.au&service=http_keystone-adm&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_keystone-adm</a></td><td CLASS='serviceOK'>99.925% (99.925%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.075% (0.075%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=keystone.rc.nectar.org.au&service=http_keystone-pub&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_keystone-pub</a></td><td CLASS='serviceOK'>99.901% (99.901%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.099% (0.099%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'><a href='avail.cgi?host=nova.rc.nectar.org.au&show_log_entries&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>nova.rc.nectar.org.au</a></td><td CLASS='dataEven'><a href='avail.cgi?host=nova.rc.nectar.org.au&service=http_ec2&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_ec2</a></td><td CLASS='serviceOK'>99.586% (99.586%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.414% (0.414%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=nova.rc.nectar.org.au&service=http_nova-api&t1=1389744000&t2=1405381694&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>http_nova-api</a></td><td CLASS='serviceOK'>99.566% (99.566%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.434% (0.434%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven' colspan='2'>Average</td><td CLASS='serviceOK'>99.860% (99.860%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.140% (0.140%)</td><td class='dataEven'>0.000%</td></tr>
+</table>
+</DIV>
+
+<!-- Produced by Nagios (http://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+</body>
+</html>
