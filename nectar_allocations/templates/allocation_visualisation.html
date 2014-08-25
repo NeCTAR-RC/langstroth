@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    <link href='{{ STATIC_URL }}css/allocation-visualisation.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{{ STATIC_URL }}css/master-detail.css' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+      <div class="col-md-2">
+        <div id="graph-buttons" class="btn-group">
+        <button id="cores" type="button" class="btn btn-default active">Cores</button>
+        <button id="instances" type="button" class="btn btn-default">Instances</button>
+        </div>
+      </div>
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-2">
+        <h4><div id="statistics-area" class="label label-default"></div></h4>
+      </div>
+      <div class="col-md-5">
+      </div>
+    </div>
+    <div class="row top-buffer"  id="chart-navigator-1">
+      <div class="col-md-12">
+        <ul class="breadcrumb"></ul>
+      </div>
+    </div>
+    <div class="row">
+      <div  class="col-md-6"   id="outer-plot-container" style="height:0px">
+        <div  id="inner-plot-container" style="height:0px">
+          <div id="plot-area" class="plot-alignment"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="table-area" class="table-alignment"></div>
+      </div>
+    </div>
+{% endblock %}
+  
+{% block extra_script %}
+  <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+  <script src="{{ STATIC_URL }}js/allocations_pie.js"></script>
+  <script src="{{ STATIC_URL }}js/for_table.js"></script>
+{% endblock %}
+  
+  
