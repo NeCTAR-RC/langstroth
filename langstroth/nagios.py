@@ -9,9 +9,6 @@ from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
-AVAILABILITY_URL = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=%s&assumeinitialstates=yes&assumestateretention=yes&assumestatesduringnotrunning=yes&includesoftstates=yes&initialassumedhoststate=3&initialassumedservicestate=6&timeperiod=[+Current+time+range+]&backtrack=4"
-STATUS_URL = "status.cgi?servicegroup=%s&style=detail"
-
 SERVICE_NAMES = {'http_cinder-api': 'Cinder',
                  'https': 'Dashboard',
                  'http_glance-registry': 'Glance Registry',
@@ -123,16 +120,16 @@ def gm_timestamp(datetime_object):
 
 
 def get_availability(start_date, end_date):
-    url = AVAILABILITY_URL % (gm_timestamp(start_date),
+    query = settings.AVAILABILITY_QUERY_TEMPLATE % (gm_timestamp(start_date),
                               gm_timestamp(end_date),
                               settings.NAGIOS_SERVICE_GROUP)
-    url = settings.NAGIOS_URL + url
+    url = settings.NAGIOS_URL + query
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_availability(resp.text)
 
 
 def get_status():
-    url = STATUS_URL % settings.NAGIOS_SERVICE_GROUP
-    url = settings.NAGIOS_URL + url
+    query = settings.STATUS_QUERY_TEMPLATE % settings.NAGIOS_SERVICE_GROUP
+    url = settings.NAGIOS_URL + query
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_status(resp.text)
