@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from os import path
 
 version = '0.1'
 
@@ -16,7 +17,7 @@ setup(name='langstroth',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=open('requirements.txt').readlines(),
+      install_requires=open(path.join(path.dirname(__file__), 'requirements.txt')).readlines(),
       test_requires=[
           # -*- Extra requirements: -*-
           'mox',
