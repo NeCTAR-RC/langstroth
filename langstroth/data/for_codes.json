@@ -1,0 +1,5670 @@
+[
+    {
+        "FOR_CODE": "01",
+        "Title": "MATHEMATICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "02",
+        "Title": "PHYSICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "03",
+        "Title": "CHEMICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "04",
+        "Title": "EARTH SCIENCES"
+    },
+    {
+        "FOR_CODE": "05",
+        "Title": "ENVIRONMENTAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "06",
+        "Title": "BIOLOGICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "07",
+        "Title": "AGRICULTURAL AND VETERINARY SCIENCES"
+    },
+    {
+        "FOR_CODE": "08",
+        "Title": "INFORMATION AND COMPUTING SCIENCES"
+    },
+    {
+        "FOR_CODE": "09",
+        "Title": "ENGINEERING"
+    },
+    {
+        "FOR_CODE": "10",
+        "Title": "TECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "11",
+        "Title": "MEDICAL AND HEALTH SCIENCES"
+    },
+    {
+        "FOR_CODE": "12",
+        "Title": "BUILT ENVIRONMENT AND DESIGN"
+    },
+    {
+        "FOR_CODE": "13",
+        "Title": "EDUCATION"
+    },
+    {
+        "FOR_CODE": "14",
+        "Title": "ECONOMICS"
+    },
+    {
+        "FOR_CODE": "15",
+        "Title": "COMMERCE, MANAGEMENT, TOURISM AND SERVICES"
+    },
+    {
+        "FOR_CODE": "16",
+        "Title": "STUDIES IN HUMAN SOCIETY "
+    },
+    {
+        "FOR_CODE": "17",
+        "Title": "PSYCHOLOGY AND COGNITIVE SCIENCES "
+    },
+    {
+        "FOR_CODE": "18",
+        "Title": "LAW AND LEGAL STUDIES"
+    },
+    {
+        "FOR_CODE": "19",
+        "Title": "STUDIES IN CREATIVE ARTS AND WRITING"
+    },
+    {
+        "FOR_CODE": "20",
+        "Title": "LANGUAGE, COMMUNICATION AND CULTURE"
+    },
+    {
+        "FOR_CODE": "21",
+        "Title": "HISTORY AND ARCHAEOLOGY"
+    },
+    {
+        "FOR_CODE": "22",
+        "Title": "PHILOSOPHY AND RELIGIOUS STUDIES"
+    },
+    {
+        "FOR_CODE": "0101",
+        "Title": "PURE MATHEMATICS"
+    },
+    {
+        "FOR_CODE": "0102",
+        "Title": "APPLIED MATHEMATICS"
+    },
+    {
+        "FOR_CODE": "0103",
+        "Title": "NUMERICAL AND COMPUTATIONAL MATHEMATICS"
+    },
+    {
+        "FOR_CODE": "0104",
+        "Title": "STATISTICS"
+    },
+    {
+        "FOR_CODE": "0105",
+        "Title": "MATHEMATICAL PHYSICS"
+    },
+    {
+        "FOR_CODE": "0199",
+        "Title": "OTHER MATHEMATICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0201",
+        "Title": "ASTRONOMICAL AND SPACE SCIENCES"
+    },
+    {
+        "FOR_CODE": "0202",
+        "Title": "ATOMIC, MOLECULAR, NUCLEAR, PARTICLE AND PLASMA PHYSICS"
+    },
+    {
+        "FOR_CODE": "0203",
+        "Title": "CLASSICAL PHYSICS"
+    },
+    {
+        "FOR_CODE": "0204",
+        "Title": "CONDENSED MATTER PHYSICS"
+    },
+    {
+        "FOR_CODE": "0205",
+        "Title": "OPTICAL PHYSICS"
+    },
+    {
+        "FOR_CODE": "0206",
+        "Title": "QUANTUM PHYSICS"
+    },
+    {
+        "FOR_CODE": "0299",
+        "Title": "OTHER PHYSICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0301",
+        "Title": "ANALYTICAL CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0302",
+        "Title": "INORGANIC CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0303",
+        "Title": "MACROMOLECULAR AND MATERIALS CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0304",
+        "Title": "MEDICINAL AND BIOMOLECULAR CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0305",
+        "Title": "ORGANIC CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0306",
+        "Title": "PHYSICAL CHEMISTRY (INCL. STRUCTURAL)"
+    },
+    {
+        "FOR_CODE": "0307",
+        "Title": "THEORETICAL AND COMPUTATIONAL CHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0399",
+        "Title": "OTHER CHEMICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0401",
+        "Title": "ATMOSPHERIC SCIENCES"
+    },
+    {
+        "FOR_CODE": "0402",
+        "Title": "GEOCHEMISTRY"
+    },
+    {
+        "FOR_CODE": "0403",
+        "Title": "GEOLOGY"
+    },
+    {
+        "FOR_CODE": "0404",
+        "Title": "GEOPHYSICS"
+    },
+    {
+        "FOR_CODE": "0405",
+        "Title": "OCEANOGRAPHY"
+    },
+    {
+        "FOR_CODE": "0406",
+        "Title": "PHYSICAL GEOGRAPHY AND ENVIRONMENTAL GEOSCIENCE"
+    },
+    {
+        "FOR_CODE": "0499",
+        "Title": "OTHER EARTH SCIENCES"
+    },
+    {
+        "FOR_CODE": "0501",
+        "Title": "ECOLOGICAL APPLICATIONS"
+    },
+    {
+        "FOR_CODE": "0502",
+        "Title": "ENVIRONMENTAL SCIENCE AND MANAGEMENT"
+    },
+    {
+        "FOR_CODE": "0503",
+        "Title": "SOIL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0599",
+        "Title": "OTHER ENVIRONMENTAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0601",
+        "Title": "BIOCHEMISTRY AND CELL BIOLOGY"
+    },
+    {
+        "FOR_CODE": "0602",
+        "Title": "ECOLOGY"
+    },
+    {
+        "FOR_CODE": "0603",
+        "Title": "EVOLUTIONARY BIOLOGY"
+    },
+    {
+        "FOR_CODE": "0604",
+        "Title": "GENETICS"
+    },
+    {
+        "FOR_CODE": "0605",
+        "Title": "MICROBIOLOGY"
+    },
+    {
+        "FOR_CODE": "0606",
+        "Title": "PHYSIOLOGY"
+    },
+    {
+        "FOR_CODE": "0607",
+        "Title": "PLANT BIOLOGY"
+    },
+    {
+        "FOR_CODE": "0608",
+        "Title": "ZOOLOGY"
+    },
+    {
+        "FOR_CODE": "0699",
+        "Title": "OTHER BIOLOGICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "0701",
+        "Title": "AGRICULTURE, LAND AND FARM MANAGEMENT"
+    },
+    {
+        "FOR_CODE": "0702",
+        "Title": "ANIMAL PRODUCTION"
+    },
+    {
+        "FOR_CODE": "0703",
+        "Title": "CROP AND PASTURE PRODUCTION"
+    },
+    {
+        "FOR_CODE": "0704",
+        "Title": "FISHERIES SCIENCES"
+    },
+    {
+        "FOR_CODE": "0705",
+        "Title": "FORESTRY SCIENCES"
+    },
+    {
+        "FOR_CODE": "0706",
+        "Title": "HORTICULTURAL PRODUCTION"
+    },
+    {
+        "FOR_CODE": "0707",
+        "Title": "VETERINARY SCIENCES"
+    },
+    {
+        "FOR_CODE": "0799",
+        "Title": "OTHER AGRICULTURAL AND VETERINARY SCIENCES"
+    },
+    {
+        "FOR_CODE": "0801",
+        "Title": "ARTIFICIAL INTELLIGENCE AND IMAGE PROCESSING"
+    },
+    {
+        "FOR_CODE": "0802",
+        "Title": "COMPUTATION THEORY AND MATHEMATICS"
+    },
+    {
+        "FOR_CODE": "0803",
+        "Title": "COMPUTER SOFTWARE"
+    },
+    {
+        "FOR_CODE": "0804",
+        "Title": "DATA FORMAT"
+    },
+    {
+        "FOR_CODE": "0805",
+        "Title": "DISTRIBUTED COMPUTING"
+    },
+    {
+        "FOR_CODE": "0806",
+        "Title": "INFORMATION SYSTEMS"
+    },
+    {
+        "FOR_CODE": "0807",
+        "Title": "LIBRARY AND INFORMATION STUDIES"
+    },
+    {
+        "FOR_CODE": "0899",
+        "Title": "OTHER INFORMATION AND COMPUTING SCIENCES"
+    },
+    {
+        "FOR_CODE": "0901",
+        "Title": "AEROSPACE ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0902",
+        "Title": "AUTOMOTIVE ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0903",
+        "Title": "BIOMEDICAL ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0904",
+        "Title": "CHEMICAL ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0905",
+        "Title": "CIVIL ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0906",
+        "Title": "ELECTRICAL AND ELECTRONIC ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0907",
+        "Title": "ENVIRONMENTAL ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0908",
+        "Title": "FOOD SCIENCES"
+    },
+    {
+        "FOR_CODE": "0909",
+        "Title": "GEOMATIC ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0910",
+        "Title": "MANUFACTURING ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0911",
+        "Title": "MARITIME ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0912",
+        "Title": "MATERIALS ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0913",
+        "Title": "MECHANICAL ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0914",
+        "Title": "RESOURCES ENGINEERING AND EXTRACTIVE METALLURGY"
+    },
+    {
+        "FOR_CODE": "0915",
+        "Title": "INTERDISCIPLINARY ENGINEERING"
+    },
+    {
+        "FOR_CODE": "0999",
+        "Title": "OTHER ENGINEERING"
+    },
+    {
+        "FOR_CODE": "1001",
+        "Title": "AGRICULTURAL BIOTECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1002",
+        "Title": "ENVIRONMENTAL BIOTECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1003",
+        "Title": "INDUSTRIAL BIOTECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1004",
+        "Title": "MEDICAL BIOTECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1005",
+        "Title": "COMMUNICATIONS TECHNOLOGIES"
+    },
+    {
+        "FOR_CODE": "1006",
+        "Title": "COMPUTER HARDWARE"
+    },
+    {
+        "FOR_CODE": "1007",
+        "Title": "NANOTECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1099",
+        "Title": "OTHER TECHNOLOGY"
+    },
+    {
+        "FOR_CODE": "1101",
+        "Title": "MEDICAL BIOCHEMISTRY AND METABOLOMICS"
+    },
+    {
+        "FOR_CODE": "1102",
+        "Title": "CARDIORESPIRATORY MEDICINE AND HAEMATOLOGY"
+    },
+    {
+        "FOR_CODE": "1103",
+        "Title": "CLINICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "1104",
+        "Title": "COMPLEMENTARY AND ALTERNATIVE MEDICINE"
+    },
+    {
+        "FOR_CODE": "1105",
+        "Title": "DENTISTRY"
+    },
+    {
+        "FOR_CODE": "1106",
+        "Title": "HUMAN MOVEMENT AND SPORTS SCIENCE"
+    },
+    {
+        "FOR_CODE": "1107",
+        "Title": "IMMUNOLOGY"
+    },
+    {
+        "FOR_CODE": "1108",
+        "Title": "MEDICAL MICROBIOLOGY"
+    },
+    {
+        "FOR_CODE": "1109",
+        "Title": "NEUROSCIENCES"
+    },
+    {
+        "FOR_CODE": "1110",
+        "Title": "NURSING"
+    },
+    {
+        "FOR_CODE": "1111",
+        "Title": "NUTRITION AND DIETETICS"
+    },
+    {
+        "FOR_CODE": "1112",
+        "Title": "ONCOLOGY AND CARCINOGENESIS"
+    },
+    {
+        "FOR_CODE": "1113",
+        "Title": "OPHTHALMOLOGY AND OPTOMETRY"
+    },
+    {
+        "FOR_CODE": "1114",
+        "Title": "PAEDIATRICS AND REPRODUCTIVE MEDICINE"
+    },
+    {
+        "FOR_CODE": "1115",
+        "Title": "PHARMACOLOGY AND PHARMACEUTICAL SCIENCES"
+    },
+    {
+        "FOR_CODE": "1116",
+        "Title": "MEDICAL PHYSIOLOGY"
+    },
+    {
+        "FOR_CODE": "1117",
+        "Title": "PUBLIC HEALTH AND HEALTH SERVICES"
+    },
+    {
+        "FOR_CODE": "1199",
+        "Title": "OTHER MEDICAL AND HEALTH SCIENCES"
+    },
+    {
+        "FOR_CODE": "1201",
+        "Title": "ARCHITECTURE"
+    },
+    {
+        "FOR_CODE": "1202",
+        "Title": "BUILDING"
+    },
+    {
+        "FOR_CODE": "1203",
+        "Title": "DESIGN PRACTICE AND MANAGEMENT"
+    },
+    {
+        "FOR_CODE": "1204",
+        "Title": "ENGINEERING DESIGN"
+    },
+    {
+        "FOR_CODE": "1205",
+        "Title": "URBAN AND REGIONAL PLANNING"
+    },
+    {
+        "FOR_CODE": "1299",
+        "Title": "OTHER BUILT ENVIRONMENT AND DESIGN"
+    },
+    {
+        "FOR_CODE": "1301",
+        "Title": "EDUCATION SYSTEMS"
+    },
+    {
+        "FOR_CODE": "1302",
+        "Title": "CURRICULUM AND PEDAGOGY"
+    },
+    {
+        "FOR_CODE": "1303",
+        "Title": "SPECIALIST STUDIES IN EDUCATION"
+    },
+    {
+        "FOR_CODE": "1399",
+        "Title": "OTHER EDUCATION"
+    },
+    {
+        "FOR_CODE": "1401",
+        "Title": "ECONOMIC THEORY"
+    },
+    {
+        "FOR_CODE": "1402",
+        "Title": "APPLIED ECONOMICS"
+    },
+    {
+        "FOR_CODE": "1403",
+        "Title": "ECONOMETRICS"
+    },
+    {
+        "FOR_CODE": "1499",
+        "Title": "OTHER ECONOMICS"
+    },
+    {
+        "FOR_CODE": "1501",
+        "Title": "ACCOUNTING, AUDITING AND ACCOUNTABILITY"
+    },
+    {
+        "FOR_CODE": "1502",
+        "Title": "BANKING, FINANCE AND INVESTMENT"
+    },
+    {
+        "FOR_CODE": "1503",
+        "Title": "BUSINESS AND MANAGEMENT"
+    },
+    {
+        "FOR_CODE": "1504",
+        "Title": "COMMERCIAL SERVICES"
+    },
+    {
+        "FOR_CODE": "1505",
+        "Title": "MARKETING"
+    },
+    {
+        "FOR_CODE": "1506",
+        "Title": "TOURISM"
+    },
+    {
+        "FOR_CODE": "1507",
+        "Title": "TRANSPORTATION AND FREIGHT SERVICES"
+    },
+    {
+        "FOR_CODE": "1599",
+        "Title": "OTHER COMMERCE, MANAGEMENT, TOURISM AND SERVICES"
+    },
+    {
+        "FOR_CODE": "1601",
+        "Title": "ANTHROPOLOGY"
+    },
+    {
+        "FOR_CODE": "1602",
+        "Title": "CRIMINOLOGY"
+    },
+    {
+        "FOR_CODE": "1603",
+        "Title": "DEMOGRAPHY"
+    },
+    {
+        "FOR_CODE": "1604",
+        "Title": "HUMAN GEOGRAPHY"
+    },
+    {
+        "FOR_CODE": "1605",
+        "Title": "POLICY AND ADMINISTRATION"
+    },
+    {
+        "FOR_CODE": "1606",
+        "Title": "POLITICAL SCIENCE"
+    },
+    {
+        "FOR_CODE": "1607",
+        "Title": "SOCIAL WORK"
+    },
+    {
+        "FOR_CODE": "1608",
+        "Title": "SOCIOLOGY"
+    },
+    {
+        "FOR_CODE": "1699",
+        "Title": "OTHER STUDIES IN HUMAN SOCIETY"
+    },
+    {
+        "FOR_CODE": "1701",
+        "Title": "PSYCHOLOGY"
+    },
+    {
+        "FOR_CODE": "1702",
+        "Title": "COGNITIVE SCIENCES"
+    },
+    {
+        "FOR_CODE": "1799",
+        "Title": "OTHER PSYCHOLOGY AND COGNITIVE SCIENCES"
+    },
+    {
+        "FOR_CODE": "1801",
+        "Title": "LAW"
+    },
+    {
+        "FOR_CODE": "1802",
+        "Title": "MAORI LAW"
+    },
+    {
+        "FOR_CODE": "1899",
+        "Title": "OTHER LAW AND LEGAL STUDIES"
+    },
+    {
+        "FOR_CODE": "1901",
+        "Title": "ART THEORY AND CRITICISM"
+    },
+    {
+        "FOR_CODE": "1902",
+        "Title": "FILM, TELEVISION AND DIGITAL MEDIA"
+    },
+    {
+        "FOR_CODE": "1903",
+        "Title": "JOURNALISM AND PROFESSIONAL WRITING"
+    },
+    {
+        "FOR_CODE": "1904",
+        "Title": "PERFORMING ARTS AND CREATIVE WRITING"
+    },
+    {
+        "FOR_CODE": "1905",
+        "Title": "VISUAL ARTS AND CRAFTS"
+    },
+    {
+        "FOR_CODE": "1999",
+        "Title": "OTHER STUDIES IN CREATIVE ARTS AND WRITING"
+    },
+    {
+        "FOR_CODE": "2001",
+        "Title": "COMMUNICATION AND MEDIA STUDIES"
+    },
+    {
+        "FOR_CODE": "2002",
+        "Title": "CULTURAL STUDIES"
+    },
+    {
+        "FOR_CODE": "2003",
+        "Title": "LANGUAGE STUDIES"
+    },
+    {
+        "FOR_CODE": "2004",
+        "Title": "LINGUISTICS"
+    },
+    {
+        "FOR_CODE": "2005",
+        "Title": "LITERARY STUDIES"
+    },
+    {
+        "FOR_CODE": "2099",
+        "Title": "OTHER LANGUAGE, COMMUNICATION AND CULTURE"
+    },
+    {
+        "FOR_CODE": "2101",
+        "Title": "ARCHAEOLOGY"
+    },
+    {
+        "FOR_CODE": "2102",
+        "Title": "CURATORIAL AND RELATED STUDIES"
+    },
+    {
+        "FOR_CODE": "2103",
+        "Title": "HISTORICAL STUDIES"
+    },
+    {
+        "FOR_CODE": "2199",
+        "Title": "OTHER HISTORY AND ARCHAEOLOGY"
+    },
+    {
+        "FOR_CODE": "2201",
+        "Title": "APPLIED ETHICS"
+    },
+    {
+        "FOR_CODE": "2202",
+        "Title": "HISTORY AND PHILOSOPHY OF SPECIFIC FIELDS"
+    },
+    {
+        "FOR_CODE": "2203",
+        "Title": "PHILOSOPHY"
+    },
+    {
+        "FOR_CODE": "2204",
+        "Title": "RELIGION AND RELIGIOUS STUDIES"
+    },
+    {
+        "FOR_CODE": "2299",
+        "Title": "OTHER PHILOSOPHY AND RELIGIOUS STUDIES"
+    },
+    {
+        "FOR_CODE": "010101",
+        "Title": "Algebra and Number Theory"
+    },
+    {
+        "FOR_CODE": "010102",
+        "Title": "Algebraic and Differential Geometry"
+    },
+    {
+        "FOR_CODE": "010103",
+        "Title": "Category Theory, K Theory, Homological Algebra"
+    },
+    {
+        "FOR_CODE": "010104",
+        "Title": "Combinatorics and Discrete Mathematics (excl. Physical Combinatorics)"
+    },
+    {
+        "FOR_CODE": "010105",
+        "Title": "Group Theory and Generalisations"
+    },
+    {
+        "FOR_CODE": "010106",
+        "Title": "Lie Groups, Harmonic and Fourier Analysis"
+    },
+    {
+        "FOR_CODE": "010107",
+        "Title": "Mathematical Logic, Set Theory, Lattices and Universal Algebra"
+    },
+    {
+        "FOR_CODE": "010108",
+        "Title": "Operator Algebras and Functional Analysis"
+    },
+    {
+        "FOR_CODE": "010109",
+        "Title": "Ordinary Differential Equations, Difference Equations and Dynamical Systems"
+    },
+    {
+        "FOR_CODE": "010110",
+        "Title": "Partial Differential Equations"
+    },
+    {
+        "FOR_CODE": "010111",
+        "Title": "Real and Complex Functions (incl. Several Variables)"
+    },
+    {
+        "FOR_CODE": "010112",
+        "Title": "Topology"
+    },
+    {
+        "FOR_CODE": "010199",
+        "Title": "Pure Mathematics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "010201",
+        "Title": "Approximation Theory and Asymptotic Methods"
+    },
+    {
+        "FOR_CODE": "010202",
+        "Title": "Biological Mathematics"
+    },
+    {
+        "FOR_CODE": "010203",
+        "Title": "Calculus of Variations, Systems Theory and Control Theory"
+    },
+    {
+        "FOR_CODE": "010204",
+        "Title": "Dynamical Systems in Applications"
+    },
+    {
+        "FOR_CODE": "010205",
+        "Title": "Financial Mathematics"
+    },
+    {
+        "FOR_CODE": "010206",
+        "Title": "Operations Research"
+    },
+    {
+        "FOR_CODE": "010207",
+        "Title": "Theoretical and Applied Mechanics"
+    },
+    {
+        "FOR_CODE": "010299",
+        "Title": "Applied Mathematics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "010301",
+        "Title": "Numerical Analysis"
+    },
+    {
+        "FOR_CODE": "010302",
+        "Title": "Numerical Solution of Differential and Integral Equations"
+    },
+    {
+        "FOR_CODE": "010303",
+        "Title": "Optimisation"
+    },
+    {
+        "FOR_CODE": "010399",
+        "Title": "Numerical and Computational Mathematics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "010401",
+        "Title": "Applied Statistics"
+    },
+    {
+        "FOR_CODE": "010402",
+        "Title": "Biostatistics"
+    },
+    {
+        "FOR_CODE": "010403",
+        "Title": "Forensic Statistics"
+    },
+    {
+        "FOR_CODE": "010404",
+        "Title": "Probability Theory"
+    },
+    {
+        "FOR_CODE": "010405",
+        "Title": "Statistical Theory"
+    },
+    {
+        "FOR_CODE": "010406",
+        "Title": "Stochastic Analysis and Modelling"
+    },
+    {
+        "FOR_CODE": "010499",
+        "Title": "Statistics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "010501",
+        "Title": "Algebraic Structures in Mathematical Physics"
+    },
+    {
+        "FOR_CODE": "010502",
+        "Title": "Integrable Systems (Classical and Quantum)"
+    },
+    {
+        "FOR_CODE": "010503",
+        "Title": "Mathematical Aspects of Classical Mechanics, Quantum Mechanics and Quantum Information Theory"
+    },
+    {
+        "FOR_CODE": "010504",
+        "Title": "Mathematical Aspects of General Relativity"
+    },
+    {
+        "FOR_CODE": "010505",
+        "Title": "Mathematical Aspects of Quantum and Conformal Field Theory, Quantum Gravity and String Theory"
+    },
+    {
+        "FOR_CODE": "010506",
+        "Title": "Statistical Mechanics, Physical Combinatorics and Mathematical Aspects of Condensed Matter"
+    },
+    {
+        "FOR_CODE": "010599",
+        "Title": "Mathematical Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "019999",
+        "Title": "Mathematical Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020101",
+        "Title": "Astrobiology"
+    },
+    {
+        "FOR_CODE": "020102",
+        "Title": "Astronomical and Space Instrumentation"
+    },
+    {
+        "FOR_CODE": "020103",
+        "Title": "Cosmology and Extragalactic Astronomy"
+    },
+    {
+        "FOR_CODE": "020104",
+        "Title": "Galactic Astronomy"
+    },
+    {
+        "FOR_CODE": "020105",
+        "Title": "General Relativity and Gravitational Waves"
+    },
+    {
+        "FOR_CODE": "020106",
+        "Title": "High Energy Astrophysics; Cosmic Rays"
+    },
+    {
+        "FOR_CODE": "020107",
+        "Title": "Mesospheric, Ionospheric and Magnetospheric Physics"
+    },
+    {
+        "FOR_CODE": "020108",
+        "Title": "Planetary Science (excl. Extraterrestrial Geology)"
+    },
+    {
+        "FOR_CODE": "020109",
+        "Title": "Space and Solar Physics"
+    },
+    {
+        "FOR_CODE": "020110",
+        "Title": "Stellar Astronomy and Planetary Systems"
+    },
+    {
+        "FOR_CODE": "020199",
+        "Title": "Astronomical and Space Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020201",
+        "Title": "Atomic and Molecular Physics"
+    },
+    {
+        "FOR_CODE": "020202",
+        "Title": "Nuclear Physics"
+    },
+    {
+        "FOR_CODE": "020203",
+        "Title": "Particle Physics"
+    },
+    {
+        "FOR_CODE": "020204",
+        "Title": "Plasma Physics; Fusion Plasmas; Electrical Discharges"
+    },
+    {
+        "FOR_CODE": "020299",
+        "Title": "Atomic, Molecular, Nuclear, Particle and Plasma Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020301",
+        "Title": "Acoustics and Acoustical Devices; Waves"
+    },
+    {
+        "FOR_CODE": "020302",
+        "Title": "Electrostatics and Electrodynamics"
+    },
+    {
+        "FOR_CODE": "020303",
+        "Title": "Fluid Physics"
+    },
+    {
+        "FOR_CODE": "020304",
+        "Title": "Thermodynamics and Statistical Physics"
+    },
+    {
+        "FOR_CODE": "020399",
+        "Title": "Classical Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020401",
+        "Title": "Condensed Matter Characterisation Technique Development"
+    },
+    {
+        "FOR_CODE": "020402",
+        "Title": "Condensed Matter Imaging"
+    },
+    {
+        "FOR_CODE": "020403",
+        "Title": "Condensed Matter Modelling and Density Functional Theory"
+    },
+    {
+        "FOR_CODE": "020404",
+        "Title": "Electronic and Magnetic Properties of Condensed Matter; Superconductivity"
+    },
+    {
+        "FOR_CODE": "020405",
+        "Title": "Soft Condensed Matter"
+    },
+    {
+        "FOR_CODE": "020406",
+        "Title": "Surfaces and Structural Properties of Condensed Matter"
+    },
+    {
+        "FOR_CODE": "020499",
+        "Title": "Condensed Matter Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020501",
+        "Title": "Classical and Physical Optics"
+    },
+    {
+        "FOR_CODE": "020502",
+        "Title": "Lasers and Quantum Electronics"
+    },
+    {
+        "FOR_CODE": "020503",
+        "Title": "Nonlinear Optics and Spectroscopy"
+    },
+    {
+        "FOR_CODE": "020504",
+        "Title": "Photonics, Optoelectronics and Optical Communications"
+    },
+    {
+        "FOR_CODE": "020599",
+        "Title": "Optical Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "020601",
+        "Title": "Degenerate Quantum Gases and Atom Optics"
+    },
+    {
+        "FOR_CODE": "020602",
+        "Title": "Field Theory and String Theory"
+    },
+    {
+        "FOR_CODE": "020603",
+        "Title": "Quantum Information, Computation and Communication"
+    },
+    {
+        "FOR_CODE": "020604",
+        "Title": "Quantum Optics"
+    },
+    {
+        "FOR_CODE": "020699",
+        "Title": "Quantum Physics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "029901",
+        "Title": "Biological Physics"
+    },
+    {
+        "FOR_CODE": "029902",
+        "Title": "Complex Physical Systems"
+    },
+    {
+        "FOR_CODE": "029903",
+        "Title": "Medical Physics"
+    },
+    {
+        "FOR_CODE": "029904",
+        "Title": "Synchrotrons; Accelerators; Instruments and Techniques"
+    },
+    {
+        "FOR_CODE": "029999",
+        "Title": "Physical Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030101",
+        "Title": "Analytical Spectrometry"
+    },
+    {
+        "FOR_CODE": "030102",
+        "Title": "Electroanalytical Chemistry"
+    },
+    {
+        "FOR_CODE": "030103",
+        "Title": "Flow Analysis"
+    },
+    {
+        "FOR_CODE": "030104",
+        "Title": "Immunological and Bioassay Methods"
+    },
+    {
+        "FOR_CODE": "030105",
+        "Title": "Instrumental Methods (excl. Immunological and Bioassay Methods)"
+    },
+    {
+        "FOR_CODE": "030106",
+        "Title": "Quality Assurance, Chemometrics, Traceability and Metrological Chemistry"
+    },
+    {
+        "FOR_CODE": "030107",
+        "Title": "Sensor Technology (Chemical aspects)"
+    },
+    {
+        "FOR_CODE": "030108",
+        "Title": "Separation Science"
+    },
+    {
+        "FOR_CODE": "030199",
+        "Title": "Analytical Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030201",
+        "Title": "Bioinorganic Chemistry"
+    },
+    {
+        "FOR_CODE": "030202",
+        "Title": "f-Block Chemistry"
+    },
+    {
+        "FOR_CODE": "030203",
+        "Title": "Inorganic Green Chemistry"
+    },
+    {
+        "FOR_CODE": "030204",
+        "Title": "Main Group Metal Chemistry"
+    },
+    {
+        "FOR_CODE": "030205",
+        "Title": "Non-metal Chemistry"
+    },
+    {
+        "FOR_CODE": "030206",
+        "Title": "Solid State Chemistry"
+    },
+    {
+        "FOR_CODE": "030207",
+        "Title": "Transition Metal Chemistry"
+    },
+    {
+        "FOR_CODE": "030299",
+        "Title": "Inorganic Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030301",
+        "Title": "Chemical Characterisation of Materials"
+    },
+    {
+        "FOR_CODE": "030302",
+        "Title": "Nanochemistry and Supramolecular Chemistry"
+    },
+    {
+        "FOR_CODE": "030303",
+        "Title": "Optical Properties of Materials"
+    },
+    {
+        "FOR_CODE": "030304",
+        "Title": "Physical Chemistry of Materials"
+    },
+    {
+        "FOR_CODE": "030305",
+        "Title": "Polymerisation Mechanisms"
+    },
+    {
+        "FOR_CODE": "030306",
+        "Title": "Synthesis of Materials"
+    },
+    {
+        "FOR_CODE": "030307",
+        "Title": "Theory and Design of Materials"
+    },
+    {
+        "FOR_CODE": "030399",
+        "Title": "Macromolecular and Materials Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030401",
+        "Title": "Biologically Active Molecules"
+    },
+    {
+        "FOR_CODE": "030402",
+        "Title": "Biomolecular Modelling and Design"
+    },
+    {
+        "FOR_CODE": "030403",
+        "Title": "Characterisation of Biological Macromolecules"
+    },
+    {
+        "FOR_CODE": "030404",
+        "Title": "Cheminformatics and Quantitative Structure-Activity Relationships"
+    },
+    {
+        "FOR_CODE": "030405",
+        "Title": "Molecular Medicine"
+    },
+    {
+        "FOR_CODE": "030406",
+        "Title": "Proteins and Peptides"
+    },
+    {
+        "FOR_CODE": "030499",
+        "Title": "Medicinal and Biomolecular Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030501",
+        "Title": "Free Radical Chemistry"
+    },
+    {
+        "FOR_CODE": "030502",
+        "Title": "Natural Products Chemistry"
+    },
+    {
+        "FOR_CODE": "030503",
+        "Title": "Organic Chemical Synthesis"
+    },
+    {
+        "FOR_CODE": "030504",
+        "Title": "Organic Green Chemistry"
+    },
+    {
+        "FOR_CODE": "030505",
+        "Title": "Physical Organic Chemistry"
+    },
+    {
+        "FOR_CODE": "030599",
+        "Title": "Organic Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030601",
+        "Title": "Catalysis and Mechanisms of Reactions"
+    },
+    {
+        "FOR_CODE": "030602",
+        "Title": "Chemical Thermodynamics and Energetics"
+    },
+    {
+        "FOR_CODE": "030603",
+        "Title": "Colloid and Surface Chemistry"
+    },
+    {
+        "FOR_CODE": "030604",
+        "Title": "Electrochemistry"
+    },
+    {
+        "FOR_CODE": "030605",
+        "Title": "Solution Chemistry"
+    },
+    {
+        "FOR_CODE": "030606",
+        "Title": "Structural Chemistry and Spectroscopy"
+    },
+    {
+        "FOR_CODE": "030607",
+        "Title": "Transport Properties and Non-Equilibrium Processes"
+    },
+    {
+        "FOR_CODE": "030699",
+        "Title": "Physical Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "030701",
+        "Title": "Quantum Chemistry"
+    },
+    {
+        "FOR_CODE": "030702",
+        "Title": "Radiation and Matter"
+    },
+    {
+        "FOR_CODE": "030703",
+        "Title": "Reaction Kinetics and Dynamics"
+    },
+    {
+        "FOR_CODE": "030704",
+        "Title": "Statistical Mechanics in Chemistry"
+    },
+    {
+        "FOR_CODE": "030799",
+        "Title": "Theoretical and Computational Chemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "039901",
+        "Title": "Environmental Chemistry (incl. Atmospheric Chemistry)"
+    },
+    {
+        "FOR_CODE": "039902",
+        "Title": "Forensic Chemistry"
+    },
+    {
+        "FOR_CODE": "039903",
+        "Title": "Industrial Chemistry"
+    },
+    {
+        "FOR_CODE": "039904",
+        "Title": "Organometallic Chemistry"
+    },
+    {
+        "FOR_CODE": "039999",
+        "Title": "Chemical Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040101",
+        "Title": "Atmospheric Aerosols"
+    },
+    {
+        "FOR_CODE": "040102",
+        "Title": "Atmospheric Dynamics"
+    },
+    {
+        "FOR_CODE": "040103",
+        "Title": "Atmospheric Radiation"
+    },
+    {
+        "FOR_CODE": "040104",
+        "Title": "Climate Change Processes"
+    },
+    {
+        "FOR_CODE": "040105",
+        "Title": "Climatology (excl. Climate Change Processes)"
+    },
+    {
+        "FOR_CODE": "040106",
+        "Title": "Cloud Physics"
+    },
+    {
+        "FOR_CODE": "040107",
+        "Title": "Meteorology"
+    },
+    {
+        "FOR_CODE": "040108",
+        "Title": "Tropospheric and Stratospheric Physics"
+    },
+    {
+        "FOR_CODE": "040199",
+        "Title": "Atmospheric Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040201",
+        "Title": "Exploration Geochemistry"
+    },
+    {
+        "FOR_CODE": "040202",
+        "Title": "Inorganic Geochemistry"
+    },
+    {
+        "FOR_CODE": "040203",
+        "Title": "Isotope Geochemistry"
+    },
+    {
+        "FOR_CODE": "040204",
+        "Title": "Organic Geochemistry"
+    },
+    {
+        "FOR_CODE": "040299",
+        "Title": "Geochemistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040301",
+        "Title": "Basin Analysis"
+    },
+    {
+        "FOR_CODE": "040302",
+        "Title": "Extraterrestrial Geology"
+    },
+    {
+        "FOR_CODE": "040303",
+        "Title": "Geochronology"
+    },
+    {
+        "FOR_CODE": "040304",
+        "Title": "Igneous and Metamorphic Petrology"
+    },
+    {
+        "FOR_CODE": "040305",
+        "Title": "Marine Geoscience"
+    },
+    {
+        "FOR_CODE": "040306",
+        "Title": "Mineralogy and Crystallography"
+    },
+    {
+        "FOR_CODE": "040307",
+        "Title": "Ore Deposit Petrology"
+    },
+    {
+        "FOR_CODE": "040308",
+        "Title": "Palaeontology (incl. Palynology)"
+    },
+    {
+        "FOR_CODE": "040309",
+        "Title": "Petroleum and Coal Geology"
+    },
+    {
+        "FOR_CODE": "040310",
+        "Title": "Sedimentology"
+    },
+    {
+        "FOR_CODE": "040311",
+        "Title": "Stratigraphy (incl. Biostratigraphy and Sequence Stratigraphy)"
+    },
+    {
+        "FOR_CODE": "040312",
+        "Title": "Structural Geology"
+    },
+    {
+        "FOR_CODE": "040313",
+        "Title": "Tectonics"
+    },
+    {
+        "FOR_CODE": "040314",
+        "Title": "Volcanology"
+    },
+    {
+        "FOR_CODE": "040399",
+        "Title": "Geology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040401",
+        "Title": "Electrical and Electromagnetic Methods in Geophysics"
+    },
+    {
+        "FOR_CODE": "040402",
+        "Title": "Geodynamics"
+    },
+    {
+        "FOR_CODE": "040403",
+        "Title": "Geophysical Fluid Dynamics"
+    },
+    {
+        "FOR_CODE": "040404",
+        "Title": "Geothermics and Radiometrics"
+    },
+    {
+        "FOR_CODE": "040405",
+        "Title": "Gravimetrics"
+    },
+    {
+        "FOR_CODE": "040406",
+        "Title": "Magnetism and Palaeomagnetism"
+    },
+    {
+        "FOR_CODE": "040407",
+        "Title": "Seismology and Seismic Exploration"
+    },
+    {
+        "FOR_CODE": "040499",
+        "Title": "Geophysics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040501",
+        "Title": "Biological Oceanography"
+    },
+    {
+        "FOR_CODE": "040502",
+        "Title": "Chemical Oceanography"
+    },
+    {
+        "FOR_CODE": "040503",
+        "Title": "Physical Oceanography"
+    },
+    {
+        "FOR_CODE": "040599",
+        "Title": "Oceanography not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "040601",
+        "Title": "Geomorphology and Regolith and Landscape Evolution"
+    },
+    {
+        "FOR_CODE": "040602",
+        "Title": "Glaciology"
+    },
+    {
+        "FOR_CODE": "040603",
+        "Title": "Hydrogeology"
+    },
+    {
+        "FOR_CODE": "040604",
+        "Title": "Natural Hazards"
+    },
+    {
+        "FOR_CODE": "040605",
+        "Title": "Palaeoclimatology"
+    },
+    {
+        "FOR_CODE": "040606",
+        "Title": "Quaternary Environments"
+    },
+    {
+        "FOR_CODE": "040607",
+        "Title": "Surface Processes"
+    },
+    {
+        "FOR_CODE": "040608",
+        "Title": "Surfacewater Hydrology"
+    },
+    {
+        "FOR_CODE": "040699",
+        "Title": "Physical Geography and Environmental Geoscience not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "049999",
+        "Title": "Earth Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "050101",
+        "Title": "Ecological Impacts of Climate Change"
+    },
+    {
+        "FOR_CODE": "050102",
+        "Title": "Ecosystem Function"
+    },
+    {
+        "FOR_CODE": "050103",
+        "Title": "Invasive Species Ecology"
+    },
+    {
+        "FOR_CODE": "050104",
+        "Title": "Landscape Ecology"
+    },
+    {
+        "FOR_CODE": "050199",
+        "Title": "Ecological Applications not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "050201",
+        "Title": "Aboriginal and Torres Strait Islander Environmental Knowledge"
+    },
+    {
+        "FOR_CODE": "050202",
+        "Title": "Conservation and Biodiversity"
+    },
+    {
+        "FOR_CODE": "050203",
+        "Title": "Environmental Education and Extension"
+    },
+    {
+        "FOR_CODE": "050204",
+        "Title": "Environmental Impact Assessment"
+    },
+    {
+        "FOR_CODE": "050205",
+        "Title": "Environmental Management"
+    },
+    {
+        "FOR_CODE": "050206",
+        "Title": "Environmental Monitoring"
+    },
+    {
+        "FOR_CODE": "050207",
+        "Title": "Environmental Rehabilitation (excl. Bioremediation)"
+    },
+    {
+        "FOR_CODE": "050208",
+        "Title": "Maori Environmental Knowledge"
+    },
+    {
+        "FOR_CODE": "050209",
+        "Title": "Natural Resource Management"
+    },
+    {
+        "FOR_CODE": "050210",
+        "Title": "Pacific Peoples Environmental Knowledge"
+    },
+    {
+        "FOR_CODE": "050211",
+        "Title": "Wildlife and Habitat Management"
+    },
+    {
+        "FOR_CODE": "050299",
+        "Title": "Environmental Science and Management not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "050301",
+        "Title": "Carbon Sequestration Science"
+    },
+    {
+        "FOR_CODE": "050302",
+        "Title": "Land Capability and Soil Degradation"
+    },
+    {
+        "FOR_CODE": "050303",
+        "Title": "Soil Biology"
+    },
+    {
+        "FOR_CODE": "050304",
+        "Title": "Soil Chemistry (excl. Carbon Sequestration Science)"
+    },
+    {
+        "FOR_CODE": "050305",
+        "Title": "Soil Physics"
+    },
+    {
+        "FOR_CODE": "050399",
+        "Title": "Soil Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "059999",
+        "Title": "Environmental Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060101",
+        "Title": "Analytical Biochemistry"
+    },
+    {
+        "FOR_CODE": "060102",
+        "Title": "Bioinformatics"
+    },
+    {
+        "FOR_CODE": "060103",
+        "Title": "Cell Development, Proliferation and Death"
+    },
+    {
+        "FOR_CODE": "060104",
+        "Title": "Cell Metabolism"
+    },
+    {
+        "FOR_CODE": "060105",
+        "Title": "Cell Neurochemistry"
+    },
+    {
+        "FOR_CODE": "060106",
+        "Title": "Cellular Interactions (incl. Adhesion, Matrix, Cell Wall)"
+    },
+    {
+        "FOR_CODE": "060107",
+        "Title": "Enzymes"
+    },
+    {
+        "FOR_CODE": "060108",
+        "Title": "Protein Trafficking"
+    },
+    {
+        "FOR_CODE": "060109",
+        "Title": "Proteomics and Intermolecular Interactions (excl. Medical Proteomics)"
+    },
+    {
+        "FOR_CODE": "060110",
+        "Title": "Receptors and Membrane Biology"
+    },
+    {
+        "FOR_CODE": "060111",
+        "Title": "Signal Transduction"
+    },
+    {
+        "FOR_CODE": "060112",
+        "Title": "Structural Biology (incl. Macromolecular Modelling)"
+    },
+    {
+        "FOR_CODE": "060113",
+        "Title": "Synthetic Biology"
+    },
+    {
+        "FOR_CODE": "060114",
+        "Title": "Systems Biology"
+    },
+    {
+        "FOR_CODE": "060199",
+        "Title": "Biochemistry and Cell Biology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060201",
+        "Title": "Behavioural Ecology"
+    },
+    {
+        "FOR_CODE": "060202",
+        "Title": "Community Ecology (excl. Invasive Species Ecology)"
+    },
+    {
+        "FOR_CODE": "060203",
+        "Title": "Ecological Physiology"
+    },
+    {
+        "FOR_CODE": "060204",
+        "Title": "Freshwater Ecology"
+    },
+    {
+        "FOR_CODE": "060205",
+        "Title": "Marine and Estuarine Ecology (incl. Marine Ichthyology)"
+    },
+    {
+        "FOR_CODE": "060206",
+        "Title": "Palaeoecology"
+    },
+    {
+        "FOR_CODE": "060207",
+        "Title": "Population Ecology"
+    },
+    {
+        "FOR_CODE": "060208",
+        "Title": "Terrestrial Ecology"
+    },
+    {
+        "FOR_CODE": "060299",
+        "Title": "Ecology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060301",
+        "Title": "Animal Systematics and Taxonomy"
+    },
+    {
+        "FOR_CODE": "060302",
+        "Title": "Biogeography and Phylogeography"
+    },
+    {
+        "FOR_CODE": "060303",
+        "Title": "Biological Adaptation"
+    },
+    {
+        "FOR_CODE": "060304",
+        "Title": "Ethology and Sociobiology"
+    },
+    {
+        "FOR_CODE": "060305",
+        "Title": "Evolution of Developmental Systems"
+    },
+    {
+        "FOR_CODE": "060306",
+        "Title": "Evolutionary Impacts of Climate Change"
+    },
+    {
+        "FOR_CODE": "060307",
+        "Title": "Host-Parasite Interactions"
+    },
+    {
+        "FOR_CODE": "060308",
+        "Title": "Life Histories"
+    },
+    {
+        "FOR_CODE": "060309",
+        "Title": "Phylogeny and Comparative Analysis"
+    },
+    {
+        "FOR_CODE": "060310",
+        "Title": "Plant Systematics and Taxonomy"
+    },
+    {
+        "FOR_CODE": "060311",
+        "Title": "Speciation and Extinction"
+    },
+    {
+        "FOR_CODE": "060399",
+        "Title": "Evolutionary Biology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060401",
+        "Title": "Anthropological Genetics"
+    },
+    {
+        "FOR_CODE": "060402",
+        "Title": "Cell and Nuclear Division"
+    },
+    {
+        "FOR_CODE": "060403",
+        "Title": "Developmental Genetics (incl. Sex Determination)"
+    },
+    {
+        "FOR_CODE": "060404",
+        "Title": "Epigenetics (incl. Genome Methylation and Epigenomics)"
+    },
+    {
+        "FOR_CODE": "060405",
+        "Title": "Gene Expression (incl. Microarray and other genome-wide approaches)"
+    },
+    {
+        "FOR_CODE": "060406",
+        "Title": "Genetic Immunology"
+    },
+    {
+        "FOR_CODE": "060407",
+        "Title": "Genome Structure and Regulation"
+    },
+    {
+        "FOR_CODE": "060408",
+        "Title": "Genomics"
+    },
+    {
+        "FOR_CODE": "060409",
+        "Title": "Molecular Evolution"
+    },
+    {
+        "FOR_CODE": "060410",
+        "Title": "Neurogenetics"
+    },
+    {
+        "FOR_CODE": "060411",
+        "Title": "Population, Ecological and Evolutionary Genetics"
+    },
+    {
+        "FOR_CODE": "060412",
+        "Title": "Quantitative Genetics (incl. Disease and Trait Mapping Genetics)"
+    },
+    {
+        "FOR_CODE": "060499",
+        "Title": "Genetics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060501",
+        "Title": "Bacteriology"
+    },
+    {
+        "FOR_CODE": "060502",
+        "Title": "Infectious Agents"
+    },
+    {
+        "FOR_CODE": "060503",
+        "Title": "Microbial Genetics"
+    },
+    {
+        "FOR_CODE": "060504",
+        "Title": "Microbial Ecology"
+    },
+    {
+        "FOR_CODE": "060505",
+        "Title": "Mycology"
+    },
+    {
+        "FOR_CODE": "060506",
+        "Title": "Virology"
+    },
+    {
+        "FOR_CODE": "060599",
+        "Title": "Microbiology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060601",
+        "Title": "Animal Physiology - Biophysics"
+    },
+    {
+        "FOR_CODE": "060602",
+        "Title": "Animal Physiology - Cell"
+    },
+    {
+        "FOR_CODE": "060603",
+        "Title": "Animal Physiology - Systems"
+    },
+    {
+        "FOR_CODE": "060604",
+        "Title": "Comparative Physiology"
+    },
+    {
+        "FOR_CODE": "060699",
+        "Title": "Physiology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060701",
+        "Title": "Phycology (incl. Marine Grasses)"
+    },
+    {
+        "FOR_CODE": "060702",
+        "Title": "Plant Cell and Molecular Biology"
+    },
+    {
+        "FOR_CODE": "060703",
+        "Title": "Plant Developmental and Reproductive Biology"
+    },
+    {
+        "FOR_CODE": "060704",
+        "Title": "Plant Pathology"
+    },
+    {
+        "FOR_CODE": "060705",
+        "Title": "Plant Physiology"
+    },
+    {
+        "FOR_CODE": "060799",
+        "Title": "Plant Biology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "060801",
+        "Title": "Animal Behaviour"
+    },
+    {
+        "FOR_CODE": "060802",
+        "Title": "Animal Cell and Molecular Biology"
+    },
+    {
+        "FOR_CODE": "060803",
+        "Title": "Animal Developmental and Reproductive Biology"
+    },
+    {
+        "FOR_CODE": "060804",
+        "Title": "Animal Immunology"
+    },
+    {
+        "FOR_CODE": "060805",
+        "Title": "Animal Neurobiology"
+    },
+    {
+        "FOR_CODE": "060806",
+        "Title": "Animal Physiological Ecology"
+    },
+    {
+        "FOR_CODE": "060807",
+        "Title": "Animal Structure and Function"
+    },
+    {
+        "FOR_CODE": "060808",
+        "Title": "Invertebrate Biology"
+    },
+    {
+        "FOR_CODE": "060809",
+        "Title": "Vertebrate Biology"
+    },
+    {
+        "FOR_CODE": "060899",
+        "Title": "Zoology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "069901",
+        "Title": "Forensic Biology"
+    },
+    {
+        "FOR_CODE": "069902",
+        "Title": "Global Change Biology"
+    },
+    {
+        "FOR_CODE": "069999",
+        "Title": "Biological Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070101",
+        "Title": "Agricultural Land Management"
+    },
+    {
+        "FOR_CODE": "070102",
+        "Title": "Agricultural Land Planning"
+    },
+    {
+        "FOR_CODE": "070103",
+        "Title": "Agricultural Production Systems Simulation"
+    },
+    {
+        "FOR_CODE": "070104",
+        "Title": "Agricultural Spatial Analysis and Modelling"
+    },
+    {
+        "FOR_CODE": "070105",
+        "Title": "Agricultural Systems Analysis and Modelling"
+    },
+    {
+        "FOR_CODE": "070106",
+        "Title": "Farm Management, Rural Management and Agribusiness"
+    },
+    {
+        "FOR_CODE": "070107",
+        "Title": "Farming Systems Research"
+    },
+    {
+        "FOR_CODE": "070108",
+        "Title": "Sustainable Agricultural Development"
+    },
+    {
+        "FOR_CODE": "070199",
+        "Title": "Agriculture, Land and Farm Management not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070201",
+        "Title": "Animal Breeding"
+    },
+    {
+        "FOR_CODE": "070202",
+        "Title": "Animal Growth and Development"
+    },
+    {
+        "FOR_CODE": "070203",
+        "Title": "Animal Management"
+    },
+    {
+        "FOR_CODE": "070204",
+        "Title": "Animal Nutrition"
+    },
+    {
+        "FOR_CODE": "070205",
+        "Title": "Animal Protection (Pests and Pathogens)"
+    },
+    {
+        "FOR_CODE": "070206",
+        "Title": "Animal Reproduction"
+    },
+    {
+        "FOR_CODE": "070207",
+        "Title": "Humane Animal Treatment"
+    },
+    {
+        "FOR_CODE": "070299",
+        "Title": "Animal Production not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070301",
+        "Title": "Agro-ecosystem Function and Prediction"
+    },
+    {
+        "FOR_CODE": "070302",
+        "Title": "Agronomy"
+    },
+    {
+        "FOR_CODE": "070303",
+        "Title": "Crop and Pasture Biochemistry and Physiology"
+    },
+    {
+        "FOR_CODE": "070304",
+        "Title": "Crop and Pasture Biomass and Bioproducts"
+    },
+    {
+        "FOR_CODE": "070305",
+        "Title": "Crop and Pasture Improvement (Selection and Breeding)"
+    },
+    {
+        "FOR_CODE": "070306",
+        "Title": "Crop and Pasture Nutrition"
+    },
+    {
+        "FOR_CODE": "070307",
+        "Title": "Crop and Pasture Post Harvest Technologies (incl. Transportation and Storage)"
+    },
+    {
+        "FOR_CODE": "070308",
+        "Title": "Crop and Pasture Protection (Pests, Diseases and Weeds)"
+    },
+    {
+        "FOR_CODE": "070399",
+        "Title": "Crop and Pasture Production not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070401",
+        "Title": "Aquaculture"
+    },
+    {
+        "FOR_CODE": "070402",
+        "Title": "Aquatic Ecosystem Studies and Stock Assessment"
+    },
+    {
+        "FOR_CODE": "070403",
+        "Title": "Fisheries Management"
+    },
+    {
+        "FOR_CODE": "070404",
+        "Title": "Fish Pests and Diseases"
+    },
+    {
+        "FOR_CODE": "070405",
+        "Title": "Fish Physiology and Genetics"
+    },
+    {
+        "FOR_CODE": "070406",
+        "Title": "Post-Harvest Fisheries Technologies (incl. Transportation)"
+    },
+    {
+        "FOR_CODE": "070499",
+        "Title": "Fisheries Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070501",
+        "Title": "Agroforestry"
+    },
+    {
+        "FOR_CODE": "070502",
+        "Title": "Forestry Biomass and Bioproducts"
+    },
+    {
+        "FOR_CODE": "070503",
+        "Title": "Forestry Fire Management"
+    },
+    {
+        "FOR_CODE": "070504",
+        "Title": "Forestry Management and Environment"
+    },
+    {
+        "FOR_CODE": "070505",
+        "Title": "Forestry Pests, Health and Diseases"
+    },
+    {
+        "FOR_CODE": "070506",
+        "Title": "Forestry Product Quality Assessment"
+    },
+    {
+        "FOR_CODE": "070507",
+        "Title": "Tree Improvement (Selection and Breeding)"
+    },
+    {
+        "FOR_CODE": "070508",
+        "Title": "Tree Nutrition and Physiology"
+    },
+    {
+        "FOR_CODE": "070509",
+        "Title": "Wood Fibre Processing"
+    },
+    {
+        "FOR_CODE": "070510",
+        "Title": "Wood Processing"
+    },
+    {
+        "FOR_CODE": "070599",
+        "Title": "Forestry Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070601",
+        "Title": "Horticultural Crop Growth and Development"
+    },
+    {
+        "FOR_CODE": "070602",
+        "Title": "Horticultural Crop Improvement (Selection and Breeding)"
+    },
+    {
+        "FOR_CODE": "070603",
+        "Title": "Horticultural Crop Protection (Pests, Diseases and Weeds)"
+    },
+    {
+        "FOR_CODE": "070604",
+        "Title": "Oenology and Viticulture"
+    },
+    {
+        "FOR_CODE": "070605",
+        "Title": "Post Harvest Horticultural Technologies (incl. Transportation and Storage)"
+    },
+    {
+        "FOR_CODE": "070699",
+        "Title": "Horticultural Production not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "070701",
+        "Title": "Veterinary Anaesthesiology and Intensive Care"
+    },
+    {
+        "FOR_CODE": "070702",
+        "Title": "Veterinary Anatomy and Physiology"
+    },
+    {
+        "FOR_CODE": "070703",
+        "Title": "Veterinary Diagnosis and Diagnostics"
+    },
+    {
+        "FOR_CODE": "070704",
+        "Title": "Veterinary Epidemiology"
+    },
+    {
+        "FOR_CODE": "070705",
+        "Title": "Veterinary Immunology"
+    },
+    {
+        "FOR_CODE": "070706",
+        "Title": "Veterinary Medicine"
+    },
+    {
+        "FOR_CODE": "070707",
+        "Title": "Veterinary Microbiology (excl. Virology)"
+    },
+    {
+        "FOR_CODE": "070708",
+        "Title": "Veterinary Parasitology"
+    },
+    {
+        "FOR_CODE": "070709",
+        "Title": "Veterinary Pathology"
+    },
+    {
+        "FOR_CODE": "070710",
+        "Title": "Veterinary Pharmacology"
+    },
+    {
+        "FOR_CODE": "070711",
+        "Title": "Veterinary Surgery"
+    },
+    {
+        "FOR_CODE": "070712",
+        "Title": "Veterinary Virology"
+    },
+    {
+        "FOR_CODE": "070799",
+        "Title": "Veterinary Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "079901",
+        "Title": "Agricultural Hydrology (Drainage, Flooding, Irrigation, Quality, etc.)"
+    },
+    {
+        "FOR_CODE": "079902",
+        "Title": "Fertilisers and Agrochemicals (incl. Application)"
+    },
+    {
+        "FOR_CODE": "079999",
+        "Title": "Agricultural and Veterinary Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080101",
+        "Title": "Adaptive Agents and Intelligent Robotics"
+    },
+    {
+        "FOR_CODE": "080102",
+        "Title": "Artificial Life"
+    },
+    {
+        "FOR_CODE": "080103",
+        "Title": "Computer Graphics"
+    },
+    {
+        "FOR_CODE": "080104",
+        "Title": "Computer Vision"
+    },
+    {
+        "FOR_CODE": "080105",
+        "Title": "Expert Systems"
+    },
+    {
+        "FOR_CODE": "080106",
+        "Title": "Image Processing"
+    },
+    {
+        "FOR_CODE": "080107",
+        "Title": "Natural Language Processing"
+    },
+    {
+        "FOR_CODE": "080108",
+        "Title": "Neural, Evolutionary and Fuzzy Computation"
+    },
+    {
+        "FOR_CODE": "080109",
+        "Title": "Pattern Recognition and Data Mining"
+    },
+    {
+        "FOR_CODE": "080110",
+        "Title": "Simulation and Modelling"
+    },
+    {
+        "FOR_CODE": "080111",
+        "Title": "Virtual Reality and Related Simulation"
+    },
+    {
+        "FOR_CODE": "080199",
+        "Title": "Artificial Intelligence and Image Processing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080201",
+        "Title": "Analysis of Algorithms and Complexity"
+    },
+    {
+        "FOR_CODE": "080202",
+        "Title": "Applied Discrete Mathematics"
+    },
+    {
+        "FOR_CODE": "080203",
+        "Title": "Computational Logic and Formal Languages"
+    },
+    {
+        "FOR_CODE": "080204",
+        "Title": "Mathematical Software"
+    },
+    {
+        "FOR_CODE": "080205",
+        "Title": "Numerical Computation"
+    },
+    {
+        "FOR_CODE": "080299",
+        "Title": "Computation Theory and Mathematics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080301",
+        "Title": "Bioinformatics Software"
+    },
+    {
+        "FOR_CODE": "080302",
+        "Title": "Computer System Architecture"
+    },
+    {
+        "FOR_CODE": "080303",
+        "Title": "Computer System Security"
+    },
+    {
+        "FOR_CODE": "080304",
+        "Title": "Concurrent Programming"
+    },
+    {
+        "FOR_CODE": "080305",
+        "Title": "Multimedia Programming"
+    },
+    {
+        "FOR_CODE": "080306",
+        "Title": "Open Software"
+    },
+    {
+        "FOR_CODE": "080307",
+        "Title": "Operating Systems"
+    },
+    {
+        "FOR_CODE": "080308",
+        "Title": "Programming Languages"
+    },
+    {
+        "FOR_CODE": "080309",
+        "Title": "Software Engineering"
+    },
+    {
+        "FOR_CODE": "080399",
+        "Title": "Computer Software not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080401",
+        "Title": "Coding and Information Theory"
+    },
+    {
+        "FOR_CODE": "080402",
+        "Title": "Data Encryption"
+    },
+    {
+        "FOR_CODE": "080403",
+        "Title": "Data Structures"
+    },
+    {
+        "FOR_CODE": "080404",
+        "Title": "Markup Languages"
+    },
+    {
+        "FOR_CODE": "080499",
+        "Title": "Data Format not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080501",
+        "Title": "Distributed and Grid Systems"
+    },
+    {
+        "FOR_CODE": "080502",
+        "Title": "Mobile Technologies"
+    },
+    {
+        "FOR_CODE": "080503",
+        "Title": "Networking and Communications"
+    },
+    {
+        "FOR_CODE": "080504",
+        "Title": "Ubiquitous Computing"
+    },
+    {
+        "FOR_CODE": "080505",
+        "Title": "Web Technologies (excl. Web Search)"
+    },
+    {
+        "FOR_CODE": "080599",
+        "Title": "Distributed Computing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080601",
+        "Title": "Aboriginal and Torres Strait Islander Information and Knowledge Systems"
+    },
+    {
+        "FOR_CODE": "080602",
+        "Title": "Computer-Human Interaction"
+    },
+    {
+        "FOR_CODE": "080603",
+        "Title": "Conceptual Modelling"
+    },
+    {
+        "FOR_CODE": "080604",
+        "Title": "Database Management"
+    },
+    {
+        "FOR_CODE": "080605",
+        "Title": "Decision Support and Group Support Systems"
+    },
+    {
+        "FOR_CODE": "080606",
+        "Title": "Global Information Systems"
+    },
+    {
+        "FOR_CODE": "080607",
+        "Title": "Information Engineering and Theory"
+    },
+    {
+        "FOR_CODE": "080608",
+        "Title": "Information Systems Development Methodologies"
+    },
+    {
+        "FOR_CODE": "080609",
+        "Title": "Information Systems Management"
+    },
+    {
+        "FOR_CODE": "080610",
+        "Title": "Information Systems Organisation"
+    },
+    {
+        "FOR_CODE": "080611",
+        "Title": "Information Systems Theory"
+    },
+    {
+        "FOR_CODE": "080612",
+        "Title": "Interorganisational Information Systems and Web Services"
+    },
+    {
+        "FOR_CODE": "080613",
+        "Title": "Maori Information and Knowledge Systems"
+    },
+    {
+        "FOR_CODE": "080614",
+        "Title": "Pacific Peoples Information and Knowledge Systems"
+    },
+    {
+        "FOR_CODE": "080699",
+        "Title": "Information Systems not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "080701",
+        "Title": "Aboriginal and Torres Strait Islander Knowledge Management"
+    },
+    {
+        "FOR_CODE": "080702",
+        "Title": "Health Informatics"
+    },
+    {
+        "FOR_CODE": "080703",
+        "Title": "Human Information Behaviour"
+    },
+    {
+        "FOR_CODE": "080704",
+        "Title": "Information Retrieval and Web Search"
+    },
+    {
+        "FOR_CODE": "080705",
+        "Title": "Informetrics"
+    },
+    {
+        "FOR_CODE": "080706",
+        "Title": "Librarianship"
+    },
+    {
+        "FOR_CODE": "080707",
+        "Title": "Organisation of Information and Knowledge Resources"
+    },
+    {
+        "FOR_CODE": "080708",
+        "Title": "Records and Information Management (excl. Business Records and Information Management)"
+    },
+    {
+        "FOR_CODE": "080709",
+        "Title": "Social and Community Informatics"
+    },
+    {
+        "FOR_CODE": "080799",
+        "Title": "Library and Information Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "089999",
+        "Title": "Information and Computing Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090101",
+        "Title": "Aerodynamics (excl. Hypersonic Aerodynamics)"
+    },
+    {
+        "FOR_CODE": "090102",
+        "Title": "Aerospace Materials"
+    },
+    {
+        "FOR_CODE": "090103",
+        "Title": "Aerospace Structures"
+    },
+    {
+        "FOR_CODE": "090104",
+        "Title": "Aircraft Performance and Flight Control Systems"
+    },
+    {
+        "FOR_CODE": "090105",
+        "Title": "Avionics"
+    },
+    {
+        "FOR_CODE": "090106",
+        "Title": "Flight Dynamics"
+    },
+    {
+        "FOR_CODE": "090107",
+        "Title": "Hypersonic Propulsion and Hypersonic Aerodynamics"
+    },
+    {
+        "FOR_CODE": "090108",
+        "Title": "Satellite, Space Vehicle and Missile Design and Testing"
+    },
+    {
+        "FOR_CODE": "090199",
+        "Title": "Aerospace Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090201",
+        "Title": "Automotive Combustion and Fuel Engineering (incl. Alternative/Renewable Fuels)"
+    },
+    {
+        "FOR_CODE": "090202",
+        "Title": "Automotive Engineering Materials"
+    },
+    {
+        "FOR_CODE": "090203",
+        "Title": "Automotive Mechatronics"
+    },
+    {
+        "FOR_CODE": "090204",
+        "Title": "Automotive Safety Engineering"
+    },
+    {
+        "FOR_CODE": "090205",
+        "Title": "Hybrid Vehicles and Powertrains"
+    },
+    {
+        "FOR_CODE": "090299",
+        "Title": "Automotive Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090301",
+        "Title": "Biomaterials"
+    },
+    {
+        "FOR_CODE": "090302",
+        "Title": "Biomechanical Engineering"
+    },
+    {
+        "FOR_CODE": "090303",
+        "Title": "Biomedical Instrumentation"
+    },
+    {
+        "FOR_CODE": "090304",
+        "Title": "Medical Devices"
+    },
+    {
+        "FOR_CODE": "090305",
+        "Title": "Rehabilitation Engineering"
+    },
+    {
+        "FOR_CODE": "090399",
+        "Title": "Biomedical Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090401",
+        "Title": "Carbon Capture Engineering (excl. Sequestration)"
+    },
+    {
+        "FOR_CODE": "090402",
+        "Title": "Catalytic Process Engineering"
+    },
+    {
+        "FOR_CODE": "090403",
+        "Title": "Chemical Engineering Design"
+    },
+    {
+        "FOR_CODE": "090404",
+        "Title": "Membrane and Separation Technologies"
+    },
+    {
+        "FOR_CODE": "090405",
+        "Title": "Non-automotive Combustion and Fuel Engineering (incl. Alternative/Renewable Fuels)"
+    },
+    {
+        "FOR_CODE": "090406",
+        "Title": "Powder and Particle Technology"
+    },
+    {
+        "FOR_CODE": "090407",
+        "Title": "Process Control and Simulation"
+    },
+    {
+        "FOR_CODE": "090408",
+        "Title": "Rheology"
+    },
+    {
+        "FOR_CODE": "090409",
+        "Title": "Wastewater Treatment Processes"
+    },
+    {
+        "FOR_CODE": "090410",
+        "Title": "Water Treatment Processes"
+    },
+    {
+        "FOR_CODE": "090499",
+        "Title": "Chemical Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090501",
+        "Title": "Civil Geotechnical Engineering"
+    },
+    {
+        "FOR_CODE": "090502",
+        "Title": "Construction Engineering"
+    },
+    {
+        "FOR_CODE": "090503",
+        "Title": "Construction Materials"
+    },
+    {
+        "FOR_CODE": "090504",
+        "Title": "Earthquake Engineering"
+    },
+    {
+        "FOR_CODE": "090505",
+        "Title": "Infrastructure Engineering and Asset Management"
+    },
+    {
+        "FOR_CODE": "090506",
+        "Title": "Structural Engineering"
+    },
+    {
+        "FOR_CODE": "090507",
+        "Title": "Transport Engineering"
+    },
+    {
+        "FOR_CODE": "090508",
+        "Title": "Water Quality Engineering"
+    },
+    {
+        "FOR_CODE": "090509",
+        "Title": "Water Resources Engineering"
+    },
+    {
+        "FOR_CODE": "090599",
+        "Title": "Civil Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090601",
+        "Title": "Circuits and Systems"
+    },
+    {
+        "FOR_CODE": "090602",
+        "Title": "Control Systems, Robotics and Automation"
+    },
+    {
+        "FOR_CODE": "090603",
+        "Title": "Industrial Electronics"
+    },
+    {
+        "FOR_CODE": "090604",
+        "Title": "Microelectronics and Integrated Circuits"
+    },
+    {
+        "FOR_CODE": "090605",
+        "Title": "Photodetectors, Optical Sensors and Solar Cells"
+    },
+    {
+        "FOR_CODE": "090606",
+        "Title": "Photonics and Electro-Optical Engineering (excl. Communications)"
+    },
+    {
+        "FOR_CODE": "090607",
+        "Title": "Power and Energy Systems Engineering (excl. Renewable Power)"
+    },
+    {
+        "FOR_CODE": "090608",
+        "Title": "Renewable Power and Energy Systems Engineering (excl. Solar Cells)"
+    },
+    {
+        "FOR_CODE": "090609",
+        "Title": "Signal Processing"
+    },
+    {
+        "FOR_CODE": "090699",
+        "Title": "Electrical and Electronic Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090701",
+        "Title": "Environmental Engineering Design"
+    },
+    {
+        "FOR_CODE": "090702",
+        "Title": "Environmental Engineering Modelling"
+    },
+    {
+        "FOR_CODE": "090703",
+        "Title": "Environmental Technologies"
+    },
+    {
+        "FOR_CODE": "090799",
+        "Title": "Environmental Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090801",
+        "Title": "Food Chemistry and Molecular Gastronomy (excl. Wine)"
+    },
+    {
+        "FOR_CODE": "090802",
+        "Title": "Food Engineering"
+    },
+    {
+        "FOR_CODE": "090803",
+        "Title": "Food Nutritional Balance"
+    },
+    {
+        "FOR_CODE": "090804",
+        "Title": "Food Packaging, Preservation and Safety"
+    },
+    {
+        "FOR_CODE": "090805",
+        "Title": "Food Processing"
+    },
+    {
+        "FOR_CODE": "090806",
+        "Title": "Wine Chemistry and Wine Sensory Science"
+    },
+    {
+        "FOR_CODE": "090899",
+        "Title": "Food Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "090901",
+        "Title": "Cartography"
+    },
+    {
+        "FOR_CODE": "090902",
+        "Title": "Geodesy"
+    },
+    {
+        "FOR_CODE": "090903",
+        "Title": "Geospatial Information Systems"
+    },
+    {
+        "FOR_CODE": "090904",
+        "Title": "Navigation and Position Fixing"
+    },
+    {
+        "FOR_CODE": "090905",
+        "Title": "Photogrammetry and Remote Sensing"
+    },
+    {
+        "FOR_CODE": "090906",
+        "Title": "Surveying (incl. Hydrographic Surveying)"
+    },
+    {
+        "FOR_CODE": "090999",
+        "Title": "Geomatic Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091001",
+        "Title": "CAD/CAM Systems"
+    },
+    {
+        "FOR_CODE": "091002",
+        "Title": "Flexible Manufacturing Systems"
+    },
+    {
+        "FOR_CODE": "091003",
+        "Title": "Machine Tools"
+    },
+    {
+        "FOR_CODE": "091004",
+        "Title": "Machining"
+    },
+    {
+        "FOR_CODE": "091005",
+        "Title": "Manufacturing Management"
+    },
+    {
+        "FOR_CODE": "091006",
+        "Title": "Manufacturing Processes and Technologies (excl. Textiles)"
+    },
+    {
+        "FOR_CODE": "091007",
+        "Title": "Manufacturing Robotics and Mechatronics (excl. Automotive Mechatronics)"
+    },
+    {
+        "FOR_CODE": "091008",
+        "Title": "Manufacturing Safety and Quality"
+    },
+    {
+        "FOR_CODE": "091009",
+        "Title": "Microtechnology"
+    },
+    {
+        "FOR_CODE": "091010",
+        "Title": "Packaging, Storage and Transportation (excl. Food and Agricultural Products)"
+    },
+    {
+        "FOR_CODE": "091011",
+        "Title": "Precision Engineering"
+    },
+    {
+        "FOR_CODE": "091012",
+        "Title": "Textile Technology"
+    },
+    {
+        "FOR_CODE": "091099",
+        "Title": "Manufacturing Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091101",
+        "Title": "Marine Engineering"
+    },
+    {
+        "FOR_CODE": "091102",
+        "Title": "Naval Architecture"
+    },
+    {
+        "FOR_CODE": "091103",
+        "Title": "Ocean Engineering"
+    },
+    {
+        "FOR_CODE": "091104",
+        "Title": "Ship and Platform Hydrodynamics"
+    },
+    {
+        "FOR_CODE": "091105",
+        "Title": "Ship and Platform Structures"
+    },
+    {
+        "FOR_CODE": "091106",
+        "Title": "Special Vehicles"
+    },
+    {
+        "FOR_CODE": "091199",
+        "Title": "Maritime Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091201",
+        "Title": "Ceramics"
+    },
+    {
+        "FOR_CODE": "091202",
+        "Title": "Composite and Hybrid Materials"
+    },
+    {
+        "FOR_CODE": "091203",
+        "Title": "Compound Semiconductors"
+    },
+    {
+        "FOR_CODE": "091204",
+        "Title": "Elemental Semiconductors"
+    },
+    {
+        "FOR_CODE": "091205",
+        "Title": "Functional Materials"
+    },
+    {
+        "FOR_CODE": "091206",
+        "Title": "Glass"
+    },
+    {
+        "FOR_CODE": "091207",
+        "Title": "Metals and Alloy Materials"
+    },
+    {
+        "FOR_CODE": "091208",
+        "Title": "Organic Semiconductors"
+    },
+    {
+        "FOR_CODE": "091209",
+        "Title": "Polymers and Plastics"
+    },
+    {
+        "FOR_CODE": "091210",
+        "Title": "Timber, Pulp and Paper"
+    },
+    {
+        "FOR_CODE": "091299",
+        "Title": "Materials Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091301",
+        "Title": "Acoustics and Noise Control (excl. Architectural Acoustics)"
+    },
+    {
+        "FOR_CODE": "091302",
+        "Title": "Automation and Control Engineering"
+    },
+    {
+        "FOR_CODE": "091303",
+        "Title": "Autonomous Vehicles"
+    },
+    {
+        "FOR_CODE": "091304",
+        "Title": "Dynamics, Vibration and Vibration Control"
+    },
+    {
+        "FOR_CODE": "091305",
+        "Title": "Energy Generation, Conversion and Storage Engineering"
+    },
+    {
+        "FOR_CODE": "091306",
+        "Title": "Microelectromechanical Systems (MEMS)"
+    },
+    {
+        "FOR_CODE": "091307",
+        "Title": "Numerical Modelling and Mechanical Characterisation"
+    },
+    {
+        "FOR_CODE": "091308",
+        "Title": "Solid Mechanics"
+    },
+    {
+        "FOR_CODE": "091309",
+        "Title": "Tribology"
+    },
+    {
+        "FOR_CODE": "091399",
+        "Title": "Mechanical Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091401",
+        "Title": "Electrometallurgy"
+    },
+    {
+        "FOR_CODE": "091402",
+        "Title": "Geomechanics and Resources Geotechnical Engineering"
+    },
+    {
+        "FOR_CODE": "091403",
+        "Title": "Hydrometallurgy"
+    },
+    {
+        "FOR_CODE": "091404",
+        "Title": "Mineral Processing/Beneficiation"
+    },
+    {
+        "FOR_CODE": "091405",
+        "Title": "Mining Engineering"
+    },
+    {
+        "FOR_CODE": "091406",
+        "Title": "Petroleum and Reservoir Engineering"
+    },
+    {
+        "FOR_CODE": "091407",
+        "Title": "Pyrometallurgy"
+    },
+    {
+        "FOR_CODE": "091499",
+        "Title": "Resources Engineering and Extractive Metallurgy not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "091501",
+        "Title": "Computational Fluid Dynamics"
+    },
+    {
+        "FOR_CODE": "091502",
+        "Title": "Computational Heat Transfer"
+    },
+    {
+        "FOR_CODE": "091503",
+        "Title": "Engineering Practice"
+    },
+    {
+        "FOR_CODE": "091504",
+        "Title": "Fluidisation and Fluid Mechanics"
+    },
+    {
+        "FOR_CODE": "091505",
+        "Title": "Heat and Mass Transfer Operations"
+    },
+    {
+        "FOR_CODE": "091506",
+        "Title": "Nuclear Engineering (incl. Fuel Enrichment and Waste Processing and Storage)"
+    },
+    {
+        "FOR_CODE": "091507",
+        "Title": "Risk Engineering (excl. Earthquake Engineering)"
+    },
+    {
+        "FOR_CODE": "091508",
+        "Title": "Turbulent Flows"
+    },
+    {
+        "FOR_CODE": "091599",
+        "Title": "Interdisciplinary Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "099901",
+        "Title": "Agricultural Engineering"
+    },
+    {
+        "FOR_CODE": "099902",
+        "Title": "Engineering Instrumentation"
+    },
+    {
+        "FOR_CODE": "099999",
+        "Title": "Engineering not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100101",
+        "Title": "Agricultural Biotechnology Diagnostics (incl. Biosensors)"
+    },
+    {
+        "FOR_CODE": "100102",
+        "Title": "Agricultural Marine Biotechnology"
+    },
+    {
+        "FOR_CODE": "100103",
+        "Title": "Agricultural Molecular Engineering of Nucleic Acids and Proteins"
+    },
+    {
+        "FOR_CODE": "100104",
+        "Title": "Genetically Modified Animals"
+    },
+    {
+        "FOR_CODE": "100105",
+        "Title": "Genetically Modified Field Crops and Pasture"
+    },
+    {
+        "FOR_CODE": "100106",
+        "Title": "Genetically Modified Horticulture Plants"
+    },
+    {
+        "FOR_CODE": "100107",
+        "Title": "Genetically Modified Trees"
+    },
+    {
+        "FOR_CODE": "100108",
+        "Title": "Livestock cloning"
+    },
+    {
+        "FOR_CODE": "100109",
+        "Title": "Transgenesis"
+    },
+    {
+        "FOR_CODE": "100199",
+        "Title": "Agricultural Biotechnology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100201",
+        "Title": "Biodiscovery"
+    },
+    {
+        "FOR_CODE": "100202",
+        "Title": "Biological Control"
+    },
+    {
+        "FOR_CODE": "100203",
+        "Title": "Bioremediation"
+    },
+    {
+        "FOR_CODE": "100204",
+        "Title": "Environmental Biotechnology Diagnostics (incl. Biosensors)"
+    },
+    {
+        "FOR_CODE": "100205",
+        "Title": "Environmental Marine Biotechnology"
+    },
+    {
+        "FOR_CODE": "100206",
+        "Title": "Environmental Molecular Engineering of Nucleic Acids and Proteins"
+    },
+    {
+        "FOR_CODE": "100299",
+        "Title": "Environmental Biotechnology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100301",
+        "Title": "Biocatalysis and Enzyme Technology"
+    },
+    {
+        "FOR_CODE": "100302",
+        "Title": "Bioprocessing, Bioproduction and Bioproducts"
+    },
+    {
+        "FOR_CODE": "100303",
+        "Title": "Fermentation"
+    },
+    {
+        "FOR_CODE": "100304",
+        "Title": "Industrial Biotechnology Diagnostics (incl. Biosensors)"
+    },
+    {
+        "FOR_CODE": "100305",
+        "Title": "Industrial Microbiology (incl. Biofeedstocks)"
+    },
+    {
+        "FOR_CODE": "100306",
+        "Title": "Industrial Molecular Engineering of Nucleic Acids and Proteins"
+    },
+    {
+        "FOR_CODE": "100399",
+        "Title": "Industrial Biotechnology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100401",
+        "Title": "Gene and Molecular Therapy"
+    },
+    {
+        "FOR_CODE": "100402",
+        "Title": "Medical Biotechnology Diagnostics (incl. Biosensors)"
+    },
+    {
+        "FOR_CODE": "100403",
+        "Title": "Medical Molecular Engineering of Nucleic Acids and Proteins"
+    },
+    {
+        "FOR_CODE": "100404",
+        "Title": "Regenerative Medicine (incl. Stem Cells and Tissue Engineering)"
+    },
+    {
+        "FOR_CODE": "100499",
+        "Title": "Medical Biotechnology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100501",
+        "Title": "Antennas and Propagation"
+    },
+    {
+        "FOR_CODE": "100502",
+        "Title": "Broadband and Modem Technology"
+    },
+    {
+        "FOR_CODE": "100503",
+        "Title": "Computer Communications Networks"
+    },
+    {
+        "FOR_CODE": "100504",
+        "Title": "Data Communications"
+    },
+    {
+        "FOR_CODE": "100505",
+        "Title": "Microwave and Millimetrewave Theory and Technology"
+    },
+    {
+        "FOR_CODE": "100506",
+        "Title": "Optical Fibre Communications"
+    },
+    {
+        "FOR_CODE": "100507",
+        "Title": "Optical Networks and Systems"
+    },
+    {
+        "FOR_CODE": "100508",
+        "Title": "Satellite Communications"
+    },
+    {
+        "FOR_CODE": "100509",
+        "Title": "Video Communications"
+    },
+    {
+        "FOR_CODE": "100510",
+        "Title": "Wireless Communications"
+    },
+    {
+        "FOR_CODE": "100599",
+        "Title": "Communications Technologies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100601",
+        "Title": "Arithmetic and Logic Structures"
+    },
+    {
+        "FOR_CODE": "100602",
+        "Title": "Input, Output and Data Devices"
+    },
+    {
+        "FOR_CODE": "100603",
+        "Title": "Logic Design"
+    },
+    {
+        "FOR_CODE": "100604",
+        "Title": "Memory Structures"
+    },
+    {
+        "FOR_CODE": "100605",
+        "Title": "Performance Evaluation; Testing and Simulation of Reliability"
+    },
+    {
+        "FOR_CODE": "100606",
+        "Title": "Processor Architectures"
+    },
+    {
+        "FOR_CODE": "100699",
+        "Title": "Computer Hardware not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "100701",
+        "Title": "Environmental Nanotechnology"
+    },
+    {
+        "FOR_CODE": "100702",
+        "Title": "Molecular and Organic Electronics"
+    },
+    {
+        "FOR_CODE": "100703",
+        "Title": "Nanobiotechnology"
+    },
+    {
+        "FOR_CODE": "100704",
+        "Title": "Nanoelectromechanical Systems"
+    },
+    {
+        "FOR_CODE": "100705",
+        "Title": "Nanoelectronics"
+    },
+    {
+        "FOR_CODE": "100706",
+        "Title": "Nanofabrication, Growth and Self Assembly"
+    },
+    {
+        "FOR_CODE": "100707",
+        "Title": "Nanomanufacturing"
+    },
+    {
+        "FOR_CODE": "100708",
+        "Title": "Nanomaterials"
+    },
+    {
+        "FOR_CODE": "100709",
+        "Title": "Nanomedicine"
+    },
+    {
+        "FOR_CODE": "100710",
+        "Title": "Nanometrology"
+    },
+    {
+        "FOR_CODE": "100711",
+        "Title": "Nanophotonics"
+    },
+    {
+        "FOR_CODE": "100712",
+        "Title": "Nanoscale Characterisation"
+    },
+    {
+        "FOR_CODE": "100713",
+        "Title": "Nanotoxicology, Health and Safety"
+    },
+    {
+        "FOR_CODE": "100799",
+        "Title": "Nanotechnology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "109999",
+        "Title": "Technology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110101",
+        "Title": "Medical Biochemistry: Amino Acids and Metabolites"
+    },
+    {
+        "FOR_CODE": "110102",
+        "Title": "Medical Biochemistry: Carbohydrates"
+    },
+    {
+        "FOR_CODE": "110103",
+        "Title": "Medical Biochemistry: Inorganic Elements and Compounds"
+    },
+    {
+        "FOR_CODE": "110104",
+        "Title": "Medical Biochemistry: Lipids"
+    },
+    {
+        "FOR_CODE": "110105",
+        "Title": "Medical Biochemistry: Nucleic Acids"
+    },
+    {
+        "FOR_CODE": "110106",
+        "Title": "Medical Biochemistry: Proteins and Peptides (incl. Medical Proteomics)"
+    },
+    {
+        "FOR_CODE": "110107",
+        "Title": "Metabolic Medicine"
+    },
+    {
+        "FOR_CODE": "110199",
+        "Title": "Medical Biochemistry and Metabolomics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110201",
+        "Title": "Cardiology (incl. Cardiovascular Diseases)"
+    },
+    {
+        "FOR_CODE": "110202",
+        "Title": "Haematology"
+    },
+    {
+        "FOR_CODE": "110203",
+        "Title": "Respiratory Diseases"
+    },
+    {
+        "FOR_CODE": "110299",
+        "Title": "Cardiorespiratory Medicine and Haematology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110301",
+        "Title": "Anaesthesiology"
+    },
+    {
+        "FOR_CODE": "110302",
+        "Title": "Clinical Chemistry (diagnostics)"
+    },
+    {
+        "FOR_CODE": "110303",
+        "Title": "Clinical Microbiology"
+    },
+    {
+        "FOR_CODE": "110304",
+        "Title": "Dermatology"
+    },
+    {
+        "FOR_CODE": "110305",
+        "Title": "Emergency Medicine"
+    },
+    {
+        "FOR_CODE": "110306",
+        "Title": "Endocrinology"
+    },
+    {
+        "FOR_CODE": "110307",
+        "Title": "Gastroenterology and Hepatology"
+    },
+    {
+        "FOR_CODE": "110308",
+        "Title": "Geriatrics and Gerontology"
+    },
+    {
+        "FOR_CODE": "110309",
+        "Title": "Infectious Diseases"
+    },
+    {
+        "FOR_CODE": "110310",
+        "Title": "Intensive Care"
+    },
+    {
+        "FOR_CODE": "110311",
+        "Title": "Medical Genetics (excl. Cancer Genetics)"
+    },
+    {
+        "FOR_CODE": "110312",
+        "Title": "Nephrology and Urology"
+    },
+    {
+        "FOR_CODE": "110313",
+        "Title": "Nuclear Medicine"
+    },
+    {
+        "FOR_CODE": "110314",
+        "Title": "Orthopaedics"
+    },
+    {
+        "FOR_CODE": "110315",
+        "Title": "Otorhinolaryngology"
+    },
+    {
+        "FOR_CODE": "110316",
+        "Title": "Pathology (excl. Oral Pathology)"
+    },
+    {
+        "FOR_CODE": "110317",
+        "Title": "Physiotherapy"
+    },
+    {
+        "FOR_CODE": "110318",
+        "Title": "Podiatry"
+    },
+    {
+        "FOR_CODE": "110319",
+        "Title": "Psychiatry (incl. Psychotherapy)"
+    },
+    {
+        "FOR_CODE": "110320",
+        "Title": "Radiology and Organ Imaging"
+    },
+    {
+        "FOR_CODE": "110321",
+        "Title": "Rehabilitation and Therapy (excl. Physiotherapy)"
+    },
+    {
+        "FOR_CODE": "110322",
+        "Title": "Rheumatology and Arthritis"
+    },
+    {
+        "FOR_CODE": "110323",
+        "Title": "Surgery"
+    },
+    {
+        "FOR_CODE": "110324",
+        "Title": "Venereology"
+    },
+    {
+        "FOR_CODE": "110399",
+        "Title": "Clinical Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110401",
+        "Title": "Chiropractic"
+    },
+    {
+        "FOR_CODE": "110402",
+        "Title": "Naturopathy"
+    },
+    {
+        "FOR_CODE": "110403",
+        "Title": "Traditional Aboriginal and Torres Strait Islander Medicine and Treatments"
+    },
+    {
+        "FOR_CODE": "110404",
+        "Title": "Traditional Chinese Medicine and Treatments"
+    },
+    {
+        "FOR_CODE": "110405",
+        "Title": "Traditional Maori Medicine and Treatments"
+    },
+    {
+        "FOR_CODE": "110499",
+        "Title": "Complementary and Alternative Medicine not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110501",
+        "Title": "Dental Materials and Equipment"
+    },
+    {
+        "FOR_CODE": "110502",
+        "Title": "Dental Therapeutics, Pharmacology and Toxicology"
+    },
+    {
+        "FOR_CODE": "110503",
+        "Title": "Endodontics"
+    },
+    {
+        "FOR_CODE": "110504",
+        "Title": "Oral and Maxillofacial Surgery"
+    },
+    {
+        "FOR_CODE": "110505",
+        "Title": "Oral Medicine and Pathology"
+    },
+    {
+        "FOR_CODE": "110506",
+        "Title": "Orthodontics and Dentofacial Orthopaedics"
+    },
+    {
+        "FOR_CODE": "110507",
+        "Title": "Paedodontics"
+    },
+    {
+        "FOR_CODE": "110508",
+        "Title": "Periodontics"
+    },
+    {
+        "FOR_CODE": "110509",
+        "Title": "Special Needs Dentistry"
+    },
+    {
+        "FOR_CODE": "110599",
+        "Title": "Dentistry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110601",
+        "Title": "Biomechanics"
+    },
+    {
+        "FOR_CODE": "110602",
+        "Title": "Exercise Physiology"
+    },
+    {
+        "FOR_CODE": "110603",
+        "Title": "Motor Control"
+    },
+    {
+        "FOR_CODE": "110604",
+        "Title": "Sports Medicine"
+    },
+    {
+        "FOR_CODE": "110699",
+        "Title": "Human Movement and Sports Science not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110701",
+        "Title": "Allergy"
+    },
+    {
+        "FOR_CODE": "110702",
+        "Title": "Applied Immunology (incl. Antibody Engineering, Xenotransplantation and T-cell Therapies)"
+    },
+    {
+        "FOR_CODE": "110703",
+        "Title": "Autoimmunity"
+    },
+    {
+        "FOR_CODE": "110704",
+        "Title": "Cellular Immunology"
+    },
+    {
+        "FOR_CODE": "110705",
+        "Title": "Humoural Immunology and Immunochemistry"
+    },
+    {
+        "FOR_CODE": "110706",
+        "Title": "Immunogenetics (incl. Genetic Immunology)"
+    },
+    {
+        "FOR_CODE": "110707",
+        "Title": "Innate Immunity"
+    },
+    {
+        "FOR_CODE": "110708",
+        "Title": "Transplantation Immunology"
+    },
+    {
+        "FOR_CODE": "110709",
+        "Title": "Tumour Immunology"
+    },
+    {
+        "FOR_CODE": "110799",
+        "Title": "Immunology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110801",
+        "Title": "Medical Bacteriology"
+    },
+    {
+        "FOR_CODE": "110802",
+        "Title": "Medical Infection Agents (incl. Prions)"
+    },
+    {
+        "FOR_CODE": "110803",
+        "Title": "Medical Parasitology"
+    },
+    {
+        "FOR_CODE": "110804",
+        "Title": "Medical Virology"
+    },
+    {
+        "FOR_CODE": "110899",
+        "Title": "Medical Microbiology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "110901",
+        "Title": "Autonomic Nervous System"
+    },
+    {
+        "FOR_CODE": "110902",
+        "Title": "Cellular Nervous System"
+    },
+    {
+        "FOR_CODE": "110903",
+        "Title": "Central Nervous System"
+    },
+    {
+        "FOR_CODE": "110904",
+        "Title": "Neurology and Neuromuscular Diseases"
+    },
+    {
+        "FOR_CODE": "110905",
+        "Title": "Peripheral Nervous System"
+    },
+    {
+        "FOR_CODE": "110906",
+        "Title": "Sensory Systems"
+    },
+    {
+        "FOR_CODE": "110999",
+        "Title": "Neurosciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111001",
+        "Title": "Aged Care Nursing"
+    },
+    {
+        "FOR_CODE": "111002",
+        "Title": "Clinical Nursing: Primary (Preventative)"
+    },
+    {
+        "FOR_CODE": "111003",
+        "Title": "Clinical Nursing: Secondary (Acute Care)"
+    },
+    {
+        "FOR_CODE": "111004",
+        "Title": "Clinical Nursing: Tertiary (Rehabilitative)"
+    },
+    {
+        "FOR_CODE": "111005",
+        "Title": "Mental Health Nursing"
+    },
+    {
+        "FOR_CODE": "111006",
+        "Title": "Midwifery"
+    },
+    {
+        "FOR_CODE": "111099",
+        "Title": "Nursing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111101",
+        "Title": "Clinical and Sports Nutrition"
+    },
+    {
+        "FOR_CODE": "111102",
+        "Title": "Dietetics and Nutrigenomics"
+    },
+    {
+        "FOR_CODE": "111103",
+        "Title": "Nutritional Physiology"
+    },
+    {
+        "FOR_CODE": "111104",
+        "Title": "Public Nutrition Intervention"
+    },
+    {
+        "FOR_CODE": "111199",
+        "Title": "Nutrition and Dietetics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111201",
+        "Title": "Cancer Cell Biology"
+    },
+    {
+        "FOR_CODE": "111202",
+        "Title": "Cancer Diagnosis"
+    },
+    {
+        "FOR_CODE": "111203",
+        "Title": "Cancer Genetics"
+    },
+    {
+        "FOR_CODE": "111204",
+        "Title": "Cancer Therapy (excl. Chemotherapy and Radiation Therapy)"
+    },
+    {
+        "FOR_CODE": "111205",
+        "Title": "Chemotherapy"
+    },
+    {
+        "FOR_CODE": "111206",
+        "Title": "Haematological Tumours"
+    },
+    {
+        "FOR_CODE": "111207",
+        "Title": "Molecular Targets"
+    },
+    {
+        "FOR_CODE": "111208",
+        "Title": "Radiation Therapy"
+    },
+    {
+        "FOR_CODE": "111209",
+        "Title": "Solid Tumours"
+    },
+    {
+        "FOR_CODE": "111299",
+        "Title": "Oncology and Carcinogenesis not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111301",
+        "Title": "Ophthalmology"
+    },
+    {
+        "FOR_CODE": "111302",
+        "Title": "Optical Technology"
+    },
+    {
+        "FOR_CODE": "111303",
+        "Title": "Vision Science"
+    },
+    {
+        "FOR_CODE": "111399",
+        "Title": "Ophthalmology and Optometry not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111401",
+        "Title": "Foetal Development and Medicine"
+    },
+    {
+        "FOR_CODE": "111402",
+        "Title": "Obstetrics and Gynaecology"
+    },
+    {
+        "FOR_CODE": "111403",
+        "Title": "Paediatrics"
+    },
+    {
+        "FOR_CODE": "111404",
+        "Title": "Reproduction"
+    },
+    {
+        "FOR_CODE": "111499",
+        "Title": "Paediatrics and Reproductive Medicine not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111501",
+        "Title": "Basic Pharmacology"
+    },
+    {
+        "FOR_CODE": "111502",
+        "Title": "Clinical Pharmacology and Therapeutics"
+    },
+    {
+        "FOR_CODE": "111503",
+        "Title": "Clinical Pharmacy and Pharmacy Practice"
+    },
+    {
+        "FOR_CODE": "111504",
+        "Title": "Pharmaceutical Sciences"
+    },
+    {
+        "FOR_CODE": "111505",
+        "Title": "Pharmacogenomics"
+    },
+    {
+        "FOR_CODE": "111506",
+        "Title": "Toxicology (incl. Clinical Toxicology)"
+    },
+    {
+        "FOR_CODE": "111599",
+        "Title": "Pharmacology and Pharmaceutical Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111601",
+        "Title": "Cell Physiology"
+    },
+    {
+        "FOR_CODE": "111602",
+        "Title": "Human Biophysics"
+    },
+    {
+        "FOR_CODE": "111603",
+        "Title": "Systems Physiology"
+    },
+    {
+        "FOR_CODE": "111699",
+        "Title": "Medical Physiology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "111701",
+        "Title": "Aboriginal and Torres Strait Islander Health"
+    },
+    {
+        "FOR_CODE": "111702",
+        "Title": "Aged Health Care"
+    },
+    {
+        "FOR_CODE": "111703",
+        "Title": "Care for Disabled"
+    },
+    {
+        "FOR_CODE": "111704",
+        "Title": "Community Child Health"
+    },
+    {
+        "FOR_CODE": "111705",
+        "Title": "Environmental and Occupational Health and Safety"
+    },
+    {
+        "FOR_CODE": "111706",
+        "Title": "Epidemiology"
+    },
+    {
+        "FOR_CODE": "111707",
+        "Title": "Family Care"
+    },
+    {
+        "FOR_CODE": "111708",
+        "Title": "Health and Community Services"
+    },
+    {
+        "FOR_CODE": "111709",
+        "Title": "Health Care Administration"
+    },
+    {
+        "FOR_CODE": "111710",
+        "Title": "Health Counselling"
+    },
+    {
+        "FOR_CODE": "111711",
+        "Title": "Health Information Systems (incl. Surveillance)"
+    },
+    {
+        "FOR_CODE": "111712",
+        "Title": "Health Promotion"
+    },
+    {
+        "FOR_CODE": "111713",
+        "Title": "Maori Health"
+    },
+    {
+        "FOR_CODE": "111714",
+        "Title": "Mental Health"
+    },
+    {
+        "FOR_CODE": "111715",
+        "Title": "Pacific Peoples Health"
+    },
+    {
+        "FOR_CODE": "111716",
+        "Title": "Preventive Medicine"
+    },
+    {
+        "FOR_CODE": "111717",
+        "Title": "Primary Health Care"
+    },
+    {
+        "FOR_CODE": "111718",
+        "Title": "Residential Client Care"
+    },
+    {
+        "FOR_CODE": "111799",
+        "Title": "Public Health and Health Services not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "119999",
+        "Title": "Medical and Health Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "120101",
+        "Title": "Architectural Design"
+    },
+    {
+        "FOR_CODE": "120102",
+        "Title": "Architectural Heritage and Conservation"
+    },
+    {
+        "FOR_CODE": "120103",
+        "Title": "Architectural History and Theory"
+    },
+    {
+        "FOR_CODE": "120104",
+        "Title": "Architectural Science and Technology (incl. Acoustics, Lighting, Structure and Ecologically Sustainable Design)"
+    },
+    {
+        "FOR_CODE": "120105",
+        "Title": "Architecture Management"
+    },
+    {
+        "FOR_CODE": "120106",
+        "Title": "Interior Design"
+    },
+    {
+        "FOR_CODE": "120107",
+        "Title": "Landscape Architecture"
+    },
+    {
+        "FOR_CODE": "120199",
+        "Title": "Architecture not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "120201",
+        "Title": "Building Construction Management and Project Planning"
+    },
+    {
+        "FOR_CODE": "120202",
+        "Title": "Building Science and Techniques"
+    },
+    {
+        "FOR_CODE": "120203",
+        "Title": "Quantity Surveying"
+    },
+    {
+        "FOR_CODE": "120299",
+        "Title": "Building not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "120301",
+        "Title": "Design History and Theory"
+    },
+    {
+        "FOR_CODE": "120302",
+        "Title": "Design Innovation"
+    },
+    {
+        "FOR_CODE": "120303",
+        "Title": "Design Management and Studio and Professional Practice"
+    },
+    {
+        "FOR_CODE": "120304",
+        "Title": "Digital and Interaction Design"
+    },
+    {
+        "FOR_CODE": "120305",
+        "Title": "Industrial Design"
+    },
+    {
+        "FOR_CODE": "120306",
+        "Title": "Textile and Fashion Design"
+    },
+    {
+        "FOR_CODE": "120307",
+        "Title": "Visual Communication Design (incl. Graphic Design)"
+    },
+    {
+        "FOR_CODE": "120399",
+        "Title": "Design Practice and Management not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "120401",
+        "Title": "Engineering Design Empirical Studies"
+    },
+    {
+        "FOR_CODE": "120402",
+        "Title": "Engineering Design Knowledge"
+    },
+    {
+        "FOR_CODE": "120403",
+        "Title": "Engineering Design Methods"
+    },
+    {
+        "FOR_CODE": "120404",
+        "Title": "Engineering Systems Design"
+    },
+    {
+        "FOR_CODE": "120405",
+        "Title": "Models of Engineering Design"
+    },
+    {
+        "FOR_CODE": "120499",
+        "Title": "Engineering Design not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "120501",
+        "Title": "Community Planning"
+    },
+    {
+        "FOR_CODE": "120502",
+        "Title": "History and Theory of the Built Environment (excl. Architecture)"
+    },
+    {
+        "FOR_CODE": "120503",
+        "Title": "Housing Markets, Development, Management"
+    },
+    {
+        "FOR_CODE": "120504",
+        "Title": "Land Use and Environmental Planning"
+    },
+    {
+        "FOR_CODE": "120505",
+        "Title": "Regional Analysis and Development"
+    },
+    {
+        "FOR_CODE": "120506",
+        "Title": "Transport Planning"
+    },
+    {
+        "FOR_CODE": "120507",
+        "Title": "Urban Analysis and Development"
+    },
+    {
+        "FOR_CODE": "120508",
+        "Title": "Urban Design"
+    },
+    {
+        "FOR_CODE": "120599",
+        "Title": "Urban and Regional Planning not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "129999",
+        "Title": "Built Environment and Design not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "130101",
+        "Title": "Continuing and Community Education"
+    },
+    {
+        "FOR_CODE": "130102",
+        "Title": "Early Childhood Education (excl. Maori)"
+    },
+    {
+        "FOR_CODE": "130103",
+        "Title": "Higher Education"
+    },
+    {
+        "FOR_CODE": "130104",
+        "Title": "Kura Kaupapa Maori (Maori Primary Education)"
+    },
+    {
+        "FOR_CODE": "130105",
+        "Title": "Primary Education (excl. Maori)"
+    },
+    {
+        "FOR_CODE": "130106",
+        "Title": "Secondary Education"
+    },
+    {
+        "FOR_CODE": "130107",
+        "Title": "Te Whariki (Maori Early Childhood Education)"
+    },
+    {
+        "FOR_CODE": "130108",
+        "Title": "Technical, Further and Workplace Education"
+    },
+    {
+        "FOR_CODE": "130199",
+        "Title": "Education Systems not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "130201",
+        "Title": "Creative Arts, Media and Communication Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130202",
+        "Title": "Curriculum and Pedagogy Theory and Development"
+    },
+    {
+        "FOR_CODE": "130203",
+        "Title": "Economics, Business and Management Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130204",
+        "Title": "English and Literacy Curriculum and Pedagogy (excl. LOTE, ESL and TESOL)"
+    },
+    {
+        "FOR_CODE": "130205",
+        "Title": "Humanities and Social Sciences Curriculum and Pedagogy (excl. Economics, Business and Management)"
+    },
+    {
+        "FOR_CODE": "130206",
+        "Title": "Kohanga Reo (Maori Language Curriculum and Pedagogy)"
+    },
+    {
+        "FOR_CODE": "130207",
+        "Title": "LOTE, ESL and TESOL Curriculum and Pedagogy (excl. Maori)"
+    },
+    {
+        "FOR_CODE": "130208",
+        "Title": "Mathematics and Numeracy Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130209",
+        "Title": "Medicine, Nursing and Health Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130210",
+        "Title": "Physical Education and Development Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130211",
+        "Title": "Religion Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130212",
+        "Title": "Science, Technology and Engineering Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130213",
+        "Title": "Vocational Education and Training Curriculum and Pedagogy"
+    },
+    {
+        "FOR_CODE": "130299",
+        "Title": "Curriculum and Pedagogy not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "130301",
+        "Title": "Aboriginal and Torres Strait Islander Education"
+    },
+    {
+        "FOR_CODE": "130302",
+        "Title": "Comparative and Cross-Cultural Education"
+    },
+    {
+        "FOR_CODE": "130303",
+        "Title": "Education Assessment and Evaluation"
+    },
+    {
+        "FOR_CODE": "130304",
+        "Title": "Educational Administration, Management and Leadership"
+    },
+    {
+        "FOR_CODE": "130305",
+        "Title": "Educational Counselling"
+    },
+    {
+        "FOR_CODE": "130306",
+        "Title": "Educational Technology and Computing"
+    },
+    {
+        "FOR_CODE": "130307",
+        "Title": "Ethnic Education (excl. Aboriginal and Torres Strait Islander, Maori and Pacific Peoples)"
+    },
+    {
+        "FOR_CODE": "130308",
+        "Title": "Gender, Sexuality and Education"
+    },
+    {
+        "FOR_CODE": "130309",
+        "Title": "Learning Sciences"
+    },
+    {
+        "FOR_CODE": "130310",
+        "Title": "Maori Education (excl. Early Childhood and Primary Education)"
+    },
+    {
+        "FOR_CODE": "130311",
+        "Title": "Pacific Peoples Education"
+    },
+    {
+        "FOR_CODE": "130312",
+        "Title": "Special Education and Disability"
+    },
+    {
+        "FOR_CODE": "130313",
+        "Title": "Teacher Education and Professional Development of Educators"
+    },
+    {
+        "FOR_CODE": "130399",
+        "Title": "Specialist Studies in Education not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "139999",
+        "Title": "Education not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "140101",
+        "Title": "History of Economic Thought"
+    },
+    {
+        "FOR_CODE": "140102",
+        "Title": "Macroeconomic Theory"
+    },
+    {
+        "FOR_CODE": "140103",
+        "Title": "Mathematical Economics"
+    },
+    {
+        "FOR_CODE": "140104",
+        "Title": "Microeconomic Theory"
+    },
+    {
+        "FOR_CODE": "140199",
+        "Title": "Economic Theory not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "140201",
+        "Title": "Agricultural Economics"
+    },
+    {
+        "FOR_CODE": "140202",
+        "Title": "Economic Development and Growth"
+    },
+    {
+        "FOR_CODE": "140203",
+        "Title": "Economic History"
+    },
+    {
+        "FOR_CODE": "140204",
+        "Title": "Economics of Education"
+    },
+    {
+        "FOR_CODE": "140205",
+        "Title": "Environment and Resource Economics"
+    },
+    {
+        "FOR_CODE": "140206",
+        "Title": "Experimental Economics"
+    },
+    {
+        "FOR_CODE": "140207",
+        "Title": "Financial Economics"
+    },
+    {
+        "FOR_CODE": "140208",
+        "Title": "Health Economics"
+    },
+    {
+        "FOR_CODE": "140209",
+        "Title": "Industry Economics and Industrial Organisation"
+    },
+    {
+        "FOR_CODE": "140210",
+        "Title": "International Economics and International Finance"
+    },
+    {
+        "FOR_CODE": "140211",
+        "Title": "Labour Economics"
+    },
+    {
+        "FOR_CODE": "140212",
+        "Title": "Macroeconomics (incl. Monetary and Fiscal Theory)"
+    },
+    {
+        "FOR_CODE": "140213",
+        "Title": "Public Economics- Public Choice"
+    },
+    {
+        "FOR_CODE": "140214",
+        "Title": "Public Economics- Publically Provided Goods"
+    },
+    {
+        "FOR_CODE": "140215",
+        "Title": "Public Economics- Taxation and Revenue"
+    },
+    {
+        "FOR_CODE": "140216",
+        "Title": "Tourism Economics"
+    },
+    {
+        "FOR_CODE": "140217",
+        "Title": "Transport Economics"
+    },
+    {
+        "FOR_CODE": "140218",
+        "Title": "Urban and Regional Economics"
+    },
+    {
+        "FOR_CODE": "140219",
+        "Title": "Welfare Economics"
+    },
+    {
+        "FOR_CODE": "140299",
+        "Title": "Applied Economics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "140301",
+        "Title": "Cross-Sectional Analysis"
+    },
+    {
+        "FOR_CODE": "140302",
+        "Title": "Econometric and Statistical Methods"
+    },
+    {
+        "FOR_CODE": "140303",
+        "Title": "Economic Models and Forecasting"
+    },
+    {
+        "FOR_CODE": "140304",
+        "Title": "Panel Data Analysis"
+    },
+    {
+        "FOR_CODE": "140305",
+        "Title": "Time-Series Analysis"
+    },
+    {
+        "FOR_CODE": "140399",
+        "Title": "Econometrics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "149901",
+        "Title": "Comparative Economic Systems"
+    },
+    {
+        "FOR_CODE": "149902",
+        "Title": "Ecological Economics"
+    },
+    {
+        "FOR_CODE": "149903",
+        "Title": "Heterodox Economics"
+    },
+    {
+        "FOR_CODE": "149999",
+        "Title": "Economics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150101",
+        "Title": "Accounting Theory and Standards"
+    },
+    {
+        "FOR_CODE": "150102",
+        "Title": "Auditing and Accountability"
+    },
+    {
+        "FOR_CODE": "150103",
+        "Title": "Financial Accounting"
+    },
+    {
+        "FOR_CODE": "150104",
+        "Title": "International Accounting"
+    },
+    {
+        "FOR_CODE": "150105",
+        "Title": "Management Accounting"
+    },
+    {
+        "FOR_CODE": "150106",
+        "Title": "Sustainability Accounting and Reporting"
+    },
+    {
+        "FOR_CODE": "150107",
+        "Title": "Taxation Accounting"
+    },
+    {
+        "FOR_CODE": "150199",
+        "Title": "Accounting, Auditing and Accountability not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150201",
+        "Title": "Finance"
+    },
+    {
+        "FOR_CODE": "150202",
+        "Title": "Financial Econometrics"
+    },
+    {
+        "FOR_CODE": "150203",
+        "Title": "Financial Institutions (incl. Banking)"
+    },
+    {
+        "FOR_CODE": "150204",
+        "Title": "Insurance Studies"
+    },
+    {
+        "FOR_CODE": "150205",
+        "Title": "Investment and Risk Management"
+    },
+    {
+        "FOR_CODE": "150299",
+        "Title": "Banking, Finance and Investment not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150301",
+        "Title": "Business Information Management (incl. Records, Knowledge and Information Management, and Intelligence)"
+    },
+    {
+        "FOR_CODE": "150302",
+        "Title": "Business Information Systems"
+    },
+    {
+        "FOR_CODE": "150303",
+        "Title": "Corporate Governance and Stakeholder Engagement"
+    },
+    {
+        "FOR_CODE": "150304",
+        "Title": "Entrepreneurship"
+    },
+    {
+        "FOR_CODE": "150305",
+        "Title": "Human Resources Management"
+    },
+    {
+        "FOR_CODE": "150306",
+        "Title": "Industrial Relations"
+    },
+    {
+        "FOR_CODE": "150307",
+        "Title": "Innovation and Technology Management"
+    },
+    {
+        "FOR_CODE": "150308",
+        "Title": "International Business"
+    },
+    {
+        "FOR_CODE": "150309",
+        "Title": "Logistics and Supply Chain Management"
+    },
+    {
+        "FOR_CODE": "150310",
+        "Title": "Organisation and Management Theory"
+    },
+    {
+        "FOR_CODE": "150311",
+        "Title": "Organisational Behaviour"
+    },
+    {
+        "FOR_CODE": "150312",
+        "Title": "Organisational Planning and Management"
+    },
+    {
+        "FOR_CODE": "150313",
+        "Title": "Quality Management"
+    },
+    {
+        "FOR_CODE": "150314",
+        "Title": "Small Business Management"
+    },
+    {
+        "FOR_CODE": "150399",
+        "Title": "Business and Management not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150401",
+        "Title": "Food and Hospitality Services"
+    },
+    {
+        "FOR_CODE": "150402",
+        "Title": "Hospitality Management"
+    },
+    {
+        "FOR_CODE": "150403",
+        "Title": "Real Estate and Valuation Services"
+    },
+    {
+        "FOR_CODE": "150404",
+        "Title": "Sport and Leisure Management"
+    },
+    {
+        "FOR_CODE": "150499",
+        "Title": "Commercial Services not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150501",
+        "Title": "Consumer-Oriented Product or Service Development"
+    },
+    {
+        "FOR_CODE": "150502",
+        "Title": "Marketing Communications"
+    },
+    {
+        "FOR_CODE": "150503",
+        "Title": "Marketing Management (incl. Strategy and Customer Relations)"
+    },
+    {
+        "FOR_CODE": "150504",
+        "Title": "Marketing Measurement"
+    },
+    {
+        "FOR_CODE": "150505",
+        "Title": "Marketing Research Methodology"
+    },
+    {
+        "FOR_CODE": "150506",
+        "Title": "Marketing Theory"
+    },
+    {
+        "FOR_CODE": "150507",
+        "Title": "Pricing (incl. Consumer Value Estimation)"
+    },
+    {
+        "FOR_CODE": "150599",
+        "Title": "Marketing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150601",
+        "Title": "Impacts of Tourism"
+    },
+    {
+        "FOR_CODE": "150602",
+        "Title": "Tourism Forecasting"
+    },
+    {
+        "FOR_CODE": "150603",
+        "Title": "Tourism Management"
+    },
+    {
+        "FOR_CODE": "150604",
+        "Title": "Tourism Marketing"
+    },
+    {
+        "FOR_CODE": "150605",
+        "Title": "Tourism Resource Appraisal"
+    },
+    {
+        "FOR_CODE": "150606",
+        "Title": "Tourist Behaviour and Visitor Experience"
+    },
+    {
+        "FOR_CODE": "150699",
+        "Title": "Tourism not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "150701",
+        "Title": "Air Transportation and Freight Services"
+    },
+    {
+        "FOR_CODE": "150702",
+        "Title": "Rail Transportation and Freight Services"
+    },
+    {
+        "FOR_CODE": "150703",
+        "Title": "Road Transportation and Freight Services"
+    },
+    {
+        "FOR_CODE": "150799",
+        "Title": "Transportation and Freight Services not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "159999",
+        "Title": "Commerce, Management, Tourism and Services not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160101",
+        "Title": "Anthropology of Development"
+    },
+    {
+        "FOR_CODE": "160102",
+        "Title": "Biological (Physical) Anthropology"
+    },
+    {
+        "FOR_CODE": "160103",
+        "Title": "Linguistic Anthropology"
+    },
+    {
+        "FOR_CODE": "160104",
+        "Title": "Social and Cultural Anthropology"
+    },
+    {
+        "FOR_CODE": "160199",
+        "Title": "Anthropology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160201",
+        "Title": "Causes and Prevention of Crime"
+    },
+    {
+        "FOR_CODE": "160202",
+        "Title": "Correctional Theory, Offender Treatment and Rehabilitation"
+    },
+    {
+        "FOR_CODE": "160203",
+        "Title": "Courts and Sentencing"
+    },
+    {
+        "FOR_CODE": "160204",
+        "Title": "Criminological Theories"
+    },
+    {
+        "FOR_CODE": "160205",
+        "Title": "Police Administration, Procedures and Practice"
+    },
+    {
+        "FOR_CODE": "160206",
+        "Title": "Private Policing and Security Services"
+    },
+    {
+        "FOR_CODE": "160299",
+        "Title": "Criminology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160301",
+        "Title": "Family and Household Studies"
+    },
+    {
+        "FOR_CODE": "160302",
+        "Title": "Fertility"
+    },
+    {
+        "FOR_CODE": "160303",
+        "Title": "Migration"
+    },
+    {
+        "FOR_CODE": "160304",
+        "Title": "Mortality"
+    },
+    {
+        "FOR_CODE": "160305",
+        "Title": "Population Trends and Policies"
+    },
+    {
+        "FOR_CODE": "160399",
+        "Title": "Demography not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160401",
+        "Title": "Economic Geography"
+    },
+    {
+        "FOR_CODE": "160402",
+        "Title": "Recreation, Leisure and Tourism Geography"
+    },
+    {
+        "FOR_CODE": "160403",
+        "Title": "Social and Cultural Geography"
+    },
+    {
+        "FOR_CODE": "160404",
+        "Title": "Urban and Regional Studies (excl. Planning)"
+    },
+    {
+        "FOR_CODE": "160499",
+        "Title": "Human Geography not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160501",
+        "Title": "Aboriginal and Torres Strait Islander Policy"
+    },
+    {
+        "FOR_CODE": "160502",
+        "Title": "Arts and Cultural Policy"
+    },
+    {
+        "FOR_CODE": "160503",
+        "Title": "Communications and Media Policy"
+    },
+    {
+        "FOR_CODE": "160504",
+        "Title": "Crime Policy"
+    },
+    {
+        "FOR_CODE": "160505",
+        "Title": "Economic Development Policy"
+    },
+    {
+        "FOR_CODE": "160506",
+        "Title": "Education Policy"
+    },
+    {
+        "FOR_CODE": "160507",
+        "Title": "Environment Policy"
+    },
+    {
+        "FOR_CODE": "160508",
+        "Title": "Health Policy"
+    },
+    {
+        "FOR_CODE": "160509",
+        "Title": "Public Administration"
+    },
+    {
+        "FOR_CODE": "160510",
+        "Title": "Public Policy"
+    },
+    {
+        "FOR_CODE": "160511",
+        "Title": "Research, Science and Technology Policy"
+    },
+    {
+        "FOR_CODE": "160512",
+        "Title": "Social Policy"
+    },
+    {
+        "FOR_CODE": "160513",
+        "Title": "Tourism Policy"
+    },
+    {
+        "FOR_CODE": "160514",
+        "Title": "Urban Policy"
+    },
+    {
+        "FOR_CODE": "160599",
+        "Title": "Policy and Administration not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160601",
+        "Title": "Australian Government and Politics"
+    },
+    {
+        "FOR_CODE": "160602",
+        "Title": "Citizenship"
+    },
+    {
+        "FOR_CODE": "160603",
+        "Title": "Comparative Government and Politics"
+    },
+    {
+        "FOR_CODE": "160604",
+        "Title": "Defence Studies"
+    },
+    {
+        "FOR_CODE": "160605",
+        "Title": "Environmental Politics"
+    },
+    {
+        "FOR_CODE": "160606",
+        "Title": "Government and Politics of Asia and the Pacific"
+    },
+    {
+        "FOR_CODE": "160607",
+        "Title": "International Relations"
+    },
+    {
+        "FOR_CODE": "160608",
+        "Title": "New Zealand Government and Politics"
+    },
+    {
+        "FOR_CODE": "160609",
+        "Title": "Political Theory and Political Philosophy"
+    },
+    {
+        "FOR_CODE": "160699",
+        "Title": "Political Science not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160701",
+        "Title": "Clinical Social Work Practice"
+    },
+    {
+        "FOR_CODE": "160702",
+        "Title": "Counselling, Welfare and Community Services"
+    },
+    {
+        "FOR_CODE": "160703",
+        "Title": "Social Program Evaluation"
+    },
+    {
+        "FOR_CODE": "160799",
+        "Title": "Social Work not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "160801",
+        "Title": "Applied Sociology, Program Evaluation and Social Impact Assessment"
+    },
+    {
+        "FOR_CODE": "160802",
+        "Title": "Environmental Sociology"
+    },
+    {
+        "FOR_CODE": "160803",
+        "Title": "Race and Ethnic Relations"
+    },
+    {
+        "FOR_CODE": "160804",
+        "Title": "Rural Sociology"
+    },
+    {
+        "FOR_CODE": "160805",
+        "Title": "Social Change"
+    },
+    {
+        "FOR_CODE": "160806",
+        "Title": "Social Theory"
+    },
+    {
+        "FOR_CODE": "160807",
+        "Title": "Sociological Methodology and Research Methods"
+    },
+    {
+        "FOR_CODE": "160808",
+        "Title": "Sociology and Social Studies of Science and Technology"
+    },
+    {
+        "FOR_CODE": "160809",
+        "Title": "Sociology of Education"
+    },
+    {
+        "FOR_CODE": "160810",
+        "Title": "Urban Sociology and Community Studies"
+    },
+    {
+        "FOR_CODE": "160899",
+        "Title": "Sociology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "169901",
+        "Title": "Gender Specific Studies"
+    },
+    {
+        "FOR_CODE": "169902",
+        "Title": "Studies of Aboriginal and Torres Strait Islander Society"
+    },
+    {
+        "FOR_CODE": "169903",
+        "Title": "Studies of Asian Society"
+    },
+    {
+        "FOR_CODE": "169904",
+        "Title": "Studies of Maori Society"
+    },
+    {
+        "FOR_CODE": "169905",
+        "Title": "Studies of Pacific Peoples' Societies"
+    },
+    {
+        "FOR_CODE": "169999",
+        "Title": "Studies in Human Society not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "170101",
+        "Title": "Biological Psychology (Neuropsychology, Psychopharmacology, Physiological Psychology)"
+    },
+    {
+        "FOR_CODE": "170102",
+        "Title": "Developmental Psychology and Ageing"
+    },
+    {
+        "FOR_CODE": "170103",
+        "Title": "Educational Psychology"
+    },
+    {
+        "FOR_CODE": "170104",
+        "Title": "Forensic Psychology"
+    },
+    {
+        "FOR_CODE": "170105",
+        "Title": "Gender Psychology"
+    },
+    {
+        "FOR_CODE": "170106",
+        "Title": "Health, Clinical and Counselling Psychology"
+    },
+    {
+        "FOR_CODE": "170107",
+        "Title": "Industrial and Organisational Psychology"
+    },
+    {
+        "FOR_CODE": "170108",
+        "Title": "Kaupapa Maori Psychology"
+    },
+    {
+        "FOR_CODE": "170109",
+        "Title": "Personality, Abilities and Assessment"
+    },
+    {
+        "FOR_CODE": "170110",
+        "Title": "Psychological Methodology, Design and Analysis"
+    },
+    {
+        "FOR_CODE": "170111",
+        "Title": "Psychology of Religion"
+    },
+    {
+        "FOR_CODE": "170112",
+        "Title": "Sensory Processes, Perception and Performance"
+    },
+    {
+        "FOR_CODE": "170113",
+        "Title": "Social and Community Psychology"
+    },
+    {
+        "FOR_CODE": "170114",
+        "Title": "Sport and Exercise Psychology"
+    },
+    {
+        "FOR_CODE": "170199",
+        "Title": "Psychology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "170201",
+        "Title": "Computer Perception, Memory and Attention"
+    },
+    {
+        "FOR_CODE": "170202",
+        "Title": "Decision Making"
+    },
+    {
+        "FOR_CODE": "170203",
+        "Title": "Knowledge Representation and Machine Learning"
+    },
+    {
+        "FOR_CODE": "170204",
+        "Title": "Linguistic Processes (incl. Speech Production and Comprehension)"
+    },
+    {
+        "FOR_CODE": "170205",
+        "Title": "Neurocognitive Patterns and Neural Networks"
+    },
+    {
+        "FOR_CODE": "170299",
+        "Title": "Cognitive Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "179999",
+        "Title": "Psychology and Cognitive Sciences not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "180101",
+        "Title": "Aboriginal and Torres Strait Islander Law"
+    },
+    {
+        "FOR_CODE": "180102",
+        "Title": "Access to Justice"
+    },
+    {
+        "FOR_CODE": "180103",
+        "Title": "Administrative Law"
+    },
+    {
+        "FOR_CODE": "180104",
+        "Title": "Civil Law and Procedure"
+    },
+    {
+        "FOR_CODE": "180105",
+        "Title": "Commercial and Contract Law"
+    },
+    {
+        "FOR_CODE": "180106",
+        "Title": "Comparative Law"
+    },
+    {
+        "FOR_CODE": "180107",
+        "Title": "Conflict of Laws (Private International Law)"
+    },
+    {
+        "FOR_CODE": "180108",
+        "Title": "Constitutional Law"
+    },
+    {
+        "FOR_CODE": "180109",
+        "Title": "Corporations and Associations Law"
+    },
+    {
+        "FOR_CODE": "180110",
+        "Title": "Criminal Law and Procedure"
+    },
+    {
+        "FOR_CODE": "180111",
+        "Title": "Environmental and Natural Resources Law"
+    },
+    {
+        "FOR_CODE": "180112",
+        "Title": "Equity and Trusts Law"
+    },
+    {
+        "FOR_CODE": "180113",
+        "Title": "Family Law"
+    },
+    {
+        "FOR_CODE": "180114",
+        "Title": "Human Rights Law"
+    },
+    {
+        "FOR_CODE": "180115",
+        "Title": "Intellectual Property Law"
+    },
+    {
+        "FOR_CODE": "180116",
+        "Title": "International Law (excl. International Trade Law)"
+    },
+    {
+        "FOR_CODE": "180117",
+        "Title": "International Trade Law"
+    },
+    {
+        "FOR_CODE": "180118",
+        "Title": "Labour Law"
+    },
+    {
+        "FOR_CODE": "180119",
+        "Title": "Law and Society"
+    },
+    {
+        "FOR_CODE": "180120",
+        "Title": "Legal Institutions (incl. Courts and Justice Systems)"
+    },
+    {
+        "FOR_CODE": "180121",
+        "Title": "Legal Practice, Lawyering and the Legal Profession"
+    },
+    {
+        "FOR_CODE": "180122",
+        "Title": "Legal Theory, Jurisprudence and Legal Interpretation"
+    },
+    {
+        "FOR_CODE": "180123",
+        "Title": "Litigation, Adjudication and Dispute Resolution"
+    },
+    {
+        "FOR_CODE": "180124",
+        "Title": "Property Law (excl. Intellectual Property Law)"
+    },
+    {
+        "FOR_CODE": "180125",
+        "Title": "Taxation Law"
+    },
+    {
+        "FOR_CODE": "180126",
+        "Title": "Tort Law"
+    },
+    {
+        "FOR_CODE": "180199",
+        "Title": "Law not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "180201",
+        "Title": "Nga Tikanga Maori (Maori Customary Law)"
+    },
+    {
+        "FOR_CODE": "180202",
+        "Title": "Te Maori Whakakaere Rauemi (Maori Resource Law)"
+    },
+    {
+        "FOR_CODE": "180203",
+        "Title": "Te Tiriti O Waitangi (The Treaty of Waitangi)"
+    },
+    {
+        "FOR_CODE": "180204",
+        "Title": "Te Ture Whenua (Maori Land Law)"
+    },
+    {
+        "FOR_CODE": "180299",
+        "Title": "Maori Law not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "189999",
+        "Title": "Law and Legal Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "190101",
+        "Title": "Art Criticism"
+    },
+    {
+        "FOR_CODE": "190102",
+        "Title": "Art History"
+    },
+    {
+        "FOR_CODE": "190103",
+        "Title": "Art Theory"
+    },
+    {
+        "FOR_CODE": "190104",
+        "Title": "Visual Cultures"
+    },
+    {
+        "FOR_CODE": "190199",
+        "Title": "Art Theory and Criticism not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "190201",
+        "Title": "Cinema Studies"
+    },
+    {
+        "FOR_CODE": "190202",
+        "Title": "Computer Gaming and Animation"
+    },
+    {
+        "FOR_CODE": "190203",
+        "Title": "Electronic Media Art"
+    },
+    {
+        "FOR_CODE": "190204",
+        "Title": "Film and Television"
+    },
+    {
+        "FOR_CODE": "190205",
+        "Title": "Interactive Media"
+    },
+    {
+        "FOR_CODE": "190299",
+        "Title": "Film, Television and Digital Media not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "190301",
+        "Title": "Journalism Studies"
+    },
+    {
+        "FOR_CODE": "190302",
+        "Title": "Professional Writing"
+    },
+    {
+        "FOR_CODE": "190303",
+        "Title": "Technical Writing"
+    },
+    {
+        "FOR_CODE": "190399",
+        "Title": "Journalism and Professional Writing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "190401",
+        "Title": "Aboriginal and Torres Strait Islander Performing Arts"
+    },
+    {
+        "FOR_CODE": "190402",
+        "Title": "Creative Writing (incl. Playwriting)"
+    },
+    {
+        "FOR_CODE": "190403",
+        "Title": "Dance"
+    },
+    {
+        "FOR_CODE": "190404",
+        "Title": "Drama, Theatre and Performance Studies"
+    },
+    {
+        "FOR_CODE": "190405",
+        "Title": "Maori Performing Arts"
+    },
+    {
+        "FOR_CODE": "190406",
+        "Title": "Music Composition"
+    },
+    {
+        "FOR_CODE": "190407",
+        "Title": "Music Performance"
+    },
+    {
+        "FOR_CODE": "190408",
+        "Title": "Music Therapy"
+    },
+    {
+        "FOR_CODE": "190409",
+        "Title": "Musicology and Ethnomusicology"
+    },
+    {
+        "FOR_CODE": "190410",
+        "Title": "Pacific Peoples Performing Arts"
+    },
+    {
+        "FOR_CODE": "190499",
+        "Title": "Performing Arts and Creative Writing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "190501",
+        "Title": "Crafts"
+    },
+    {
+        "FOR_CODE": "190502",
+        "Title": "Fine Arts (incl. Sculpture and Painting)"
+    },
+    {
+        "FOR_CODE": "190503",
+        "Title": "Lens-based Practice"
+    },
+    {
+        "FOR_CODE": "190504",
+        "Title": "Performance and Installation Art"
+    },
+    {
+        "FOR_CODE": "190599",
+        "Title": "Visual Arts and Crafts not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "199999",
+        "Title": "Studies in Creative Arts and Writing not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "200101",
+        "Title": "Communication Studies"
+    },
+    {
+        "FOR_CODE": "200102",
+        "Title": "Communication Technology and Digital Media Studies"
+    },
+    {
+        "FOR_CODE": "200103",
+        "Title": "International and Development Communication"
+    },
+    {
+        "FOR_CODE": "200104",
+        "Title": "Media Studies"
+    },
+    {
+        "FOR_CODE": "200105",
+        "Title": "Organisational, Interpersonal and Intercultural Communication"
+    },
+    {
+        "FOR_CODE": "200199",
+        "Title": "Communication and Media Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "200201",
+        "Title": "Aboriginal and Torres Strait Islander Cultural Studies"
+    },
+    {
+        "FOR_CODE": "200202",
+        "Title": "Asian Cultural Studies"
+    },
+    {
+        "FOR_CODE": "200203",
+        "Title": "Consumption and Everyday Life"
+    },
+    {
+        "FOR_CODE": "200204",
+        "Title": "Cultural Theory"
+    },
+    {
+        "FOR_CODE": "200205",
+        "Title": "Culture, Gender, Sexuality"
+    },
+    {
+        "FOR_CODE": "200206",
+        "Title": "Globalisation and Culture"
+    },
+    {
+        "FOR_CODE": "200207",
+        "Title": "Maori Cultural Studies"
+    },
+    {
+        "FOR_CODE": "200208",
+        "Title": "Migrant Cultural Studies"
+    },
+    {
+        "FOR_CODE": "200209",
+        "Title": "Multicultural, Intercultural and Cross-cultural Studies"
+    },
+    {
+        "FOR_CODE": "200210",
+        "Title": "Pacific Cultural Studies"
+    },
+    {
+        "FOR_CODE": "200211",
+        "Title": "Postcolonial Studies"
+    },
+    {
+        "FOR_CODE": "200212",
+        "Title": "Screen and Media Culture"
+    },
+    {
+        "FOR_CODE": "200299",
+        "Title": "Cultural Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "200301",
+        "Title": "Early English Languages"
+    },
+    {
+        "FOR_CODE": "200302",
+        "Title": "English Language"
+    },
+    {
+        "FOR_CODE": "200303",
+        "Title": "English as a Second Language"
+    },
+    {
+        "FOR_CODE": "200304",
+        "Title": "Central and Eastern European Languages (incl. Russian)"
+    },
+    {
+        "FOR_CODE": "200305",
+        "Title": "Latin and Classical Greek Languages"
+    },
+    {
+        "FOR_CODE": "200306",
+        "Title": "French Language"
+    },
+    {
+        "FOR_CODE": "200307",
+        "Title": "German Language"
+    },
+    {
+        "FOR_CODE": "200308",
+        "Title": "Iberian Languages"
+    },
+    {
+        "FOR_CODE": "200309",
+        "Title": "Italian Language"
+    },
+    {
+        "FOR_CODE": "200310",
+        "Title": "Other European Languages"
+    },
+    {
+        "FOR_CODE": "200311",
+        "Title": "Chinese Languages"
+    },
+    {
+        "FOR_CODE": "200312",
+        "Title": "Japanese Language"
+    },
+    {
+        "FOR_CODE": "200313",
+        "Title": "Indonesian Languages"
+    },
+    {
+        "FOR_CODE": "200314",
+        "Title": "South-East Asian Languages (excl. Indonesian)"
+    },
+    {
+        "FOR_CODE": "200315",
+        "Title": "Indian Languages"
+    },
+    {
+        "FOR_CODE": "200316",
+        "Title": "Korean Language"
+    },
+    {
+        "FOR_CODE": "200317",
+        "Title": "Other Asian Languages (excl. South-East Asian)"
+    },
+    {
+        "FOR_CODE": "200318",
+        "Title": "Middle Eastern Languages"
+    },
+    {
+        "FOR_CODE": "200319",
+        "Title": "Aboriginal and Torres Strait Islander Languages"
+    },
+    {
+        "FOR_CODE": "200320",
+        "Title": "Pacific Languages"
+    },
+    {
+        "FOR_CODE": "200321",
+        "Title": "Te Reo Maori (Maori Language)"
+    },
+    {
+        "FOR_CODE": "200322",
+        "Title": "Comparative Language Studies"
+    },
+    {
+        "FOR_CODE": "200323",
+        "Title": "Translation and Interpretation Studies"
+    },
+    {
+        "FOR_CODE": "200399",
+        "Title": "Language Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "200401",
+        "Title": "Applied Linguistics and Educational Linguistics"
+    },
+    {
+        "FOR_CODE": "200402",
+        "Title": "Computational Linguistics"
+    },
+    {
+        "FOR_CODE": "200403",
+        "Title": "Discourse and Pragmatics"
+    },
+    {
+        "FOR_CODE": "200404",
+        "Title": "Laboratory Phonetics and Speech Science"
+    },
+    {
+        "FOR_CODE": "200405",
+        "Title": "Language in Culture and Society (Sociolinguistics)"
+    },
+    {
+        "FOR_CODE": "200406",
+        "Title": "Language in Time and Space (incl. Historical Linguistics, Dialectology)"
+    },
+    {
+        "FOR_CODE": "200407",
+        "Title": "Lexicography"
+    },
+    {
+        "FOR_CODE": "200408",
+        "Title": "Linguistic Structures (incl. Grammar, Phonology, Lexicon, Semantics)"
+    },
+    {
+        "FOR_CODE": "200499",
+        "Title": "Linguistics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "200501",
+        "Title": "Aboriginal and Torres Strait Islander Literature"
+    },
+    {
+        "FOR_CODE": "200502",
+        "Title": "Australian Literature (excl. Aboriginal and Torres Strait Islander Literature)"
+    },
+    {
+        "FOR_CODE": "200503",
+        "Title": "British and Irish Literature"
+    },
+    {
+        "FOR_CODE": "200504",
+        "Title": "Maori Literature"
+    },
+    {
+        "FOR_CODE": "200505",
+        "Title": "New Zealand Literature (excl. Maori Literature)"
+    },
+    {
+        "FOR_CODE": "200506",
+        "Title": "North American Literature"
+    },
+    {
+        "FOR_CODE": "200507",
+        "Title": "Pacific Literature"
+    },
+    {
+        "FOR_CODE": "200508",
+        "Title": "Other Literatures in English"
+    },
+    {
+        "FOR_CODE": "200509",
+        "Title": "Central and Eastern European Literature (incl. Russian)"
+    },
+    {
+        "FOR_CODE": "200510",
+        "Title": "Latin and Classical Greek Literature"
+    },
+    {
+        "FOR_CODE": "200511",
+        "Title": "Literature in French"
+    },
+    {
+        "FOR_CODE": "200512",
+        "Title": "Literature in German"
+    },
+    {
+        "FOR_CODE": "200513",
+        "Title": "Literature in Italian"
+    },
+    {
+        "FOR_CODE": "200514",
+        "Title": "Literature in Spanish and Portuguese"
+    },
+    {
+        "FOR_CODE": "200515",
+        "Title": "Other European Literature"
+    },
+    {
+        "FOR_CODE": "200516",
+        "Title": "Indonesian Literature"
+    },
+    {
+        "FOR_CODE": "200517",
+        "Title": "Literature in Chinese"
+    },
+    {
+        "FOR_CODE": "200518",
+        "Title": "Literature in Japanese"
+    },
+    {
+        "FOR_CODE": "200519",
+        "Title": "South-East Asian Literature (excl. Indonesian)"
+    },
+    {
+        "FOR_CODE": "200520",
+        "Title": "Indian Literature"
+    },
+    {
+        "FOR_CODE": "200521",
+        "Title": "Korean Literature"
+    },
+    {
+        "FOR_CODE": "200522",
+        "Title": "Other Asian Literature (excl. South-East Asian)"
+    },
+    {
+        "FOR_CODE": "200523",
+        "Title": "Middle Eastern Literature"
+    },
+    {
+        "FOR_CODE": "200524",
+        "Title": "Comparative Literature Studies"
+    },
+    {
+        "FOR_CODE": "200525",
+        "Title": "Literary Theory"
+    },
+    {
+        "FOR_CODE": "200526",
+        "Title": "Stylistics and Textual Analysis"
+    },
+    {
+        "FOR_CODE": "200599",
+        "Title": "Literary Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "209999",
+        "Title": "Language, Communication and Culture not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "210101",
+        "Title": "Aboriginal and Torres Strait Islander Archaeology"
+    },
+    {
+        "FOR_CODE": "210102",
+        "Title": "Archaeological Science"
+    },
+    {
+        "FOR_CODE": "210103",
+        "Title": "Archaeology of Asia, Africa and the Americas"
+    },
+    {
+        "FOR_CODE": "210104",
+        "Title": "Archaeology of Australia (excl. Aboriginal and Torres Strait Islander)"
+    },
+    {
+        "FOR_CODE": "210105",
+        "Title": "Archaeology of Europe, the Mediterranean and the Levant"
+    },
+    {
+        "FOR_CODE": "210106",
+        "Title": "Archaeology of New Guinea and Pacific Islands (excl. New Zealand)"
+    },
+    {
+        "FOR_CODE": "210107",
+        "Title": "Archaeology of New Zealand (excl. Maori)"
+    },
+    {
+        "FOR_CODE": "210108",
+        "Title": "Historical Archaeology (incl. Industrial Archaeology)"
+    },
+    {
+        "FOR_CODE": "210109",
+        "Title": "Maori Archaeology"
+    },
+    {
+        "FOR_CODE": "210110",
+        "Title": "Maritime Archaeology"
+    },
+    {
+        "FOR_CODE": "210199",
+        "Title": "Archaeology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "210201",
+        "Title": "Archival, Repository and Related Studies"
+    },
+    {
+        "FOR_CODE": "210202",
+        "Title": "Heritage and Cultural Conservation"
+    },
+    {
+        "FOR_CODE": "210203",
+        "Title": "Materials Conservation"
+    },
+    {
+        "FOR_CODE": "210204",
+        "Title": "Museum Studies"
+    },
+    {
+        "FOR_CODE": "210299",
+        "Title": "Curatorial and Related Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "210301",
+        "Title": "Aboriginal and Torres Strait Islander History"
+    },
+    {
+        "FOR_CODE": "210302",
+        "Title": "Asian History"
+    },
+    {
+        "FOR_CODE": "210303",
+        "Title": "Australian History (excl. Aboriginal and Torres Strait Islander History)"
+    },
+    {
+        "FOR_CODE": "210304",
+        "Title": "Biography"
+    },
+    {
+        "FOR_CODE": "210305",
+        "Title": "British History"
+    },
+    {
+        "FOR_CODE": "210306",
+        "Title": "Classical Greek and Roman History"
+    },
+    {
+        "FOR_CODE": "210307",
+        "Title": "European History (excl. British, Classical Greek and Roman)"
+    },
+    {
+        "FOR_CODE": "210308",
+        "Title": "Latin American History"
+    },
+    {
+        "FOR_CODE": "210309",
+        "Title": "Maori History"
+    },
+    {
+        "FOR_CODE": "210310",
+        "Title": "Middle Eastern and African History"
+    },
+    {
+        "FOR_CODE": "210311",
+        "Title": "New Zealand History"
+    },
+    {
+        "FOR_CODE": "210312",
+        "Title": "North American History"
+    },
+    {
+        "FOR_CODE": "210313",
+        "Title": "Pacific History (excl. New Zealand and Maori)"
+    },
+    {
+        "FOR_CODE": "210399",
+        "Title": "Historical Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "219999",
+        "Title": "History and Archaeology not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "220101",
+        "Title": "Bioethics (human and animal)"
+    },
+    {
+        "FOR_CODE": "220102",
+        "Title": "Business Ethics"
+    },
+    {
+        "FOR_CODE": "220103",
+        "Title": "Ethical Use of New Technology (e.g. Nanotechnology, Biotechnology)"
+    },
+    {
+        "FOR_CODE": "220104",
+        "Title": "Human Rights and Justice Issues"
+    },
+    {
+        "FOR_CODE": "220105",
+        "Title": "Legal Ethics"
+    },
+    {
+        "FOR_CODE": "220106",
+        "Title": "Medical Ethics"
+    },
+    {
+        "FOR_CODE": "220107",
+        "Title": "Professional Ethics (incl. police and research ethics)"
+    },
+    {
+        "FOR_CODE": "220199",
+        "Title": "Applied Ethics not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "220201",
+        "Title": "Business and Labour History"
+    },
+    {
+        "FOR_CODE": "220202",
+        "Title": "History and Philosophy of Education"
+    },
+    {
+        "FOR_CODE": "220203",
+        "Title": "History and Philosophy of Engineering and Technology"
+    },
+    {
+        "FOR_CODE": "220204",
+        "Title": "History and Philosophy of Law and Justice"
+    },
+    {
+        "FOR_CODE": "220205",
+        "Title": "History and Philosophy of Medicine"
+    },
+    {
+        "FOR_CODE": "220206",
+        "Title": "History and Philosophy of Science (incl. Non-historical Philosophy of Science)"
+    },
+    {
+        "FOR_CODE": "220207",
+        "Title": "History and Philosophy of the Humanities"
+    },
+    {
+        "FOR_CODE": "220208",
+        "Title": "History and Philosophy of the Social Sciences"
+    },
+    {
+        "FOR_CODE": "220209",
+        "Title": "History of Ideas"
+    },
+    {
+        "FOR_CODE": "220210",
+        "Title": "History of Philosophy"
+    },
+    {
+        "FOR_CODE": "220299",
+        "Title": "History and Philosophy of Specific Fields not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "220301",
+        "Title": "Aesthetics"
+    },
+    {
+        "FOR_CODE": "220302",
+        "Title": "Decision Theory"
+    },
+    {
+        "FOR_CODE": "220303",
+        "Title": "Environmental Philosophy"
+    },
+    {
+        "FOR_CODE": "220304",
+        "Title": "Epistemology"
+    },
+    {
+        "FOR_CODE": "220305",
+        "Title": "Ethical Theory"
+    },
+    {
+        "FOR_CODE": "220306",
+        "Title": "Feminist Theory"
+    },
+    {
+        "FOR_CODE": "220307",
+        "Title": "Hermeneutic and Critical Theory"
+    },
+    {
+        "FOR_CODE": "220308",
+        "Title": "Logic"
+    },
+    {
+        "FOR_CODE": "220309",
+        "Title": "Metaphysics"
+    },
+    {
+        "FOR_CODE": "220310",
+        "Title": "Phenomenology"
+    },
+    {
+        "FOR_CODE": "220311",
+        "Title": "Philosophical Psychology (incl. Moral Psychology and Philosophy of Action)"
+    },
+    {
+        "FOR_CODE": "220312",
+        "Title": "Philosophy of Cognition"
+    },
+    {
+        "FOR_CODE": "220313",
+        "Title": "Philosophy of Language"
+    },
+    {
+        "FOR_CODE": "220314",
+        "Title": "Philosophy of Mind (excl. Cognition)"
+    },
+    {
+        "FOR_CODE": "220315",
+        "Title": "Philosophy of Religion"
+    },
+    {
+        "FOR_CODE": "220316",
+        "Title": "Philosophy of Specific Cultures (incl. Comparative Philosophy)"
+    },
+    {
+        "FOR_CODE": "220317",
+        "Title": "Poststructuralism"
+    },
+    {
+        "FOR_CODE": "220318",
+        "Title": "Psychoanalytic Philosophy"
+    },
+    {
+        "FOR_CODE": "220319",
+        "Title": "Social Philosophy"
+    },
+    {
+        "FOR_CODE": "220399",
+        "Title": "Philosophy not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "220401",
+        "Title": "Christian Studies (incl. Biblical Studies and Church History)"
+    },
+    {
+        "FOR_CODE": "220402",
+        "Title": "Comparative Religious Studies"
+    },
+    {
+        "FOR_CODE": "220403",
+        "Title": "Islamic Studies"
+    },
+    {
+        "FOR_CODE": "220404",
+        "Title": "Jewish Studies"
+    },
+    {
+        "FOR_CODE": "220405",
+        "Title": "Religion and Society"
+    },
+    {
+        "FOR_CODE": "220406",
+        "Title": "Studies in Eastern Religious Traditions"
+    },
+    {
+        "FOR_CODE": "220407",
+        "Title": "Studies in Religious Traditions (excl. Eastern, Jewish, Christian and Islamic Traditions)"
+    },
+    {
+        "FOR_CODE": "220499",
+        "Title": "Religion and Religious Studies not elsewhere classified"
+    },
+    {
+        "FOR_CODE": "229999",
+        "Title": "Philosophy and Religious Studies not elsewhere classified"
+    }
+]
