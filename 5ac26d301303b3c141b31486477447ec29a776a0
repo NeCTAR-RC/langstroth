@@ -1,0 +1,648 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_02b97a2e",
+        "filename": ".project",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "i would prefer if there wasn\u0027t v3 specific code in the repository.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_e2ba6e09",
+        "filename": ".pydevproject",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "i would prefer if these files weren\u0027t included in this commit,  basically any editor specific stuff should be kept out of the repository if at all possible.\n\nyou can use:\n git rm --cached .pydevproject\n\nto remove these files from the repository and then add these to the .gitignore so that they don\u0027t accidental get added in the future",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_423702b1",
+        "filename": ".settings/.jsdtscope",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "also should be removed and ignored if possible.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_223c7693",
+        "filename": ".settings/org.eclipse.wst.jsdt.ui.superType.container",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "also should be removed and ignored if possible",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 49
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_8241ea0d",
+        "filename": ".settings/org.eclipse.wst.jsdt.ui.superType.name",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "also should be removed and ignored if possible",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 6
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_62aafed5",
+        "filename": "install_uat.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this script is only useful for V3, it shouldn\u0027t be included in commit.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 116
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c2ae52e7",
+        "filename": "langstroth/data/README.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this information is also specific to V3, how do i access it?  I suggest that this file shouldn\u0027t be included, instead any install steps should be described in the readme.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a2c0667d",
+        "filename": "langstroth/nagios.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "i would prefer if the logger for a particular was the same as the actual module.  that way when i see a log message i can match it back to a location within the application.",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_02be9aff",
+        "filename": "langstroth/nagios.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "these should be moved to the settings.py file as mentioned in the settings.py file comments.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_42d0a253",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "we shouldn\u0027t be using environment variable, usually with a django project there is a settings file that contains the default settings and a user supplies a file that overrides values with their site specific configuration.\n\nBrian has a decent example in karaage\nhttps://github.com/Karaage-Cluster/karaage/blob/master/karaage/conf/settings.py\nhttps://github.com/Karaage-Cluster/karaage/blob/master/karaage/conf/defaults.py\n\nand the user would put a site specific configuration in /etc/karaage3/settings.py\n\nThis style of configuration is good because it separates the generic webserver configuration of the django app from the actual app configuration.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_22d59643",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this configuration section make a heap of assumptions about the environment the service is being run in.  This will not work in our deployment environment, i think that having some default sqlite3 database configuration that the user overrides in another config file is fine.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 70
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_82ca8a9f",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this also makes a heap of assumptions about the deployment environment.  And some of this complexity i see leaking into other parts of the applications.\n\nThe primary problem that i see with this is the NAGIOS_AVALIABILITY_URL.  Later in the app you are combining it with another templated url.  This isn\u0027t a good abstraction, this same if/elif logic leaks through, instead the url template should be in this configuration file and the user can choose to override the template with a static url like \"http://localhost:8000/static/avail.html\" for testing.\n\nI have made some comments in the nagios.py file relating to this.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 108
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a2ab46d5",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this shouldn\u0027t be printing here.",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 60
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c2c3f288",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this log level is to fine grained for production, can this be made into a variable,  or better still, can it be set to this when debug \u003d\u003d True",
+      "range": {
+        "startLine": 249,
+        "startChar": 22,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_62cf9eb1",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this file location is not going to work in most cases,  can this be made into a variable.",
+      "range": {
+        "startLine": 251,
+        "startChar": 23,
+        "endLine": 251,
+        "endChar": 79
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_62467e25",
+        "filename": "langstroth/static/css/allocation-visualisation.css",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this formatting should be indented by 4 spaces",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 1
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c24ad226",
+        "filename": "langstroth/static/css/allocation-visualisation.css",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "can this commented code be deleted if it\u0027s not needed.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 1
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a247c61c",
+        "filename": "langstroth/static/css/allocation-visualisation.css",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this should be indented with 4 spaces not 2",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_0255fac5",
+        "filename": "langstroth/static/css/master-detail.css",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this should be indented with 4 spaces",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 1
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_2263d6b2",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "All of this file should be indented with 2 spaces.  not tabs.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 3
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_8258cafb",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "why not do a for in statement instead of an index based iteration.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_625ddee9",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "why not do a for in statement",
+      "range": {
+        "startLine": 50,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 87
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_e251ced9",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "RR?  this doesn\u0027t tell me anything",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_425ee2ea",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "if these lines aren\u0027t needed please delete them.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 56
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c2713279",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "space before this {",
+      "range": {
+        "startLine": 74,
+        "startChar": 28,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a26ea694",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "this should be a for...in loop",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 71
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_6214bef5",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "the indentation here is just wacky",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c2f812c7",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-22T22:30:24Z",
+      "side": 1,
+      "message": "there are more JS templating libraries that there are sticks to throw at them.  You should be using one, this one is a good start https://github.com/janl/mustache.js",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 411,
+        "endChar": 23
+      },
+      "revId": "5ac26d301303b3c141b31486477447ec29a776a0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
