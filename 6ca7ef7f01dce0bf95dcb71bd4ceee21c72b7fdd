@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_b2127856",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-25T01:20:45Z",
+      "side": 1,
+      "message": "can you wrap this in an if.  if os.path.exists()  the reason is that as it stands i can\u0027t actually run the site without doing modifications to the settings file.\n\nIt would be really helpful if the site worked after doing the standard django steps to initials and run the development server.\n\ni.e.\n\n ./manage.py syncdb\n ./manage.py runserver",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "6ca7ef7f01dce0bf95dcb71bd4ceee21c72b7fdd",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
