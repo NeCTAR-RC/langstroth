@@ -1,0 +1,665 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_b2c39889",
+        "filename": "langstroth/settings_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "i think this default database should end in with .db otherwise it shows up as a strange looking file.\n\nthe DB file should also be added to the .gitignore",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 77
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_92c01c7e",
+        "filename": "langstroth/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this url should be \u0027^allocation/\u0027",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 15
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b24a7825",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "so you have a local variable, but why? you could have just used the email_domain variable all the way through. or just renamed it domain.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5246b424",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "why not do\n\n email_domain.split(\u0027.\u0027, 1)[0] in (\u0027my\u0027, \u0027ems\u0027, \u0027exchange\u0027, \u0027groupwise\u0027)",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_92477c1d",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this should be\n\n _, domain \u003d email_domain.split(\u0027.\u0027, 1)\n\nsince you don\u0027t need either the group or delimiter",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 66
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_7241300b",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this may be easier for you to read, but this is not idiomatic.  this should be like\n\n if domain \u003d\u003d \u0027griffithuni.edu.au\u0027:\n     return \u0027griffith.edu.au\u0027\n if domain \u003d\u003d \u0027waimr.uwa.edu.au\u0027:\n     return \u0027uwa.edu.au\u0027\n if domain \u003d\u003d \u0027uni.sydney.edu.au\u0027:\n     return \u0027sydney.edu.au\u0027\n if domain \u003d\u003d \u0027usyd.edu.au\u0027:\n     return \u0027sydney.edu.au\u0027\n if domain \u003d\u003d \u0027myune.edu.au\u0027:\n     return \u0027une.edu.au\u0027\n\nthe switch abstraction is actually more complex, as it returns a function that evaluates to true if the values are equal.  This extra complexity isn\u0027t saving us any lines of code or adding any efficiency so i don\u0027t think the trade off makes any sense.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 35
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b2f8b8c5",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "classmethod",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f20240b3",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "change this as per the comment comment for apply_privacy_policy",
+      "range": {
+        "startLine": 110,
+        "startChar": 34,
+        "endLine": 110,
+        "endChar": 51
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5214f4f4",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "what is this doing? you really need a comment or a better name.  i don\u0027t know the internal structure of a code list. 2, 4, 6, 8, magic numbers aren\u0027t great. :)",
+      "range": {
+        "startLine": 125,
+        "startChar": 38,
+        "endLine": 125,
+        "endChar": 46
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f25400cc",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this should be self,  even with static method it will work and this won\u0027t be dependent on the current class name.\n\nThis will also allow you to override the static method in a subclass.",
+      "range": {
+        "startLine": 137,
+        "startChar": 44,
+        "endLine": 137,
+        "endChar": 61
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_92f5bccd",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this should be a classmethod",
+      "range": {
+        "startLine": 154,
+        "startChar": 5,
+        "endLine": 154,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_325e88ea",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this should be an instance method not a static method.  basically, at the moment no subclass or instance will be able to set the EMAIL_ADDRESS_REGEX value.  Instead it can only be changed for all classes, and only using what would be described as a monkeypatch.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 116
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_d25104da",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "unnecessary semicolon",
+      "range": {
+        "startLine": 168,
+        "startChar": 35,
+        "endLine": 168,
+        "endChar": 36
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_725810fb",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "remove semicolon",
+      "range": {
+        "startLine": 173,
+        "startChar": 35,
+        "endLine": 173,
+        "endChar": 36
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_12638cb2",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this should be a classmethod the AllocationRequest should then be changed to the cls variable.\n\n\n @classmethod\n def apply_privacy_policy(cls, description):\n     redacted_description \u003d cls.redact_all_emails(description)\n     return redacted_description",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 36
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_525d14e9",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a classmethod",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 16
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b271d879",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a class method",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_926e5c95",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a class method",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f26b6083",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a function\n\ndef create_node(name):\n    return {\u0027name\u0027: name, \u0027children\u0027 []}",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 46
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_d268e489",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this is really way way too complicated.\n\nFor a start it should probably be written as a recursive function.  I also notice that it doesn\u0027t have any tests, i would suggest that adding a test would be a good start, then refactor it into a recursive function.",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 32
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_720f70e2",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a class method",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 259,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b21f1809",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "this exists as part of the operator module\n\n from operator import itemgetter\n\n project_summary.sort(key\u003ditemgetter(\u0027modified_time\u0027))",
+      "range": {
+        "startLine": 271,
+        "startChar": 37,
+        "endLine": 271,
+        "endChar": 91
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_120a6cd2",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a class method",
+      "range": {
+        "startLine": 274,
+        "startChar": 3,
+        "endLine": 274,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3205e8c2",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "should be a class method",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 17
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_522b5430",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "can you rename allocation_request to just allocation?\n\nI\u0027m noticing a common theme of long variable names and really dense code.  you could have actually done this with a large dictionary definition. e.g.\n\n\n    @classmethod\n    def __project_summary_record(cls, allocation):\n        project_record \u003d {\n            \u0027id\u0027: allocation.id,\n            \u0027project_name\u0027: allocation.project_name,\n            \u0027institution\u0027: cls.institution_from_email(allocation.contact_email),\n            \u0027start_date\u0027: allocation.start_date.strftime(\u0027%Y-%m-%d\u0027),\n            \u0027end_date\u0027: allocation.end_date.strftime(\u0027%Y-%m-%d\u0027),\n            \u0027instance_quota\u0027: allocation.instance_quota,\n            \u0027core_quota\u0027: allocation.core_quota,\n            \u0027instances\u0027: allocation.instances,\n            \u0027cores\u0027: allocation.cores,\n            \u0027field_of_research_1\u0027: allocation.field_of_research_1,\n            \u0027for_percentage_1\u0027: allocation.for_percentage_1,\n            \u0027field_of_research_2\u0027: allocation.field_of_research_2,\n            \u0027for_percentage_2\u0027: allocation.for_percentage_2,\n            \u0027field_of_research_3\u0027: allocation.field_of_research_3,\n            \u0027for_percentage_3\u0027: allocation.for_percentage_3,\n            \u0027submit_date\u0027: allocation.submit_date.strftime(\u0027%Y-%m-%d\u0027),\n            \u0027modified_time\u0027: allocation.modified_time.strftime(\u0027%Y-%m-%d %H:%M:%S\u0027)}\n\n        # Redact any email addresses.\n        if cls.showPrivateFields:\n            project_record[\u0027use_case\u0027] \u003d cls.apply_privacy_policy(allocation.use_case)\n        # Redact any email addresses.\n        if cls.showPrivateFields:\n            project_record[\u0027usage_patterns\u0027] \u003d cls.apply_privacy_policy(allocation.usage_patterns)\n\n        return project_record\n\nDo you think that is more readable?",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 29
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f2bd2004",
+        "filename": "nectar_allocations/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "remove the allocations segment from these urls.\n\ne.g. the first one should be like\n\n r\u0027^visualisation$\u0027\n\nyou should also remove the project segment from these url.\n\ne.g. the last url should be like\n\n ^(?P\u003callocation_request_id\u003e[0-9]+)/allocations\n\ncan we also come up with a better name for the allocations segment at the end of the url.  Otherwise the url has allocations in it twice.  What about history? or requests? or something like that.  I can\u0027t render the view so i don\u0027t actually know what it contains, but just give it a more descriptive name, we already know it\u0027s an allocation.\n\nmy reasoning behind this is that the url structure is way to complex otherwise\n\nso this url\n\n /nacc/allocations/888/projects/allocations\n\nshould look like\n\n /allocations/8888/history",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_d2baa409",
+        "filename": "nectar_allocations/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "ditto from above.  remove rest segment remove project segment.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3237a8b2",
+        "filename": "requirements_notes_macosx.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "can this just be put in the readme, it\u0027s just hanging out on it\u0027s own here.\n\nalso dude trim the whitespace.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_123c2c93",
+        "filename": "utilities/diff.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:14:50Z",
+      "side": 1,
+      "message": "what is this class used for?\n\nif you are using this for testing, we could move to pytest, it has much better test failure output.",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
