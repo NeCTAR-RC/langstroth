@@ -29,4 +29,18 @@ The workflow for change submission is like this::
   git add newthing.py
   git commit -m "Added a new thing"
   git-review      # https://pypi.python.org/pypi/git-review
+  
+Langstroth requirements notes on on MacOS X
+----------------
+sudo pip install requests
+sudo pip install cssselect
+sudo pip install python-dateutil
 
+This will not work on MacOS X:
+sudo pip install lxml
+ 
+So make sure to run: 
+xcode-select --install
+to update the XCode command line tools after a Mavericks upgrade.
+And then run:
+STATIC_DEPS=true sudo pip install lxml
