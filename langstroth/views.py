@@ -12,9 +12,13 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.conf import settings
 from django.shortcuts import render
 from django.core.cache import cache
+import logging
+import json
 
 
 from langstroth import nagios
+
+LOG = logging.getLogger(__name__)
 
 GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
@@ -39,11 +43,15 @@ def index(request):
     except:
         availability = cache.get('nagios_availability')
 
+    LOG.debug("Availability: " + str(availability))
+
     try:
         status = nagios.get_status()
         cache.set('nagios_status', status)
     except:
         status = cache.get('nagios_status')
+
+    LOG.debug("Status: " + str(status))
 
     context = {"title": "National Endpoint Status",
                "tagline": "",
@@ -79,6 +87,7 @@ def domain(request):
         "title": "By domain",
         "tagline": ""}
     return render(request, "domain.html", context)
+
 
 INST_TARGETS = [
     ('Melbourne University', "sumSeries(cells.melbourne-qh2.total_instances,cells.melbourne-np.total_instances)"),

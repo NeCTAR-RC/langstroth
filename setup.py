@@ -1,13 +1,20 @@
 from setuptools import setup, find_packages
+from os import path
 
 version = '0.1'
+
+def load_requirements():
+    with open(path.join(path.dirname(__file__), 'requirements.txt')) as opened_file:
+        content = opened_file.readlines()
+        return content
+
 
 setup(name='langstroth',
       version=version,
       description="Status page for the NeCTAR Research Cloud.",
       long_description="""\
 """,
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='',
       author='NeCTAR',
       author_email='',
@@ -16,7 +23,7 @@ setup(name='langstroth',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=open('requirements.txt').readlines(),
+      install_requires=load_requirements(),
       test_requires=[
           # -*- Extra requirements: -*-
           'mox',
