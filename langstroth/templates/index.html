@@ -3,6 +3,7 @@
 {% block content %}
 <div class="row">
 
+  {% if hosts %}
   <div class="col-md-12">
     <h4>6 month average from {{ report_range }}</h4>
     <table class="table">
@@ -60,6 +61,15 @@
     </div>
   </div>
   {% endfor %}
+  {% else %}
+
+
+    <div class="sad-jumbotron col-md-6 col-md-offset-3">
+      <img src="{{ STATIC_URL }}img/sad.png" class="img-responsive"/>
+      <p class="lead">Ooohhhh, noooo. I have no cloud friends.
+    </div>
+
+  {% endif %}
 
 </div>
 {% endblock %}

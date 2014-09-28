@@ -8,7 +8,7 @@ from operator import itemgetter
 from urllib import urlencode
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseServerError
 from django.conf import settings
 from django.shortcuts import render
 from django.core.cache import cache
@@ -48,13 +48,22 @@ def index(request):
     context = {"title": "National Endpoint Status",
                "tagline": "",
                "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
-    context['average'] = availability['average']
-    for host in status['hosts'].values():
-        for service in host['services']:
-            service['availability'] = availability['services'][service['name']]
 
-    context['hosts'] = sorted(status['hosts'].values(),
-                              key=itemgetter('hostname'))
+    if availability:
+        context['average'] = availability['average']
+        for host in status['hosts'].values():
+            for service in host['services']:
+                service['availability'] = \
+                    availability['services'][service['name']]
+
+    if status:
+        context['hosts'] = sorted(status['hosts'].values(),
+                                  key=itemgetter('hostname'))
+    else:
+        context['hosts'] = []
+
+    if not status or not availability:
+        return render(request, "index.html", context, status=500)
     return render(request, "index.html", context)
 
 

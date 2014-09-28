@@ -23,3 +23,11 @@ img.graphite {
 .chart {
     height: 400px;
 }
+
+.sad-jumbotron {
+    align-text: center;
+}
+
+.sad-jumbotron div {
+    margin: 0 auto;
+}
