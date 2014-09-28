@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    <link href='{{ STATIC_URL }}css/allocation-visualisation.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{{ STATIC_URL }}css/master-detail.css' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+      <div class="col-md-2">
+        <div id="visualisation" class='project-visualisation-container'>
+          <div>
+            <div id="core-pie-chart" class='project-chart-container'></div>
+            <h4>Cores</h4>
+            <h4 id="core-label"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div id="visualisation" class='project-visualisation-container'>
+          <div>
+            <div id="instance-pie-chart" class='project-chart-container'></div>
+            <h4>Instances</h4>
+            <h4 id = "instance-label"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        &nbsp;
+      </div>
+    </div>
+    <div class="row">
+      <h4>Current Allocation</h4>
+      <div class="col-md-12">
+        <div id="project-summary" class='project-details-container'></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        &nbsp;
+      </div>
+    </div>
+{% endblock %}
+  
+{% block extra_script %}
+  <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+  <script>allocationId = {{ allocation_request_id }}</script>
+  <script src="{{ STATIC_URL }}js/project_details.js"></script>
+{% endblock %}
+  
+  
