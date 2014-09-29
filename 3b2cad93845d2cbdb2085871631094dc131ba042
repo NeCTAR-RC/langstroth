@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_92501c60",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-29T03:46:35Z",
+      "side": 1,
+      "message": "\u003e Because they are not the same thing. domain is supposed to represent the root domain of the institution as derived by removing the email related prefix. I have changed domain to root_domain to make that more explicit.\n\nroot_domain, email_domain are both domains.  I think that by creating new more specialised variable names you aren\u0027t making things more clear.\n\nIf you want to make the function more clear, perhaps changing the name would help,  so instead of strip_email_group,  name it as what it does.  strip_email_subdomans(domain)\n\nAs for the root_domain variable, i don\u0027t thing adding a more specialised name makes it more clear. Up until the If, email_domain \u003d\u003d domain, so you have basically have 2 variables that have the same value.  Then once you change the value of domain you never user email_domain again.  So the value of email_domain, is unchanged and also unused.  I would still be more in favour of trying to reduce the cognitive load by removing the variable, instead of having a second variable that isn\u0027t used.",
+      "parentUuid": "3afa9182_b24a7825",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_5246b424",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
