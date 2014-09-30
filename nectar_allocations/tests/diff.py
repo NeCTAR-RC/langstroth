@@ -9,6 +9,7 @@ TYPE = 'type'
 PATH = 'path'
 VALUE = 'value'
 
+
 class Diff(object):
     def __init__(self, first, second, with_values=False, vice_versa=False):
         self.difference = []
@@ -18,7 +19,7 @@ class Diff(object):
             self.check(second, first, with_values=with_values)
 
     def check(self, first, second, path='', with_values=False):
-        if second != None:
+        if second is not None:
             if not isinstance(first, type(second)):
                 message = '%s- %s, %s' % (path, type(first), type(second))
                 self.save_diff(message, TYPE)
@@ -32,21 +33,27 @@ class Diff(object):
                     new_path = "%s.%s" % (path, key)
 
                 if isinstance(second, dict):
-                    if second.has_key(key):
+                    if key in second:
                         sec = second[key]
                     else:
-                        #  there are key in the first, that is not presented in the second
+                        #  there are key in the first, that is not
+                        #  presented in the second
                         self.save_diff(new_path, PATH)
 
                         # prevent further values checking.
                         sec = None
 
                     # recursive call
-                    self.check(first[key], sec, path=new_path, with_values=with_values)
+                    self.check(first[key], sec,
+                               path=new_path,
+                               with_values=with_values)
                 else:
-                    # second is not dict. every key from first goes to the difference
+                    # second is not dict. every key from first goes to
+                    # the difference
                     self.save_diff(new_path, PATH)
-                    self.check(first[key], second, path=new_path, with_values=with_values)
+                    self.check(first[key], second,
+                               path=new_path,
+                               with_values=with_values)
 
         # if object is list, loop over it and check.
         elif isinstance(first, list):
@@ -54,21 +61,26 @@ class Diff(object):
                 new_path = "%s[%s]" % (path, index_page)
                 # try to get the same index_page from second
                 sec = None
-                if second != None:
+                if second is not None:
                     try:
                         sec = second[index_page]
                     except (IndexError, KeyError):
                         # goes to difference
-                        self.save_diff('%s - %s, %s' % (new_path, type(first), type(second)), TYPE)
+                        self.save_diff('%s - %s, %s' % (new_path, type(first),
+                                                        type(second)), TYPE)
 
                 # recursive call
-                self.check(first[index_page], sec, path=new_path, with_values=with_values)
+                self.check(first[index_page], sec,
+                           path=new_path,
+                           with_values=with_values)
 
-        # not list, not dict. check for equality (only if with_values is True) and return.
+        # not list, not dict. check for equality (only if with_values
+        # is True) and return.
         else:
-            if with_values and second != None:
+            if with_values and second is not None:
                 if first != second:
-                    self.save_diff('%s - %s | %s' % (path, first, second), VALUE)
+                    self.save_diff('%s - %s | %s' % (path, first, second),
+                                   VALUE)
             return
 
     def save_diff(self, diff_message, type_):

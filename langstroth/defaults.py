@@ -45,7 +45,16 @@ FIXTURE_DIRS = (
     path_merge(__file__, '../nectar_allocations/reference_data/')
 )
 
+# The URL to your Nagios installation.
 NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
+
+# The user and password to authenticate to Nagios as.
+NAGIOS_AUTH = ("", "")
+
+# The service group to use for calculating if services are up and
+# their availability.
+NAGIOS_SERVICE_GROUP = 'f5-endpoints'
+
 AVAILABILITY_QUERY_TEMPLATE = "avail.cgi" \
     "?t1=%s" \
     "&t2=%s" \
@@ -62,12 +71,9 @@ AVAILABILITY_QUERY_TEMPLATE = "avail.cgi" \
 STATUS_QUERY_TEMPLATE = "status.cgi" \
     "?servicegroup=%s" \
     "&style=detail"
-# Dummy password. Replace in production.
-NAGIOS_AUTH = ("sam", NAGIOS_PASSWORD)
-NAGIOS_SERVICE_GROUP = 'f5-endpoints'
 
-# Dummy service. Replace in production.
-GRAPHITE_URL = "http://graphite.mgmt.melbourne.rc.nectar.org.au"
+# The URL to the graphite web interface
+GRAPHITE_URL = "http://graphite.test"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
