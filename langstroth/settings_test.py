@@ -2,6 +2,7 @@
 
 # Pick up the default settings then override them in this file.
 from .defaults import *  # NOQA
+import os
 
 TEST_MODE = True
 
@@ -67,10 +68,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+DEBUG_LOG = path_merge(__file__, "../logs/debug.log")
+
+if not path.exists(path.dirname(DEBUG_LOG)):
+    os.mkdir(path.dirname(DEBUG_LOG))
 
 LOGGING['handlers']['file'] = {
     'level': 'DEBUG',
     'class': 'logging.FileHandler',
     # Create the log directory with the correct permissions by hand.
-    'filename': path_merge(__file__, "../logs/debug.log"),
+    'filename': DEBUG_LOG,
 }

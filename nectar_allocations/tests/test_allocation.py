@@ -1,7 +1,7 @@
 from django.utils import unittest
 import json
 from os import path
-from utilities.diff import Diff
+from .diff import Diff
 
 from nectar_allocations.models.allocation import AllocationRequest
 
