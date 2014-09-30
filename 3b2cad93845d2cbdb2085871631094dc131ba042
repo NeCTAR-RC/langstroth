@@ -325,6 +325,30 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_15f37674",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-30T22:32:01Z",
+      "side": 1,
+      "message": "\u003e redact_all_emails is called by apply_privacy_policy which itself is (now) a class method. So redact_all_emails will not have access to self and doesn\u0027t need access to self.\n\u003e redact_all_emails will not likely change in hypothetical subclasses. I am expecting apply_privacy_policy to change.\n\nThe possibility of a subclass may be unlikely, but what is the advantage of making this a staticmethod when it obviously needs access the the class?\n\nMy understanding is that the staticmethod decorator should only be used when the method need no access to the instance or class.",
+      "parentUuid": "3afa9182_325e88ea",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 116
+      },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_d25104da",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
