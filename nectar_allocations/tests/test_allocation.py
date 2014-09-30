@@ -1,8 +1,9 @@
-from django.utils import unittest
 import json
-from utilities.diff import Diff
 from os import path
 
+from django.utils import unittest
+
+from .diff import Diff
 from nectar_allocations.models.allocation import AllocationRequest
 
 
