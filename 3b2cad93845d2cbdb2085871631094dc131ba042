@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_e647224a",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-03T07:01:04Z",
+      "side": 1,
+      "message": "don\u0027t worry, i think it will be fine.",
+      "parentUuid": "3afa9182_009fb660",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_5246b424",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -893,6 +911,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_4674369c",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-03T07:01:04Z",
+      "side": 1,
+      "message": "the problem is that it\u0027s so dense, that you can\u0027t easily get a picture of what it\u0027s doing anyway.\n\nHaving tests is enough.  i can always re-factor this later if needed.",
+      "parentUuid": "3afa9182_c0948e46",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_720f70e2",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -1098,6 +1134,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_064b4e5a",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-03T07:01:04Z",
+      "side": 1,
+      "message": "yeah i think that shorter variable names are better.  obviously things can be too short.  But request would be a fine variable name.\n\nI\u0027m not sure about this price to be paid that you refer to, the order that this data structure is created in doesn\u0027t matter.\n\nif i was to implement this function i probably would have done it as a normal method, since it requires an allocation to be passed in.  I don\u0027t know how i miss that the first time...",
+      "parentUuid": "3afa9182_40053ec1",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f2bd2004",
         "filename": "nectar_allocations/urls.py",
         "patchSetId": 15
@@ -1250,6 +1304,24 @@
       "side": 1,
       "message": "This is used by tests for verifying generated JSON packets.\n\nAs for moving to another test framework my IDE supports test runners PyDev, nose and Py.test",
       "parentUuid": "3afa9182_123c2c93",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_26792a94",
+        "filename": "utilities/diff.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-03T07:01:04Z",
+      "side": 1,
+      "message": "you could convert the json strings to python dicts then just compare them?\n\ni will probably switch to py.test once we get this merged.",
+      "parentUuid": "3afa9182_a0c6a247",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
