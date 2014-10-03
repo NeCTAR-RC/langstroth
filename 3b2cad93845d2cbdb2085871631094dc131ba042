@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_8620de9c",
+        "filename": "langstroth/settings_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_b2c39889",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_92c01c7e",
         "filename": "langstroth/urls.py",
         "patchSetId": 15
@@ -65,6 +83,24 @@
         "endLine": 19,
         "endChar": 15
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_9b7317e7",
+        "filename": "langstroth/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_92c01c7e",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -118,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_009fb660",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "The code is expressing the notion that we return the original email domain as the partial domain, if none of the rules for removing the  prefix apply.\n\nThis could just as easily be expressed as an if else block at the cost of an extra line.",
+      "parentUuid": "3afa9182_92501c60",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_5246b424",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -135,6 +189,24 @@
         "endLine": 82,
         "endChar": 52
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_1b9a8714",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done this with modifications to allow tests to succeed.",
+      "parentUuid": "3afa9182_5246b424",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -164,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_7b9f4b04",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_92477c1d",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_7241300b",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -181,6 +271,24 @@
         "endLine": 94,
         "endChar": 35
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5ba40f57",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_7241300b",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -210,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_bb8893c7",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_b2f8b8c5",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f20240b3",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -227,6 +353,24 @@
         "endLine": 110,
         "endChar": 51
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_9b85d7af",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f20240b3",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -256,6 +400,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_fb921bf5",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_5214f4f4",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f25400cc",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -279,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_db8f5fcb",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f25400cc",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_92f5bccd",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -296,6 +476,24 @@
         "endLine": 154,
         "endChar": 17
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3bbca36c",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_92f5bccd",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -349,6 +547,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_1bc1e7e4",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "1. The method does not refer to any instance variables.\n2, The method is being called by other class methods, so it does not have access to self.\nI have changed it to be a class method in line with similar suggestions.",
+      "parentUuid": "3afa9182_325e88ea",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_d25104da",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -366,6 +582,24 @@
         "endLine": 168,
         "endChar": 36
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_7bb62b8c",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_d25104da",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -418,6 +652,42 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_bbaff32a",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_725810fb",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5bbb6f72",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_12638cb2",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_525d14e9",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -435,6 +705,24 @@
         "endLine": 175,
         "endChar": 16
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_9bacb737",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_525d14e9",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -464,6 +752,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_fba97b25",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_b271d879",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_926e5c95",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -481,6 +787,24 @@
         "endLine": 222,
         "endChar": 17
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_dba63f53",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_926e5c95",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -510,6 +834,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_3b63031c",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f26b6083",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_d268e489",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -527,6 +869,24 @@
         "endLine": 257,
         "endChar": 32
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c0948e46",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "I have added a test for this.\nIt used to be covered by an integration test that used actual data, but that has since been removed.\n\nI have changed this to a recursive implementation \u003d 2 functions.\nI considered a recursive function originally, but decided not to do it, since the data structure has a fixed depth and so that a recursive function was overkill.\n\nThe price to be paid is that the code indentation no longer makes a picture of the data structure. Also the new code needs recursion termination logic.",
+      "parentUuid": "3afa9182_d268e489",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -556,6 +916,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_1b68c7f4",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_720f70e2",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_b21f1809",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -573,6 +951,24 @@
         "endLine": 271,
         "endChar": 91
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_7b6d8b04",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_b21f1809",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -602,6 +998,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_5b724fe6",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_120a6cd2",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_3205e8c2",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -619,6 +1033,24 @@
         "endLine": 280,
         "endChar": 17
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_bb76d3d6",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_3205e8c2",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -648,6 +1080,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_40053ec1",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Hi Russel, ets see if I can get gerrit to handle comments.\n\nallocation_request is not the same concept as allocation. Having a request for an allocation and the actual allocation having the same name leads to ambiguity and confusion.\n\nIf you prefer short variable names, then request would be a better  replacement than allocation. \n\nI am assuming here that the workflow is request, approval and then instantiation of the allocation.\n\nI\u0027ll change the code to use an inline dictionary definition as it removes the repetitious references to the dictionary and reduces visual noise in the code. However the price to be paid is that the special case handling of some fields now has to be done out of order and that makes inspection of the code for field inconstancies more error prone.",
+      "parentUuid": "3afa9182_522b5430",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f2bd2004",
         "filename": "nectar_allocations/urls.py",
         "patchSetId": 15
@@ -665,6 +1115,24 @@
         "endLine": 9,
         "endChar": 22
       },
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e0a9ca7c",
+        "filename": "nectar_allocations/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done more or less.",
+      "parentUuid": "3afa9182_f2bd2004",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -694,6 +1162,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_c0a2ce99",
+        "filename": "nectar_allocations/urls.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done more or less.\n\nThe rest component of the path is intended to ensure that there are no path clashes between the web page URL\u0027s and the REST URL\u0027s. Otherwise we end up with ad hoc names that are confusing. \n\nIf a web page has the path /xxx/yyy\nthen anyone should be able to infer that the data for the page is supplied by REST URL /rest/xxx/yyy\n\nThe current arrangement of /allocations/rest/xxx/yyy is not what i want.\nI would prefer  /rest/allocations/xxx/yyy.",
+      "parentUuid": "3afa9182_d2baa409",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_3237a8b2",
         "filename": "requirements_notes_macosx.txt",
         "patchSetId": 15
@@ -717,6 +1203,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_c63946da",
+        "filename": "requirements_notes_macosx.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_3237a8b2",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_123c2c93",
         "filename": "utilities/diff.py",
         "patchSetId": 15
@@ -728,6 +1232,24 @@
       "writtenOn": "2014-09-26T05:14:50Z",
       "side": 1,
       "message": "what is this class used for?\n\nif you are using this for testing, we could move to pytest, it has much better test failure output.",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a0c6a247",
+        "filename": "utilities/diff.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-03T06:44:43Z",
+      "side": 1,
+      "message": "This is used by tests for verifying generated JSON packets.\n\nAs for moving to another test framework my IDE supports test runners PyDev, nose and Py.test",
+      "parentUuid": "3afa9182_123c2c93",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
