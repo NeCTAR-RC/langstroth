@@ -12,7 +12,7 @@ You probably want a source install so run ::
   git clone git@github.com:NeCTAR-RC/langstroth.git
   cd langstroth
   pip install -e .
-  
+
 First run
 ---------
 
@@ -21,12 +21,12 @@ For initial demonstration purposes navigate into the top-level Langstroth direct
   ./manage.py syncdb
   ./manage.py syncdb --database allocations_db
   ./manage.py runserver
-  
+
 For production purposes the allocations table (allocations_db) will already exist.
 The settings file will need to be adjusted to reference this database
 and the reference data file.
 
-Once these adjustments have been made execute the scripts to load the reference data:: 
+Once these adjustments have been made execute the scripts to load the reference data::
 
   ./manage.py syncdb
   ./manage.py syncdb --database allocations_db
@@ -47,8 +47,8 @@ The workflow for change submission is like this::
   git add newthing.py
   git commit -m "Added a new thing"
   git-review      # https://pypi.python.org/pypi/git-review
-  
-Langstroth requirements notes on on MacOS X
+
+Langstroth requirements notes on MacOS X
 -------------------------------------------
 
 The commands to execute are::
@@ -57,11 +57,14 @@ The commands to execute are::
   sudo pip install cssselect
   sudo pip install python-dateutil
 
-This will not work on MacOS X:
-sudo pip install lxml
- 
-So make sure to run: 
-xcode-select --install
-to update the XCode command line tools after a Mavericks upgrade.
-And then run:
-STATIC_DEPS=true sudo pip install lxml
+This will not work on MacOS X::
+
+  sudo pip install lxml
+
+To update the XCode command line tools after a Mavericks upgrade run::
+
+  xcode-select --install
+
+And then run::
+
+  STATIC_DEPS=true sudo pip install lxml

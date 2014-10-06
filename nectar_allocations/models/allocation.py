@@ -5,6 +5,7 @@ import re
 from operator import itemgetter
 from django.utils import timezone
 
+
 class AllocationRequest(models.Model):
 
     show_private_fields = False
@@ -73,8 +74,8 @@ class AllocationRequest(models.Model):
         managed = False if not settings.TEST_MODE else True
 
     # Refer to query for view view_institution_clean (Alan).
-    @classmethod
-    def strip_email_sub_domains(cls, domain):
+    @staticmethod
+    def strip_email_sub_domains(domain):
         prefix = domain.split('.', 1)[0]
         if prefix in ('my', 'ems', 'exchange', 'groupwise', 'student', 'students', 'studentmail'):
             _, _, domain = domain.partition('.')
@@ -90,15 +91,15 @@ class AllocationRequest(models.Model):
             return 'une.edu.au'
         return domain
 
-    @classmethod
-    def extract_email_domain(cls, email_address):
+    @staticmethod
+    def extract_email_domain(email_address):
         _, _, domain = email_address.partition('@')
         return domain
 
     @classmethod
     def find_active_allocations(cls):
         """Find the list of approved allocations.
-        
+
         Find all, group them by name,
         but then return just the latest in each allocation group.
         The data needs some cleanup as there are some allocations with very similar names.
@@ -115,15 +116,15 @@ class AllocationRequest(models.Model):
                 seen.add(allocation.project_name)
         return keep
 
-    @classmethod
-    def is_valid_for_code(cls, potential_for_code):
+    @staticmethod
+    def is_valid_for_code(potential_for_code):
         return potential_for_code is not None
 
     # the most fine-grained field-of-research code looks like 6 digits: '987654'
     # the more general FOR codes for this field-of-research
     # would be the leading  4 (= '9876') and 2 (= '98') digits.
-    @classmethod
-    def apply_for_code_to_summary(cls, allocation_summary, code):
+    @staticmethod
+    def apply_for_code_to_summary(allocation_summary, code):
         allocation_summary['for_2'] = code[:2]
         allocation_summary['for_4'] = code[:4]
         allocation_summary['for_6'] = code[:6]
@@ -157,7 +158,7 @@ class AllocationRequest(models.Model):
     def institution_from_email(cls, contact_email):
         email_domain = cls.extract_email_domain(contact_email)
         domain = cls.strip_email_sub_domains(email_domain)
-        return domain;
+        return domain
 
     # See: http://www.regular-expressions.info/email.html
     # Ignore case as only [A-Z] character class is specified.
@@ -221,14 +222,14 @@ class AllocationRequest(models.Model):
 
         return allocations_tree
 
-    @classmethod
-    def create_allocation_tree_branch_node(cls, name):
+    @staticmethod
+    def create_allocation_tree_branch_node(name):
         return {'name': name, 'children': []}
 
     @classmethod
     def create_allocation_tree_leaf_node(cls, allocation_summary):
         allocation_items = {
-            'id' : allocation_summary['id'],
+            'id': allocation_summary['id'],
             'name': allocation_summary['projectName'],
             'institution': allocation_summary['institution'],
             'instanceQuota': allocation_summary['instanceQuota'],
@@ -242,7 +243,7 @@ class AllocationRequest(models.Model):
 
     @classmethod
     def restructure_allocations_tree(cls):
-        allocations_tree = cls.organise_allocations_tree();
+        allocations_tree = cls.organise_allocations_tree()
         restructured_tree = cls.create_allocation_tree_branch_node('allocations')
         cls.traverse_allocations_tree(allocations_tree, restructured_tree, 0)
         return restructured_tree
@@ -311,4 +312,3 @@ class AllocationRequest(models.Model):
             project_record['usage_patterns'] = cls.apply_privacy_policy(request.usage_patterns)
 
         return project_record
-

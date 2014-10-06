@@ -7,7 +7,9 @@ from langstroth import error
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
+
     # Examples:
     url(r'^$', 'langstroth.views.index', name='home'),
     # url(r'^langstroth/', include('langstroth.foo.urls')),
