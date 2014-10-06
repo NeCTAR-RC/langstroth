@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_81572802",
+        "filename": "README.rst",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "this underline should be the length of the text above it",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_615cbc26",
+        "filename": "README.rst",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "this should be intended to characters and preceded by a line that ends with ::.\n\nSee the workflow description above for an example.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 32
+      },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e130acea",
+        "filename": "langstroth/settings_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "this is a duplicate of the langstroth.tests.settings file that is currently used.   You\u0027ll need to update the run_test.sh file to reflect the change in the name of the settings file.\n\nYou\u0027ll also need to add nectar_allocations to the TESTS string so that the tests get run for that module too.\n\nCurrently i see this output when i execute run_tests.sh\n\n $ ./run_tests.sh\n Creating test database for alias \u0027default\u0027 (\u0027:memory:\u0027)...\n Creating tables ...\n Creating table auth_permission\n Creating table auth_group_permissions\n Creating table auth_group\n Creating table auth_user_groups\n Creating table auth_user_user_permissions\n Creating table auth_user\n Creating table django_content_type\n Creating table django_session\n Creating table django_site\n Installing custom SQL ...\n Installing indexes ...\n Installed 0 object(s) from 0 fixture(s)\n test_parsing (langstroth.tests.test_nagios.TestAvailability) ... ok\n test_parsing (langstroth.tests.test_nagios.TestStatus) ... ok\n \n ----------------------------------------------------------------------\n Ran 2 tests in 0.006s\n \n OK\n Destroying test database for alias \u0027default\u0027 (\u0027:memory:\u0027)...",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2152b413",
+        "filename": "langstroth/static/css/master-detail.css",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "please trim your whitespace.  There should be a way to enable this in your editor.",
+      "range": {
+        "startLine": 3,
+        "startChar": 20,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c1401038",
+        "filename": "langstroth/views.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "why not just use str?  we just printing it to a file so probably don\u0027t need json encoding.",
+      "range": {
+        "startLine": 46,
+        "startChar": 33,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_414d4072",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T01:29:48Z",
+      "side": 1,
+      "message": "Can you please make this a doc string not a comment.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 88
+      },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
