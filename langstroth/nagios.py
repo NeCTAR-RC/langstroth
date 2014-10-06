@@ -13,7 +13,8 @@ AVAILABILITY_URL = "avail.cgi?t1=%s&t2=%s&show_log_entries=&servicegroup=%s&assu
 STATUS_URL = "status.cgi?servicegroup=%s&style=detail"
 
 SERVICE_NAMES = {'http_cinder-api': 'Cinder',
-                 'https': 'Dashboard',
+                 'https': 'Webserver',
+                 'http_ceilometer-api': 'Ceilometer',
                  'http_glance-registry': 'Glance Registry',
                  'http_keystone-adm': 'Keystone Admin',
                  'http_keystone-pub': 'Keystone',
