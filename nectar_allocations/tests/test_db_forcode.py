@@ -21,4 +21,3 @@ class ForCodeDBTest(TestCase):
         actual_map = ForCode.code_dict()
         different_items = set(expected_map.items()) ^ set(actual_map.items())
         self.assertEqual(0, len(different_items))
-

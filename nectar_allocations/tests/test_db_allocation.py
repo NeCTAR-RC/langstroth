@@ -337,4 +337,3 @@ class AllocationDBTest(TestCase):
         self.assertEquals(40, project_summary['for_percentage_2'])
         self.assertEquals(None, project_summary['field_of_research_3'])
         self.assertEquals(0, project_summary['for_percentage_3'])
-

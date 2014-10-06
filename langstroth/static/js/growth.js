@@ -16,7 +16,7 @@ format_data = function(data) {
           value[0] = 0;
         }
         return value;
-    });
+      });
 
     delete series.datapoints;
     series.key = series.target;

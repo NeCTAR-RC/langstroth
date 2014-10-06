@@ -1,20 +1,16 @@
-import calendar
 import datetime
 import requests
-import cssselect
-import lxml.etree
 from json import dumps
 from operator import itemgetter
 from urllib import urlencode
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
-from django.http import HttpResponse, HttpResponseServerError
+import logging
+
+from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render
 from django.core.cache import cache
-import logging
-import json
-
 
 from langstroth import nagios
 

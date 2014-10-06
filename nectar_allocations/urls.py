@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, url
 from nectar_allocations import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
 
     # Web pages
     url(r'^$', views.index_page, name='index_page'),

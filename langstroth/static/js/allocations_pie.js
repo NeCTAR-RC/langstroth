@@ -34,7 +34,7 @@ function nextLevel(forCodes, children) {
       var name = child.name;
       if (name == forCode) {
         return nextLevel(forCodes, child.children);
-      } 
+      }
     }
   }
   return children;
@@ -74,7 +74,7 @@ function restructureAllocations(allocationTree, isCoreQuota) {
   }
   return dataset;
 }
-  
+
 // Recurse the allocation tree to return a sum.
 function nextLevelSum(children, isCoreQuota) {
   var sum = 0.0;
@@ -121,10 +121,10 @@ Array.prototype.tos = function() {
 
 // Chart dimensions
 var WIDTH = 500,
-  HEIGHT = 500,
-  PIE_WIDTH = 500,
-  PIE_HEIGHT = 500,
-  RADIUS = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
+    HEIGHT = 500,
+    PIE_WIDTH = 500,
+    PIE_HEIGHT = 500,
+    RADIUS = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
 
 var ZOOM_OUT_MESSAGE = "Click to zoom out!";
 
@@ -162,50 +162,50 @@ var UNHILITE_CELL_COLOUR = "";
 //---- Popup on mouseover for sectors and table rows.
 
 var toolTip = d3.select("body")
-  .append("div")
-  .style("position", "absolute")
-  .style("z-index", "10")
-  .style("visibility", "hidden")
-  .text("a simple tooltip");
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip");
 
 //---- Chart area on web page.
- 
-// A div with id="plot-area" is located on the web page 
+
+// A div with id="plot-area" is located on the web page
 // and then populated with these chart elements.
 
 var plotGroup = d3.select("#plot-area").append("svg")
-  .attr("width", WIDTH)
-  .attr("height", HEIGHT)
-  .append("g")
-  .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
+      .attr("width", WIDTH)
+      .attr("height", HEIGHT)
+      .append("g")
+      .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
 
 //---- Define the plot layout and plotting algorithm - a pie chart.
 
 var pie = d3.layout.pie()
-  .startAngle(-Math.PI / 2)
-  .endAngle(2 * Math.PI - Math.PI / 2)
-  .value(function(d) { return d.value; });
+      .startAngle(-Math.PI / 2)
+      .endAngle(2 * Math.PI - Math.PI / 2)
+      .value(function(d) { return d.value; });
 
 var arc = d3.svg.arc()
-  .innerRadius(INNER_RADIUS)
-  .outerRadius(OUTER_RADIUS);
+      .innerRadius(INNER_RADIUS)
+      .outerRadius(OUTER_RADIUS);
 
 // Pie slices showing sub-totals.
 // Set the start and end angles to 0 so we can transition
 // clockwise to the actual values later.
 var slices = plotGroup.selectAll("g.slice")
-  .data(pie([]))
-  .enter()
-  .append('g')
-  .attr('class', 'slice');
+      .data(pie([]))
+      .enter()
+      .append('g')
+      .attr('class', 'slice');
 
 slices.transition()   // update
   .duration(DURATION)
-  .attrTween("d", arcTween); 
+  .attrTween("d", arcTween);
 
 var zoomOutButton = plotGroup.append("g")
-  .on("click", zoomOut)
-  .datum({}); // Avoid "undefined" error on clicking.
+      .on("click", zoomOut)
+      .datum({}); // Avoid "undefined" error on clicking.
 zoomOutButton.append("circle")
   .attr("id", "inner-circle")
   .attr("r", INNER_RADIUS)
@@ -219,225 +219,225 @@ zoomOutButton.append("text")
 // Text for showing totals.
 var statisticsArea = d3.select("#statistics-area");
 var totalText = statisticsArea.append("text")
-  .attr("class", "total")
-  .attr("dy", ".40em")
-  .style("text-anchor", "middle");
+      .attr("class", "total")
+      .attr("dy", ".40em")
+      .style("text-anchor", "middle");
 
-  function zoomIn(data) {
-    if (isForCodeLevel()) {
-      var forCode = data.target;
-      breadCrumbs.push(forCode);
-      var route = breadCrumbs.slice(1).reverse();
-      var children = traverseHierarchy(route, allocationTree);
-      var isCoreQuota = selectedCoreQuota();
-      var dataset = restructureAllocations(children, isCoreQuota);
-      var totalResource = d3.sum(dataset, function (d) {
-        return d.value;
-      });
-      var currentPalette = paletteStack.tos();
-      var currentColour = currentPalette(data.colourIndex);
-      var newPalette = d3.scale.linear()
-                .domain([0, dataset.length + 10])
-                .range([currentColour, "white"]);
-      paletteStack.push(newPalette);
-      visualise(dataset, totalResource);
-      tabulateAllocations(table, dataset, totalResource, isCoreQuota);
-    } else {
-      // Instead of zooming plot navigate to another page.
-      window.location.href = '/allocations/applications/' + data.id + '/approved';
-    }
-  }
-  
-  function zoomInPie(p, i) {
-    var data = p.data;
-    var segment = null;
-    if (this.nodeName == "text") {
-      segment = d3.select("#segment-" + i);
-    } else {
-      segment = d3.select(this);
-    }
-    _hideRelatedLabels(segment, data);
-    zoomIn(data);
-  }
-
-  function zoomOut(p) { 
-    if (breadCrumbs.length > 1) {
-      breadCrumbs.pop();
-      var route = breadCrumbs.slice(1).reverse();     
-      var children = traverseHierarchy(route, allocationTree);
-      var isCoreQuota = selectedCoreQuota();
-      var dataset = restructureAllocations(children, isCoreQuota);
-      var totalResource = d3.sum(dataset, function (d) {
-        return d.value;
-      });
-      // Restore original palette.
-      paletteStack.pop();
-      // Display pie chart and table.
-      visualise(dataset, totalResource);
-      tabulateAllocations(table, dataset, totalResource, isCoreQuota);
-    }
-  }
-  
-  function isCramped(d) { 
-    var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
-    return isCramped ; 
-  }
-  
-  function calculateOpacity(d) { 
-    return isCramped(d) ? 1.0 : 0.1 ; 
-  }
-  
-  function calculateOpacity0(d) { 
-    return isCramped(d) ? 1.0 : 0.0 ; 
-  }
-
-  function showRelatedLabels(d, i) { 
-    var segment = null;
-    if (this.nodeName == "text") {
-      segment = d3.select("#segment-" + i);
-    } else {
-      segment = d3.select(this);
-    }
-    segment
-      .style("stroke", HILITE_SEGMENT_COLOUR)
-      .style("stroke-width", HILITE_SEGMENT_WIDTH);       
-    var bisectorAngle = (d.endAngle + d.startAngle) / 2.0 + -Math.PI / 2;
-    var deltaX = 5 * Math.cos(bisectorAngle);
-    var deltaY = 5 * Math.sin(bisectorAngle);
-    segment.attr("transform", "translate(" + deltaX + "," + deltaY + ")");
-    table.selectAll("td.col0").each(function(row) { 
-      if (row.colourIndex == d.data.colourIndex) {
-        var otherColumns = $(this).siblings();
-        otherColumns.css('background-color', HILITE_SEGMENT_COLOUR);
-        otherColumns.css('color', HILITE_TEXT_COLOUR);
-      }; 
+function zoomIn(data) {
+  if (isForCodeLevel()) {
+    var forCode = data.target;
+    breadCrumbs.push(forCode);
+    var route = breadCrumbs.slice(1).reverse();
+    var children = traverseHierarchy(route, allocationTree);
+    var isCoreQuota = selectedCoreQuota();
+    var dataset = restructureAllocations(children, isCoreQuota);
+    var totalResource = d3.sum(dataset, function (d) {
+      return d.value;
     });
-    if (isForCodeLevel()) {
-      showFORDescription(d);
-    } else {
-      showProjectSummary(d.data);
-    }
-    toolTip.style("visibility", "visible");
+    var currentPalette = paletteStack.tos();
+    var currentColour = currentPalette(data.colourIndex);
+    var newPalette = d3.scale.linear()
+          .domain([0, dataset.length + 10])
+          .range([currentColour, "white"]);
+    paletteStack.push(newPalette);
+    visualise(dataset, totalResource);
+    tabulateAllocations(table, dataset, totalResource, isCoreQuota);
+  } else {
+    // Instead of zooming plot navigate to another page.
+    window.location.href = '/allocations/applications/' + data.id + '/approved';
   }
+}
 
-  function moveRelatedLabels(d, i) { 
-    var top = (d3.event.pageY - 10) + "px";
-    var left = (d3.event.pageX + 10) + "px";
-    toolTip.style("top", top).style("left", left);
+function zoomInPie(p, i) {
+  var data = p.data;
+  var segment = null;
+  if (this.nodeName == "text") {
+    segment = d3.select("#segment-" + i);
+  } else {
+    segment = d3.select(this);
   }
+  _hideRelatedLabels(segment, data);
+  zoomIn(data);
+}
 
-  function _hideRelatedLabels(segment, data) {
-    segment
-      .style("stroke", UNHILITE_SEGMENT_COLOUR)
-      .style("stroke-width", UNHILITE_SEGMENT_WIDTH)    
-      .attr("transform", "translate(0, 0)");
-    table.selectAll("td.col0").each(function(row) { 
-      if (row.colourIndex == data.colourIndex) {
-        $(this).siblings().css('background-color', UNHILITE_CELL_COLOUR);
-        $(this).siblings().css('color', UNHILITE_TEXT_COLOUR);
-      }; 
+function zoomOut(p) {
+  if (breadCrumbs.length > 1) {
+    breadCrumbs.pop();
+    var route = breadCrumbs.slice(1).reverse();
+    var children = traverseHierarchy(route, allocationTree);
+    var isCoreQuota = selectedCoreQuota();
+    var dataset = restructureAllocations(children, isCoreQuota);
+    var totalResource = d3.sum(dataset, function (d) {
+      return d.value;
     });
-    toolTip.style("visibility", "hidden");
+    // Restore original palette.
+    paletteStack.pop();
+    // Display pie chart and table.
+    visualise(dataset, totalResource);
+    tabulateAllocations(table, dataset, totalResource, isCoreQuota);
   }
+}
 
-  function hideRelatedLabels(d, i) {
-    var segment = null;
-    if (this.nodeName == "text") {
-      segment = d3.select("#segment-" + i);
-    } else {
-      segment = d3.select(this);
-    }
-    _hideRelatedLabels(segment, d.data);
+function isCramped(d) {
+  var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
+  return isCramped ;
+}
+
+function calculateOpacity(d) {
+  return isCramped(d) ? 1.0 : 0.1 ;
+}
+
+function calculateOpacity0(d) {
+  return isCramped(d) ? 1.0 : 0.0 ;
+}
+
+function showRelatedLabels(d, i) {
+  var segment = null;
+  if (this.nodeName == "text") {
+    segment = d3.select("#segment-" + i);
+  } else {
+    segment = d3.select(this);
   }
-
-  //---- Popup showing project summary.
-  
-	var projectMarkup = "<div class='details-container centred-container'>" 
-		+ "<table class='table-striped table-condensed'>" 
-		+ "<tr>"
-		+ "<th>"
-		+ "Project: " 
-		+ "</th>"
-		+ "<td>"
-		+ "{{projectName}}"
-		+ "</td>"
-		+ "</tr>"
-		+ "<th>"
-		+ "Institution: " 
-		+ "</th>"
-		+ "<td>"
-		+ "{{institutionName}}"
-		+ "</td>"
-		+ "</tr>"
-		+ "<tr>"
-		+ "<th>"
-		+ "Core quota: " 
-		+ "</th>"
-		+ "<td>"
-		+ "{{coreQuota}}"
-		+ "</td>"
-		+ "</tr>"
-		+ "<tr>"
-		+ "<th>"
-		+ "Instance quota: " 
-		+ "</th>"
-		+ "<td>"
-		+ "{{instanceQuota}}"
-		+ "</td>"
-		+ "</tr>"
-		+ "</table>"
-		+ "</div>";
-		
-	Mustache.parse(projectMarkup);
-      
-  function showProjectSummary(data) {
-    var view = {
-      projectName: data.projectName.makeWrappable(),
-      institutionName: data.institutionName,
-      coreQuota: data.coreQuota.toFixed(0),
-      instanceQuota: data.instanceQuota.toFixed(0)
+  segment
+    .style("stroke", HILITE_SEGMENT_COLOUR)
+    .style("stroke-width", HILITE_SEGMENT_WIDTH);
+  var bisectorAngle = (d.endAngle + d.startAngle) / 2.0 + -Math.PI / 2;
+  var deltaX = 5 * Math.cos(bisectorAngle);
+  var deltaY = 5 * Math.sin(bisectorAngle);
+  segment.attr("transform", "translate(" + deltaX + "," + deltaY + ")");
+  table.selectAll("td.col0").each(function(row) {
+    if (row.colourIndex == d.data.colourIndex) {
+      var otherColumns = $(this).siblings();
+      otherColumns.css('background-color', HILITE_SEGMENT_COLOUR);
+      otherColumns.css('color', HILITE_TEXT_COLOUR);
     };
-	var rendered = Mustache.render(projectMarkup, view);
-    toolTip.html(rendered);
+  });
+  if (isForCodeLevel()) {
+    showFORDescription(d);
+  } else {
+    showProjectSummary(d.data);
   }
+  toolTip.style("visibility", "visible");
+}
 
+function moveRelatedLabels(d, i) {
+  var top = (d3.event.pageY - 10) + "px";
+  var left = (d3.event.pageX + 10) + "px";
+  toolTip.style("top", top).style("left", left);
+}
 
-  //---- Popup showing full field-of-research name.
-	var forMarkup = "<div class='details-container centred-container'>" 
-		+ "<table class='table-condensed'>" 
-		+ "<tr>"
-		+ "<th>"
-		+ "{{forCode}}:&nbsp;"
-		+ "</th>"
-		+ "<td style='text-transform: capitalize;'>"
-		+ "{{forName}}"      
-		+ "</td>"
-		+ "</tr>"
-		+ "</table>"
-		+ "</div>";
-      
-  function showFORDescription(d) {
-  	var forCode = d.data.target;
-    var view = {
-      forCode: forCode,
-      forName: forTitleMap[forCode].toLowerCase()
+function _hideRelatedLabels(segment, data) {
+  segment
+    .style("stroke", UNHILITE_SEGMENT_COLOUR)
+    .style("stroke-width", UNHILITE_SEGMENT_WIDTH)
+    .attr("transform", "translate(0, 0)");
+  table.selectAll("td.col0").each(function(row) {
+    if (row.colourIndex == data.colourIndex) {
+      $(this).siblings().css('background-color', UNHILITE_CELL_COLOUR);
+      $(this).siblings().css('color', UNHILITE_TEXT_COLOUR);
     };
-	var rendered = Mustache.render(forMarkup, view);
-    toolTip.html(rendered);
-  }
+  });
+  toolTip.style("visibility", "hidden");
+}
 
-  //----- Visualise Data
+function hideRelatedLabels(d, i) {
+  var segment = null;
+  if (this.nodeName == "text") {
+    segment = d3.select("#segment-" + i);
+  } else {
+    segment = d3.select(this);
+  }
+  _hideRelatedLabels(segment, d.data);
+}
+
+//---- Popup showing project summary.
+
+var projectMarkup = "<div class='details-container centred-container'>"
+      + "<table class='table-striped table-condensed'>"
+      + "<tr>"
+      + "<th>"
+      + "Project: "
+      + "</th>"
+      + "<td>"
+      + "{{projectName}}"
+      + "</td>"
+      + "</tr>"
+      + "<th>"
+      + "Institution: "
+      + "</th>"
+      + "<td>"
+      + "{{institutionName}}"
+      + "</td>"
+      + "</tr>"
+      + "<tr>"
+      + "<th>"
+      + "Core quota: "
+      + "</th>"
+      + "<td>"
+      + "{{coreQuota}}"
+      + "</td>"
+      + "</tr>"
+      + "<tr>"
+      + "<th>"
+      + "Instance quota: "
+      + "</th>"
+      + "<td>"
+      + "{{instanceQuota}}"
+      + "</td>"
+      + "</tr>"
+      + "</table>"
+      + "</div>";
+
+Mustache.parse(projectMarkup);
+
+function showProjectSummary(data) {
+  var view = {
+    projectName: data.projectName.makeWrappable(),
+    institutionName: data.institutionName,
+    coreQuota: data.coreQuota.toFixed(0),
+    instanceQuota: data.instanceQuota.toFixed(0)
+  };
+  var rendered = Mustache.render(projectMarkup, view);
+  toolTip.html(rendered);
+}
+
+
+//---- Popup showing full field-of-research name.
+var forMarkup = "<div class='details-container centred-container'>"
+      + "<table class='table-condensed'>"
+      + "<tr>"
+      + "<th>"
+      + "{{forCode}}:&nbsp;"
+      + "</th>"
+      + "<td style='text-transform: capitalize;'>"
+      + "{{forName}}"
+      + "</td>"
+      + "</tr>"
+      + "</table>"
+      + "</div>";
+
+function showFORDescription(d) {
+  var forCode = d.data.target;
+  var view = {
+    forCode: forCode,
+    forName: forTitleMap[forCode].toLowerCase()
+  };
+  var rendered = Mustache.render(forMarkup, view);
+  toolTip.html(rendered);
+}
+
+//----- Visualise Data
 
 function visualise( dataset, totalResource ) {
 
-  var countLabelPrefix = selectedCoreQuota() ? "Core count: " : "Instance count: "; 
+  var countLabelPrefix = selectedCoreQuota() ? "Core count: " : "Instance count: ";
   totalText.text(function(d) { return countLabelPrefix + totalResource.toFixed(0); });
 
   // Build the node list, attaching the new data.
   var nodes = pie(dataset);
-  
+
   slices = plotGroup.selectAll("g.slice").data(nodes);
-  
+
   slices.select('path')
     .attr("fill", function (d, i) {
       return paletteStack.tos()(d.data.colourIndex);
@@ -447,12 +447,12 @@ function visualise( dataset, totalResource ) {
     .attrTween("d", arcTween);
 
   // Display new data items:
-  
+
   // -- slices first.
-  
+
   var newSlices = slices.enter()
-    .append('g')
-    .attr('class', 'slice');
+        .append('g')
+        .attr('class', 'slice');
 
   newSlices.append("path")
     .attr("class", 'plot-slice')
@@ -478,9 +478,9 @@ function visualise( dataset, totalResource ) {
     .transition()
     .duration(DURATION)
     .attrTween("d", arcTween)
-    ;
-  
-  
+  ;
+
+
   // Begin text annotation.
   slices.selectAll('text').remove();
 
@@ -516,7 +516,7 @@ function visualise( dataset, totalResource ) {
     .style("opacity", calculateOpacity0);
 
   // -- Text annotations third, virtual CPU count for corresponding domain.
-  
+
   newSlices
     .append("text")
     .attr("id", function(d, i) { return 'value-plot-label-' + i; })
@@ -524,8 +524,8 @@ function visualise( dataset, totalResource ) {
     .attr("dy", ".35em")
     .attr("text-anchor", "middle")
     .attr("transform", function(d) {
-    d.outerRadius = OUTER_RADIUS;
-    d.innerRadius = OUTER_RADIUS/2;
+      d.outerRadius = OUTER_RADIUS;
+      d.innerRadius = OUTER_RADIUS/2;
       return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
     })
     .style("fill", "White")
@@ -537,7 +537,7 @@ function visualise( dataset, totalResource ) {
         label = forCode;
       } else {
         label = d.data.target.abbreviate(LABEL_MAX_LENGTH + 5);
-      }       
+      }
       return label;
     })
     .style("opacity", 0)
@@ -548,25 +548,25 @@ function visualise( dataset, totalResource ) {
     .transition()
     .duration(DURATION_FAST)
     .style("opacity", calculateOpacity0)
-    ;
+  ;
 
   // Remove old elements:
-  
-  // -- remove old annotations 
+
+  // -- remove old annotations
   slices.exit().select('text')
     .transition()
     .duration(DURATION_FAST)
     .style("opacity", 0)
     .remove();
 
-  // -- remove old slices 
+  // -- remove old slices
   slices.exit().select('fill')
     .transition()
     .duration(DURATION)
     .attrTween('d', arcTweenOut)
     .remove();
   slices.exit().transition().remove();
-  
+
   //----- Build and display breadcrumbs
 
   navigate();
@@ -582,11 +582,11 @@ function navigate() {
     .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""; })
     .html(function(d, i) {
       var forCode = d;
-      var markup = forCode == '*' 
-        ? '<span class="glyphicon glyphicon-home"></span>' 
-        : '<span style="text-transform: capitalize">' 
-          + forTitleMap[forCode].toLowerCase() 
-          + '</span>';
+      var markup = forCode == '*'
+            ? '<span class="glyphicon glyphicon-home"></span>'
+            : '<span style="text-transform: capitalize">'
+            + forTitleMap[forCode].toLowerCase()
+            + '</span>';
       if (i < breadCrumbs.length - 1) {
         markup = '<a href="#">' + markup + '</a>';
       }
@@ -595,7 +595,7 @@ function navigate() {
     .on("click", function(d, i) {
       if (breadCrumbs.length > 1 && i < breadCrumbs.length - 1) {
         breadCrumbs = breadCrumbs.slice(0, i + 1);
-        var route = breadCrumbs.slice(1).reverse();     
+        var route = breadCrumbs.slice(1).reverse();
         var children = traverseHierarchy(route, allocationTree);
         var isCoreQuota = selectedCoreQuota();
         var dataset = restructureAllocations(children, isCoreQuota);
@@ -606,7 +606,7 @@ function navigate() {
         paletteStack = paletteStack.slice(0, i + 1);
         visualise(dataset, totalResource);
         tabulateAllocations(table, dataset, totalResource, isCoreQuota);
-      }   
+      }
     });
 }
 
@@ -663,7 +663,7 @@ function load() {
       var isCoreQuota = selectedCoreQuota();
       var resource = {};
       var dataset = processResponse(allocationTree, resource);
-      visualise(dataset, resource.total); 
+      visualise(dataset, resource.total);
       tabulateAllocations(table, dataset, resource.total, isCoreQuota);
     });
   });
@@ -681,7 +681,7 @@ function change() {
   var isCoreQuota = selectedCoreQuota();
   var resource = {};
   var dataset = processResponse(children, resource);
-  visualise(dataset, resource.total); 
+  visualise(dataset, resource.total);
   tabulateAllocations(table, dataset, resource.total, isCoreQuota);
 }
 

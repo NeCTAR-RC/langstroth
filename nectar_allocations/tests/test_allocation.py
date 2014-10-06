@@ -249,4 +249,3 @@ class AllocationTest(unittest.TestCase):
             if 'children' in allocation:
                 allocations = allocation['children']
                 self.sort_tree(allocations)
-
