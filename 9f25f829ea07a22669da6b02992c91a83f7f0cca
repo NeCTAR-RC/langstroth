@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_61815c4a",
+        "filename": "README.rst",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_81572802",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_615cbc26",
         "filename": "README.rst",
         "patchSetId": 17
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_c195b089",
+        "filename": "README.rst",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_615cbc26",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_e130acea",
         "filename": "langstroth/settings_test.py",
         "patchSetId": 17
@@ -82,6 +118,24 @@
       "writtenOn": "2014-10-06T01:29:48Z",
       "side": 1,
       "message": "this is a duplicate of the langstroth.tests.settings file that is currently used.   You\u0027ll need to update the run_test.sh file to reflect the change in the name of the settings file.\n\nYou\u0027ll also need to add nectar_allocations to the TESTS string so that the tests get run for that module too.\n\nCurrently i see this output when i execute run_tests.sh\n\n $ ./run_tests.sh\n Creating test database for alias \u0027default\u0027 (\u0027:memory:\u0027)...\n Creating tables ...\n Creating table auth_permission\n Creating table auth_group_permissions\n Creating table auth_group\n Creating table auth_user_groups\n Creating table auth_user_user_permissions\n Creating table auth_user\n Creating table django_content_type\n Creating table django_session\n Creating table django_site\n Installing custom SQL ...\n Installing indexes ...\n Installed 0 object(s) from 0 fixture(s)\n test_parsing (langstroth.tests.test_nagios.TestAvailability) ... ok\n test_parsing (langstroth.tests.test_nagios.TestStatus) ... ok\n \n ----------------------------------------------------------------------\n Ran 2 tests in 0.006s\n \n OK\n Destroying test database for alias \u0027default\u0027 (\u0027:memory:\u0027)...",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a192249d",
+        "filename": "langstroth/settings_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_e130acea",
       "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -111,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_01905894",
+        "filename": "langstroth/static/css/master-detail.css",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_2152b413",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_21875463",
         "filename": "langstroth/templates/base.html",
         "patchSetId": 17
@@ -128,6 +200,24 @@
         "endLine": 9,
         "endChar": 1
       },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_41e9c019",
+        "filename": "langstroth/templates/base.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_21875463",
       "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -157,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_21ee3423",
+        "filename": "langstroth/templates/base.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_41826053",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_c1401038",
         "filename": "langstroth/views.py",
         "patchSetId": 17
@@ -180,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_e15eec11",
+        "filename": "langstroth/views.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Tried this:\n    LOG.debug(\"Availability: \" + (availability if availability.str() else \"none\"))\nGot this:\n    AttributeError: \u0027dict\u0027 object has no attribute \u0027str\u0027\nThe original code gave this:\n   DEBUG Availability: {\"services\": {}, \"average\": {}}\n\nStatus has the same problem.",
+      "parentUuid": "3afa9182_c1401038",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_414d4072",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 17
@@ -197,6 +323,24 @@
         "endLine": 100,
         "endChar": 88
       },
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e18c2c82",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T03:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_414d4072",
       "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
