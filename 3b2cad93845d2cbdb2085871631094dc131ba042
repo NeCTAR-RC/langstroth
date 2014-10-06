@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0606ae20",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T04:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_e647224a",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_5246b424",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -929,6 +947,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_e602820a",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T04:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_4674369c",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_720f70e2",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 15
@@ -1322,6 +1358,24 @@
       "side": 1,
       "message": "you could convert the json strings to python dicts then just compare them?\n\ni will probably switch to py.test once we get this merged.",
       "parentUuid": "3afa9182_a0c6a247",
+      "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_41ff0002",
+        "filename": "utilities/diff.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-06T04:45:59Z",
+      "side": 1,
+      "message": "1. The comparison is not done at the string level, is already done at the object level. \n\n2. I don\u0027t know how a simple dict comparison would work with a mixture of nested lists and dicts.",
+      "parentUuid": "3afa9182_26792a94",
       "revId": "3b2cad93845d2cbdb2085871631094dc131ba042",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
