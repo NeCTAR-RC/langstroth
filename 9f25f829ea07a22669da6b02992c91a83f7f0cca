@@ -306,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_41d0a053",
+        "filename": "langstroth/views.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-06T03:47:51Z",
+      "side": 1,
+      "message": "str(availability)",
+      "parentUuid": "3afa9182_e15eec11",
+      "revId": "9f25f829ea07a22669da6b02992c91a83f7f0cca",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_414d4072",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 17
