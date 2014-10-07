@@ -8,9 +8,9 @@ class TestRouter(object):
     db_for_write = db_for_read
 
     def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == 'nectar_allocations' or \
-            obj2._meta.app_label == 'nectar_allocations':
-                return True
+        if obj1._meta.app_label == 'nectar_allocations' \
+                or obj2._meta.app_label == 'nectar_allocations':
+            return True
         return None
 
     def allow_syncdb(self, db, model):

@@ -28,41 +28,43 @@ class AllocationRequest(models.Model):
         ('B', 'B'),
     )
 
-    status = models.CharField(max_length=1, db_column="status", null=False, choices=STATUS_CHOICES, default='N')
-    created_by = models.CharField(max_length=100, db_column="created_by", null=False)
-    submit_date = models.DateField(db_column="submit_date", null=False, default='2012-01-16')
-    project_name = models.CharField(max_length=200, db_column="project_name", null=False)
-    contact_email = models.CharField(max_length=75, db_column="contact_email", null=False)
-    start_date = models.DateField(db_column="start_date", null=False, default='2012-01-16')
-    end_date = models.DateField(db_column="end_date", null=False, default='2012-01-16')
-    primary_instance_type = models.CharField(max_length=1, db_column="primary_instance_type", null=False, choices=INSTANCE_TYPE_CHOICES, default='S')
-    cores = models.IntegerField(db_column="cores", null=False, default=1)
-    core_hours = models.IntegerField(db_column="core_hours", null=False, default=100)
-    instances = models.IntegerField(db_column="instances", null=False, default=1)
-    object_storage_GBs = models.IntegerField(db_column="object_storage_GBs", null=False, default=0)
-    use_case = models.TextField(db_column="use_case", null=False)
-    usage_patterns = models.TextField(db_column="usage_patterns", null=False)
-    geographic_requirements = models.TextField(db_column="geographic_requirements", null=False)
-    field_of_research_1 = models.CharField(max_length=6, db_column="field_of_research_1", null=True)
-    for_percentage_1 = models.IntegerField(db_column="for_percentage_1", null=False, default=0)
-    field_of_research_2 = models.CharField(max_length=6, db_column="field_of_research_2", null=True)
-    for_percentage_2 = models.IntegerField(db_column="for_percentage_2", null=False, default=0)
-    field_of_research_3 = models.CharField(max_length=6, db_column="field_of_research_3", null=True)
-    for_percentage_3 = models.IntegerField(db_column="for_percentage_3", null=False, default=0)
-    tenant_uuid = models.CharField(max_length=36, db_column="tenant_uuid", null=True)
-    instance_quota = models.IntegerField(db_column="instance_quota", null=False, default=0)
-    ram_quota = models.IntegerField(db_column="ram_quota", null=False, default=0)
-    core_quota = models.IntegerField(db_column="core_quota", null=False, default=0)
-    tenant_name = models.CharField(max_length=100, db_column="tenant_name", null=True)
-    status_explanation = models.CharField(max_length=200, db_column="status_explanation", null=True)
-    volume_gb = models.IntegerField(db_column="volume_gb", null=False, default=0)
-    volume_zone = models.CharField(max_length=64, db_column="volume_zone", null=True)
-    object_storage_zone = models.CharField(max_length=64, db_column="object_storage_zone", null=True)
-    volume_quota = models.IntegerField(db_column="volume_quota", null=False, default=0)
-    approver_email = models.CharField(max_length=75, db_column="approver_email", null=True)
-    modified_time = models.DateTimeField(default=timezone.now, db_column="modified_time", null=False)
+    status = models.CharField(
+        max_length=1, null=False, choices=STATUS_CHOICES, default='N')
+    created_by = models.CharField(max_length=100, null=False)
+    submit_date = models.DateField(null=False, default='2012-01-16')
+    project_name = models.CharField(max_length=200, null=False)
+    contact_email = models.CharField(max_length=75, null=False)
+    start_date = models.DateField(null=False, default='2012-01-16')
+    end_date = models.DateField(null=False, default='2012-01-16')
+    primary_instance_type = models.CharField(
+        max_length=1, null=False, choices=INSTANCE_TYPE_CHOICES, default='S')
+    cores = models.IntegerField(null=False, default=1)
+    core_hours = models.IntegerField(null=False, default=100)
+    instances = models.IntegerField(null=False, default=1)
+    object_storage_GBs = models.IntegerField(null=False, default=0)
+    use_case = models.TextField(null=False)
+    usage_patterns = models.TextField(null=False)
+    geographic_requirements = models.TextField(null=False)
+    field_of_research_1 = models.CharField(max_length=6, null=True)
+    for_percentage_1 = models.IntegerField(null=False, default=0)
+    field_of_research_2 = models.CharField(max_length=6, null=True)
+    for_percentage_2 = models.IntegerField(null=False, default=0)
+    field_of_research_3 = models.CharField(max_length=6, null=True)
+    for_percentage_3 = models.IntegerField(null=False, default=0)
+    tenant_uuid = models.CharField(max_length=36, null=True)
+    instance_quota = models.IntegerField(null=False, default=0)
+    ram_quota = models.IntegerField(null=False, default=0)
+    core_quota = models.IntegerField(null=False, default=0)
+    tenant_name = models.CharField(max_length=100, null=True)
+    status_explanation = models.CharField(max_length=200, null=True)
+    volume_gb = models.IntegerField(null=False, default=0)
+    volume_zone = models.CharField(max_length=64, null=True)
+    object_storage_zone = models.CharField(max_length=64, null=True)
+    volume_quota = models.IntegerField(null=False, default=0)
+    approver_email = models.CharField(max_length=75, null=True)
+    modified_time = models.DateTimeField(default=timezone.now, null=False)
 
-    parent_request = models.ForeignKey('self', db_column="parent_request_id", null=True)
+    parent_request = models.ForeignKey('self', null=True)
 
     def __unicode__(self):
         return self.project_name + '(' + self.id + ')'
@@ -77,7 +79,8 @@ class AllocationRequest(models.Model):
     @staticmethod
     def strip_email_sub_domains(domain):
         prefix = domain.split('.', 1)[0]
-        if prefix in ('my', 'ems', 'exchange', 'groupwise', 'student', 'students', 'studentmail'):
+        if prefix in ('my', 'ems', 'exchange', 'groupwise',
+                      'student', 'students', 'studentmail'):
             _, _, domain = domain.partition('.')
         if domain == 'griffithuni.edu.au':
             return 'griffith.edu.au'
@@ -102,7 +105,8 @@ class AllocationRequest(models.Model):
 
         Find all, group them by name,
         but then return just the latest in each allocation group.
-        The data needs some cleanup as there are some allocations with very similar names.
+        The data needs some cleanup as there are some allocations
+        with very similar names.
         """
         all_approved_allocations = cls \
             .objects.filter(Q(status='A') | Q(status='X')) \
@@ -120,9 +124,12 @@ class AllocationRequest(models.Model):
     def is_valid_for_code(potential_for_code):
         return potential_for_code is not None
 
-    # the most fine-grained field-of-research code looks like 6 digits: '987654'
-    # the more general FOR codes for this field-of-research
-    # would be the leading  4 (= '9876') and 2 (= '98') digits.
+    """ The most fine-grained field-of-research code
+    looks like 6 digits: '987654'
+
+    The more general FOR codes for this field-of-research
+    would be the leading  4 (= '9876') and 2 (= '98') digits.
+    """
     @staticmethod
     def apply_for_code_to_summary(allocation_summary, code):
         allocation_summary['for_2'] = code[:2]
@@ -137,21 +144,31 @@ class AllocationRequest(models.Model):
     def summary(self, code):
         allocation_summary = dict()
         allocation_summary['id'] = self.id
-        allocation_summary['institution'] = self.institution_from_email(self.contact_email)
-        allocation_summary['project_name'] = self.project_name
+        allocation_summary['institution'] = \
+            self.institution_from_email(self.contact_email)
+        allocation_summary['project_name'] = \
+            self.project_name
         # Redact any email addresses.
         if self.show_private_fields:
-            allocation_summary['usage_patterns'] = self.apply_privacy_policy(self.usage_patterns)
+            allocation_summary['usage_patterns'] = \
+                self.apply_privacy_policy(self.usage_patterns)
         # Redact any email addresses.
         if self.show_private_fields:
-            allocation_summary['use_case'] = self.apply_privacy_policy(self.use_case)
+            allocation_summary['use_case'] = \
+                self.apply_privacy_policy(self.use_case)
         self.apply_for_code_to_summary(allocation_summary, code)
         if code == self.field_of_research_1:
-            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_1)
+            self.apply_partitioned_quotas(
+                allocation_summary,
+                self.for_percentage_1)
         elif code == self.field_of_research_2:
-            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_2)
+            self.apply_partitioned_quotas(
+                allocation_summary,
+                self.for_percentage_2)
         elif code == self.field_of_research_3:
-            self.apply_partitioned_quotas(allocation_summary, self.for_percentage_3)
+            self.apply_partitioned_quotas(
+                allocation_summary,
+                self.for_percentage_3)
         return allocation_summary
 
     @classmethod
@@ -162,12 +179,14 @@ class AllocationRequest(models.Model):
 
     # See: http://www.regular-expressions.info/email.html
     # Ignore case as only [A-Z] character class is specified.
-    EMAIL_ADDRESS_REGEX = re.compile(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b', re.IGNORECASE)
+    EMAIL_ADDRESS_REGEX = re.compile(
+        r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b', re.IGNORECASE)
     REPLACEMENT = r'[XXXX]'
 
     @classmethod
     def redact_all_emails(cls, description):
-        redacted_description = cls.EMAIL_ADDRESS_REGEX.sub(cls.REPLACEMENT, description)
+        redacted_description = cls.EMAIL_ADDRESS_REGEX.sub(
+            cls.REPLACEMENT, description)
         return redacted_description
 
     @classmethod
@@ -236,41 +255,50 @@ class AllocationRequest(models.Model):
             'coreQuota': allocation_summary['coreQuota']
         }
         if cls.show_private_fields:
-            allocation_items['useCase'] = allocation_summary['useCase']
+            allocation_items['useCase'] = \
+                allocation_summary['useCase']
         if cls.show_private_fields:
-            allocation_items['usagePatterns'] = allocation_summary['usagePatterns']
+            allocation_items['usagePatterns'] = \
+                allocation_summary['usagePatterns']
         return allocation_items
 
     @classmethod
     def restructure_allocations_tree(cls):
         allocations_tree = cls.organise_allocations_tree()
-        restructured_tree = cls.create_allocation_tree_branch_node('allocations')
+        restructured_tree = \
+            cls.create_allocation_tree_branch_node('allocations')
         cls.traverse_allocations_tree(allocations_tree, restructured_tree, 0)
         return restructured_tree
 
     @classmethod
-    def traverse_allocations_tree(cls, allocations_tree, node_parent, recursion_depth):
+    def traverse_allocations_tree(
+            cls, allocations_tree,
+            node_parent,
+            recursion_depth):
         MAX_RECURSION_DEPTH = 2
         for node_name in allocations_tree.keys():
             node_children = cls.create_allocation_tree_branch_node(node_name)
             node_parent['children'].append(node_children)
             allocations_subtree = allocations_tree[node_name]
             if recursion_depth < MAX_RECURSION_DEPTH:
-                cls.traverse_allocations_tree(allocations_subtree, node_children, recursion_depth + 1)
+                cls.traverse_allocations_tree(
+                    allocations_subtree, node_children, recursion_depth + 1)
             else:
                 for allocation_summary in allocations_subtree:
-                    allocation_items = cls.create_allocation_tree_leaf_node(allocation_summary)
+                    allocation_items = \
+                        cls.create_allocation_tree_leaf_node(
+                            allocation_summary)
                     node_children['children'].append(allocation_items)
 
     @classmethod
-    def project_allocations_from_allocation_request_id(cls, allocation_request_id):
-        base_request = cls.objects.get(pk=allocation_request_id)
+    def get_all_for_project(cls, request_id):
+        base_request = cls.objects.get(pk=request_id)
         project_summary = list()
         project_record = cls.__project_summary_record(base_request)
         project_summary.append(project_record)
         other_requests = cls.objects \
             .filter(project_name=base_request.project_name) \
-            .exclude(id=allocation_request_id)
+            .exclude(id=request_id)
         for other_request in other_requests:
             project_record = cls.__project_summary_record(other_request)
             project_summary.append(project_record)
@@ -278,8 +306,8 @@ class AllocationRequest(models.Model):
         return project_summary
 
     @classmethod
-    def project_from_allocation_request_id(cls, allocation_request_id):
-        allocations = cls.project_allocations_from_allocation_request_id(allocation_request_id)
+    def project_from_request_id(cls, request_id):
+        allocations = cls.get_all_for_project(request_id)
         project_summary = allocations[-1]
         return project_summary
 
@@ -302,13 +330,16 @@ class AllocationRequest(models.Model):
             'field_of_research_3': request.field_of_research_3,
             'for_percentage_3': request.for_percentage_3,
             'submit_date': request.submit_date.strftime('%Y-%m-%d'),
-            'modified_time': request.modified_time.strftime('%Y-%m-%d %H:%M:%S')
+            'modified_time': request.modified_time.strftime(
+                '%Y-%m-%d %H:%M:%S')
         }
         # Redact any email addresses.
         if cls.show_private_fields:
-            project_record['use_case'] = cls.apply_privacy_policy(request.use_case)
+            project_record['use_case'] = \
+                cls.apply_privacy_policy(request.use_case)
         # Redact any email addresses.
         if cls.show_private_fields:
-            project_record['usage_patterns'] = cls.apply_privacy_policy(request.usage_patterns)
+            project_record['usage_patterns'] = \
+                cls.apply_privacy_policy(request.usage_patterns)
 
         return project_record
