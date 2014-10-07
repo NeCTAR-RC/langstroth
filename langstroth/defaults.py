@@ -1,13 +1,13 @@
 # Django settings for langstroth project.
 import sys
-from utilities import file
+from os import path
 
 # Override this to TEST_MODE = False for the production settings file.
 # It's True here so we can populate the database with reference data.
 TEST_MODE = True
 
-DEFAULT_DATABASE_NAME = 'langstroth.db'
-ALLOCATION_DATABASE_NAME = 'nectar_allocations.db'
+DEFAULT_DATABASE_NAME = '../langstroth.db'
+ALLOCATION_DATABASE_NAME = '../nectar_allocations.db'
 
 NAGIOS_PASSWORD = ""
 
@@ -23,20 +23,24 @@ MANAGERS = ADMINS
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': path.join(path.dirname(__file__),
+                          DEFAULT_DATABASE_NAME),
+        'TEST_NAME': path.join(path.dirname(__file__),
+                               DEFAULT_DATABASE_NAME),
+    },
     # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
     'allocations_db': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': path.join(path.dirname(__file__),
+                          ALLOCATION_DATABASE_NAME),
+        'TEST_NAME': path.join(path.dirname(__file__),
+                               ALLOCATION_DATABASE_NAME),
     }
 }
 DATABASE_ROUTERS = ['nectar_allocations.router.AllocationsRouter']
 FIXTURE_DIRS = (
-    file.absolute_path('../nectar_allocations/reference_data/'),
+    path.join(path.dirname(__file__), '../nectar_allocations/reference_data/'),
 )
 
 NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
@@ -111,7 +115,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    file.absolute_path("static"),
+    path.join(path.dirname(__file__), "static"),
     # Put strings here, like "/home/html/static"
     # or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -160,7 +164,7 @@ ROOT_URLCONF = 'langstroth.urls'
 WSGI_APPLICATION = 'langstroth.wsgi.application'
 
 TEMPLATE_DIRS = (
-    file.absolute_path("templates"),
+    path.join(path.dirname(__file__), "templates"),
     # Put strings here, like "/home/html/django_templates"
     # or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
