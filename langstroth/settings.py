@@ -21,6 +21,7 @@ import os
 import logging
 from .defaults import *  # NOQA
 
+
 # Fixes "No handlers could be found for logger"
 logging.basicConfig()
 

@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from nectar_allocations.models.forcode import ForCode
 
+
 class ForCodeDBTest(TestCase):
 
     multi_db = True
@@ -17,7 +18,9 @@ class ForCodeDBTest(TestCase):
         self.assertEqual(phys.name, 'Physical impossibility')
 
     def test_forcode_map(self):
-        expected_map = {'1234': 'Biological necessity', '4321': 'Physical impossibility'}
+        expected_map = {
+            '1234': 'Biological necessity',
+            '4321': 'Physical impossibility'}
         actual_map = ForCode.code_dict()
         different_items = set(expected_map.items()) ^ set(actual_map.items())
         self.assertEqual(0, len(different_items))
