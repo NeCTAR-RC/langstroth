@@ -1,1 +1,1 @@
-from test_nagios import *
+from test_nagios import *  # NOQA
