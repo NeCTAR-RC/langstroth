@@ -86,7 +86,9 @@ def domain(request):
 
 
 INST_TARGETS = [
-    ('Melbourne University', "sumSeries(cells.melbourne-qh2.total_instances,cells.melbourne-np.total_instances)"),
+    ('Melbourne University',
+     "sumSeries(cells.melbourne-qh2.total_instances,\
+     cells.melbourne-np.total_instances)"),
     ('Monash University', "cells.monash-01.total_instances"),
     ('QCIF', "cells.qld.total_instances"),
     ('ERSA', "cells.sa.total_instances"),
@@ -124,7 +126,9 @@ def total_instance_count(request):
 
 
 CORES_TARGETS = [
-    ('Melbourne University', "sumSeries(cells.melbourne-qh2.used_vcpus,cells.melbourne-np.used_vcpus)"),
+    ('Melbourne University',
+        "sumSeries(cells.melbourne-qh2.used_vcpus,\
+        cells.melbourne-np.used_vcpus)"),
     ('Monash University', "cells.monash-01.used_vcpus"),
     ('QCIF', "cells.qld.used_vcpus"),
     ('ERSA', "cells.sa.used_vcpus"),

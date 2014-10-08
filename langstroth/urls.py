@@ -14,10 +14,12 @@ urlpatterns = patterns(
     # url(r'^langstroth/', include('langstroth.foo.urls')),
     url(r'^growth/$', 'langstroth.views.growth', name='growth'),
     url(r'^domain/$', 'langstroth.views.domain', name='domain'),
-    url(r'^domain/cores_per_domain$', 'langstroth.views.total_cores_per_domain', name='domain'),
+    url(r'^domain/cores_per_domain$',
+        'langstroth.views.total_cores_per_domain', name='domain'),
     url(r'^growth/instance_count$', 'langstroth.views.total_instance_count'),
     url(r'^growth/used_cores$', 'langstroth.views.total_used_cores'),
     url(r'^allocations/', include('nectar_allocations.urls')),
+    url(r'^user_statistics/', include('user_statistics.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
