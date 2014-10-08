@@ -15,23 +15,21 @@ var headings = {
 
 function projectDetails(elementId) {
   d3.json("/allocations/rest/applications/" + allocationId + "/history", function(error, allocations) {
-    var allocation = null;
     var allocationCount = allocations.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
-      allocation = allocations[allocationIndex];
+      var allocation = allocations[allocationIndex];
 
       var table = d3.select(elementId)
             .append("table")
             .attr("class", "table-striped table-bordered table-condensed")
             .style("margin-bottom", "20px");
 
-      var thead = table.append("thead");
       var tbody = table.append("tbody");
 
       var rows = tbody.selectAll("tr")
             .data(function(row) {
               var keys = [];
-              for (key in headings) {
+              for (var key in headings) {
                 keys.push(key);
               }
               return keys; })

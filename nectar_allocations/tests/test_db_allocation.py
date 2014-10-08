@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from django.test import TestCase
 
 from nectar_allocations.models.allocation import AllocationRequest
@@ -147,55 +149,67 @@ class AllocationDBTest(TestCase):
     def test_restructure_allocations_tree(self):
         name_children_tree = AllocationRequest.restructure_allocations_tree()
         self.assertEquals('allocations', name_children_tree['name'])
-        self.assertEquals(3, len(name_children_tree['children']))
+        children_2 = name_children_tree['children']
+        self.assertEquals(3, len(children_2))
 
-        children_2 = name_children_tree['children'][0]
-        self.assertEquals('08', children_2['name'])
-        self.assertEquals(1, len(children_2['children']))
+        children_2.sort(key=itemgetter('name'))
 
-        children_4 = children_2['children'][0]
-        self.assertEquals('0801', children_4['name'])
-        self.assertEquals(1, len(children_4['children']))
+        child_2 = children_2[0]
+        self.assertEquals('07', child_2['name'])
+        self.assertEquals(1, len(child_2['children']))
 
-        children_6 = children_4['children'][0]
-        self.assertEquals('080109', children_6['name'])
-        self.assertEquals(1, len(children_6['children']))
+        children_4 = child_2['children']
+        child_4 = children_4[0]
+        self.assertEquals('0701', child_4['name'])
+        self.assertEquals(1, len(child_4['children']))
 
-        project_items = children_6['children'][0]
-        self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          project_items['name'])
+        children_6 = child_4['children']
+        child_6 = children_6[0]
+        self.assertEquals('070104', child_6['name'])
+        self.assertEquals(1, len(child_6['children']))
 
-        children_2 = name_children_tree['children'][1]
-        self.assertEquals('09', children_2['name'])
-        self.assertEquals(1, len(children_2['children']))
+        project_items = child_6['children'][0]
+        self.assertEquals(
+            'USQ eResearch Services Sandbox',
+            project_items['name'])
 
-        children_4 = children_2['children'][0]
-        self.assertEquals('0999', children_4['name'])
-        self.assertEquals(1, len(children_4['children']))
+        child_2 = children_2[1]
+        self.assertEquals('08', child_2['name'])
+        self.assertEquals(1, len(child_2['children']))
 
-        children_6 = children_4['children'][0]
-        self.assertEquals('099901', children_6['name'])
-        self.assertEquals(1, len(children_6['children']))
+        children_4 = child_2['children']
+        child_4 = children_4[0]
+        self.assertEquals('0801', child_4['name'])
+        self.assertEquals(1, len(child_4['children']))
 
-        project_items = children_6['children'][0]
-        self.assertEquals('USQ eResearch Services Sandbox',
-                          project_items['name'])
+        children_6 = child_4['children']
+        child_6 = children_6[0]
+        self.assertEquals('080109', child_6['name'])
+        self.assertEquals(1, len(child_6['children']))
 
-        children_2 = name_children_tree['children'][2]
-        self.assertEquals('07', children_2['name'])
-        self.assertEquals(1, len(children_2['children']))
+        project_items = child_6['children'][0]
+        self.assertEquals(
+            'UoM_Trajectory_Inference_Attacks',
+            project_items['name'])
 
-        children_4 = children_2['children'][0]
-        self.assertEquals('0701', children_4['name'])
-        self.assertEquals(1, len(children_4['children']))
+        child_2 = children_2[2]
+        self.assertEquals('09', child_2['name'])
+        self.assertEquals(1, len(child_2['children']))
 
-        children_6 = children_4['children'][0]
-        self.assertEquals('070104', children_6['name'])
-        self.assertEquals(1, len(children_6['children']))
+        children_4 = child_2['children']
+        child_4 = children_4[0]
+        self.assertEquals('0999', child_4['name'])
+        self.assertEquals(1, len(child_4['children']))
 
-        project_items = children_6['children'][0]
-        self.assertEquals('USQ eResearch Services Sandbox',
-                          project_items['name'])
+        children_6 = child_4['children']
+        child_6 = children_6[0]
+        self.assertEquals('099901', child_6['name'])
+        self.assertEquals(1, len(child_6['children']))
+
+        project_items = child_6['children'][0]
+        self.assertEquals(
+            'USQ eResearch Services Sandbox',
+            project_items['name'])
 
     def test_get_all_for_project(self):
         AllocationRequest.show_private_fields = True

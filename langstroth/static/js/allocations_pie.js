@@ -4,7 +4,9 @@
 
 // Breadcrumbs - keep track of the current hierarchy level.
 // Made up of an array of FOR codes.
-var breadCrumbs = ['*'];
+// Slight hack to keep JS validator in Eclipse quiet.
+var breadCrumbs;
+breadCrumbs = ['*'];
 var colorPalette = d3.scale.category20();
 var paletteStack = [colorPalette];
 var allocationTree = {};
@@ -147,7 +149,7 @@ var enterAntiClockwise = {
 
 var x = d3.scale.linear().range([0, 2 * Math.PI]);
 
-var TEXT_HEIGHT_ALLOWANCE = .1;
+var TEXT_HEIGHT_ALLOWANCE = 0.1;
 
 var LABEL_MAX_LENGTH = 10;
 
@@ -279,8 +281,7 @@ function zoomOut(p) {
 }
 
 function isCramped(d) {
-  var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
-  return isCramped ;
+  return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
 }
 
 function calculateOpacity(d) {
@@ -310,7 +311,7 @@ function showRelatedLabels(d, i) {
       var otherColumns = $(this).siblings();
       otherColumns.css('background-color', HILITE_SEGMENT_COLOUR);
       otherColumns.css('color', HILITE_TEXT_COLOUR);
-    };
+    }
   });
   if (isForCodeLevel()) {
     showFORDescription(d);
@@ -335,7 +336,7 @@ function _hideRelatedLabels(segment, data) {
     if (row.colourIndex == data.colourIndex) {
       $(this).siblings().css('background-color', UNHILITE_CELL_COLOUR);
       $(this).siblings().css('color', UNHILITE_TEXT_COLOUR);
-    };
+    }
   });
   toolTip.style("visibility", "hidden");
 }
@@ -352,41 +353,41 @@ function hideRelatedLabels(d, i) {
 
 //---- Popup showing project summary.
 
-var projectMarkup = "<div class='details-container centred-container'>"
-      + "<table class='table-striped table-condensed'>"
-      + "<tr>"
-      + "<th>"
-      + "Project: "
-      + "</th>"
-      + "<td>"
-      + "{{projectName}}"
-      + "</td>"
-      + "</tr>"
-      + "<th>"
-      + "Institution: "
-      + "</th>"
-      + "<td>"
-      + "{{institutionName}}"
-      + "</td>"
-      + "</tr>"
-      + "<tr>"
-      + "<th>"
-      + "Core quota: "
-      + "</th>"
-      + "<td>"
-      + "{{coreQuota}}"
-      + "</td>"
-      + "</tr>"
-      + "<tr>"
-      + "<th>"
-      + "Instance quota: "
-      + "</th>"
-      + "<td>"
-      + "{{instanceQuota}}"
-      + "</td>"
-      + "</tr>"
-      + "</table>"
-      + "</div>";
+var projectMarkup = "<div class='details-container centred-container'>" +
+      "<table class='table-striped table-condensed'>" +
+      "<tr>" +
+      "<th>" +
+      "Project: " +
+      "</th>" +
+      "<td>" +
+      "{{projectName}}" +
+      "</td>" +
+      "</tr>" +
+      "<th>" +
+      "Institution: " +
+      "</th>" +
+      "<td>" +
+      "{{institutionName}}" +
+      "</td>" +
+      "</tr>" +
+      "<tr>" +
+      "<th>" +
+      "Core quota: " +
+      "</th>" +
+      "<td>" +
+      "{{coreQuota}}" +
+      "</td>" +
+      "</tr>" +
+      "<tr>" +
+      "<th>" +
+      "Instance quota: " +
+      "</th>" +
+      "<td>" +
+      "{{instanceQuota}}" +
+      "</td>" +
+      "</tr>" +
+      "</table>" +
+      "</div>";
 
 Mustache.parse(projectMarkup);
 
@@ -403,18 +404,18 @@ function showProjectSummary(data) {
 
 
 //---- Popup showing full field-of-research name.
-var forMarkup = "<div class='details-container centred-container'>"
-      + "<table class='table-condensed'>"
-      + "<tr>"
-      + "<th>"
-      + "{{forCode}}:&nbsp;"
-      + "</th>"
-      + "<td style='text-transform: capitalize;'>"
-      + "{{forName}}"
-      + "</td>"
-      + "</tr>"
-      + "</table>"
-      + "</div>";
+var forMarkup = "<div class='details-container centred-container'>" +
+      "<table class='table-condensed'>" +
+      "<tr>" +
+      "<th>" +
+      "{{forCode}}:&nbsp;" +
+      "</th>" +
+      "<td style='text-transform: capitalize;'>" +
+      "{{forName}}" +
+      "</td>" +
+      "</tr>" +
+      "</table>" +
+      "</div>";
 
 function showFORDescription(d) {
   var forCode = d.data.target;
@@ -582,11 +583,10 @@ function navigate() {
     .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""; })
     .html(function(d, i) {
       var forCode = d;
-      var markup = forCode == '*'
-            ? '<span class="glyphicon glyphicon-home"></span>'
-            : '<span style="text-transform: capitalize">'
-            + forTitleMap[forCode].toLowerCase()
-            + '</span>';
+      var markup = forCode == '*' ? '<span class="glyphicon glyphicon-home"></span>'
+            : '<span style="text-transform: capitalize">' +
+            forTitleMap[forCode].toLowerCase() +
+            '</span>';
       if (i < breadCrumbs.length - 1) {
         markup = '<a href="#">' + markup + '</a>';
       }
