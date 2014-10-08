@@ -4,7 +4,9 @@
 
 // Breadcrumbs - keep track of the current hierarchy level.
 // Made up of an array of FOR codes.
-var breadCrumbs = ['*'];
+// Slight hack to keep JS validator in Eclipse quiet.
+var breadCrumbs;
+breadCrumbs = ['*'];
 var colorPalette = d3.scale.category20();
 var paletteStack = [colorPalette];
 var allocationTree = {};
@@ -15,7 +17,8 @@ function isForCodeLevel() {
   return breadCrumbs.length < 4;
 }
 
-// Recursive code to return allocation tree branch (children) addressed by FOR code.
+// Recursive code to return allocation tree branch (children)
+// addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
 function traverseHierarchy(route, allocationTree) {
@@ -46,7 +49,9 @@ function restructureAllocations(allocationTree, isCoreQuota) {
   var colourIndex = 0;
   var dataset = [];
   var allocationCount = allocationTree.length;
-  for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
+  for (var allocationIndex = 0;
+    allocationIndex < allocationCount;
+    allocationIndex++) {
     var sum = 0.0;
     var child = allocationTree[allocationIndex];
     var name = child.name;
@@ -93,7 +98,8 @@ function nextLevelSum(children, isCoreQuota) {
 
 //==== String utilities
 
-// String abbreviate to set length and signify abbreviation by adding ellipsis.
+// String abbreviate to set length
+// and signify abbreviation by adding ellipsis.
 String.prototype.abbreviate = function(charCount) {
   var labelStr = this;
   if (this.length > charCount) {
@@ -147,7 +153,7 @@ var enterAntiClockwise = {
 
 var x = d3.scale.linear().range([0, 2 * Math.PI]);
 
-var TEXT_HEIGHT_ALLOWANCE = .1;
+var TEXT_HEIGHT_ALLOWANCE = 0.1;
 
 var LABEL_MAX_LENGTH = 10;
 
@@ -244,7 +250,8 @@ function zoomIn(data) {
     tabulateAllocations(table, dataset, totalResource, isCoreQuota);
   } else {
     // Instead of zooming plot navigate to another page.
-    window.location.href = '/allocations/applications/' + data.id + '/approved';
+    window.location.href = '/allocations/applications/' +
+      data.id + '/approved';
   }
 }
 
@@ -279,8 +286,7 @@ function zoomOut(p) {
 }
 
 function isCramped(d) {
-  var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
-  return isCramped ;
+  return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
 }
 
 function calculateOpacity(d) {
@@ -310,7 +316,7 @@ function showRelatedLabels(d, i) {
       var otherColumns = $(this).siblings();
       otherColumns.css('background-color', HILITE_SEGMENT_COLOUR);
       otherColumns.css('color', HILITE_TEXT_COLOUR);
-    };
+    }
   });
   if (isForCodeLevel()) {
     showFORDescription(d);
@@ -335,7 +341,7 @@ function _hideRelatedLabels(segment, data) {
     if (row.colourIndex == data.colourIndex) {
       $(this).siblings().css('background-color', UNHILITE_CELL_COLOUR);
       $(this).siblings().css('color', UNHILITE_TEXT_COLOUR);
-    };
+    }
   });
   toolTip.style("visibility", "hidden");
 }
@@ -352,41 +358,14 @@ function hideRelatedLabels(d, i) {
 
 //---- Popup showing project summary.
 
-var projectMarkup = "<div class='details-container centred-container'>"
-      + "<table class='table-striped table-condensed'>"
-      + "<tr>"
-      + "<th>"
-      + "Project: "
-      + "</th>"
-      + "<td>"
-      + "{{projectName}}"
-      + "</td>"
-      + "</tr>"
-      + "<th>"
-      + "Institution: "
-      + "</th>"
-      + "<td>"
-      + "{{institutionName}}"
-      + "</td>"
-      + "</tr>"
-      + "<tr>"
-      + "<th>"
-      + "Core quota: "
-      + "</th>"
-      + "<td>"
-      + "{{coreQuota}}"
-      + "</td>"
-      + "</tr>"
-      + "<tr>"
-      + "<th>"
-      + "Instance quota: "
-      + "</th>"
-      + "<td>"
-      + "{{instanceQuota}}"
-      + "</td>"
-      + "</tr>"
-      + "</table>"
-      + "</div>";
+var projectMarkup = "<div class='details-container centred-container'>" +
+      "<table class='table-striped table-condensed'>" +
+      "<tr><th>Project: </th><td>{{projectName}}</td></tr>" +
+      "<tr><th>Institution: </th><td>{{institutionName}}</td></tr>" +
+      "<tr><th>Core quota: </th><td>{{coreQuota}}</td></tr>" +
+      "<tr><th>Instance quota: </th><td>{{instanceQuota}}</td></tr>" +
+      "</table>" +
+      "</div>";
 
 Mustache.parse(projectMarkup);
 
@@ -403,18 +382,14 @@ function showProjectSummary(data) {
 
 
 //---- Popup showing full field-of-research name.
-var forMarkup = "<div class='details-container centred-container'>"
-      + "<table class='table-condensed'>"
-      + "<tr>"
-      + "<th>"
-      + "{{forCode}}:&nbsp;"
-      + "</th>"
-      + "<td style='text-transform: capitalize;'>"
-      + "{{forName}}"
-      + "</td>"
-      + "</tr>"
-      + "</table>"
-      + "</div>";
+var forMarkup = "<div class='details-container centred-container'>" +
+      "<table class='table-condensed'>" +
+      "<tr>" +
+      "<th>{{forCode}}:&nbsp;</th>" +
+      "<td style='text-transform: capitalize;'>{{forName}}</td>" +
+      "</tr>" +
+      "</table>" +
+      "</div>";
 
 function showFORDescription(d) {
   var forCode = d.data.target;
@@ -430,8 +405,10 @@ function showFORDescription(d) {
 
 function visualise( dataset, totalResource ) {
 
-  var countLabelPrefix = selectedCoreQuota() ? "Core count: " : "Instance count: ";
-  totalText.text(function(d) { return countLabelPrefix + totalResource.toFixed(0); });
+  var countLabelPrefix = selectedCoreQuota() ? "Core count: "
+      : "Instance count: ";
+  totalText.text(function(d) {
+    return countLabelPrefix + totalResource.toFixed(0); });
 
   // Build the node list, attaching the new data.
   var nodes = pie(dataset);
@@ -579,14 +556,15 @@ function navigate() {
     .data(breadCrumbs)
     .enter()
     .append("li")
-    .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""; })
+    .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ?
+        "active" : ""; })
     .html(function(d, i) {
       var forCode = d;
-      var markup = forCode == '*'
-            ? '<span class="glyphicon glyphicon-home"></span>'
-            : '<span style="text-transform: capitalize">'
-            + forTitleMap[forCode].toLowerCase()
-            + '</span>';
+      var markup = forCode == '*' ?
+          '<span class="glyphicon glyphicon-home"></span>'
+            : '<span style="text-transform: capitalize">' +
+            forTitleMap[forCode].toLowerCase() +
+            '</span>';
       if (i < breadCrumbs.length - 1) {
         markup = '<a href="#">' + markup + '</a>';
       }
@@ -627,7 +605,9 @@ function arcTween(a) {
 }
 
 function arcTweenOut(a) {
-  var i = d3.interpolate(this._current, {startAngle: Math.PI * 2, endAngle: Math.PI * 2, value: 0});
+  var i = d3.interpolate(
+      this._current,
+      {startAngle: Math.PI * 2, endAngle: Math.PI * 2, value: 0});
   this._current = i(0);
   return function (t) {
     return arc(i(t));
@@ -656,7 +636,9 @@ function processResponse(allocationTree, resource) {
 
 function load() {
   d3.json("/allocations/rest/for_codes", function(error, forObjects) {
-    d3.json("/allocations/rest/applications/approved/tree", function(error, allocationObjects) {
+    d3.json(
+        "/allocations/rest/applications/approved/tree",
+        function(error, allocationObjects) {
       breadCrumbs = ['*'];
       forTitleMap = forObjects;
       allocationTree = allocationObjects.children;
@@ -688,4 +670,8 @@ function change() {
 d3.selectAll("button").on("click", change);
 
 var plotArea = $("#plot-area");
-plotArea.stick_in_parent({parent: "#inner-plot-container", inner_scrolling: true, offset_top:0});
+plotArea.stick_in_parent(
+    {
+      parent: "#inner-plot-container",
+      inner_scrolling: true, offset_top:0
+    });

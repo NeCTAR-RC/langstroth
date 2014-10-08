@@ -68,3 +68,21 @@ To update the XCode command line tools after a Mavericks upgrade run::
 And then run::
 
   STATIC_DEPS=true sudo pip install lxml
+    
+Eclipse Tools
+-------------
+
+To support execution, debugging, testing and QA within Eclipse
+install PyDev <http://pydev.org/>
+and the JSJint Eclipse plugin <http://github.eclipsesource.com/jshint-eclipse/>.
+To use the Py.test test runner the supporting pytest Python module
+needs to be installed as follows:
+
+  sudo pip install -U pytest pytest-django
+
+Command Line Tools
+------------------
+
+Python tools required for testing via the command line are installed as follows::
+
+  sudo pip install tox

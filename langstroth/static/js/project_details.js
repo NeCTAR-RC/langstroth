@@ -37,7 +37,7 @@ function tabulateSummary(pageAreaSelector, projectSummary, forTranslation) {
   var rows = tbody.selectAll("tr")
         .data(function(row) {
           var keys = [];
-          for (key in headings) {
+          for (var key in headings) {
             keys.push(key);
           }
           return keys; })
@@ -58,24 +58,24 @@ function tabulateSummary(pageAreaSelector, projectSummary, forTranslation) {
         var forDistributionTable = "";
         if (projectSummary.field_of_research_1) {
           var for1 = projectSummary.field_of_research_1;
-          forDistributionTable += "<div>"
-            + "<span style='min-width: 20em'>" + forTranslation[for1] + "&nbsp;(" + for1 + ")&nbsp;</span>"
-            + "<span style='max-width: 4em'>" + projectSummary.for_percentage_1 + "&nbsp;%&nbsp;</span>"
-            + "</div>";
+          forDistributionTable += "<div>" +
+            "<span style='min-width: 20em'>" + forTranslation[for1] + "&nbsp;(" + for1 + ")&nbsp;</span>" +
+            "<span style='max-width: 4em'>" + projectSummary.for_percentage_1 + "&nbsp;%&nbsp;</span>" +
+            "</div>";
         }
         if (projectSummary.field_of_research_2) {
           var for2 = projectSummary.field_of_research_2;
-          forDistributionTable += "<div>"
-            + "<span style='min-width: 20em'>" + forTranslation[for2] + "&nbsp;(" + for2 + ")&nbsp;</span>"
-            + "<span style='max-width: 4em'>" + projectSummary.for_percentage_2 + "&nbsp;%&nbsp;</span>"
-            + "</div>";
+          forDistributionTable += "<div>" +
+            "<span style='min-width: 20em'>" + forTranslation[for2] + "&nbsp;(" + for2 + ")&nbsp;</span>" +
+            "<span style='max-width: 4em'>" + projectSummary.for_percentage_2 + "&nbsp;%&nbsp;</span>" +
+            "</div>";
         }
         if (projectSummary.field_of_research_3) {
           var for3 = projectSummary.field_of_research_3;
-          forDistributionTable += "<div>"
-            + "<span style='min-width: 20em'>" + forTranslation[for3] + "&nbsp;(" + for3 + ")&nbsp;</span>"
-            + "<span style='max-width: 4em'>" + projectSummary.for_percentage_3 + "&nbsp;%&nbsp;</span>"
-            + "</div>";
+          forDistributionTable += "<div>" +
+            "<span style='min-width: 20em'>" + forTranslation[for3] + "&nbsp;(" + for3 + ")&nbsp;</span>" +
+            "<span style='max-width: 4em'>" + projectSummary.for_percentage_3 + "&nbsp;%&nbsp;</span>" +
+            "</div>";
         }
         return forDistributionTable;
       }
