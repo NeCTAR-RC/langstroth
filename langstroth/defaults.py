@@ -2,6 +2,8 @@
 import sys
 from os import path
 
+from user_statistics.settings import *  # NOQA
+
 # Override this to TEST_MODE = False for the production settings file.
 # It's True here so we can populate the database with reference data.
 TEST_MODE = True
@@ -135,7 +137,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -145,7 +147,7 @@ SECRET_KEY = 'ofok2r^p3*m8cocztx&y7n@48(lbwij*najjyoxzxrflx@#qeh'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -169,7 +171,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'langstroth.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'langstroth.wsgi.application'
+WSGI_APPLICATION = 'django.wsgi.application'
 
 TEMPLATE_DIRS = (
     path_merge(__file__, "templates"),
@@ -189,6 +191,7 @@ INSTALLED_APPS = (
     'langstroth',
     'nectar_status',
     'nectar_allocations',
+    'user_statistics',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -221,18 +224,18 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
             'stream': sys.stderr,
         },
-#         'file': {
-#             'level': 'DEBUG',
-#             'class': 'logging.FileHandler',
-#             Create the log directory with the correct permissions by hand.
-#             'filename': '/var/log/langstroth',
-#         },
+        #         'file': {
+        #             'level': 'DEBUG',
+        #             'class': 'logging.FileHandler',
+        #             Create the log directory with the correct permissions by hand.
+        #             'filename': '/var/log/langstroth',
+        #         },
     },
     'loggers': {
         'django.request': {
