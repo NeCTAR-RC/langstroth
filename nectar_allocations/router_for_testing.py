@@ -9,7 +9,7 @@ class TestRouter(object):
 
     def allow_relation(self, obj1, obj2, **hints):
         if obj1._meta.app_label == 'nectar_allocations' or \
-            obj2._meta.app_label == 'nectar_allocations':
+            obj2._meta.app_label == 'nectar_allocations':  # noqa
                 return True
         return None
 

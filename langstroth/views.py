@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render
 from django.core.cache import cache
+import logging
+import json
 
 from langstroth import nagios
 
@@ -208,3 +210,4 @@ def total_cores_per_domain(request):
     cleaned = cleaned.values()
     cleaned.sort(key=itemgetter('value'))
     return HttpResponse(dumps(cleaned), req.headers['content-type'])
+
