@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+  <link href='{{ STATIC_URL }}css/nv.d3.min.css' type='text/css'
+    media='screen' rel='stylesheet' />
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3">
+      <div id="graph-buttons" class="btn-group">
+        <button id="cumulative" type="button"
+        	class="btn btn-default active">Cumulative</button>
+        <button id="frequency" type="button"
+        	class="btn btn-default">Frequency</button>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+      <h4>
+        <div id="statistics-area" class="label label-default"></div>
+      </h4>
+    </div>
+    <div class="col-md-5"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="inner-plot-container">
+        <div id="plot-area" class="plot-alignment chart"></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_script %}
+  <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+  <script src="{{ STATIC_URL }}js/nv.d3.js"></script>
+  <script src="{{ STATIC_URL }}js/user_statistics_nv.js"></script>
+{% endblock %}
