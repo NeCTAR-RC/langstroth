@@ -2,6 +2,10 @@
 import sys
 from utilities import file
 
+
+def app_path(file_name):
+    return file.absolute_path(file_name, __file__)
+
 # Override this to TEST_MODE = False for the production settings file.
 # It's True here so we can populate the database with reference data.
 TEST_MODE = True
@@ -24,19 +28,19 @@ DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
+            'NAME': app_path(DEFAULT_DATABASE_NAME),
+            'TEST_NAME': app_path(DEFAULT_DATABASE_NAME),
         },
     # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
     'allocations_db': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
+            'NAME': app_path(ALLOCATION_DATABASE_NAME),
+            'TEST_NAME': app_path(ALLOCATION_DATABASE_NAME),
     }
 }
 DATABASE_ROUTERS = ['nectar_allocations.router.AllocationsRouter']
 FIXTURE_DIRS = (
-    file.absolute_path('../nectar_allocations/reference_data/'),
+    app_path('../nectar_allocations/reference_data/'),
 )
 
 NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
@@ -111,7 +115,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    file.absolute_path("static"),
+    app_path("static"),
     # Put strings here, like "/home/html/static"
     # or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -160,7 +164,7 @@ ROOT_URLCONF = 'langstroth.urls'
 WSGI_APPLICATION = 'langstroth.wsgi.application'
 
 TEMPLATE_DIRS = (
-    file.absolute_path("templates"),
+    app_path("templates"),
     # Put strings here, like "/home/html/django_templates"
     # or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
