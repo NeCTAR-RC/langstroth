@@ -1,0 +1,250 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_3394c736",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "Is there a reason the db_column is specified for every field here? It should only be needed if the variable name doesn\u0027t reflect the column name, which doesn\u0027t seem to be the case for any of these fields (even parent_request which resolves to parent_request_id by default).\n\nIf you removed this attribute a lot of these lines will not need to be wrapped at all.",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_93993b71",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "This is reverting changes from Russell\u0027s last commit. There are other cases below too.",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_d3a2a399",
+        "filename": "nectar_allocations/models/forcode.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "I know you\u0027re probably relying on your editor for this, but try to prefer this style if at all possible, it\u0027s much easier to read:\n\ncode \u003d models.CharField(max_length\u003d6,\n                        primary_key\u003dTrue,\n                        db_column\u003d\"FOR_CODE\")",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_739e4f58",
+        "filename": "nectar_allocations/models/forcode.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "This line wasn\u0027t over 80 characters",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b39f1750",
+        "filename": "nectar_allocations/tests/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "This was removed in a previous commit.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 47
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_33bb27c6",
+        "filename": "nectar_allocations/tests/test_allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "Docstrings like this should go inside the function definition, right under the declaration and indented to match the function code.",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_93b01bdf",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "Don\u0027t forget that this warning isn\u0027t just about making you wrap lines. This is telling you that your function is too long, and I have to agree :) At a minimum you could remove \"_allocation_request\" from the name.\n\nBut I would instead change your function into \"get_all_for_project\" and make it take a project name argument instead of an id.\n\nallocation_request_id doesn\u0027t need to be so long either. request_id or even _id.",
+      "range": {
+        "startLine": 221,
+        "startChar": 86,
+        "endLine": 221,
+        "endChar": 90
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_73b5afcc",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "Can you come up with a clearer name for this function (and those below) rather than ignoring the error?",
+      "range": {
+        "startLine": 231,
+        "startChar": 90,
+        "endLine": 231,
+        "endChar": 94
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_d3c9035c",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "As above.",
+      "range": {
+        "startLine": 268,
+        "startChar": 103,
+        "endLine": 268,
+        "endChar": 107
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b3c6f747",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "As above.",
+      "range": {
+        "startLine": 380,
+        "startChar": 92,
+        "endLine": 380,
+        "endChar": 96
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_53b6b3dd",
+        "filename": "nectar_allocations/tests/test_view.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "no wrapping needed",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_13c42b3f",
+        "filename": "utilities/file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T02:55:15Z",
+      "side": 1,
+      "message": "I suspect there\u0027s no situation where you\u0027d actually want the default here, since you\u0027d end up with a path relative to the utilities directory. Russell has a review up to fix this, you might want to check it out/comment.\n\nhttps://review.rc.nectar.org.au/#/c/1818/",
+      "range": {
+        "startLine": 3,
+        "startChar": 37,
+        "endLine": 3,
+        "endChar": 45
+      },
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
