@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_53607335",
+        "filename": "nectar_allocations/tests/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:11:13Z",
+      "side": 1,
+      "message": "I checked out your patchset and removed these lines and the tests ran fine, but one of them did fail. How are you running the tests? You should be able to just run \u0027tox\u0027. \n\n\nThis is actually a good example of why \u0027import *\u0027 is discouraged. You have two tests called test_restructure_allocations_tree in different modules and this code is stomping one over the other, so only one of them gets run.\n\n\nWhen you remove this code, both of them run and one of them happens to be failing! :-O",
+      "parentUuid": "3afa9182_33096796",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_33bb27c6",
         "filename": "nectar_allocations/tests/test_allocation.py",
         "patchSetId": 2
