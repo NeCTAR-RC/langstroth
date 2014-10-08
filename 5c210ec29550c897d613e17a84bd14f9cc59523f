@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_9383fbcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "Could you have a read of this:\n\nhttps://wiki.openstack.org/wiki/GitCommitMessages#Summary_of_GIT_commit_message_structure",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_337e87e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "From the above wiki page:\n\"Do not include patch set-specific comments.\"\n\nThe commit message should just describe the current commit itself, you can click \"reply\" in gerrit for anything related to specific patch-sets.",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_1320abf6",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "Still reverting existing changes.",
+      "range": {
+        "startLine": 176,
+        "startChar": 23,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f31cffc3",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "cls\n\nand below.",
+      "range": {
+        "startLine": 203,
+        "startChar": 15,
+        "endLine": 203,
+        "endChar": 32
+      },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_537993fb",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "unwrap this",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_13770b04",
+        "filename": "nectar_allocations/router.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "if you remove this space",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b369d727",
+        "filename": "nectar_allocations/router.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "and outdent this line you\u0027ll avoid the flake8 error and can remove the noqa",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f3735f13",
+        "filename": "nectar_allocations/router_for_testing.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "as before.",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3365e745",
+        "filename": "nectar_allocations/tests/test_allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "A separate function is probably overkill given that you\u0027re only calling this once. This makes the tests fail because function or method beginning with test_ is assumed to be a test.",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_531233b5",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-08T07:12:29Z",
+      "side": 1,
+      "message": "You still have a bunch of noqas in this file.",
+      "range": {
+        "startLine": 220,
+        "startChar": 48,
+        "endLine": 220,
+        "endChar": 52
+      },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
