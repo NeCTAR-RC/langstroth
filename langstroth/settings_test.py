@@ -3,6 +3,9 @@ from utilities import file
 from os import path
 from os import environ
 
+def app_path(file_name):
+    return file.absolute_path(file_name, __file__)
+
 # Pick up the default settings then override them in this file.
 from .defaults import *  # NOQA
 
@@ -20,16 +23,16 @@ DATABASES = {
             # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'ENGINE': 'django.db.backends.sqlite3',
             # Or path to database file if using sqlite3.
-            'NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(DEFAULT_DATABASE_NAME),
+            'NAME': app_path(DEFAULT_DATABASE_NAME),
+            'TEST_NAME': app_path(DEFAULT_DATABASE_NAME),
         },
     # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
     'allocations_db': {
             # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'ENGINE': 'django.db.backends.sqlite3',
             # Or path to database file if using sqlite3.
-            'NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
-            'TEST_NAME': file.absolute_path(ALLOCATION_DATABASE_NAME),
+            'NAME': app_path(ALLOCATION_DATABASE_NAME),
+            'TEST_NAME': app_path(ALLOCATION_DATABASE_NAME),
     }
 }
 DATABASE_ROUTERS = ['nectar_allocations.router_for_testing.TestRouter']
@@ -46,8 +49,8 @@ GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    file.absolute_path("static"),
-    file.absolute_path("data"),
+    app_path("static"),
+    app_path("data"),
 
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -74,5 +77,5 @@ LOGGING['handlers']['file'] = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             # Create the log directory with the correct permissions by hand.
-            'filename': file.absolute_path("../logs/debug.log")
+            'filename': app_path("../logs/debug.log")
         }

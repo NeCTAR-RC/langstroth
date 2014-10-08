@@ -21,7 +21,7 @@ def allocation_visualisation_page(request):
 
 def project_details_page(request, allocation_request_id):
     allocation_dict = AllocationRequest \
-        .project_from_allocation_request_id(allocation_request_id)
+        .project_from_request_id(allocation_request_id)
     context = {
         "title": allocation_dict['project_name'].replace('_', ' '),
         "tagline": "",
@@ -54,13 +54,13 @@ def allocation_tree(request):
 
 def project_summary(request, allocation_request_id):
     allocation_dict = AllocationRequest \
-        .project_from_allocation_request_id(allocation_request_id)
+        .project_from_request_id(allocation_request_id)
     json_string = dumps(allocation_dict)
     return HttpResponse(json_string, "application/json")
 
 
 def project_allocations(request, allocation_request_id):
     allocation_list = AllocationRequest \
-        .project_allocations_from_allocation_request_id(allocation_request_id)
+        .get_all_for_project(allocation_request_id)
     json_string = dumps(allocation_list)
     return HttpResponse(json_string, "application/json")
