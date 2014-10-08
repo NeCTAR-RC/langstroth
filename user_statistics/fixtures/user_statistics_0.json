@@ -1,0 +1,18 @@
+[
+    {
+        "pk": "1234",
+        "model": "user_statistics.userregistration",
+        "fields": {
+            "user_name": "Joe Bloggs",
+            "creation_time": "2014-02-16T23:21:59Z"
+        }
+    },
+    {
+        "pk": "4321",
+        "model": "user_statistics.userregistration",
+        "fields": {
+            "user_name": "Emily Cravitt",
+            "creation_time": "2013-03-05T07:30:41Z"
+        }
+    }
+]
