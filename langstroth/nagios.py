@@ -10,7 +10,8 @@ from django.conf import settings
 LOG = logging.getLogger(__name__)
 
 SERVICE_NAMES = {'http_cinder-api': 'Cinder',
-                 'https': 'Dashboard',
+                 'https': 'Webserver',
+                 'http_ceilometer-api': 'Ceilometer',
                  'http_glance-registry': 'Glance Registry',
                  'http_keystone-adm': 'Keystone Admin',
                  'http_keystone-pub': 'Keystone',
