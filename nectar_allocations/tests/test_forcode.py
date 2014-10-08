@@ -2,6 +2,7 @@ from django.utils import unittest
 
 from nectar_allocations.models.forcode import ForCode
 
+
 class ForCodeTest(unittest.TestCase):
 
     biol = None
