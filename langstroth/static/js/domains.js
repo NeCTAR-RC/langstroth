@@ -4,7 +4,7 @@ function zero(array) {
   for (var i in array) {
     array[i].value = 0;
   }
-};
+}
 
 var width = 960,
     height = 700,
@@ -64,13 +64,13 @@ d3.selectAll("button").on("click", change);
 function update(dest, source) {
   hash_map = {};
   for (var i in source) {
-    hash_map[source[i]['target']] = source[i];
+    hash_map[source[i].target] = source[i];
   }
 
   for (var j in dest) {
-    var key = dest[i]['target'];
+    var key = dest[i].target;
     if (source[key]) {
-      dest[i]['value'] = source[key]['value'];
+      dest[i].value = source[key].value;
     }
   }
 
@@ -111,7 +111,7 @@ function change() {
     new_path.selectAll('text').remove();
 
     new_path
-      .filter(function(d) { return d.endAngle - d.startAngle > .1; })
+      .filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -124,7 +124,7 @@ function change() {
       .duration(400)
       .style("opacity", 1);
 
-    new_path.filter(function(d) { return d.endAngle - d.startAngle > .1; })
+    new_path.filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
       .append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
@@ -166,7 +166,7 @@ function change() {
       .duration(750)
       .attrTween("d", arcTween);
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > .1; })
+    g.filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -178,7 +178,7 @@ function change() {
       .duration(400)
       .style("opacity", 1);
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > .1; }).append("svg:text")
+    g.filter(function(d) { return d.endAngle - d.startAngle > 0.1; }).append("svg:text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
