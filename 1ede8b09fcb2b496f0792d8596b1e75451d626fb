@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_53eeb38c",
+        "filename": "nectar_allocations/tests/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-08T22:28:25Z",
+      "side": 1,
+      "message": "you can run individual tox environments like\n\n tox -e py27  # run python 2.7 tests\n tox -e flake8   # run the flake8 checks\n tox -e jshint   # run the jshint checks\n\n\nbut beyond that you can see that commands sections of the tox.ini file how the actual tests are run.  in the case of py27.  we require pytest and pytest-django to be installed and the tests are run with\n\n py.test\n\naside py.test doesn\u0027t require that you use the class level self.assertEquals like methods. instead it will work by just doing  assert a \u003d\u003d b, \"compare things\"  and it will print proper diffs of data structures like dicts http://pytest.org/latest/assert.html#assert",
+      "parentUuid": "3afa9182_53607335",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_33bb27c6",
         "filename": "nectar_allocations/tests/test_allocation.py",
         "patchSetId": 2
