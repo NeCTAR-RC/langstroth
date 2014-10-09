@@ -67,7 +67,7 @@ def index(request):
         context['hosts'] = []
 
     if not status or not availability:
-        return render(request, "index.html", context, status=500)
+        return render(request, "index.html", context, status=503)
     return render(request, "index.html", context)
 
 
