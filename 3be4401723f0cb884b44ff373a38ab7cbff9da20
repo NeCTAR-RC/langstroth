@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_164b795a",
+        "filename": "user_statistics/private_data/test_data.xlsx",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T06:37:11Z",
+      "side": 1,
+      "message": "Must be a gremlin in my .gitignore.\nIts  not supposed to be committed.",
+      "parentUuid": "3afa9182_f354ff22",
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_161d3967",
         "filename": "utilities/file.py",
         "patchSetId": 4
@@ -53,6 +71,24 @@
         "endLine": 5,
         "endChar": 54
       },
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f647cd49",
+        "filename": "utilities/file.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T06:37:11Z",
+      "side": 1,
+      "message": "somehow I have missed this stuff.\n\nI was reluctant for the same reasons as you, but at the same time\nI also imagined someone, somewhere is going the reject the idea of sticking \nfunction definitions in settings files.\nSo I pulled it out into its own shareable module, as the phrase\nseems to pop up all over the place and repeating the phrase\nviolates the DRY Principle.",
+      "parentUuid": "3afa9182_161d3967",
       "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
