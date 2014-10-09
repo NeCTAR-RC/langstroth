@@ -1,5 +1,5 @@
 requests
 lxml
 cssselect
-Django
+Django>1.6,<1.7
 python-dateutil
