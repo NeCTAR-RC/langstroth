@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_5331930a",
+        "filename": "nectar_allocations/tests/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-09T03:03:44Z",
+      "side": 1,
+      "message": "Richard: if you look at the jenkins output for this patchset you\u0027ll see it ran 65 tests, but one of them is:\n\n    nectar_allocations/tests/test_allocation.py::test_path ERROR\n\nSo it\u0027s only running 64 tests.",
+      "parentUuid": "3afa9182_53eeb38c",
+      "revId": "1ede8b09fcb2b496f0792d8596b1e75451d626fb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_33bb27c6",
         "filename": "nectar_allocations/tests/test_allocation.py",
         "patchSetId": 2
