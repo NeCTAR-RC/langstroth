@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_f3f87f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_9383fbcb",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_337e87e5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-08T07:12:29Z",
       "side": 1,
       "message": "From the above wiki page:\n\"Do not include patch set-specific comments.\"\n\nThe commit message should just describe the current commit itself, you can click \"reply\" in gerrit for anything related to specific patch-sets.",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_539513e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_337e87e5",
       "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_339a0715",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Thought just the annotation had changed.\nDone.",
+      "parentUuid": "3afa9182_1320abf6",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f31cffc3",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 3
@@ -82,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_73a48f57",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f31cffc3",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_537993fb",
         "filename": "nectar_allocations/models/allocation.py",
         "patchSetId": 3
@@ -93,6 +165,24 @@
       "writtenOn": "2014-10-08T07:12:29Z",
       "side": 1,
       "message": "unwrap this",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_939f7b03",
+        "filename": "nectar_allocations/models/allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_537993fb",
       "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_d388e3c8",
+        "filename": "nectar_allocations/router.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "\"this space\" is not clear.\n\nI think I fixed a Flake thing here,\nFlake said it was Ok.\nThen it changed its mind later and said it was not Ok.\nWent around this circle 3 times before I gave up.",
+      "parentUuid": "3afa9182_13770b04",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_b369d727",
         "filename": "nectar_allocations/router.py",
         "patchSetId": 3
@@ -133,6 +241,24 @@
       "writtenOn": "2014-10-08T07:12:29Z",
       "side": 1,
       "message": "and outdent this line you\u0027ll avoid the flake8 error and can remove the noqa",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b38557af",
+        "filename": "nectar_allocations/router.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_b369d727",
       "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -162,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_13938bfb",
+        "filename": "nectar_allocations/router_for_testing.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f3735f13",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_3365e745",
         "filename": "nectar_allocations/tests/test_allocation.py",
         "patchSetId": 3
@@ -173,6 +317,24 @@
       "writtenOn": "2014-10-08T07:12:29Z",
       "side": 1,
       "message": "A separate function is probably overkill given that you\u0027re only calling this once. This makes the tests fail because function or method beginning with test_ is assumed to be a test.",
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_93b65b89",
+        "filename": "nectar_allocations/tests/test_allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_3365e745",
       "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -196,6 +358,24 @@
         "endLine": 220,
         "endChar": 52
       },
+      "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_73bbef72",
+        "filename": "nectar_allocations/tests/test_db_allocation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-09T00:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_531233b5",
       "revId": "5c210ec29550c897d613e17a84bd14f9cc59523f",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
