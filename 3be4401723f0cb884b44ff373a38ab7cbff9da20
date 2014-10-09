@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_933bfbea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-09T03:06:53Z",
+      "side": 1,
+      "message": "Much better!!!",
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f354ff22",
+        "filename": "user_statistics/private_data/test_data.xlsx",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-09T03:06:53Z",
+      "side": 1,
+      "message": "This file belongs in your other commit instead doesn\u0027t it?",
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
