@@ -33,6 +33,29 @@
       "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_161d3967",
+        "filename": "utilities/file.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-09T04:42:05Z",
+      "side": 1,
+      "message": "There are a few problems with this.\n\nFile is a builtin. So naming this module file is a bad idea.\n\nWhen we install this package the utilities package will be copied into /usr/lib/python2.7/dist-packages/ so it\u0027s likely to clash with other things.  Also the name utilities is so generic that it\u0027s kinda silly to have it just hanging out on it\u0027s own.  That is why in https://review.rc.nectar.org.au/#/c/1818/ I moved the entire function into the settings file.  \n\nI do see that you are gradually re-implementing my change. Perhaps it would be better to review the change I put up on Wednesday instead of us all spending effort to review the same thing again.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 54
+      },
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
