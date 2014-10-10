@@ -22,6 +22,30 @@
       "revId": "f030d1855c0305474171af3147787e7a20aa824e",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_763abd37",
+        "filename": "tox.ini",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-10T06:56:46Z",
+      "side": 1,
+      "message": "the default (py27) runs 1.6.\n\nThis would be the exception, testing for the future.",
+      "parentUuid": "3afa9182_769e3d58",
+      "range": {
+        "startLine": 14,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "f030d1855c0305474171af3147787e7a20aa824e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
