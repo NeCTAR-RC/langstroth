@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_f6b50d32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-10T00:31:25Z",
+      "side": 1,
+      "message": "This must be short hand for something.\nThe public master on Git hub does not include Russell\u0027s changes to the file path calculation.\nI would like to include these, but these changes are  not on the public Github.\nI would also like to include the jshint changes at the same time.\n\nDo I fetch this stuff from Gerrit somehow?",
+      "parentUuid": "3afa9182_933bfbea",
+      "revId": "3be4401723f0cb884b44ff373a38ab7cbff9da20",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f354ff22",
         "filename": "user_statistics/private_data/test_data.xlsx",
         "patchSetId": 4
