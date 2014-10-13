@@ -1,3 +1,4 @@
+.tox/**/*.js
 **/*.min.js
 langstroth/static/js/d3.v3.js
 langstroth/static/js/jquery.tablesorter.js
