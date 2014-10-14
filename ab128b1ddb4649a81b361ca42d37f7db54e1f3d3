@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_e94a52ab",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-14T21:51:55Z",
+      "side": 1,
+      "message": "this will need to be rewritten to support the user registrations metric in graphite.  I have copied a version of it from the production server so that there will be reasonably up to date data.\n\nI would look at the langstroth.views.total_instance_count for an example of how to do this.  The metric is called users.total you should be able to access and use it from the graphite interface.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 56
+      },
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a9d7aabe",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-14T21:51:55Z",
+      "side": 1,
+      "message": "this unfortunately will also need to be converted over to use Graphite.  It seems quite straight forward to get the same data from Graphite.\n\n derivative(summarize(users.total,\"7d\", \"max\"))",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
