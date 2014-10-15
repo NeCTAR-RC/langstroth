@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0c624cd8",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-15T00:44:06Z",
+      "side": 1,
+      "message": "That\u0027s fine, will start on this now.\n\nIs there an existing python graphite client that would make the URL handling a bit tidier. Already buried in the Graphite web interface code perhaps?\n\nIf not I would like to create my own.\n\nI\u0027ll be aiming to make the new code have the same interface as the existing UserRegistration class.",
+      "parentUuid": "3afa9182_e94a52ab",
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_a9d7aabe",
         "filename": "user_statistics/views.py",
         "patchSetId": 8
@@ -42,6 +60,24 @@
         "endLine": 51,
         "endChar": 56
       },
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ec5ee011",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-15T00:44:06Z",
+      "side": 1,
+      "message": "Yep!\n\nShould this new code be part of this review?\n\nMy feeling is get this code reviewed and committed and then make the Graphite-related changes as part of a new review as its essentially a new feature.\n\nThis would be consistent with your desire to have small reviews.",
+      "parentUuid": "3afa9182_a9d7aabe",
       "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
