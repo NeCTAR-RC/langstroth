@@ -117,6 +117,24 @@
       "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ec51c0d9",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-15T01:02:02Z",
+      "side": 1,
+      "message": "Ok will do that.",
+      "parentUuid": "3afa9182_ccdcc477",
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
