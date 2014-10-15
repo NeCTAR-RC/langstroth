@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_8c7c7c74",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-15T00:56:14Z",
+      "side": 1,
+      "message": "there is no generic client for handling graphite connections.  I have just been using the requests library.  There is a bit of duplication, but most of the code is just organising a data structure to pass to urlencode.  Just looking at the old langstroth code.  \n\nAs for the old langstroth code we can remove the builtin graphing now that we are using NVD3 so i\u0027ll do that now.  It will make it clearer what is actually required to query graphite.",
+      "parentUuid": "3afa9182_0c624cd8",
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_a9d7aabe",
         "filename": "user_statistics/views.py",
         "patchSetId": 8
@@ -78,6 +96,24 @@
       "side": 1,
       "message": "Yep!\n\nShould this new code be part of this review?\n\nMy feeling is get this code reviewed and committed and then make the Graphite-related changes as part of a new review as its essentially a new feature.\n\nThis would be consistent with your desire to have small reviews.",
       "parentUuid": "3afa9182_a9d7aabe",
+      "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ccdcc477",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-15T00:56:14Z",
+      "side": 1,
+      "message": "the thing is that when you rewrite to use graphite, it will reduce the code here significantly.  So this review will shrink by about ~300 lines.  It will also then no longer need that extra database table/test etc.  This reduction is enough that i think it\u0027s better to do in this commit.  Also any time spend reviewing these 300 lines is wasted, because we know they will be deleted very soon.",
+      "parentUuid": "3afa9182_ec5ee011",
       "revId": "ab128b1ddb4649a81b361ca42d37f7db54e1f3d3",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
