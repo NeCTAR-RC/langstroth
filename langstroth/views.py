@@ -97,10 +97,9 @@ INST_TARGETS = [
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
-    q_format = request.GET.get('format', 'svg')
     q_summarise = request.GET.get('summarise', None)
 
-    arguments = [('format', q_format),
+    arguments = [('format', 'json'),
                  ("from", q_from)]
 
     for alias, target in INST_TARGETS:
@@ -108,16 +107,6 @@ def total_instance_count(request):
             target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
         target = 'alias(%s, "%s")' % (target, alias)
         arguments.append(('target', target))
-
-    if q_format != 'json':
-        arguments.extend(
-            [("width", 555),
-             ("height", 400),
-             ("lineMode", "connected"),
-             ("vtitle", "Instances"),
-             ("areaMode", "stacked"),
-             ("template", "tango"),
-             ("title", "Total Instances")])
 
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
@@ -135,10 +124,9 @@ CORES_TARGETS = [
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
-    q_format = request.GET.get('format', 'svg')
     q_summarise = request.GET.get('summarise', None)
 
-    arguments = [('format', q_format),
+    arguments = [('format', 'json'),
                  ("from", q_from)]
 
     for alias, target in CORES_TARGETS:
@@ -146,16 +134,6 @@ def total_used_cores(request):
             target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
         target = 'alias(%s, "%s")' % (target, alias)
         arguments.append(('target', target))
-
-    if q_format != 'json':
-        arguments.extend(
-            [("width", 555),
-             ("height", 400),
-             ("lineMode", "connected"),
-             ("vtitle", "VCPU's"),
-             ("areaMode", "stacked"),
-             ("template", "tango"),
-             ("title", "Used VCPU's")])
 
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     return HttpResponse(req, req.headers['content-type'])
@@ -183,14 +161,14 @@ QUERY = {
 def total_cores_per_domain(request):
     q_from = request.GET.get('from', "-60minutes")
     q_az = request.GET.get('az', "melbourne")
+
     arguments = [('format', 'json'),
-                 ("from", q_from),
-                 ]
+                 ("from", q_from)]
+
     if q_az in QUERY:
         arguments.extend(QUERY[q_az])
     else:
         arguments.append(("target", "cells.%s.domains.*.used_vcpus" % q_az))
-    print GRAPHITE + "?" + urlencode(arguments)
     req = requests.get(GRAPHITE + "?" + urlencode(arguments))
     cleaned = defaultdict(dict)
     for domain in req.json():
