@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_cc5de44a",
+        "filename": "langstroth/defaults.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "is user statistics the best name for this app?  can it be renamed to nectar_users?\n\nTo be honest about this.  We probably should have named all the plugins langstroth_rc_users or something like that.  But for the time being at least being consistent with the current naming scheme would be best.",
+      "range": {
+        "startLine": 194,
+        "startChar": 5,
+        "endLine": 194,
+        "endChar": 20
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8c6d9c07",
+        "filename": "langstroth/defaults.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "why not delete these lines",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 20
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2c68e8f4",
+        "filename": "langstroth/static/css/user_statistics.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "delete this",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_4c63b41a",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "why isn\u0027t this one string instead of the addition of many small strings?  It defeats the purpose of using a template if you break the code up like this.",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 15
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6cbb1073",
+        "filename": "langstroth/static/js/for_table.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "All of these unrelated change should have been submitted in a separate patch.  It would have been much faster because we can easily check them and merge them.\n\nIt\u0027s probably too late now.  But for next time.",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ccafa42a",
+        "filename": "langstroth/static/js/user_statistics_d3.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "is this file used anywhere?",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_cc7684d8",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "there are many whitespace errors in this file.  You should set your editor to delete them.\n\nhttp://stackoverflow.com/questions/1043433/how-to-auto-remove-trailing-whitespace-in-eclipse",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6c72f0e6",
+        "filename": "langstroth/tests/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "this file should be removed if it\u0027s been superseded by langstroth/settings_test.py",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ac7338e6",
+        "filename": "tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "the flake8 environment shouldn\u0027t need nodeenv.  Why did you need to add this?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_0c588c55",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "is it actually a business requirement that this be over a calendar month?  This is really complex and would  be  much simpler if it was just done daily and left to the graphing widget to plot.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_0c81ac8f",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "can this line be deleted if it\u0027s not needed.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_4c4a9484",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "all the other templates are indented with spaces.  this is the only one with tabs.   can you change this to match the existing indentation used in the project",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ec542023",
+        "filename": "user_statistics/tests/expected_users_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "This is way too much data.  When you are writing tests you only need to demonstrate the correct behaviour, you shouldn\u0027t need to test every data point.  Just enough points to exercise all the appropriate code paths.",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_4c31f40a",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-20T04:37:25Z",
+      "side": 1,
+      "message": "why are you printing this.  you can get it from firebug in the browser?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 69
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
