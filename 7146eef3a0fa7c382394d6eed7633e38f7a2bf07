@@ -478,6 +478,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_47870d62",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T06:11:22Z",
+      "side": 1,
+      "message": "It\u0027s just really over complicated at the moment.  Before I even begin to review the rest of this code we need to get this sorted.  Basically summarising data like that is crazy.  We have graphite, it has functions to summarise the data.  Why do we need to reimplement these functions?  I still can\u0027t see the reason.",
+      "parentUuid": "3afa9182_e76719e9",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_0c81ac8f",
         "filename": "user_statistics/templates/user_statistics.html",
         "patchSetId": 9
@@ -595,6 +613,29 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_a77cf173",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T06:11:22Z",
+      "side": 1,
+      "message": "The data returned by this is in a different format to the other charts currently on the site.  I don\u0027t think that it\u0027s in a better format, so it should be changed to match the data format for the existing graphs.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_4c31f40a",
         "filename": "user_statistics/views.py",
         "patchSetId": 9
@@ -666,6 +707,24 @@
       "side": 1,
       "message": "It\u0027s a well establish principle that you don\u0027t send internal error messages to the end user by displaying them in the browser. Two reasons: 1. the end user will not be able to interpret the message. 2. exposes information that can facilitate a hack.\n\nThe logging stores private information so that the --location-- of the fault can be establish in the running application. The only alternative to logging for an application in production is to open a port and attach a debugger. You might not want to do that.\n\nIn the end it comes down to site policy. If your sysadmins are comfortable telling the manager that they can\u0027t address a customer complaint because there is no record or audit trail of what happened then you don\u0027t need logging.",
       "parentUuid": "3afa9182_a76eb1c7",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e7aef9e6",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T06:11:22Z",
+      "side": 1,
+      "message": "I think you may have missed my point.  This logging prints some data after converting it to a JSON string but before returning it to Django.\n\nSo it\u0027s not reporting any information that i can\u0027t already get by using curl or a webbrowser.  So it\u0027s a really low value log message. Its also will be very noisy because the JSON blob will be quite large.",
+      "parentUuid": "3afa9182_c7649de7",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
