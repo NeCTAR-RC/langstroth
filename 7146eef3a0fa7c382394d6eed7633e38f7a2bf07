@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_674de972",
+        "filename": "langstroth/static/js/for_table.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T02:11:18Z",
+      "side": 1,
+      "message": "The checking steps only apply to lines of code modified by a commit.",
+      "parentUuid": "3afa9182_8c12bc60",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_ccafa42a",
         "filename": "langstroth/static/js/user_statistics_d3.js",
         "patchSetId": 9
@@ -306,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_47526d14",
+        "filename": "langstroth/tests/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T02:11:18Z",
+      "side": 1,
+      "message": "Don\u0027t worry about making changes to parts of the project. I don\u0027t own anything.",
+      "parentUuid": "3afa9182_ac08582e",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_ac7338e6",
         "filename": "tox.ini",
         "patchSetId": 9
@@ -400,6 +436,24 @@
       "side": 1,
       "message": "This is a business requirement.\n\nOriginally the quantum was daily and I was asked to make it monthly.",
       "parentUuid": "3afa9182_0c588c55",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a757d101",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T02:11:18Z",
+      "side": 1,
+      "message": "What led to this?  Surely it would make no difference to the graph.\n\nNone of the existing graphs are monthly.  Does this mean that we will need to convert all other graphs to monthly?\n\nThe problems i see with doing things monthly are:\n\n- it requires a bunch of extra processing for no gain\n- it\u0027s miss leading when looking at rates of change since the periods vary.\n\nA better value would be by week,  since that period is a consistent size.  For example you may currently be able to argue that we have less signups in Feburary, when it\u0027s actually a misnomer caused by Feburary having less days.",
+      "parentUuid": "3afa9182_ec02600a",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -558,6 +612,24 @@
       "side": 1,
       "message": "This log line only appears for debugging. It is intended to help diagnose  faults that occur in production. It\u0027s only partly intended  for normal application development fault diagnosis.  If an end user reports a fault the log level can be elevated in the config file so this output appears.  \n\nThese kind of debugging lines allow the data processing to be verified for correct information at each stage of the process. This is important to able able to localise the location of a fault. If the JSON data is not visible in Firebug, but it is visible in the server logs, then the location of the fault is somewhere between the 2 points in the process.",
       "parentUuid": "3afa9182_4c31f40a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a76eb1c7",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-21T02:11:18Z",
+      "side": 1,
+      "message": "So it\u0027s for debugging why Django isn\u0027t sending data to the browser?  I think that we don\u0027t need logging to tell that the site is totally broken.",
+      "parentUuid": "3afa9182_870e1533",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
