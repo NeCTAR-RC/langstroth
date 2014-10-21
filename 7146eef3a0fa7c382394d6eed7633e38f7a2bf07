@@ -401,6 +401,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_e7955989",
+        "filename": "tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T06:23:57Z",
+      "side": 1,
+      "message": "If memory serves I think this change might go back to the cat jumping on my keyboard and my subsequent attempt at a fix.",
+      "parentUuid": "3afa9182_0748655a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_0c588c55",
         "filename": "user_statistics/services/user_statistics.py",
         "patchSetId": 9
