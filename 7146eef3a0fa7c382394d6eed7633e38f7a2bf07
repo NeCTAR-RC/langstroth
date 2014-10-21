@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_ac2178b6",
+        "filename": "langstroth/defaults.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "I think so. \n\nThe name \"users\" would be overloaded with the common usage of a user management system and all of the associated use cases, when in fact the application just intends to display aggregate information.\n\nThe inclusion of the name nectar is implied by context..\n\nWe should also consider, since the Langstroth app is public, that others may decide to repurpose the app for their own installation. In that case we should not add local terminology to application names.",
+      "parentUuid": "3afa9182_cc5de44a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_8c6d9c07",
         "filename": "langstroth/defaults.py",
         "patchSetId": 9
@@ -42,6 +60,24 @@
         "endLine": 238,
         "endChar": 20
       },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8c3bdcea",
+        "filename": "langstroth/defaults.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "These lines act as an example of how to configure the settings for the standard case: logging to a file. Its a common way of documenting settings files. Now that you have added an example settings file maybe these lines should be shifted there.\n\nChecked: they are already there, so now removed.",
+      "parentUuid": "3afa9182_8c6d9c07",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0c2feca2",
+        "filename": "langstroth/static/css/user_statistics.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_2c68e8f4",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_4c63b41a",
         "filename": "langstroth/static/js/allocations_pie.js",
         "patchSetId": 9
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_ec2b8092",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Its intended to allow easy visual verification of tag matching and easy editing of the table.\n\nDone.",
+      "parentUuid": "3afa9182_4c63b41a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6cbb1073",
         "filename": "langstroth/static/js/for_table.js",
         "patchSetId": 9
@@ -105,6 +177,24 @@
       "writtenOn": "2014-10-20T04:37:25Z",
       "side": 1,
       "message": "All of these unrelated change should have been submitted in a separate patch.  It would have been much faster because we can easily check them and merge them.\n\nIt\u0027s probably too late now.  But for next time.",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8c12bc60",
+        "filename": "langstroth/static/js/for_table.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "These changes were intended to get the code past all the checking steps in the build.",
+      "parentUuid": "3afa9182_6cbb1073",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_6c179052",
+        "filename": "langstroth/static/js/user_statistics_d3.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "No it is obsolete.\n\nI wil be removed.",
+      "parentUuid": "3afa9182_ccafa42a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_cc7684d8",
         "filename": "langstroth/static/js/user_statistics_nv.js",
         "patchSetId": 9
@@ -145,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_cc0b242a",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "My Javascript editor does not support the removal of trailing white space apparently.\n\nI have added the AnyEdit plugin to my Eclipse. Oh well, didn\u0027t want to add yet another plugin.",
+      "parentUuid": "3afa9182_cc7684d8",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6c72f0e6",
         "filename": "langstroth/tests/settings.py",
         "patchSetId": 9
@@ -156,6 +282,24 @@
       "writtenOn": "2014-10-20T04:37:25Z",
       "side": 1,
       "message": "this file should be removed if it\u0027s been superseded by langstroth/settings_test.py",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ac08582e",
+        "filename": "langstroth/tests/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Ok.\n\nIt was your file and I was reluctant to remove it in case you had some use for it.",
+      "parentUuid": "3afa9182_6c72f0e6",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -185,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0c06cc20",
+        "filename": "tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Kieran added this to fix some problem with the Jenkins build.\n\nI will leave this for now, get the current changes past Jenkins, and experiment after that to see if it can be safely removed.",
+      "parentUuid": "3afa9182_ac7338e6",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_0c588c55",
         "filename": "user_statistics/services/user_statistics.py",
         "patchSetId": 9
@@ -202,6 +364,24 @@
         "endLine": 100,
         "endChar": 25
       },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ec02600a",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "This is a business requirement.\n\nOriginally the quantum was daily and I was asked to make it monthly.",
+      "parentUuid": "3afa9182_0c588c55",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -231,6 +411,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_67ffa902",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_0c81ac8f",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_4c4a9484",
         "filename": "user_statistics/templates/user_statistics.html",
         "patchSetId": 9
@@ -254,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_47042d15",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_4c4a9484",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_ec542023",
         "filename": "user_statistics/tests/expected_users_statistics.py",
         "patchSetId": 9
@@ -265,6 +481,24 @@
       "writtenOn": "2014-10-20T04:37:25Z",
       "side": 1,
       "message": "This is way too much data.  When you are writing tests you only need to demonstrate the correct behaviour, you shouldn\u0027t need to test every data point.  Just enough points to exercise all the appropriate code paths.",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a709912e",
+        "filename": "user_statistics/tests/expected_users_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "This data was part of my investigation of what kind of data Graphite actually sends and how my code should process it. Its more of an integration test than a unit test.\n\nI have trimmed the data down.",
+      "parentUuid": "3afa9182_ec542023",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -288,6 +522,24 @@
         "endLine": 41,
         "endChar": 69
       },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_870e1533",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-21T01:19:16Z",
+      "side": 1,
+      "message": "This log line only appears for debugging. It is intended to help diagnose  faults that occur in production. It\u0027s only partly intended  for normal application development fault diagnosis.  If an end user reports a fault the log level can be elevated in the config file so this output appears.  \n\nThese kind of debugging lines allow the data processing to be verified for correct information at each stage of the process. This is important to able able to localise the location of a fault. If the JSON data is not visible in Firebug, but it is visible in the server logs, then the location of the fault is somewhere between the 2 points in the process.",
+      "parentUuid": "3afa9182_4c31f40a",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
