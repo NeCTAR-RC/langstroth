@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_c7d93d85",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-22T02:07:37Z",
+      "side": 1,
+      "message": "this indentation is missleading",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 48
+      },
+      "revId": "ba40f3f637458ee41f7b0fcad216ba8f76c4f10f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_27e76142",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-22T02:07:37Z",
+      "side": 1,
+      "message": "this is indented too much",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 25
+      },
+      "revId": "ba40f3f637458ee41f7b0fcad216ba8f76c4f10f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_07e4e539",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-22T02:07:37Z",
+      "side": 1,
+      "message": "this indentation is also missleading",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 36
+      },
+      "revId": "ba40f3f637458ee41f7b0fcad216ba8f76c4f10f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
