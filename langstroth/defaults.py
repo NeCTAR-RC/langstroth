@@ -168,9 +168,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'langstroth.urls'
 
-# Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'django.wsgi.application'
-
 TEMPLATE_DIRS = (
     path_merge(__file__, "templates"),
     # Put strings here, like "/home/html/django_templates"
