@@ -1,7 +1,5 @@
 from django.test import TestCase
 
-from nectar_allocations.models.forcode import ForCode
-
 
 class AllocationViewTest(TestCase):
 
@@ -9,10 +7,6 @@ class AllocationViewTest(TestCase):
     multi_db = True
 
     # Web pages
-
-    def setUp(self):
-        ForCode.objects.create(code="1234", name="Biological necessity")
-        ForCode.objects.create(code="4321", name="Physical impossibility")
 
     def test_page_index(self):
         response = self.client.get("/allocations/")
