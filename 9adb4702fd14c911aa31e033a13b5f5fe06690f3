@@ -45,6 +45,30 @@
       "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_27dbe11c",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-23T23:02:11Z",
+      "side": 1,
+      "message": "there is actually a bug in my original comment, the first line should read \n\n for key, datapoints in response_data.items():",
+      "parentUuid": "3afa9182_c7c65d49",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
