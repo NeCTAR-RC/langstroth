@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_27c4813f",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-23T09:07:28Z",
+      "side": 1,
+      "message": "every method in this class is a static method so why not use functions instead of a class?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c7c65d49",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-23T09:07:28Z",
+      "side": 1,
+      "message": "this is over complicated, why are you treating each of these elements differently?\n\nthis could have been done like\n\n for key, datapoints in response_data:\n     response_data[key] \u003d [point for in datapoints\n                           if point[cls.VALUE_INDEX] is not None]",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
