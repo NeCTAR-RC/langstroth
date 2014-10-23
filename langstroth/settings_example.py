@@ -88,7 +88,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            'format': '%(levelname)s %(message)s'
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         },
     },
     'filters': {
@@ -103,8 +103,8 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'file': {
-            'level': 'DEBUG',
             'class': 'logging.FileHandler',
+            'formatter': 'simple',
             'filename': '/var/log/langstroth/debug.log',
         },
     },
@@ -116,7 +116,7 @@ LOGGING = {
         },
         '': {
             'handlers': ['file'],
-            'level': 'WARN',
+            'level': 'INFO',
         },
     }
 }
