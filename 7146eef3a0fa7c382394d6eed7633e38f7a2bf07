@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_a7b071de",
+        "filename": "langstroth/defaults.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_8c3bdcea",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_2c68e8f4",
         "filename": "langstroth/static/css/user_statistics.css",
         "patchSetId": 9
@@ -160,6 +178,24 @@
       "side": 1,
       "message": "Its intended to allow easy visual verification of tag matching and easy editing of the table.\n\nDone.",
       "parentUuid": "3afa9182_4c63b41a",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_47bb8dc4",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_ec2b8092",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -254,6 +290,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_67b689de",
+        "filename": "langstroth/static/js/user_statistics_d3.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_6c179052",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_cc7684d8",
         "filename": "langstroth/static/js/user_statistics_nv.js",
         "patchSetId": 9
@@ -283,6 +337,24 @@
       "side": 1,
       "message": "My Javascript editor does not support the removal of trailing white space apparently.\n\nI have added the AnyEdit plugin to my Eclipse. Oh well, didn\u0027t want to add yet another plugin.",
       "parentUuid": "3afa9182_cc7684d8",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_07aa2570",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_cc0b242a",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -336,6 +408,24 @@
       "side": 1,
       "message": "Don\u0027t worry about making changes to parts of the project. I don\u0027t own anything.",
       "parentUuid": "3afa9182_ac08582e",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_27ada189",
+        "filename": "langstroth/tests/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_47526d14",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -514,6 +604,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_47942d37",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_47870d62",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_0c81ac8f",
         "filename": "user_statistics/templates/user_statistics.html",
         "patchSetId": 9
@@ -631,6 +739,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0773454e",
+        "filename": "user_statistics/tests/expected_users_statistics.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_a709912e",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_a77cf173",
         "filename": "user_statistics/views.py",
         "patchSetId": 9
@@ -648,6 +774,24 @@
         "endLine": 39,
         "endChar": 5
       },
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2776413f",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_a77cf173",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -743,6 +887,24 @@
       "side": 1,
       "message": "I think you may have missed my point.  This logging prints some data after converting it to a JSON string but before returning it to Django.\n\nSo it\u0027s not reporting any information that i can\u0027t already get by using curl or a webbrowser.  So it\u0027s a really low value log message. Its also will be very noisy because the JSON blob will be quite large.",
       "parentUuid": "3afa9182_c7649de7",
+      "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c7781d2e",
+        "filename": "user_statistics/views.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-23T06:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_e7aef9e6",
       "revId": "7146eef3a0fa7c382394d6eed7633e38f7a2bf07",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
