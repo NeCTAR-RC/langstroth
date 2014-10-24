@@ -1,3 +1,9 @@
+import requests
+from urllib import urlencode
+
+from django.conf import settings
+
+GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
 # Addressing the history components
 # within a 2-member data-point array.
@@ -42,3 +48,37 @@ def filter_null_datapoints(response_data):
                                      for datapoint in data_points
                                      if datapoint[VALUE_INDEX] is not None]
     return response_data
+
+
+class Target(object):
+    def __init__(self, target):
+        self._target = target
+
+    def smartSummarize(self, step, aggregation='avg'):
+        if step and aggregation:
+            return self.__class__('smartSummarize(%s, "%s", "%s")'
+                                  % (self._target, step, aggregation))
+        return self
+
+    def derivative(self):
+        return self.__class__('derivative(%s)' % (self._target))
+
+    def alias(self, name):
+        return self.__class__('alias(%s, "%s")' % (self._target, name))
+
+    def __str__(self):
+        return self._target
+
+
+def get(from_date=None, targets=[]):
+    """Get some metrics from graphite.  Return a requests.models.Response
+    object.
+
+    """
+    arguments = [('format', 'json')]
+    arguments.extend([('target', str(target)) for target in targets])
+
+    if from_date:
+        arguments.append(('from', from_date))
+
+    return requests.get(GRAPHITE + "?" + urlencode(arguments))

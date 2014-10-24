@@ -1,22 +1,18 @@
 import datetime
-import requests
 from json import dumps
 from operator import itemgetter
-from urllib import urlencode
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 import logging
 
 from django.http import HttpResponse
-from django.conf import settings
 from django.shortcuts import render
 from django.core.cache import cache
 
 from langstroth import nagios
+from langstroth import graphite
 
 LOG = logging.getLogger(__name__)
-
-GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
 
 def round_to_day(datetime_object):
@@ -101,17 +97,12 @@ def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    arguments = [('format', 'json'),
-                 ("from", q_from)]
+    targets = [graphite.Target(target).smartSummarize(q_summarise).alias(alias)
+               for alias, target in INST_TARGETS]
 
-    for alias, target in INST_TARGETS:
-        if q_summarise:
-            target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
-        target = 'alias(%s, "%s")' % (target, alias)
-        arguments.append(('target', target))
-
-    req = requests.get(GRAPHITE + "?" + urlencode(arguments))
-    return HttpResponse(req, req.headers['content-type'])
+    req = graphite.get(from_date=q_from, targets=targets)
+    data = graphite.filter_null_datapoints(req.json())
+    return HttpResponse(dumps(data), req.headers['content-type'])
 
 
 CORES_TARGETS = [
@@ -129,17 +120,12 @@ def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    arguments = [('format', 'json'),
-                 ("from", q_from)]
+    targets = [graphite.Target(target).smartSummarize(q_summarise).alias(alias)
+               for alias, target in CORES_TARGETS]
 
-    for alias, target in CORES_TARGETS:
-        if q_summarise:
-            target = 'smartSummarize(%s, "%s", "avg")' % (target, q_summarise)
-        target = 'alias(%s, "%s")' % (target, alias)
-        arguments.append(('target', target))
-
-    req = requests.get(GRAPHITE + "?" + urlencode(arguments))
-    return HttpResponse(req, req.headers['content-type'])
+    req = graphite.get(from_date=q_from, targets=targets)
+    data = graphite.filter_null_datapoints(req.json())
+    return HttpResponse(dumps(data), req.headers['content-type'])
 
 
 def choose_first(datapoints):
@@ -149,30 +135,30 @@ def choose_first(datapoints):
 
 
 QUERY = {
-    'melbourne': [("target", "az.melbourne-qh2.domain.*.used_vcpus"),
-                  ("target", "az.melbourne-np.domain.*.used_vcpus")],
-    'all': [("target", "az.melbourne-qh2.domain.*.used_vcpus"),
-            ("target", "az.melbourne-np.domain.*.used_vcpus"),
-            ("target", "az.monash-01.domain.*.used_vcpus"),
-            ("target", "az.NCI.domain.*.used_vcpus"),
-            ("target", "az.sa.domain.*.used_vcpus"),
-            ("target", "az.qld.domain.*.used_vcpus"),
-            ("target", "az.tasmania.domain.*.used_vcpus")]
+    'melbourne': ["az.melbourne-qh2.domain.*.used_vcpus",
+                  "az.melbourne-np.domain.*.used_vcpus"],
+    'all': ["az.melbourne-qh2.domain.*.used_vcpus",
+            "az.melbourne-np.domain.*.used_vcpus",
+            "az.monash-01.domain.*.used_vcpus",
+            "az.NCI.domain.*.used_vcpus",
+            "az.sa.domain.*.used_vcpus",
+            "az.qld.domain.*.used_vcpus",
+            "az.tasmania.domain.*.used_vcpus"]
 }
 
 
 def total_cores_per_domain(request):
     q_from = request.GET.get('from', "-60minutes")
     q_az = request.GET.get('az', "melbourne")
-
-    arguments = [('format', 'json'),
-                 ("from", q_from)]
+    targets = []
 
     if q_az in QUERY:
-        arguments.extend(QUERY[q_az])
+        targets.extend([graphite.Target(target)
+                        for target in QUERY[q_az]])
     else:
-        arguments.append(("target", "az.%s.domain.*.used_vcpus" % q_az))
-    req = requests.get(GRAPHITE + "?" + urlencode(arguments))
+        targets.append(graphite.Target("az.%s.domain.*.used_vcpus"))
+
+    req = graphite.get(from_date=q_from, targets=targets)
     cleaned = defaultdict(dict)
     for domain in req.json():
         domain_name = '.'.join(domain['target'].split('.')[-2].split('_'))
