@@ -4,3 +4,4 @@ include requirements.txt
 recursive-include langstroth *.html *.css *.png *.wsgi *.po *.mo *.js *.gif *.json
 recursive-include nectar_allocations *.html *.css *.png *.wsgi *.po *.mo *.js *.gif *.json
 recursive-include nectar_status *.html *.css *.png *.wsgi *.po *.mo *.js *.gif *.json
+recursive-include user_statistics *.html *.css *.png *.wsgi *.po *.mo *.js *.gif *.json
