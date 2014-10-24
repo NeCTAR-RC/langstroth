@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_a70cf195",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-24T01:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_c7f49d89",
+      "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_c7c65d49",
         "filename": "user_statistics/services/user_statistics.py",
         "patchSetId": 14
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "There is an implicit notion here of complexity as defined by lines of code. But this disregards that complexity arises from the number of control structures.\n\nThe number of lines here arises from attaching variable names to the components of the data and this explains the data structure. Without this an follow on developer is going to need to lookup the Graphite data format and squint their brain a bit to unpack the meaning in the for loop and the array comprehension. \n\nI would need to add a comment to this block just to explicated what it is doing\n\nI know cramming a bunch of stuff into too few lines is satisfying, but it is great camouflage for bugs.",
       "parentUuid": "3afa9182_c7c65d49",
+      "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8711f5ae",
+        "filename": "user_statistics/services/user_statistics.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-24T01:12:34Z",
+      "side": 1,
+      "message": "As far as I can tell items()  is for a dictionary and not a list.\nCame up with a general version of my own code.\n\nDone",
+      "parentUuid": "3afa9182_27dbe11c",
       "revId": "9adb4702fd14c911aa31e033a13b5f5fe06690f3",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
