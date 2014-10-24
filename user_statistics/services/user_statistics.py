@@ -2,7 +2,7 @@ import requests
 from django.conf import settings
 from urllib import urlencode
 import json
-from langstroth.graphite import filter_null_datapoints
+from langstroth import graphite
 
 
 '''
@@ -39,16 +39,19 @@ def find_daily_accumulated_users():
     Retrieve the history of the cumulative and frequency counts of users
     added by the end of each day.
     '''
-    cumulative_users_at_end_of_day = \
-        'alias(smartSummarize(users.total,"1d","max", True),' \
-        '"Cumulative")'
-    frequency_users_at_end_of_day = \
-        'alias(derivative(summarize(users.total,"1d","max", True)),' \
-        '"Frequency")'
-    graphite_targets = [cumulative_users_at_end_of_day,
-                        frequency_users_at_end_of_day]
-    response_data = _query_graphite_api(graphite_targets)
-    return filter_null_datapoints(response_data)
+    targets = []
+
+    targets.append(graphite.Target('users.total')
+                   .smartSummarize('1d')
+                   .alias('Cumulative'))
+    targets.append(graphite.Target('users.total')
+                   .smartSummarize('1d')
+                   .derivative()
+                   .alias('Cumulative'))
+
+    response = graphite.get(from_date=settings.USER_STATISTICS_START_DATE,
+                            targets=targets)
+    return graphite.filter_null_datapoints(response.json())
 
 
 def _query_graphite_api(graphite_targets):
