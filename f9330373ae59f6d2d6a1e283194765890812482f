@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_6274b79c",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-26T23:14:59Z",
+      "side": 1,
+      "message": "Should smartSummarize be camel-case or underscored?",
+      "revId": "f9330373ae59f6d2d6a1e283194765890812482f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
