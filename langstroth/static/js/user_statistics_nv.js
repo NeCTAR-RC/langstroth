@@ -8,13 +8,6 @@ unixTimestamp = function(timestamp) {
 formatData = function(data) {
 	return data.map(function(series) {
 		series.values = series.datapoints;
-		series.values = series.values.map(function(value) {
-			if (!value[0]) {
-				value[0] = 0;
-			}
-			return value;
-		});
-
 		delete series.datapoints;
 		series.key = series.target;
 		return series;
@@ -59,8 +52,7 @@ var histoChart = nv.models.historicalBarChart()
         return d[0];
     })
     .rightAlignYAxis(true)
-    .transitionDuration(500)
-    .clipEdge(false);
+    .transitionDuration(500);
 
 histoChart.xAxis.tickFormat(function(d) {
     return shortDateFormat(new Date(d)) ;
@@ -93,17 +85,32 @@ function visualise(trend, chart) {
     });
 }
 
+function sumByMonth (values) {
+  var byMonth = crossfilter(values)
+        .dimension(function (d) {
+          var date = new Date(unixTimestamp(d[1]));
+          return new Date(date.getFullYear(), date.getMonth());
+        })
+        .group()
+        .reduceSum(function (d) { return d[0];});
+  return byMonth.all().map(function (d) {
+    return [d.value, d.key.getTime()/1000];
+  });
+}
+
 function load() {
-    d3.json(
-        "/user_statistics/rest/registrations/frequency",
-        function(responseData) {
-	        compositeDataSeries = formatData(responseData);
-	        cumulativeTrend = compositeDataSeries[0];
-	        visualise([cumulativeTrend], areaChart);
-	    });
+  d3.json(
+    "/user_statistics/rest/registrations/frequency",
+    function(responseData) {
+	  compositeDataSeries = formatData(responseData);
+      compositeDataSeries[1].values = sumByMonth(compositeDataSeries[1].values);
+	  cumulativeTrend = compositeDataSeries[0];
+	  visualise([cumulativeTrend], areaChart);
+	});
 }
 
 load();
+trend = null;
 
 // Flick between the 2 kinds of chart/data.
 
@@ -112,7 +119,7 @@ function change() {
     $(this).addClass('active');
     isCumulative = this.id == 'cumulative';
     var trendSelector = isCumulative ? 0 : 1;
-    var trend = compositeDataSeries[trendSelector];
+    trend = compositeDataSeries[trendSelector];
     var chart = isCumulative ? areaChart : histoChart;
     visualise([trend], chart);
 }
