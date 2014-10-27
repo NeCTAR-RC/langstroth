@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_42eedb23",
+        "filename": "langstroth/static/js/crossfilter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-27T01:08:29Z",
+      "side": 1,
+      "message": "interesting, i was looking at the rollup function, but i couldn\u0027t find any examples that explained how to build a hash.  That example match much more closely to what we need.\n\nif you would like to implement this functionality using D3 directly i\u0027m happy to review.  I am actually busy finishing off the replacement server configuration.",
+      "parentUuid": "3afa9182_a27cdf73",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_8281e34c",
         "filename": "langstroth/static/js/user_statistics_nv.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-27T00:48:07Z",
       "side": 1,
       "message": "The only issue I can see is that when histogram is rendered the first and last bars are clipped by the graph margins, so they are half the width of the others.",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_62e9571a",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-27T01:08:29Z",
+      "side": 1,
+      "message": "I tried to fix that, but it seems really hard.  If you have any suggestion on how to prevent the clipping with out incurring a bar overlapping the axis that would be helpful.",
+      "parentUuid": "3afa9182_8281e34c",
       "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
