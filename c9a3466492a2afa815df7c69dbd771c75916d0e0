@@ -22,6 +22,24 @@
       "revId": "c9a3466492a2afa815df7c69dbd771c75916d0e0",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c2cdab5f",
+        "filename": "langstroth/static/js/breadcrumbs.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-27T23:06:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_029cd368",
+      "revId": "c9a3466492a2afa815df7c69dbd771c75916d0e0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
