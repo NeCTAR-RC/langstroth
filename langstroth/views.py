@@ -69,8 +69,8 @@ def index(request):
 
 def growth(request):
     context = {
-        "title": "Cloud Growth",
-        "tagline": ""}
+        "title": "Infrastructure Growth",
+        "tagline": "Over the last 6 months."}
     return render(request, "growth.html", context)
 
 
