@@ -1,5 +1,7 @@
 ////// FOR Table for NeCTAR Allocations
 
+// Dependent on breadcrumbs object created in allocations_pi.js
+
 //==== FOR/Project Table
 
 var forHeadings = {
@@ -28,13 +30,14 @@ function inflateChartSegment(d, i) {
   segment.style("stroke", HILITE_SEGMENT_COLOUR)
     .style("stroke-width", HILITE_SEGMENT_WIDTH)
     .attr("transform", function(row) {
-      var bisectorAngle = (row.endAngle + row.startAngle) / 2.0 + -Math.PI / 2;
+      var bisectorAngle =
+        (row.endAngle + row.startAngle) / 2.0 + -Math.PI / 2;
       var deltaX = 5 * Math.cos(bisectorAngle);
       var deltaY = 5 * Math.sin(bisectorAngle);
       return "translate(" + deltaX + "," + deltaY + ")";
     });
 
-  if (isForCodeLevel()) {
+  if (breadcrumbs.isForCodeLevel()) {
     // Do nothing
   } else {
     showProjectSummary(d);
@@ -60,9 +63,10 @@ function zoomInTable(d) {
 
 function buildTable(pageAreaSelector, isCoreQuota) {
   // Define the table with heading.
+  var tableClass = "for-projects table-striped table-bordered " +
+    "table-condensed table-hover"
   var table = d3.select(pageAreaSelector).append("table")
-        .attr("class", "for-projects table-striped table-bordered table-condensed table-hover");
-  // var caption = table.append("caption").text(forHeadings.caption);
+        .attr("class", tableClass);
   var thead = table.append("thead");
   table.append("tbody");
 
@@ -90,23 +94,18 @@ function buildTable(pageAreaSelector, isCoreQuota) {
 
 function tabulateAllocations(table, dataset, total, isCoreQuota) {
 
-  // Adjust the header
-
-//  var caption = table.select("caption")
-//        .text(function(row) {
-//          return isForCodeLevel() ? forHeadings.caption : projectHeadings.caption;
-//        });
-
   var thead = table.select("thead");
 
   thead.select("th.col0")
     .text(function(row) {
-      return isForCodeLevel() ? forHeadings.code : projectHeadings.code;
+      return breadcrumbs.isForCodeLevel() ? forHeadings.code
+          : projectHeadings.code;
     });
 
   thead.select("th.col1")
     .text(function(row) {
-      return isForCodeLevel() ? forHeadings.name : projectHeadings.name;
+      return breadcrumbs.isForCodeLevel() ? forHeadings.name
+          : projectHeadings.name;
     });
 
   thead.select("th.col2")
@@ -131,13 +130,15 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
       return paletteStack.tos()(d.colourIndex);
     })
     .text(function(row) {
-      return isForCodeLevel() ? row.target : row.projectName.makeWrappable() ;
+      return breadcrumbs.isForCodeLevel() ? row.target
+          : row.projectName.makeWrappable() ;
     });
 
   rows.select("td.col1")
-    .style("text-transform", isForCodeLevel() ? "capitalize" : "")
+    .style("text-transform", breadcrumbs.isForCodeLevel()
+        ? "capitalize" : "")
     .text(function(row) {
-      if (isForCodeLevel()) {
+      if (breadcrumbs.isForCodeLevel()) {
         var forCode = row.target;
         return forTitleMap[forCode].toLowerCase();
       } else {
@@ -181,16 +182,18 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     })
     .style("color", "white")
     .text(function(row) {
-      return isForCodeLevel() ? row.target : row.projectName.makeWrappable() ;
+      return breadcrumbs.isForCodeLevel() ? row.target
+          : row.projectName.makeWrappable() ;
     });
 
   newRows.append("td")
     .attr("class", "col1")
     .style("min-width", "20px")
     .style("text-align", "left")
-    .style("text-transform", isForCodeLevel() ? "capitalize" : "")
+    .style("text-transform", breadcrumbs.isForCodeLevel()
+        ? "capitalize" : "")
     .text(function(row) {
-      if (isForCodeLevel()) {
+      if (breadcrumbs.isForCodeLevel()) {
         var forCode = row.target;
         return forTitleMap[forCode].toLowerCase();
       } else {
