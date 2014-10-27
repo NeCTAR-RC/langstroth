@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_4209bb94",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-27T23:45:43Z",
+      "side": 1,
+      "message": "The indentation seems to have got out of wack here.",
+      "revId": "57fe1c65623ee4119fc55dad6208c2cf5a5fb8d0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
