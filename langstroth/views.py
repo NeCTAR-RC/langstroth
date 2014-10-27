@@ -101,7 +101,7 @@ def total_instance_count(request):
                for alias, target in INST_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.filter_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json())
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -124,7 +124,7 @@ def total_used_cores(request):
                for alias, target in CORES_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.filter_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json())
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 

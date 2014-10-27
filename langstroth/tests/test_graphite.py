@@ -74,3 +74,18 @@ def test_get_targets(mock_get):
         '&target=alias%28test.az.something_else%2C+%22bar%22%29'
         '&from=-1year')
     assert response == mock_get()
+
+
+def test_fill_null_datapoints():
+    data = [{"datapoints": [
+        [None, 1324130400],
+        [1.0, 1324216800],
+        [3.0, 1325599200],
+        [None, 1413208800]]}]
+    result = graphite.fill_null_datapoints(data)
+
+    assert result == [{"datapoints": [
+        [0.0, 1324130400],
+        [1.0, 1324216800],
+        [3.0, 1325599200],
+        [3.0, 1413208800]]}]
