@@ -1,21 +1,15 @@
 ////// Hierarchical Pie Plot of NeCTAR Allocations
 
+// Depends on code in breadcrumbs.js
+var breadcrumbs = new Breadcrumbs();
+
+
 //==== Data manipulation
 
-// Breadcrumbs - keep track of the current hierarchy level.
-// Made up of an array of FOR codes.
-// Slight hack to keep JS validator in Eclipse quiet.
-var breadCrumbs;
-breadCrumbs = ['*'];
 var colorPalette = d3.scale.category20();
 var paletteStack = [colorPalette];
 var allocationTree = {};
 var forTitleMap = {};
-
-// Is this the level for FOR codes or projects.
-function isForCodeLevel() {
-  return breadCrumbs.length < 4;
-}
 
 // Recursive code to return allocation tree branch (children)
 // addressed by FOR code.
@@ -230,11 +224,10 @@ var totalText = statisticsArea.append("text")
       .style("text-anchor", "middle");
 
 function zoomIn(data) {
-  if (isForCodeLevel()) {
+  if (breadcrumbs.isForCodeLevel()) {
     var forCode = data.target;
-    breadCrumbs.push(forCode);
-    var route = breadCrumbs.slice(1).reverse();
-    var children = traverseHierarchy(route, allocationTree);
+    var children = traverseHierarchy(
+        breadcrumbs.routeIn(forCode), allocationTree);
     var isCoreQuota = selectedCoreQuota();
     var dataset = restructureAllocations(children, isCoreQuota);
     var totalResource = d3.sum(dataset, function (d) {
@@ -268,10 +261,8 @@ function zoomInPie(p, i) {
 }
 
 function zoomOut(p) {
-  if (breadCrumbs.length > 1) {
-    breadCrumbs.pop();
-    var route = breadCrumbs.slice(1).reverse();
-    var children = traverseHierarchy(route, allocationTree);
+  if (!breadcrumbs.home()) {
+    var children = traverseHierarchy(breadcrumbs.routeIn(), allocationTree);
     var isCoreQuota = selectedCoreQuota();
     var dataset = restructureAllocations(children, isCoreQuota);
     var totalResource = d3.sum(dataset, function (d) {
@@ -318,7 +309,7 @@ function showRelatedLabels(d, i) {
       otherColumns.css('color', HILITE_TEXT_COLOUR);
     }
   });
-  if (isForCodeLevel()) {
+  if (breadcrumbs.isForCodeLevel()) {
     showFORDescription(d);
   } else {
     showProjectSummary(d.data);
@@ -475,7 +466,7 @@ function visualise( dataset, totalResource ) {
     .style("font", "bold 12px Arial")
     .text(function(d) {
       var label = null;
-      if (isForCodeLevel()) {
+      if (breadcrumbs.isForCodeLevel()) {
         var forCode = d.data.target;
         label = forCode;
       } else {
@@ -509,7 +500,7 @@ function visualise( dataset, totalResource ) {
     .style("font", "bold 12px Arial")
     .text(function(d) {
       var label = null;
-      if (isForCodeLevel()) {
+      if (breadcrumbs.isForCodeLevel()) {
         var forCode = d.data.target;
         label = forCode;
       } else {
@@ -546,47 +537,21 @@ function visualise( dataset, totalResource ) {
 
   //----- Build and display breadcrumbs
 
-  navigate();
+  breadcrumbs.navigate(function(route, i) {
+      var children = traverseHierarchy(route, allocationTree);
+      var isCoreQuota = selectedCoreQuota();
+      var dataset = restructureAllocations(children, isCoreQuota);
+      var totalResource = d3.sum(dataset, function (d) {
+        return d.value;
+      });
+      // Restore original palette.
+      paletteStack = paletteStack.slice(0, i + 1);
+      visualise(dataset, totalResource);
+      tabulateAllocations(table, dataset, totalResource, isCoreQuota);
+
+  });
 }
 
-function navigate() {
-  var breadcrumb = d3.select("#chart-navigator-1").select('.breadcrumb');
-  breadcrumb.selectAll('li').remove();
-  breadcrumb.selectAll('li')
-    .data(breadCrumbs)
-    .enter()
-    .append("li")
-    .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ?
-        "active" : ""; })
-    .html(function(d, i) {
-      var forCode = d;
-      var markup = forCode == '*' ?
-          '<span class="glyphicon glyphicon-home"></span>'
-            : '<span style="text-transform: capitalize">' +
-            forTitleMap[forCode].toLowerCase() +
-            '</span>';
-      if (i < breadCrumbs.length - 1) {
-        markup = '<a href="#">' + markup + '</a>';
-      }
-      return markup;
-    })
-    .on("click", function(d, i) {
-      if (breadCrumbs.length > 1 && i < breadCrumbs.length - 1) {
-        breadCrumbs = breadCrumbs.slice(0, i + 1);
-        var route = breadCrumbs.slice(1).reverse();
-        var children = traverseHierarchy(route, allocationTree);
-        var isCoreQuota = selectedCoreQuota();
-        var dataset = restructureAllocations(children, isCoreQuota);
-        var totalResource = d3.sum(dataset, function (d) {
-          return d.value;
-        });
-        // Restore original palette.
-        paletteStack = paletteStack.slice(0, i + 1);
-        visualise(dataset, totalResource);
-        tabulateAllocations(table, dataset, totalResource, isCoreQuota);
-      }
-    });
-}
 
 //---- Plotting and Animation Utilities
 
@@ -639,14 +604,13 @@ function load() {
     d3.json(
         "/allocations/rest/applications/approved/tree",
         function(error, allocationObjects) {
-      breadCrumbs = ['*'];
-      forTitleMap = forObjects;
-      allocationTree = allocationObjects.children;
-      var isCoreQuota = selectedCoreQuota();
-      var resource = {};
-      var dataset = processResponse(allocationTree, resource);
-      visualise(dataset, resource.total);
-      tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+        forTitleMap = forObjects;
+        allocationTree = allocationObjects.children;
+        var isCoreQuota = selectedCoreQuota();
+        var resource = {};
+        var dataset = processResponse(allocationTree, resource);
+        visualise(dataset, resource.total);
+        tabulateAllocations(table, dataset, resource.total, isCoreQuota);
     });
   });
 }
@@ -658,8 +622,7 @@ load();
 function change() {
   $('#graph-buttons button').removeClass('active');
   $(this).addClass('active');
-  var route = breadCrumbs.slice(1).reverse();
-  var children = traverseHierarchy(route, allocationTree);
+  var children = traverseHierarchy(breadcrumbs.route(), allocationTree);
   var isCoreQuota = selectedCoreQuota();
   var resource = {};
   var dataset = processResponse(children, resource);
