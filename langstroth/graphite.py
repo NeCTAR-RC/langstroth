@@ -20,23 +20,9 @@ def filter_null_datapoints(response_data):
             "datapoints": [
                 [null, 1324130400],
                 [0.0, 1324216800],
-                [0.0, 1324303200],
-                [2.0, 1325512800],
-                [3.0, 1325599200],
                 [null, 1413208800]
             ]
         },
-        {
-            "target": "Frequency",
-            "datapoints": [
-                [null, 1324130400],
-                [null, 1324216800],
-                [0.0, 1324303200],
-                [2.0, 1325512800],
-                [null, 1325599200],
-                [null, 1413208800]
-            ]
-        }
     ]
 
     Remove any datapoint with a null value component.
@@ -47,6 +33,28 @@ def filter_null_datapoints(response_data):
         data_series['datapoints'] = [datapoint
                                      for datapoint in data_points
                                      if datapoint[VALUE_INDEX] is not None]
+    return response_data
+
+
+def _fill_nulls(data):
+    previous_value = 0.0
+    for point in data:
+        if point[VALUE_INDEX] is None:
+            yield [previous_value, point[TIMESTAMP_INDEX]]
+        else:
+            previous_value = point[VALUE_INDEX]
+            yield point
+
+
+def fill_null_datapoints(response_data):
+    """Fill graphite response object with either 0.0 or the previous real
+    value that existed.
+
+    """
+
+    for data_series in response_data:
+        data_points = data_series['datapoints']
+        data_series['datapoints'] = list(_fill_nulls(data_points))
     return response_data
 
 
