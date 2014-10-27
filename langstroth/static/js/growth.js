@@ -1,4 +1,4 @@
-growth_text = 'Cloud growth over the last ';
+growth_text = 'Over the last ';
 
 var colors = d3.scale.category20();
 keyColor = function(d, i) {return colors(d.target);};
