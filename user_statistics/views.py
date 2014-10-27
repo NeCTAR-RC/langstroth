@@ -7,15 +7,10 @@ from user_statistics.services.user_statistics \
 
 # Web pages
 
-
-def index_page(request):
-    return trend_visualisation_page(request)
-
-
-def trend_visualisation_page(request):
+def user_registrations_page(request):
     context = {
         "title": "User Registrations",
-        "tagline": ""}
+        "tagline": "Since December 2011."}
     return render(request, "user_statistics.html", context)
 
 

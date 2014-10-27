@@ -1,24 +1,26 @@
+/* -*- Mode: js; tab-width: 4; indent-tabs-mode: nil; js-indent-level: 4;-*- */
+
 var registrationFrequency = [];
 var isCumulative = true;
 
 unixTimestamp = function(timestamp) {
-	return new Date(timestamp * 1000);
+    return new Date(timestamp * 1000);
 };
 
 formatData = function(data) {
-	return data.map(function(series) {
-		series.values = series.datapoints;
-		series.values = series.values.map(function(value) {
-			if (!value[0]) {
-				value[0] = 0;
-			}
-			return value;
-		});
+    return data.map(function(series) {
+        series.values = series.datapoints;
+        series.values = series.values.map(function(value) {
+            if (!value[0]) {
+                value[0] = 0;
+            }
+            return value;
+        });
 
-		delete series.datapoints;
-		series.key = series.target;
-		return series;
-	});
+        delete series.datapoints;
+        series.key = series.target;
+        return series;
+    });
 };
 
 var shortDateFormat = d3.time.format("%Y-%m");
@@ -29,11 +31,11 @@ var frequencyFormat = d3.format(',.0f');
 var areaChart = nv.models.stackedAreaChart()
     .margin({right: 100})
     .x(function(d) {
-          return new Date(unixTimestamp(d[1]));
-          })
+        return new Date(unixTimestamp(d[1]));
+    })
     .y(function(d) {
-          return d[0];
-          })
+        return d[0];
+    })
     .useInteractiveGuideline(true)
     .rightAlignYAxis(true)
     .transitionDuration(500)
@@ -42,8 +44,8 @@ var areaChart = nv.models.stackedAreaChart()
     .clipEdge(true);
 
 areaChart.xAxis.tickFormat(function(d) {
-		return shortDateFormat(new Date(d)) ;
-	});
+    return shortDateFormat(new Date(d)) ;
+});
 
 areaChart.xAxis.ticks(d3.time.month, 3);
 areaChart.xScale(d3.time.scale());
@@ -95,12 +97,12 @@ function visualise(trend, chart) {
 
 function load() {
     d3.json(
-        "/user_statistics/rest/registrations/frequency",
+        "/growth/users/rest/registrations/frequency",
         function(responseData) {
-	        compositeDataSeries = formatData(responseData);
-	        cumulativeTrend = compositeDataSeries[0];
-	        visualise([cumulativeTrend], areaChart);
-	    });
+            compositeDataSeries = formatData(responseData);
+            cumulativeTrend = compositeDataSeries[0];
+            visualise([cumulativeTrend], areaChart);
+        });
 }
 
 load();
