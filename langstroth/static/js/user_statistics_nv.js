@@ -94,13 +94,13 @@ function visualise(trend, chart) {
 }
 
 function load() {
-    d3.json(
-        "/user_statistics/rest/registrations/frequency",
-        function(responseData) {
-	        compositeDataSeries = formatData(responseData);
-	        cumulativeTrend = compositeDataSeries[0];
-	        visualise([cumulativeTrend], areaChart);
-	    });
+  d3.json(
+    "/growth/users/rest/registrations/frequency",
+    function(responseData) {
+  	  compositeDataSeries = formatData(responseData);
+  	  cumulativeTrend = compositeDataSeries[0];
+      visualise([cumulativeTrend], areaChart);
+  	});
 }
 
 load();

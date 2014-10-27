@@ -1,60 +1,50 @@
-from django.test import TestCase
-
-from requests import Response
-import requests
 import json
+
+from django.test import TestCase
+import httpretty
+import requests
+
+
+daily_accumulated_users = [
+    {
+        "target": "Cumulative",
+        "datapoints": [
+            [0.0, 1324216800],
+            [0.0, 1324303200],
+            [2.0, 1325512800],
+            [3.0, 1325599200],
+        ]
+    },
+    {
+        "target": "Frequency",
+        "datapoints": [
+            [0.0, 1324303200],
+            [2.0, 1325512800],
+        ]
+    }
+]
 
 
 class UserStatisticsViewTest(TestCase):
 
-    daily_accumulated_users = [
-        {
-            "target": "Cumulative",
-            "datapoints": [
-                [0.0, 1324216800],
-                [0.0, 1324303200],
-                [2.0, 1325512800],
-                [3.0, 1325599200],
-            ]
-        },
-        {
-            "target": "Frequency",
-            "datapoints": [
-                [0.0, 1324303200],
-                [2.0, 1325512800],
-            ]
-        }
-    ]
-
-    @staticmethod
-    def dummy_get(url, **kwargs):
-        response = Response()
-        response.status_code = 200
-        response._content = json.dumps(
-            UserStatisticsViewTest.daily_accumulated_users)
-        return response
-
     # Web pages
 
-    def test_page_index(self):
+    def test_user_registrations_page(self):
         response = self.client.get(
-            "/user_statistics/")
-        self.assertEqual(200, response.status_code)
-
-    def test_page_visualisation(self):
-        response = self.client.get(
-            "/user_statistics/registrations/visualisation")
+            "/growth/users/")
         self.assertEqual(200, response.status_code)
 
     # Web services with JSON pay loads.
 
+    @httpretty.activate
     def test_rest_for_frequency(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://graphite.dev.rc.nectar.org.au/render/',
+            body=json.dumps(daily_accumulated_users),
+            content_type="application/json")
 
-        saved_get = requests.get
-        requests.get = self.dummy_get
-        try:
-            response = self.client.get(
-                "/user_statistics/rest/registrations/frequency")
-            self.assertEqual(200, response.status_code)
-        finally:
-            requests.get = saved_get
+        response = self.client.get(
+            "/growth/users/rest/registrations/frequency")
+        assert 200 == response.status_code
+        assert json.loads(response.content) == daily_accumulated_users
