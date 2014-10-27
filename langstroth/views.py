@@ -156,8 +156,7 @@ def total_cores_per_domain(request):
         targets.extend([graphite.Target(target)
                         for target in QUERY[q_az]])
     else:
-        targets.append(graphite.Target("az.%s.domain.*.used_vcpus"))
-
+        targets.append(graphite.Target("az.%s.domain.*.used_vcpus" % q_az))
     req = graphite.get(from_date=q_from, targets=targets)
     cleaned = defaultdict(dict)
     for domain in req.json():
