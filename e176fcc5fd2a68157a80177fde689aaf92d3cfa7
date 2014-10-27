@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_a27cdf73",
+        "filename": "langstroth/static/js/crossfilter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-27T00:48:07Z",
+      "side": 1,
+      "message": "This looks cool.\nI was thinking of using the inbuilt d3 nest function as describe here:\n\u003chttp://stackoverflow.com/questions/19408296/how-can-i-sum-binned-time-series-using-d3-js\u003e",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8281e34c",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-27T00:48:07Z",
+      "side": 1,
+      "message": "The only issue I can see is that when histogram is rendered the first and last bars are clipped by the graph margins, so they are half the width of the others.",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
