@@ -87,6 +87,24 @@
       "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2220eff6",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-28T00:25:48Z",
+      "side": 1,
+      "message": "generating the ticks manually seems to work ok.  But i think we can do better.  I think that the scale is misconfigured. i had a play with \n\n x \u003d d3.time.scale();\n histoChart.xScale(x);\n\n x.domain(d3.extent(cumulativeTrend.values,\n                    function(d) { return d[1]; }));\n\n\ni think this is closer to what we should actually be using.  but we probably need to set an offset to match the size of the axis or possibly just adjust the extent to include one month previous and in the future.",
+      "parentUuid": "3afa9182_6205d7c1",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
