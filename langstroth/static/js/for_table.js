@@ -1,3 +1,4 @@
+/* -*- Mode: js; tab-width: 2; indent-tabs-mode: nil; js-indent-level: 2; -*- */
 ////// FOR Table for NeCTAR Allocations
 
 // Dependent on breadcrumbs object created in allocations_pi.js
@@ -232,8 +233,6 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
   oldRows.remove();
 
   var containerHeight = $("#table-area").height() + RADIUS * 2;
-  $("#inner-plot-container, #outer-plot-container").height(containerHeight);
-  $(document.body).trigger("sticky_kit:recalc");
 }
 
 var table = buildTable("#table-area");

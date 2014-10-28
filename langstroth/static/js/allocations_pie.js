@@ -632,9 +632,20 @@ function change() {
 
 d3.selectAll("button").on("click", change);
 
-var plotArea = $("#plot-area");
-plotArea.stick_in_parent(
-    {
-      parent: "#inner-plot-container",
-      inner_scrolling: true, offset_top:0
-    });
+$(document).ready(function(){
+    $("#plot-area")
+        .affix({
+            offset: {
+                top: function () {
+                    return $("#plot-area").parent().offset().top;
+                }
+            }
+        })
+        .on('affix.bs.affix affix-top.bs.affix affix-bottom.bs.affix',
+            function(evt){
+                if ($("#table-area").height() < $("#plot-area").height()){
+                    evt.preventDefault();
+                    $("#plot-area").removeClass("affix affix-top affix-bottom");
+                }
+            });
+});
