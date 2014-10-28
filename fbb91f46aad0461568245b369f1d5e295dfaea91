@@ -16,6 +16,24 @@
       "revId": "fbb91f46aad0461568245b369f1d5e295dfaea91",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_dd12ac57",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-28T05:36:18Z",
+      "side": 1,
+      "message": "you can still scroll down the pie chart to the table.  even if the table is long.  all this change does is make the pie chart the size of a pie chart, instead of the size of the table.  \n\nwhen the pie chart has a height more than double it\u0027s size, the user is forced to scroll down over white space to find the table.\n\nWhat is the exact behaviour that they requested.  When exactly is the pie chart supposed to be visible?  Can you take a screenshot to demonstrate the invalid behaviour.",
+      "parentUuid": "3afa9182_9d09442f",
+      "revId": "fbb91f46aad0461568245b369f1d5e295dfaea91",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
