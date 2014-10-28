@@ -6,32 +6,8 @@ ul.breadcrumb {
     margin-top:20px;
 }
 
-.bottom-buffer {
-    margin-bottom:100px;
-}
-
-.chart-footer {
-    background-color: #eee;
-    border-radius: 4px;
-    display: block;
-    list-style-type: disc;
-    -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    -webkit-padding-start: 40px;
-}
-
 .navigation-area {
     background-color: #eee;
-}
-
-.plot-alignment {
-    text-align: center;
-}
-
-.table-alignment {
-    text-align: center;
 }
 
 table.for-projects caption {
@@ -65,5 +41,18 @@ table.for-projects caption {
 }
 
 .row-click {
-    cursor: pointer; cursor: hand;
+    cursor: pointer;
+}
+
+#plot-area.affix {
+    position: fixed;
+    top: 0;
+}
+
+@media(max-width:767px){
+   #plot-area.affix {
+     position: static;
+     width: auto;
+     top: 0;
+    }
 }
