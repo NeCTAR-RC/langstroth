@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_9d09442f",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-28T05:26:59Z",
+      "side": 1,
+      "message": "This change breaks the behaviour desired by Nigel and Glenn.\n\nThe scrolling behaviour as implemented was intended to ensure that the pie chart remained visible even if the table was long and the user had to scroll down to see lower table entries.",
+      "revId": "fbb91f46aad0461568245b369f1d5e295dfaea91",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
