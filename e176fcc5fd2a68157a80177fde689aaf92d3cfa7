@@ -105,6 +105,24 @@
       "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_42653b44",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-28T01:05:08Z",
+      "side": 1,
+      "message": "My instincts would be to go with the domain adjustment.",
+      "parentUuid": "3afa9182_2220eff6",
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
