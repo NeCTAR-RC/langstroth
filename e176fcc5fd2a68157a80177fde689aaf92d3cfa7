@@ -123,6 +123,29 @@
       "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_22e58fa8",
+        "filename": "langstroth/static/js/user_statistics_nv.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-28T01:40:46Z",
+      "side": 1,
+      "message": "the indentation here is broken, but i won\u0027t be able to fix it until we either merge or reject https://review.rc.nectar.org.au/#/c/1905/",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 1
+      },
+      "revId": "e176fcc5fd2a68157a80177fde689aaf92d3cfa7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
