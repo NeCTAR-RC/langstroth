@@ -7,32 +7,28 @@
 
 {% block content %}
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div id="graph-buttons" class="btn-group">
         <button id="cores" type="button" class="btn btn-default active">Cores</button>
         <button id="instances" type="button" class="btn btn-default">Instances</button>
         </div>
       </div>
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-2">
+      <div class="col-md-2 col-md-offset-3">
         <h4><div id="statistics-area" class="label label-default"></div></h4>
       </div>
-      <div class="col-md-5">
-      </div>
     </div>
-    <div class="row top-buffer"  id="chart-navigator-1">
+    <div class="row top-buffer" id="chart-navigator-1">
       <div class="col-md-12">
         <ul class="breadcrumb"></ul>
       </div>
     </div>
     <div class="row">
-      <div  class="col-md-6"   id="outer-plot-container" style="height:0px">
-        <div  id="inner-plot-container" style="height:0px">
+      <div class="col-md-6 col-xs-12" id="outer-plot-container" style="height:0px">
+        <div id="inner-plot-container" style="height:0px">
           <div id="plot-area" class="plot-alignment"></div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-xs-12">
         <div id="table-area" class="table-alignment"></div>
       </div>
     </div>

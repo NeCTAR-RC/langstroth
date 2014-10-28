@@ -232,7 +232,6 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
   oldRows.remove();
 
   var containerHeight = $("#table-area").height() + RADIUS * 2;
-  $("#inner-plot-container, #outer-plot-container").height(containerHeight);
   $(document.body).trigger("sticky_kit:recalc");
 }
 

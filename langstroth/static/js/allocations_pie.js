@@ -179,6 +179,8 @@ var plotGroup = d3.select("#plot-area").append("svg")
       .append("g")
       .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
 
+$("#inner-plot-container, #outer-plot-container").height(HEIGHT);
+
 //---- Define the plot layout and plotting algorithm - a pie chart.
 
 var pie = d3.layout.pie()
