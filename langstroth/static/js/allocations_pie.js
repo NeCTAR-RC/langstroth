@@ -2,12 +2,11 @@
 
 // Depends on code in breadcrumbs.js
 var breadcrumbs = new Breadcrumbs();
+var colourPalette = new ColourPalette();
 
 
 //==== Data manipulation
 
-var colorPalette = d3.scale.category20();
-var paletteStack = [colorPalette];
 var allocationTree = {};
 var forTitleMap = {};
 
@@ -108,11 +107,6 @@ String.prototype.makeWrappable = function() {
   var regex = new RegExp("_", "g");
   labelStr = labelStr.replace(regex, " ");
   return labelStr;
-};
-
-// Array return top-of-stack method.
-Array.prototype.tos = function() {
-  return this[this.length - 1];
 };
 
 //==== Data visualisation
@@ -233,12 +227,7 @@ function zoomIn(data) {
     var totalResource = d3.sum(dataset, function (d) {
       return d.value;
     });
-    var currentPalette = paletteStack.tos();
-    var currentColour = currentPalette(data.colourIndex);
-    var newPalette = d3.scale.linear()
-          .domain([0, dataset.length + 10])
-          .range([currentColour, "white"]);
-    paletteStack.push(newPalette);
+    colourPalette.push(data.colourIndex, dataset.length);
     visualise(dataset, totalResource);
     tabulateAllocations(table, dataset, totalResource, isCoreQuota);
   } else {
@@ -268,8 +257,7 @@ function zoomOut(p) {
     var totalResource = d3.sum(dataset, function (d) {
       return d.value;
     });
-    // Restore original palette.
-    paletteStack.pop();
+    colourPalette.pop();
     // Display pie chart and table.
     visualise(dataset, totalResource);
     tabulateAllocations(table, dataset, totalResource, isCoreQuota);
@@ -408,7 +396,7 @@ function visualise( dataset, totalResource ) {
 
   slices.select('path')
     .attr("fill", function (d, i) {
-      return paletteStack.tos()(d.data.colourIndex);
+      return colourPalette.getColour(d.data.colourIndex);
     })
     .transition()
     .duration(DURATION)
@@ -426,7 +414,7 @@ function visualise( dataset, totalResource ) {
     .attr("class", 'plot-slice')
     .attr("id", function(d, i) { return 'segment-' + i; })
     .attr("fill", function (d, i) {
-      return paletteStack.tos()(d.data.colourIndex);
+      return colourPalette.getColour(d.data.colourIndex);
     })
     .style('stroke', UNHILITE_SEGMENT_COLOUR)
     .style('stroke-width', UNHILITE_SEGMENT_WIDTH)
@@ -545,13 +533,12 @@ function visualise( dataset, totalResource ) {
         return d.value;
       });
       // Restore original palette.
-      paletteStack = paletteStack.slice(0, i + 1);
+      colourPalette.popToLevel(i + 1);
       visualise(dataset, totalResource);
       tabulateAllocations(table, dataset, totalResource, isCoreQuota);
 
   });
 }
-
 
 //---- Plotting and Animation Utilities
 
