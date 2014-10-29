@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_5d74fc9b",
+        "filename": "langstroth/static/js/for_table.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T00:25:33Z",
+      "side": 1,
+      "message": "This can be removed too?",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 21
+      },
+      "revId": "eb6c9e8892f66d9699f394fabf7fd6fa493f76b0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3d793094",
+        "filename": "langstroth/templates/base.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T00:25:33Z",
+      "side": 1,
+      "message": "This was changed in an earlier commit. Needs a rebase?",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 40
+      },
+      "revId": "eb6c9e8892f66d9699f394fabf7fd6fa493f76b0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
