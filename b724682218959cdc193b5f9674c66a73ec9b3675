@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_1d4b945a",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T00:15:47Z",
+      "side": 1,
+      "message": "Where is this file?",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "b724682218959cdc193b5f9674c66a73ec9b3675",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
