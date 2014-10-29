@@ -93,6 +93,30 @@
       "revId": "eb6c9e8892f66d9699f394fabf7fd6fa493f76b0",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3dee5023",
+        "filename": "langstroth/templates/base.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T01:10:05Z",
+      "side": 1,
+      "message": "Ah, yes. My bad.",
+      "parentUuid": "3afa9182_dd674ce9",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 40
+      },
+      "revId": "eb6c9e8892f66d9699f394fabf7fd6fa493f76b0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
