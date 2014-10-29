@@ -128,7 +128,7 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
 
   rows.select("td.col0")
     .style("background-color", function (d, i) {
-      return paletteStack.tos()(d.colourIndex);
+      return colourPalette.getColour(d.colourIndex);
     })
     .text(function(row) {
       return breadcrumbs.isForCodeLevel() ? row.target
@@ -179,7 +179,7 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     .attr("class", "col0")
     .style("min-width", "20px")
     .style("background-color", function (d, i) {
-      return paletteStack.tos()(d.colourIndex);
+      return colourPalette.getColour(d.colourIndex);
     })
     .style("color", "white")
     .text(function(row) {
