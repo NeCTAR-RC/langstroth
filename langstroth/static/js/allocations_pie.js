@@ -1,93 +1,14 @@
 ////// Hierarchical Pie Plot of NeCTAR Allocations
 
-// Depends on code in breadcrumbs.js
+// Depends on code in breadcrumbs.js, colour_palette.js
+// and allocations.js
 var breadcrumbs = new Breadcrumbs();
 var colourPalette = new ColourPalette();
-
+var allocations = new Allocations();
 
 //==== Data manipulation
 
-var allocationTree = {};
 var forTitleMap = {};
-
-// Recursive code to return allocation tree branch (children)
-// addressed by FOR code.
-// The forCode is the FOR2, FOR4 or FOR6 code.
-// The allocationObjects is the allocationTree object being passed in.
-function traverseHierarchy(route, allocationTree) {
-  var children = allocationTree;
-  var forCodes = route;
-  return nextLevel(forCodes, children);
-}
-
-// Recurse the allocation tree to return a branch.
-function nextLevel(forCodes, children) {
-  var forCode = forCodes.pop();
-  if (forCode) {
-    var childCount = children.length;
-    for (var childIndex = 0; childIndex < childCount; childIndex++) {
-      var child = children[childIndex];
-      var name = child.name;
-      if (name == forCode) {
-        return nextLevel(forCodes, child.children);
-      }
-    }
-  }
-  return children;
-}
-
-// Restructure allocation tree into a single level array of objects.
-// The tree is flattened by taking the sum of all allocations on the branch.
-function restructureAllocations(allocationTree, isCoreQuota) {
-  var colourIndex = 0;
-  var dataset = [];
-  var allocationCount = allocationTree.length;
-  for (var allocationIndex = 0;
-    allocationIndex < allocationCount;
-    allocationIndex++) {
-    var sum = 0.0;
-    var child = allocationTree[allocationIndex];
-    var name = child.name;
-    var allocationItem = {};
-    if (child.children) {
-      // add the branch value.
-      sum = nextLevelSum(child.children, isCoreQuota);
-    } else {
-      // add the leaf value.
-      allocationItem.id = child.id;
-      allocationItem.projectName = child.name;
-      allocationItem.institutionName = child.institution;
-      allocationItem.coreQuota = child.coreQuota;
-      allocationItem.instanceQuota = child.instanceQuota;
-      sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
-    }
-    allocationItem.target = name;
-    allocationItem.value = sum;
-    dataset.push(allocationItem);
-  }
-  dataset.sort(function(a, b){return b.value - a.value; });
-  var recordCount = dataset.length;
-  for (var recordIndex = 0; recordIndex < recordCount; recordIndex++) {
-    dataset[recordIndex].colourIndex = colourIndex++;
-  }
-  return dataset;
-}
-
-// Recurse the allocation tree to return a sum.
-function nextLevelSum(children, isCoreQuota) {
-  var sum = 0.0;
-  var childCount = children.length;
-  for (var childIndex = 0; childIndex < childCount; childIndex++) {
-    var child = children[childIndex];
-    if (child.children) {
-      sum += nextLevelSum(child.children, isCoreQuota);
-    } else {
-      sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
-    }
-  }
-  return sum;
-}
-
 
 //==== String utilities
 
@@ -220,10 +141,9 @@ var totalText = statisticsArea.append("text")
 function zoomIn(data) {
   if (breadcrumbs.isForCodeLevel()) {
     var forCode = data.target;
-    var children = traverseHierarchy(
-        breadcrumbs.routeIn(forCode), allocationTree);
     var isCoreQuota = selectedCoreQuota();
-    var dataset = restructureAllocations(children, isCoreQuota);
+    var dataset = allocations.dataset(breadcrumbs.routeIn(forCode),
+                    isCoreQuota);
     var totalResource = d3.sum(dataset, function (d) {
       return d.value;
     });
@@ -231,7 +151,7 @@ function zoomIn(data) {
     visualise(dataset, totalResource);
     tabulateAllocations(table, dataset, totalResource, isCoreQuota);
   } else {
-    // Instead of zooming plot navigate to another page.
+    // Instead of zooming the plot, navigate to another page.
     window.location.href = '/allocations/applications/' +
       data.id + '/approved';
   }
@@ -251,9 +171,8 @@ function zoomInPie(p, i) {
 
 function zoomOut(p) {
   if (!breadcrumbs.isHome()) {
-    var children = traverseHierarchy(breadcrumbs.routeOut(), allocationTree);
     var isCoreQuota = selectedCoreQuota();
-    var dataset = restructureAllocations(children, isCoreQuota);
+    var dataset = allocations.dataset(breadcrumbs.routeOut(), isCoreQuota);
     var totalResource = d3.sum(dataset, function (d) {
       return d.value;
     });
@@ -526,9 +445,8 @@ function visualise( dataset, totalResource ) {
   //----- Build and display breadcrumbs
 
   breadcrumbs.navigate(function(route, i) {
-      var children = traverseHierarchy(route, allocationTree);
       var isCoreQuota = selectedCoreQuota();
-      var dataset = restructureAllocations(children, isCoreQuota);
+      var dataset = allocations.dataset(route, isCoreQuota);
       var totalResource = d3.sum(dataset, function (d) {
         return d.value;
       });
@@ -574,9 +492,9 @@ function selectedCoreQuota() {
   return isCoreQuota;
 }
 
-function processResponse(allocationTree, resource) {
+function processResponse(route, resource) {
   var isCoreQuota = selectedCoreQuota();
-  var dataset = restructureAllocations(allocationTree, isCoreQuota);
+  var dataset = allocations.dataset(route, isCoreQuota);
   var sum = d3.sum(dataset, function (d) {
     return d.value;
   });
@@ -592,11 +510,11 @@ function load() {
         "/allocations/rest/applications/approved/tree",
         function(error, allocationObjects) {
         forTitleMap = forObjects;
-        allocationTree = allocationObjects.children;
-        var isCoreQuota = selectedCoreQuota();
+        allocations = new Allocations(allocationObjects.children);
         var resource = {};
-        var dataset = processResponse(allocationTree, resource);
+        var dataset = processResponse(null, resource);
         visualise(dataset, resource.total);
+        var isCoreQuota = selectedCoreQuota();
         tabulateAllocations(table, dataset, resource.total, isCoreQuota);
     });
   });
@@ -609,11 +527,10 @@ load();
 function change() {
   $('#graph-buttons button').removeClass('active');
   $(this).addClass('active');
-  var children = traverseHierarchy(breadcrumbs.route(), allocationTree);
-  var isCoreQuota = selectedCoreQuota();
   var resource = {};
-  var dataset = processResponse(children, resource);
+  var dataset = processResponse(breadcrumbs.route(), resource);
   visualise(dataset, resource.total);
+  var isCoreQuota = selectedCoreQuota();
   tabulateAllocations(table, dataset, resource.total, isCoreQuota);
 }
 
