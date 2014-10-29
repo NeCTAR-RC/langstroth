@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_cb3035eb",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-29T22:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_eb1c116d",
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_6b09412c",
         "filename": "langstroth/static/js/colour_palette.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 7,
         "endChar": 19
       },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_2b4d7973",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-29T22:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_6b09412c",
       "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_0b523d13",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-29T22:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_4b0e0536",
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_ab120956",
         "filename": "langstroth/static/js/colour_palette.js",
         "patchSetId": 1
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_6b578103",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-29T22:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_ab120956",
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_8b0f4d2e",
         "filename": "langstroth/static/js/colour_palette.js",
         "patchSetId": 1
@@ -111,6 +183,24 @@
         "endLine": 49,
         "endChar": 31
       },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_4b5c4526",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-10-29T22:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_8b0f4d2e",
       "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
