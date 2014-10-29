@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_eb1c116d",
+        "filename": "langstroth/static/js/allocations_pie.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T09:08:36Z",
+      "side": 1,
+      "message": "Since current() is always used this way why not improve the interface:\n\n    colourPalette.getColour(d.data.colourIndex)",
+      "range": {
+        "startLine": 417,
+        "startChar": 27,
+        "endLine": 417,
+        "endChar": 37
+      },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_6b09412c",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T09:08:36Z",
+      "side": 1,
+      "message": "This looks redundant now that the palette has a current() function.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_4b0e0536",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T09:08:36Z",
+      "side": 1,
+      "message": "Can we keep the push/pop semantics here? Calling these nextIn/nextOut it isn\u0027t clear to me what this function does.",
+      "range": {
+        "startLine": 29,
+        "startChar": 24,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_ab120956",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T09:08:36Z",
+      "side": 1,
+      "message": "No parameters needed here.",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_8b0f4d2e",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-29T09:08:36Z",
+      "side": 1,
+      "message": "setLevel or popToLevel?",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "669f7abed3fb75dfe33346e3b52e219344170d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
