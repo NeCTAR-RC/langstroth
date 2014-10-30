@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_2b5e19ea",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-30T03:29:58Z",
+      "side": 1,
+      "message": "this indentation is in tabs, it should be spaces like the rest of the file",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "27faa05453050f137b095a76006bae5e6f0541a8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_6b5821fb",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-30T03:29:58Z",
+      "side": 1,
+      "message": "this indentation is 2 spaces, but the rest of the file is 4 spaces.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 2
+      },
+      "revId": "27faa05453050f137b095a76006bae5e6f0541a8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_0b635db2",
+        "filename": "langstroth/static/js/colour_palette.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-30T03:29:58Z",
+      "side": 1,
+      "message": "this indentation is wonky",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "27faa05453050f137b095a76006bae5e6f0541a8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
