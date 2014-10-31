@@ -141,15 +141,13 @@ var totalText = statisticsArea.append("text")
 function zoomIn(data) {
   if (breadcrumbs.isForCodeLevel()) {
     var forCode = data.target;
-    var isCoreQuota = selectedCoreQuota();
-    var dataset = allocations.dataset(breadcrumbs.routeIn(forCode),
-                    isCoreQuota);
-    var totalResource = d3.sum(dataset, function (d) {
-      return d.value;
-    });
+    var route = breadcrumbs.routeIn(forCode);
+    var resource = {};
+    var dataset = processResponse(route, resource);
     colourPalette.push(data.colourIndex, dataset.length);
-    visualise(dataset, totalResource);
-    tabulateAllocations(table, dataset, totalResource, isCoreQuota);
+    visualise(dataset, resource.total);
+    var isCoreQuota = selectedCoreQuota();
+    tabulateAllocations(table, dataset, resource.total, isCoreQuota);
   } else {
     // Instead of zooming the plot, navigate to another page.
     window.location.href = '/allocations/applications/' +
@@ -171,15 +169,14 @@ function zoomInPie(p, i) {
 
 function zoomOut(p) {
   if (!breadcrumbs.isHome()) {
-    var isCoreQuota = selectedCoreQuota();
-    var dataset = allocations.dataset(breadcrumbs.routeOut(), isCoreQuota);
-    var totalResource = d3.sum(dataset, function (d) {
-      return d.value;
-    });
+	var route = breadcrumbs.routeOut();
+    var resource = {};
+    var dataset = processResponse(route, resource);
     colourPalette.pop();
     // Display pie chart and table.
-    visualise(dataset, totalResource);
-    tabulateAllocations(table, dataset, totalResource, isCoreQuota);
+    visualise(dataset, resource.total);
+    var isCoreQuota = selectedCoreQuota();
+    tabulateAllocations(table, dataset, resource.total, isCoreQuota);
   }
 }
 
@@ -445,16 +442,9 @@ function visualise( dataset, totalResource ) {
   //----- Build and display breadcrumbs
 
   breadcrumbs.navigate(function(route, i) {
-      var isCoreQuota = selectedCoreQuota();
-      var dataset = allocations.dataset(route, isCoreQuota);
-      var totalResource = d3.sum(dataset, function (d) {
-        return d.value;
-      });
       // Restore original palette.
       colourPalette.popToLevel(i + 1);
-      visualise(dataset, totalResource);
-      tabulateAllocations(table, dataset, totalResource, isCoreQuota);
-
+      refreshPlotAndTable(route)
   });
 }
 
@@ -502,6 +492,41 @@ function processResponse(route, resource) {
   return dataset;
 }
 
+function refreshPlotAndTable(route) {
+    var resource = {};
+    var dataset = processResponse(route, resource);
+    visualise(dataset, resource.total);
+    var isCoreQuota = selectedCoreQuota();
+    tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+}
+
+function populatePalette(route) {
+    colourPalette.reset();
+    if (route.length > 0) {
+        var isCoreQuota = selectedCoreQuota();
+    	var reversedPath = [];
+    	var forPath = route.concat();
+    	var partialPath = [];
+    	var levelCount = route.length;
+    	for(var levelIndex = 0; levelIndex < levelCount; levelIndex++) {
+    		var forCode = forPath.pop();
+    	    var dataset = allocations.dataset(partialPath, isCoreQuota);
+    	    var dataCount = dataset.length;
+    	    var foundColourIndex = -1;
+    	    for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
+    	    	var data = dataset[dataIndex];
+    	    	if (data.target == forCode) {
+    	    		foundColourIndex = dataIndex;
+    	    		break;
+    	    	}
+    	    }
+    	    colourPalette.push(foundColourIndex, dataCount);
+    		reversedPath.push(forCode);
+    		partialPath = reversedPath.concat().reverse();
+    	}
+    }
+}
+
 //---- Data Loading.
 
 function load() {
@@ -511,11 +536,14 @@ function load() {
         function(error, allocationObjects) {
         forTitleMap = forObjects;
         allocations = new Allocations(allocationObjects.children);
-        var resource = {};
-        var dataset = processResponse(null, resource);
-        visualise(dataset, resource.total);
-        var isCoreQuota = selectedCoreQuota();
-        tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+        refreshPlotAndTable(null);
+        var pathExtension = window.location.hash;
+        if (pathExtension) {
+        	var route = allocations.parseForPath(pathExtension);
+    		breadcrumbs.setRoute(route);
+    		populatePalette(route);
+            refreshPlotAndTable(route);
+        }
     });
   });
 }
@@ -527,11 +555,7 @@ load();
 function change() {
   $('#graph-buttons button').removeClass('active');
   $(this).addClass('active');
-  var resource = {};
-  var dataset = processResponse(breadcrumbs.route(), resource);
-  visualise(dataset, resource.total);
-  var isCoreQuota = selectedCoreQuota();
-  tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+  refreshPlotAndTable(breadcrumbs.route());
 }
 
 d3.selectAll("button").on("click", change);
