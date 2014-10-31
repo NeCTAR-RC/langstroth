@@ -1,5 +1,11 @@
 ////// Project Details Page for NeCTAR Allocations
 
+// Depends on code in breadcrumbs.js
+var breadcrumbs = new Breadcrumbs();
+var allocations = new Allocations();
+
+var forTitleMap = {};
+
 //==== Details Table
 
 var headings = {
@@ -141,6 +147,24 @@ function projectDetails() {
       instanceUsage = [projectSummary.instances, projectSummary.instance_quota - projectSummary.instances];
       graphQuota("#instance-pie-chart","instances", instanceUsage);
       $("#instance-label").html("Used&nbsp;" + projectSummary.instances + "&nbsp;of&nbsp;" + projectSummary.instance_quota);
+
+      forTitleMap = forTranslation;
+      var pathExtension = window.location.hash;
+      if (pathExtension) {
+        var route = allocations.parseForPath(pathExtension);
+        route.unshift(projectName);
+        breadcrumbs.setRoute(route);
+        breadcrumbs.navigate(function(route, i) {
+          var urlExtension = "";
+          if (route.length > 0) {
+              var forCode = route[0];
+              var padding = ZERO_PADDING[i - forCode.length / 2];
+              urlExtension = '#/FOR/' + forCode + padding;
+          }
+          var destinationUrl = '/allocations/applications/approved/visualisation' + urlExtension;
+          window.location.href = destinationUrl;
+        });
+      }
     });
   });
 }

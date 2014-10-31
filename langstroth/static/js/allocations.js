@@ -88,7 +88,8 @@ Allocations.prototype.dataset = function(route, isCoreQuota) {
   return this.restructureAllocations(tree, isCoreQuota);
 };
 
-Allocations.prototype.assemblePath = function(forCodeComponents, codeCount) {
+Allocations.prototype.assemblePathWithoutZeros
+  = function(forCodeComponents, codeCount) {
   var forCodePath = [];
   var isZeroPadding = false;
   var forCode = forCodeComponents[0];
@@ -105,6 +106,16 @@ Allocations.prototype.assemblePath = function(forCodeComponents, codeCount) {
   return forCodePath;
 };
 
+Allocations.prototype.tokenise = function(forTarget, codeCount) {
+  var forCodeComponents = [];
+  for (var codeIndex = 0; codeIndex < codeCount; codeIndex++) {
+    var firstIndex = codeIndex * 2;
+    var forCodeComponent = forTarget.substr(firstIndex, 2);
+    forCodeComponents.push(forCodeComponent);
+  }
+  return forCodeComponents;
+};
+
 // FOR code parameter strings are interpreted as a 1,2 or 3 element path.
 // 00 components cause path extensions.
 // E.g. 053725 becomes /05/0537/053725
@@ -119,13 +130,8 @@ Allocations.prototype.parseForPath = function(pathExtension) {
     var forTarget = command.substring(FOR_COMMAND.length);
     var codeCount = forTarget.length / 2;
     if (codeCount == 1 || codeCount == 2 || codeCount == 3) {
-      var forCodeComponents = [];
-      for (var codeIndex = 0; codeIndex < codeCount; codeIndex++) {
-        var firstIndex = codeIndex * 2;
-        var forCodeComponent = forTarget.substr(firstIndex, 2);
-        forCodeComponents.push(forCodeComponent);
-      }
-      forCodePath = this.assemblePath(forCodeComponents, codeCount);
+      var forCodeComponents = this.tokenise(forTarget, codeCount);
+      forCodePath = this.assemblePathWithoutZeros(forCodeComponents, codeCount);
     }
   }
   return forCodePath.reverse();
