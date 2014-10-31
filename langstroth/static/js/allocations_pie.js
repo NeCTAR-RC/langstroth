@@ -150,8 +150,9 @@ function zoomIn(data) {
     tabulateAllocations(table, dataset, resource.total, isCoreQuota);
   } else {
     // Instead of zooming the plot, navigate to another page.
+    var urlExtension = '#/FOR/' + breadcrumbs.getZeroPaddedForCode()
     window.location.href = '/allocations/applications/' +
-      data.id + '/approved';
+      data.id + '/approved' + urlExtension;
   }
 }
 

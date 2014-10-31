@@ -49,6 +49,9 @@
 
 {% block extra_script %}
   <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
-  <script>allocationId = {{ allocation_request_id }}</script>
+  <script>allocationId = {{ allocation_request_id }};</script>
+  <script>projectName = "{{ title }}";</script>
+  <script src="{{ STATIC_URL }}js/breadcrumbs.js"></script>
+  <script src="{{ STATIC_URL }}js/allocations.js"></script>
   <script src="{{ STATIC_URL }}js/project_details.js"></script>
 {% endblock %}
