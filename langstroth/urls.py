@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from langstroth import error
+from nectar_allocations.sitemap import AllocationsSitemap
 
 urlpatterns = patterns(
     '',
@@ -20,6 +21,12 @@ urlpatterns = patterns(
 
     # Allocations Browser
     url(r'^allocations/', include('nectar_allocations.urls')),
+
+    # Sitemap
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': {
+            'allocations': AllocationsSitemap,
+        }}),
 )
 
 handler500 = error.handler500
