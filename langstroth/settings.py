@@ -20,6 +20,7 @@
 import os
 import logging
 from .defaults import *  # NOQA
+from django.contrib.sites.models import Site
 
 
 # Fixes "No handlers could be found for logger"
@@ -32,4 +33,17 @@ if os.path.exists(CUSTOM_SETTINGS_PATH):
     exec(open(CUSTOM_SETTINGS_PATH, "rb").read())
 else:
     message = "Missing custom settings file: %s" % CUSTOM_SETTINGS_PATH
+    LOG.warn(message)
+
+if SITE_DOMAIN == "":
+    message = ("Define SITE_DOMAIN in the settings file. " +
+               "Currently SITE_DOMAIN = %s" +
+               "This is needed for the sitemap consistency check. ") \
+        % SITE_DOMAIN
+    LOG.warn(message)
+
+current_site = Site.objects.get_current()
+if SITE_DOMAIN != current_site.domain:
+    message = "Missing sites definition. " + \
+        "This is needed to generate a valid sitemap. "
     LOG.warn(message)
