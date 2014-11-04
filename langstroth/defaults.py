@@ -4,6 +4,12 @@ from os import path
 
 from user_statistics.settings import *  # NOQA
 
+# Define this in the actual setting file
+# AND in the domain field of the sites database table.
+# It's used by a consistency check to ensure that siteemap.xml
+# has the correct domain for all its page URL entries.
+SITE_DOMAIN = ""
+
 # Override this to TEST_MODE = False for the production settings file.
 # It's True here so we can populate the database with reference data.
 TEST_MODE = True
@@ -185,6 +191,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'langstroth',
     'nectar_status',
     'nectar_allocations',
