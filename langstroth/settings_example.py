@@ -1,4 +1,6 @@
 
+SITE_DOMAIN = "status.rc.nectar.edu.au"
+
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
