@@ -47,3 +47,12 @@ class AllocationViewTest(TestCase):
         response = self.client.get(
             "/allocations/rest/applications/1654/history")
         self.assertEqual(200, response.status_code)
+
+    # Site map.
+
+    def test_sitemap(self):
+        response = self.client.get(
+            "/sitemap.xml")
+        self.assertContains(
+            response,
+            'http://example.com/allocations/applications', 2, 200)

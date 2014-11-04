@@ -67,7 +67,7 @@ class AllocationRequest(models.Model):
     parent_request = models.ForeignKey('self', null=True)
 
     def __unicode__(self):
-        return self.project_name + '(' + self.id + ')'
+        return self.project_name + '(' + str(self.id) + ')'
 
     class Meta:
         ordering = ["project_name"]
