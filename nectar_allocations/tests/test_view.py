@@ -1,5 +1,24 @@
 from django.test import TestCase
 
+import httpretty
+import json
+
+
+usage_statistics = [
+    {
+        "target": "core_count",
+        "datapoints": [
+            [20.0, 1324216800],
+        ]
+    },
+    {
+        "target": "instance_count",
+        "datapoints": [
+            [10.0, 1324303200],
+        ]
+    }
+]
+
 
 class AllocationViewTest(TestCase):
 
@@ -38,10 +57,32 @@ class AllocationViewTest(TestCase):
         response = self.client.get("/allocations/rest/for_codes")
         self.assertEqual(200, response.status_code)
 
+    @httpretty.activate
     def test_rest_for_project_from_allocation_request_id(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://graphite.dev.rc.nectar.org.au/render/',
+            body=json.dumps(usage_statistics),
+            content_type="application/json")
+
         response = self.client.get(
             "/allocations/rest/applications/1654/approved")
         self.assertEqual(200, response.status_code)
+
+    @httpretty.activate
+    def test_rest_project_summary_response(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://graphite.dev.rc.nectar.org.au/render/',
+            body=json.dumps(usage_statistics),
+            content_type="application/json")
+
+        response = self.client.get(
+            "/allocations/rest/applications/1654/approved")
+        result = json.loads(response.content)
+
+        assert result['used_cores'] == 20
+        assert result['used_instances'] == 10
 
     def test_rest_for_project_allocations_from_allocation_request_id(self):
         response = self.client.get(

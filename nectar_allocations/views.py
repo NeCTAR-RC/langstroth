@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from nectar_allocations.models.forcode import ForCode
 from nectar_allocations.models.allocation import AllocationRequest
+from services import project_details
 
 
 # Web pages
@@ -22,6 +23,7 @@ def allocation_visualisation_page(request):
 def project_details_page(request, allocation_request_id):
     allocation_dict = AllocationRequest \
         .project_from_request_id(allocation_request_id)
+
     context = {
         "title": allocation_dict['project_name'].replace('_', ' '),
         "tagline": "",
@@ -55,6 +57,15 @@ def allocation_tree(request):
 def project_summary(request, allocation_request_id):
     allocation_dict = AllocationRequest \
         .project_from_request_id(allocation_request_id)
+
+    tenancy_id = allocation_dict['tenant_uuid']
+    usages = project_details.find_current_project_resource_usage(tenancy_id)
+    for usage in usages:
+        if usage['target'] == 'instance_count':
+            allocation_dict['used_instances'] = usage['datapoints'][0][0]
+        elif usage['target'] == 'core_count':
+            allocation_dict['used_cores'] = usage['datapoints'][0][0]
+
     json_string = dumps(allocation_dict)
     return HttpResponse(json_string, "application/json")
 

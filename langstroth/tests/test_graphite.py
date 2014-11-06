@@ -11,6 +11,18 @@ def test_target():
     assert isinstance(target, graphite.Target)
 
 
+def test_target_equals():
+    target0 = graphite.Target("test.az.something")
+    target1 = graphite.Target("test.az.something")
+    assert target0 == target1
+
+
+def test_target_not_equals():
+    target0 = graphite.Target("test.az.something0")
+    target1 = graphite.Target("test.az.something1")
+    assert target0 != target1
+
+
 def test_target_alias():
     target = graphite.Target("test.az.something").alias('name1')
     assert str(target) == 'alias(test.az.something, "name1")'
