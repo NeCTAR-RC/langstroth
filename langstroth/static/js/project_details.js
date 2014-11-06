@@ -134,13 +134,13 @@ function projectDetails() {
     d3.json("/allocations/rest/applications/" + allocationId + "/approved", function(error, projectSummary) {
       tabulateSummary("#project-summary", projectSummary, forTranslation);
 
-      var coreUsage = [projectSummary.cores, projectSummary.core_quota - projectSummary.cores];
+      var coreUsage = [projectSummary.used_cores, projectSummary.core_quota - projectSummary.used_cores];
       graphQuota("#core-pie-chart","cores", coreUsage);
-      $("#core-label").html("Used&nbsp;" + projectSummary.cores + "&nbsp;of&nbsp;" + projectSummary.core_quota);
+      $("#core-label").html("Used&nbsp;" + projectSummary.used_cores + "&nbsp;of&nbsp;" + projectSummary.core_quota);
 
-      instanceUsage = [projectSummary.instances, projectSummary.instance_quota - projectSummary.instances];
+      var instanceUsage = [projectSummary.used_instances, projectSummary.instance_quota - projectSummary.used_instances];
       graphQuota("#instance-pie-chart","instances", instanceUsage);
-      $("#instance-label").html("Used&nbsp;" + projectSummary.instances + "&nbsp;of&nbsp;" + projectSummary.instance_quota);
+      $("#instance-label").html("Used&nbsp;" + projectSummary.used_instances + "&nbsp;of&nbsp;" + projectSummary.instance_quota);
     });
   });
 }
