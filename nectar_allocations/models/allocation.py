@@ -316,6 +316,7 @@ class AllocationRequest(models.Model):
         project_record = {
             'id': request.id,
             'project_name': request.project_name,
+            'tenant_uuid': request.tenant_uuid,
             'institution': cls.institution_from_email(request.contact_email),
             'start_date': request.start_date.strftime('%Y-%m-%d'),
             'end_date': request.end_date.strftime('%Y-%m-%d'),
