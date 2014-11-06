@@ -59,6 +59,7 @@ def fill_null_datapoints(response_data):
 
 
 class Target(object):
+
     def __init__(self, target):
         self._target = target
 
@@ -76,6 +77,15 @@ class Target(object):
 
     def __str__(self):
         return self._target
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 def get(from_date=None, targets=[]):
