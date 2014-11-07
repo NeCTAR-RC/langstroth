@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_eb2ed1a4",
+        "filename": "nectar_allocations/tests/test_view.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:08:59Z",
+      "side": 1,
+      "message": "if this doesn\u0027t assert any real values then it\u0027s a pretty weak test.  basically your just checking that there is A view. who knows what is actually returned.",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 51
+      },
+      "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
