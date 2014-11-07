@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_eb57f124",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:05:57Z",
+      "side": 0,
+      "message": "this should use col-md-offset-2 instead of defining an empty div above.",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "06dc2e533b4adddadf4c35393871e89364bdcc26",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_cb54b523",
+        "filename": "user_statistics/templates/user_statistics.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:05:57Z",
+      "side": 0,
+      "message": "what is the purpose of this empty div?",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 32
+      },
+      "revId": "06dc2e533b4adddadf4c35393871e89364bdcc26",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
