@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_ab0b292a",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:22:43Z",
+      "side": 1,
+      "message": "issubclass(type(self), Target) might be more versatile as it would allow subclassing.",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 82,
+        "endChar": 37
+      },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_4b172552",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:22:43Z",
+      "side": 1,
+      "message": "why not just compare _target?",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 50
+      },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_8b08ed2e",
+        "filename": "nectar_allocations/services/project_details.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:22:43Z",
+      "side": 1,
+      "message": "i think that we should only use camel case if we are dealing with classes and class attributes.",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 12
+      },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_6b12e163",
+        "filename": "nectar_allocations/tests/test_project_details.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-07T10:22:43Z",
+      "side": 1,
+      "message": "httpretty can be used to assert query strings.  It will be clearer than using mock.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 29
+      },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
