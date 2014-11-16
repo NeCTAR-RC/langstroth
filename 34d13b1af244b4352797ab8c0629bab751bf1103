@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1af78d9a_8ec0fb7d",
+        "filename": "langstroth/fixtures/initial_data.json.disabled",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-16T22:26:59Z",
+      "side": 1,
+      "message": "is this file used anymore?",
+      "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_eb2ed1a4",
         "filename": "nectar_allocations/tests/test_view.py",
         "patchSetId": 3
