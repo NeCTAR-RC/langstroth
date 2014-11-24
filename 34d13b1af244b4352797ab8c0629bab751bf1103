@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_eeac1f8f",
+        "filename": "langstroth/fixtures/initial_data.json.disabled",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-24T04:28:49Z",
+      "side": 1,
+      "message": "Sort of.\n\nIt\u0027s meant to initialise the database with the domain info needed for site map.xml to work. Except it refused to behave as expected. Nothing was loaded into the database. \n\nI was waiting for you to come back so I could ask why doesn\u0027t this thing work as expected.\n\nIts been a couple of weeks since I looked at this so hopefully the story is accurate.",
+      "parentUuid": "1af78d9a_8ec0fb7d",
+      "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_eb2ed1a4",
         "filename": "nectar_allocations/tests/test_view.py",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 56,
         "endChar": 51
       },
+      "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_cea9637d",
+        "filename": "nectar_allocations/tests/test_view.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-24T04:28:49Z",
+      "side": 1,
+      "message": "Yes it is weak.\n\nIts testing just whether there is content associated with the URL and by implication that the code in url.py and view.py is wired up correctly.\n\nI also didn\u0027t want to write my own  test that tested DJango\u0027s site map generation. Presumably Django already has tests for that. \n\nWhat would you like to see asserted?",
+      "parentUuid": "1af78d9a_eb2ed1a4",
       "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
