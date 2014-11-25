@@ -75,6 +75,24 @@
       "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_ae01773b",
+        "filename": "nectar_allocations/tests/test_view.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-25T07:11:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_cea9637d",
+      "revId": "34d13b1af244b4352797ab8c0629bab751bf1103",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
