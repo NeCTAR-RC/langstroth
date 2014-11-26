@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_eea9bf25",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-26T02:06:01Z",
+      "side": 1,
+      "message": "Implementing equals involves a few subtleties and needs to take into account business rules that define which additional fields in the subclass need to be included in the comparison. \n\nThere are also issues around maintaining transitivity when comparing instances that may be subclasses. \n\nConsequently I don\u0027t believe a speculative implementation is worth the risk because it may introduce subtle bugs.",
+      "parentUuid": "1af78d9a_ab0b292a",
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_4b172552",
         "filename": "langstroth/graphite.py",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 83,
         "endChar": 50
       },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_cea68353",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-26T02:06:01Z",
+      "side": 1,
+      "message": "The code example I snitched was likely trying to be general enough to be added to any class as an implementation of equals without being tweaked.",
+      "parentUuid": "1af78d9a_4b172552",
       "revId": "8f29598d39814c518637c61945497db15d431397",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_2e63c71b",
+        "filename": "nectar_allocations/services/project_details.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-26T02:06:01Z",
+      "side": 1,
+      "message": "Just a java/javascript habit creeping in. Fixed!",
+      "parentUuid": "1af78d9a_8b08ed2e",
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_6b12e163",
         "filename": "nectar_allocations/tests/test_project_details.py",
         "patchSetId": 3
@@ -88,6 +142,24 @@
         "endLine": 64,
         "endChar": 29
       },
+      "revId": "8f29598d39814c518637c61945497db15d431397",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_6e6dcf04",
+        "filename": "nectar_allocations/tests/test_project_details.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-11-26T02:06:01Z",
+      "side": 1,
+      "message": "This test is an \"interaction\" test that verifies that calling find_current_project_resource_usage delegates to graphite with the correct parameters.Assumptions that http calls are being made are avoided.\n\nThis kind of test should be shallow, otherwise it takes on the character of an integration test and becomes hard to maintain.",
+      "parentUuid": "1af78d9a_6b12e163",
       "revId": "8f29598d39814c518637c61945497db15d431397",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
