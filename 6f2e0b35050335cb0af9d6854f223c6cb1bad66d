@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_91c01c7e",
+        "filename": "langstroth/views.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-11-28T00:59:39Z",
+      "side": 1,
+      "message": "these 2 need to be made into a separate element like the melbourne one on line 141.  the key name should be qld  if you wan\u0027t to rename it QCIF you can do that in the template https://github.com/NeCTAR-RC/langstroth/blob/master/langstroth/templates/domain.html#L10",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "6f2e0b35050335cb0af9d6854f223c6cb1bad66d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
