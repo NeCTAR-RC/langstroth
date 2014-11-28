@@ -86,7 +86,9 @@ INST_TARGETS = [
      "sumSeries(az.melbourne-qh2.total_instances,"
      "az.melbourne-np.total_instances)"),
     ('Monash University', "az.monash-01.total_instances"),
-    ('QCIF', "az.qld.total_instances"),
+    ('QCIF',
+     "sumSeries(az.qld.total_instances,"
+     "az.QRIScloud.total_instances)"),
     ('ERSA', "az.sa.total_instances"),
     ('NCI', "az.NCI.total_instances"),
     ('Tasmania', "az.tasmania.total_instances"),
@@ -109,7 +111,8 @@ CORES_TARGETS = [
     ('Melbourne University',
      "sumSeries(az.melbourne-qh2.used_vcpus,az.melbourne-np.used_vcpus)"),
     ('Monash University', "az.monash-01.used_vcpus"),
-    ('QCIF', "az.qld.used_vcpus"),
+    ('QCIF',
+     "sumSeries(az.qld.used_vcpus,az.QRIScloud.used_vcpus)"),
     ('ERSA', "az.sa.used_vcpus"),
     ('NCI', "az.NCI.used_vcpus"),
     ('Tasmania', "az.tasmania.used_vcpus"),
@@ -143,6 +146,7 @@ QUERY = {
             "az.NCI.domain.*.used_vcpus",
             "az.sa.domain.*.used_vcpus",
             "az.qld.domain.*.used_vcpus",
+            "az.QRIScloud.domain.*.used_vcpus",
             "az.tasmania.domain.*.used_vcpus"]
 }
 
