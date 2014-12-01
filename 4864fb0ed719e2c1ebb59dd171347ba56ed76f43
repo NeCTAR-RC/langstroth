@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_f1f080cb",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-01T00:43:04Z",
+      "side": 1,
+      "message": "there is little value in making this a variable.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_91e3fc04",
+        "filename": "nectar_allocations/sitemap.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-01T00:43:04Z",
+      "side": 1,
+      "message": "i think this should probably be monthly or even weekly.  Even though it\u0027s only a hint i wouldn\u0027t rule out there being updated in the future.",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
