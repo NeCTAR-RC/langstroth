@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_51ecf4c7",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-12-01T23:51:05Z",
+      "side": 1,
+      "message": "These log messages often change.\nSpelling mistakes are corrected, a better explanation is provided,\nthe text is wrapped, a parameter is substituted into the string and so on.\nHaving the string wrapped in the LOG.warn() call just interferes with this process.\n\nSo I have a standard way of laying out a LOG message that works every time. No need to waste brain cycles even thinking about it.",
+      "parentUuid": "1af78d9a_f1f080cb",
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_91e3fc04",
         "filename": "nectar_allocations/sitemap.py",
         "patchSetId": 7
@@ -42,6 +60,24 @@
         "endLine": 17,
         "endChar": 24
       },
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_b1d0b8f8",
+        "filename": "nectar_allocations/sitemap.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-12-01T23:51:05Z",
+      "side": 1,
+      "message": "I umm-ed and arr-ed about this originally.\n\nMy general observation is that the text in the project pages does not change past the initial application, in which case never is probably correct. \n\nI am assuming that the crawler will diff the new site map.xml with the previous one and then only crawl new pages.\n\nI have changed it to monthly.",
+      "parentUuid": "1af78d9a_91e3fc04",
       "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
