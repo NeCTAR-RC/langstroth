@@ -1,5 +1,6 @@
 import requests
 from urllib import urlencode
+from operator import itemgetter
 
 from django.conf import settings
 
@@ -36,25 +37,39 @@ def filter_null_datapoints(response_data):
     return response_data
 
 
-def _fill_nulls(data):
+def _fill_nulls(data, template):
+    data = dict([(v, k) for k, v in data])
     previous_value = 0.0
-    for point in data:
-        if point[VALUE_INDEX] is None:
-            yield [previous_value, point[TIMESTAMP_INDEX]]
+    for point in template:
+        timestamp = point[TIMESTAMP_INDEX]
+        value = point[VALUE_INDEX]
+        if timestamp in data:
+            value = data[timestamp]
+        if value is None:
+            yield [previous_value, timestamp]
         else:
-            previous_value = point[VALUE_INDEX]
-            yield point
+            previous_value = value
+            yield [value, timestamp]
 
 
 def fill_null_datapoints(response_data):
-    """Fill graphite response object with either 0.0 or the previous real
-    value that existed.
+    """Extend graphite data sets to the same length and fill in any missing
+    values with either 0.0 or the previous real value that existed.
 
     """
-
+    # Use the longest series as the template.  NVD3 requires that all
+    # the datasets have the same data points.
+    tmpl = sorted([(len(data['datapoints']), data['datapoints'])
+                   for data in response_data],
+                  key=itemgetter(0))[-1][1]
+    tmpl = [[None, t] for v, t in tmpl]
     for data_series in response_data:
         data_points = data_series['datapoints']
-        data_series['datapoints'] = list(_fill_nulls(data_points))
+        if data_series["target"] == "Pawsey":
+            print data_series
+        data_series['datapoints'] = list(_fill_nulls(data_points,
+                                                     template=tmpl))
+
     return response_data
 
 
@@ -64,7 +79,7 @@ class Target(object):
 
     def smartSummarize(self, step, aggregation='avg'):
         if step and aggregation:
-            return self.__class__('smartSummarize(%s, "%s", "%s")'
+            return self.__class__('summarize(%s, "%s", "%s")'
                                   % (self._target, step, aggregation))
         return self
 
