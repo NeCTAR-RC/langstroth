@@ -42,6 +42,21 @@ def test_target_smartSummarise():
     assert isinstance(target, graphite.Target)
 
 
+def test_target_summarise():
+    target = graphite.Target("test.az.something")
+    assert str(target.summarize('1d')) \
+        == 'summarize(test.az.something, "1d", "avg")'
+
+    assert str(target.summarize('1d', 'sum')) \
+        == 'summarize(test.az.something, "1d", "sum")'
+
+    assert str(target.summarize(None)) \
+        == 'test.az.something'
+
+    # Test chaining
+    assert isinstance(target, graphite.Target)
+
+
 @mock.patch('langstroth.graphite.requests.get')
 def test_get(mock_get):
     response = graphite.get(from_date='-1year')

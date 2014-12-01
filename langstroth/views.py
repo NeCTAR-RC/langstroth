@@ -94,6 +94,7 @@ INST_TARGETS = [
     ('ERSA', "az.sa.total_instances"),
     ('NCI', "az.NCI.total_instances"),
     ('Tasmania', "az.tasmania.total_instances"),
+    ('Pawsey', "az.pawsey-01.total_instances"),
 ]
 
 
@@ -101,7 +102,7 @@ def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).smartSummarize(q_summarise).alias(alias)
+    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
                for alias, target in INST_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
@@ -119,6 +120,7 @@ CORES_TARGETS = [
     ('ERSA', "az.sa.used_vcpus"),
     ('NCI', "az.NCI.used_vcpus"),
     ('Tasmania', "az.tasmania.used_vcpus"),
+    ('Pawsey', "az.pawsey-01.used_vcpus"),
 ]
 
 
@@ -126,7 +128,7 @@ def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).smartSummarize(q_summarise).alias(alias)
+    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
                for alias, target in CORES_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
@@ -147,6 +149,7 @@ QUERY = {
             "az.QRIScloud.domain.*.used_vcpus"],
     'monash': ["az.monash-01.domain.*.used_vcpus",
                "az.monash-02.domain.*.used_vcpus"],
+    'pawsey': ["az.pawsey-01.domain.*.used_vcpus"],
     'all': ["az.melbourne-qh2.domain.*.used_vcpus",
             "az.melbourne-np.domain.*.used_vcpus",
             "az.monash-01.domain.*.used_vcpus",
@@ -155,7 +158,8 @@ QUERY = {
             "az.sa.domain.*.used_vcpus",
             "az.qld.domain.*.used_vcpus",
             "az.QRIScloud.domain.*.used_vcpus",
-            "az.tasmania.domain.*.used_vcpus"]
+            "az.tasmania.domain.*.used_vcpus",
+            "az.pawsey-01.domain.*.used_vcpus"]
 }
 
 
