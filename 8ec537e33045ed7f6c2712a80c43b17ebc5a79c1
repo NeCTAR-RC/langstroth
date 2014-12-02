@@ -16,6 +16,24 @@
       "revId": "8ec537e33045ed7f6c2712a80c43b17ebc5a79c1",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_1130ac55",
+        "filename": "langstroth/graphite.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-02T00:15:25Z",
+      "side": 1,
+      "message": "yep, it should be.  FYI there was an alignment issue which is the reason for the change.",
+      "parentUuid": "1af78d9a_d1ee24b4",
+      "revId": "8ec537e33045ed7f6c2712a80c43b17ebc5a79c1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
