@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af78d9a_91081c2f",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-12-02T23:24:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_f14880ce",
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af78d9a_f1f080cb",
         "filename": "langstroth/settings.py",
         "patchSetId": 7
@@ -78,6 +96,24 @@
       "side": 1,
       "message": "Huh? interferes? I don\u0027t understand.\n\nFurther more it will be easier to split the line.\n\n LOG.warn(\"Site is not defined in \"\n          \"the database table django_site.\")",
       "parentUuid": "1af78d9a_51ecf4c7",
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_b10b982a",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-12-02T23:24:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af78d9a_710c9095",
       "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
