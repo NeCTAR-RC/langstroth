@@ -158,6 +158,24 @@
       "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_74091e2c",
+        "filename": "nectar_allocations/sitemap.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-03T03:47:05Z",
+      "side": 1,
+      "message": "Cool thanks!",
+      "parentUuid": "1af78d9a_b1d0b8f8",
+      "revId": "4864fb0ed719e2c1ebb59dd171347ba56ed76f43",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
