@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_14041a14",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-03T03:48:56Z",
+      "side": 1,
+      "message": "can you please make this message consistent with the one below\n\n    LOG.warn(\"Missing custom settings file: %s\" % CUSTOM_SETTINGS_PATH)",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 21
+      },
+      "revId": "c3ab34823ce16b38d835c0e0f41257005281a96b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_d102a40a",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-03T03:48:56Z",
+      "side": 1,
+      "message": "i think you missed my point.\n\nthe + symbols wouldn\u0027t bee needed because it you don\u0027t make a variable, you can \n\n if SITE_DOMAIN \u003d\u003d \"\":\n     LOG.warn(\"Define SITE_DOMAIN in the settings file. \"\n              \"Currently SITE_DOMAIN \u003d %s\"\n              \"This is needed for the sitemap consistency check. \"\n              % SITE_DOMAIN)",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "c3ab34823ce16b38d835c0e0f41257005281a96b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_34ff9603",
+        "filename": "langstroth/settings.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-03T03:48:56Z",
+      "side": 1,
+      "message": "can you please change this to\n\n        LOG.warn(\"Missing sites domain definition. \"\n                 \"This is needed to generate a valid sitemap.\")",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "c3ab34823ce16b38d835c0e0f41257005281a96b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
