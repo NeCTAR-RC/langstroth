@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_51b994e8",
+        "filename": "nectar_allocations/tests/test_project_details.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-08T03:20:48Z",
+      "side": 1,
+      "message": "date is already imported above.\n\nWrappedDate isn\u0027t needed, you can mock the function like\n\n\n     @mock.patch(\u0027nectar_allocations.services.project_details.date\u0027)\n     def test_project_details_queries_graphite(self, mock_date, mock_get, mock_response):\n         mock_date.today.return_value \u003d date(2014, 12, 1)",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 70
+      },
+      "revId": "e15dad3af9d769937c3c6d79ea7cef16eaec7563",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
