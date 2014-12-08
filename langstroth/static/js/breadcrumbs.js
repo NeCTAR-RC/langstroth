@@ -6,9 +6,18 @@ function Breadcrumbs() {
   this.breadCrumbs = ['*'];
 }
 
-// Is this the level for FOR codes or projects.
+// Set the breadcrumbs to home only.
+Breadcrumbs.prototype.clear = function () {
+  this.breadCrumbs = ['*'];
+};
+
+//Is this the level for FOR codes or projects.
 Breadcrumbs.prototype.isForCodeLevel = function () {
   return this.breadCrumbs.length < 4;
+};
+
+Breadcrumbs.prototype.setRoute = function(route) {
+  this.breadCrumbs = route.concat(['*']).reverse();
 };
 
 Breadcrumbs.prototype.route = function() {
