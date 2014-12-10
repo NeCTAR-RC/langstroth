@@ -22,6 +22,24 @@
       "revId": "e15dad3af9d769937c3c6d79ea7cef16eaec7563",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_b4f7068c",
+        "filename": "nectar_allocations/tests/test_project_details.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2014-12-10T03:30:33Z",
+      "side": 1,
+      "message": "It was written like this originally, but it did not work.\nNow it works. Beats me!\n\nDone",
+      "parentUuid": "1af78d9a_51b994e8",
+      "revId": "e15dad3af9d769937c3c6d79ea7cef16eaec7563",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
