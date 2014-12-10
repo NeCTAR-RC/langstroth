@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_df5e2b12",
+        "filename": "nectar_allocations/tests/test_project_details.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-12-10T23:58:44Z",
+      "side": 1,
+      "message": "I think you\u0027ve just reimplemented the builtin behaviour of list.__eq__ here.\n\n\n    In [3]: l1 \u003d [1,2,3,4]\n\n\n    In [4]: l2 \u003d [1,2,3,5]\n\n\n    In [5]: l1 \u003d\u003d l2\n    Out[5]: False\n\n\n    In [6]: l2 \u003d [1,2,3,4]\n\n\n    In [7]: l1 \u003d\u003d l2\n    Out[7]: True",
+      "revId": "829271541dab5380c9ebd89e277ff36f865e9bad",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
