@@ -59,3 +59,4 @@ langstroth/data/*
 *.db
 /langstroth.egg-info/
 /.tox/
+coverage.xml
