@@ -1,5 +1,5 @@
 from json import dumps
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from nectar_allocations.models.forcode import ForCode
 from nectar_allocations.models.allocation import AllocationRequest
@@ -55,9 +55,11 @@ def allocation_tree(request):
 
 
 def project_summary(request, allocation_request_id):
-    allocation_dict = AllocationRequest \
-        .project_from_request_id(allocation_request_id)
-
+    try:
+        allocation_dict = AllocationRequest \
+            .project_from_request_id(allocation_request_id)
+    except AllocationRequest.DoesNotExist:
+        raise Http404("Allocation does not Exist")
     tenancy_id = allocation_dict['tenant_uuid']
     usages = project_details.find_current_project_resource_usage(tenancy_id)
     for usage in usages:
