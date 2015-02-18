@@ -12,10 +12,3 @@ class TestRouter(object):
                 or obj2._meta.app_label == 'nectar_allocations':
             return True
         return None
-
-    def allow_syncdb(self, db, model):
-        if db == 'allocations_db':
-            return model._meta.app_label == 'nectar_allocations'
-        elif model._meta.app_label == 'nectar_allocations':
-            return False
-        return None
