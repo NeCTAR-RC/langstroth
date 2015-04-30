@@ -41,7 +41,6 @@ class AllocationRequest(models.Model):
     cores = models.IntegerField(null=False, default=1)
     core_hours = models.IntegerField(null=False, default=100)
     instances = models.IntegerField(null=False, default=1)
-    object_storage_GBs = models.IntegerField(null=False, default=0)
     use_case = models.TextField(null=False)
     usage_patterns = models.TextField(null=False)
     geographic_requirements = models.TextField(null=False)
@@ -57,10 +56,8 @@ class AllocationRequest(models.Model):
     core_quota = models.IntegerField(null=False, default=0)
     tenant_name = models.CharField(max_length=100, null=True)
     status_explanation = models.CharField(max_length=200, null=True)
-    volume_gb = models.IntegerField(null=False, default=0)
     volume_zone = models.CharField(max_length=64, null=True)
     object_storage_zone = models.CharField(max_length=64, null=True)
-    volume_quota = models.IntegerField(null=False, default=0)
     approver_email = models.CharField(max_length=75, null=True)
     modified_time = models.DateTimeField(default=timezone.now, null=False)
 
