@@ -19,6 +19,8 @@ urlpatterns = patterns(
     url(r'^growth/users/', include('user_statistics.urls')),
     url(r'^growth/instance_count$', 'langstroth.views.total_instance_count'),
     url(r'^growth/used_cores$', 'langstroth.views.total_used_cores'),
+    url(r'^capacity/(?P<ram_size>[0-9]+)$', 'langstroth.views.total_capacity', name='capacity_graph'),
+    url(r'^capacity/$', 'langstroth.views.capacity', name='capacity'),
 
     # Allocations Browser
     url(r'^allocations/', include('nectar_allocations.urls')),

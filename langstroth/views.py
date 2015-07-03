@@ -74,6 +74,16 @@ def growth(request):
     return render(request, "growth.html", context)
 
 
+def capacity(request):
+    context = {
+        "title": "Capacity",
+        "tagline": "Over the last 6 months.",
+        'ram_sizes': [768, 2048, 4096, 6144, 8192,
+                      12288, 16384, 32768, 49152, 65536]
+    }
+    return render(request, "capacity.html", context)
+
+
 def domain(request):
     context = {
         "title": "By domain",
@@ -135,6 +145,31 @@ def total_used_cores(request):
 
     req = graphite.get(from_date=q_from, targets=targets)
     data = graphite.fill_null_datapoints(req.json())
+    return HttpResponse(dumps(data), req.headers['content-type'])
+
+
+CAPACITY_TARGETS = [
+    ('Melbourne University', "cell.melbourne.capacity_%s"),
+    ('Monash University', "cell.monash.capacity_%s"),
+    ('QCIF', "cell.qld-upstart.capacity_%s"),
+    ('ERSA', "cell.sa-cw.capacity_%s"),
+    ('NCI', "cell.NCI.capacity_%s"),
+    ('Tasmania', "cell.tas.capacity_%s"),
+    ('Pawsey', "cell.pawsey-01.capacity_%s"),
+    ('Intersect', "cell.intersect-01.capacity_%s"),
+]
+
+
+def total_capacity(request, ram_size=4096):
+    q_from = request.GET.get('from', "-6months")
+    q_summarise = request.GET.get('summarise', None)
+
+    targets = [graphite.Target(target % ram_size).summarize(q_summarise).alias(alias)
+               for alias, target in CAPACITY_TARGETS]
+
+    req = graphite.get(from_date=q_from, targets=targets)
+    data = graphite.fill_null_datapoints(req.json())
+
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
