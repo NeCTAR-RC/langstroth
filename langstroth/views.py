@@ -164,8 +164,9 @@ def total_capacity(request, ram_size=4096):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target % ram_size).summarize(q_summarise).alias(alias)
-               for alias, target in CAPACITY_TARGETS]
+    targets = [graphite.Target(
+        target % ram_size).summarize(q_summarise).alias(alias)
+        for alias, target in CAPACITY_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
     data = graphite.fill_null_datapoints(req.json())
