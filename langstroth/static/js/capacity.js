@@ -76,15 +76,15 @@ graphduration =
 
   };
 
+graphduration('#1day', '5mins', '-1day', 'day.');
+graphduration('#1week', '30mins', '-7days', 'week.');
 graphduration('#1month', '1hour', '-1month', 'month.');
 graphduration('#6months','12hours', '-6months', '6 months.');
-graphduration('#1year', '1days', '-1years', 'year.');
-graphduration('#3years', '3days', '-3years', '3 years.');
 
 $('.chart').each(function (index, graph) {
   url = $(graph).data('url');
 
-  d3.json(url + '?format=json&summarise=' + '12hours' + '&from=' + '-6months', function(data) {
+  d3.json(url + '?format=json&summarise=' + '5mins' + '&from=' + '-1day', function(data) {
     nv.addGraph(function() {
       data = format_data(data);
       d3.select(graph)
