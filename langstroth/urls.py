@@ -16,6 +16,8 @@ urlpatterns = patterns(
 
     # Growth Visualisations
     url(r'^growth/infrastructure/$', 'langstroth.views.growth', name='growth'),
+    url(r'^faults/$', 'langstroth.views.faults', name='faults'),
+    url(r'^faults/instance_faults$', 'langstroth.views.total_faults'),
     url(r'^growth/users/', include('user_statistics.urls')),
     url(r'^growth/instance_count$', 'langstroth.views.total_instance_count'),
     url(r'^growth/used_cores$', 'langstroth.views.total_used_cores'),

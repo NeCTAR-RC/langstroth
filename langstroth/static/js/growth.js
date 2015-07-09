@@ -77,6 +77,8 @@ graphduration =
 
   };
 
+graphduration('#1day', '1hour', '-1day', 'day.');
+graphduration('#1week', '1hour', '-7days', 'week.');
 graphduration('#1month', '1hour', '-1months', 'month.');
 graphduration('#6months','12hours', '-6months', '6 months.');
 graphduration('#1year', '1days', '-1years', 'year.');
