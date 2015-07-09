@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div id="graph-buttons" class="btn-group pull-right">
+    <button id="3years" type="button" class="btn btn-default">3 years</button>
+    <button id="1year" type="button" class="btn btn-default">12 months</button>
+    <button id="6months" type="button" class="btn btn-default active">6 months</button>
+    <button id="1month" type="button" class="btn btn-default">1 month</button>
+    <button id="1week" type="button" class="btn btn-default">1 week</button>
+    <button id="1day" type="button" class="btn btn-default">1 day</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <h4>Total Instance Faults</h4>
+    <svg class="chart" id="instance_count" data-url="/faults/instance_faults"></svg>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link href='{{ STATIC_URL }}css/nv.d3.min.css' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+<script src="{{ STATIC_URL }}js/nv.d3.js"></script>
+<script src="{{ STATIC_URL }}js/growth.js"></script>
+{% endblock %}
