@@ -1,7 +1,7 @@
 import json
 from os import path
 
-from django.utils import unittest
+from django import test
 
 from .diff import Diff
 from nectar_allocations.models.allocation import AllocationRequest
@@ -58,7 +58,7 @@ def organise_allocations_tree(cls):
     return allocations_tree
 
 
-class AllocationTest(unittest.TestCase):
+class AllocationTest(test.TestCase):
 
     request0 = None
     request1 = None
