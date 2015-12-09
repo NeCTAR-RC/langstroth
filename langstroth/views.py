@@ -112,7 +112,9 @@ FAULTS_TARGETS = [
     ('NCI', "az.NCI.instance_faults"),
     ('Tasmania', "az.tasmania.instance_faults"),
     ('Pawsey', "az.pawsey-01.instance_faults"),
-    ('Intersect', "az.intersect-01.instance_faults"),
+    ('Intersect',
+     "sumSeries(az.intersect-01.instance_faults,"
+     "az.intersect-02.instance_faults)"),
 ]
 
 
@@ -142,7 +144,9 @@ INST_TARGETS = [
     ('NCI', "az.NCI.total_instances"),
     ('Tasmania', "az.tasmania.total_instances"),
     ('Pawsey', "az.pawsey-01.total_instances"),
-    ('Intersect', "az.intersect-01.total_instances"),
+    ('Intersect',
+     "sumSeries(az.intersect-01.total_instances,"
+     "az.intersect-02.total_instances)"),
 ]
 
 
@@ -169,7 +173,9 @@ CORES_TARGETS = [
     ('NCI', "az.NCI.used_vcpus"),
     ('Tasmania', "az.tasmania.used_vcpus"),
     ('Pawsey', "az.pawsey-01.used_vcpus"),
-    ('Intersect', "az.intersect-01.used_vcpus"),
+    ('Intersect',
+     "sumSeries(az.intersect-01.used_vcpus,"
+     "az.intersect-02.used_vcpus)"),
 ]
 
 
@@ -193,7 +199,9 @@ CAPACITY_TARGETS = [
     ('NCI', "cell.NCI.capacity_%s"),
     ('Tasmania', "cell.tas.capacity_%s"),
     ('Pawsey', "cell.pawsey-01.capacity_%s"),
-    ('Intersect', "cell.intersect-01.capacity_%s"),
+    ('Intersect',
+     "sumSeries(cell.intersect-01.capacity_%s,"
+     "cell.intersect-02.capacity_%s)"),
 ]
 
 
@@ -225,7 +233,8 @@ QUERY = {
     'monash': ["az.monash-01.domain.*.used_vcpus",
                "az.monash-02.domain.*.used_vcpus"],
     'pawsey': ["az.pawsey-01.domain.*.used_vcpus"],
-    'intersect': ["az.intersect-01.domain.*.used_vcpus"],
+    'intersect': ["az.intersect-01.domain.*.used_vcpus",
+                  "az.intersect-02.domain.*.used_vcpus"],
     'all': ["az.melbourne-qh2.domain.*.used_vcpus",
             "az.melbourne-np.domain.*.used_vcpus",
             "az.monash-01.domain.*.used_vcpus",
@@ -236,6 +245,7 @@ QUERY = {
             "az.QRIScloud.domain.*.used_vcpus",
             "az.tasmania.domain.*.used_vcpus",
             "az.intersect-01.domain.*.used_vcpus",
+            "az.intersect-02.domain.*.used_vcpus",
             "az.pawsey-01.domain.*.used_vcpus"]
 }
 
