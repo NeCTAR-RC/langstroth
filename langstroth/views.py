@@ -192,16 +192,16 @@ def total_used_cores(request):
 
 
 CAPACITY_TARGETS = [
-    ('Melbourne University', "cell.melbourne.capacity_%s"),
-    ('Monash University', "cell.monash.capacity_%s"),
-    ('QCIF', "cell.qld-upstart.capacity_%s"),
-    ('ERSA', "cell.sa-cw.capacity_%s"),
-    ('NCI', "cell.NCI.capacity_%s"),
-    ('Tasmania', "cell.tas.capacity_%s"),
-    ('Pawsey', "cell.pawsey-01.capacity_%s"),
+    ('Melbourne University', "cell.melbourne.capacity_%(ram_size)s"),
+    ('Monash University', "cell.monash.capacity_%(ram_size)s"),
+    ('QCIF', "cell.qld-upstart.capacity_%(ram_size)s"),
+    ('ERSA', "cell.sa-cw.capacity_%(ram_size)s"),
+    ('NCI', "cell.NCI.capacity_%(ram_size)s"),
+    ('Tasmania', "cell.tas.capacity_%(ram_size)s"),
+    ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
     ('Intersect',
-     "sumSeries(cell.intersect-01.capacity_%s,"
-     "cell.intersect-02.capacity_%s)"),
+     "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
+     "cell.intersect-02.capacity_%(ram_size)s)"),
 ]
 
 
@@ -210,7 +210,7 @@ def total_capacity(request, ram_size=4096):
     q_summarise = request.GET.get('summarise', None)
 
     targets = [graphite.Target(
-        target % ram_size).summarize(q_summarise).alias(alias)
+        target % {'ram_size': ram_size}).summarize(q_summarise).alias(alias)
         for alias, target in CAPACITY_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
