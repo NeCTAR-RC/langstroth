@@ -192,12 +192,22 @@ def total_used_cores(request):
 
 
 CAPACITY_TARGETS = [
-    ('Melbourne University', "cell.melbourne.capacity_%(ram_size)s"),
+    ('Melbourne University',
+     "sumSeries(cell.qh2.capacity_%(ram_size)s,"
+     "cell.np.capacity_%(ram_size)s,"
+     "cell.melbourne.capacity_%(ram_size)s)"),
+    ('Monash University',
+     "sumSeries(cell.monash-01.capacity_%(ram_size)s,"
+     "cell.monash-02.capacity_%(ram_size)s,"
+     "cell.monash.capacity_%(ram_size)s)"),
     ('Monash University', "cell.monash.capacity_%(ram_size)s"),
     ('QCIF', "cell.qld-upstart.capacity_%(ram_size)s"),
     ('ERSA', "cell.sa-cw.capacity_%(ram_size)s"),
     ('NCI', "cell.NCI.capacity_%(ram_size)s"),
-    ('Tasmania', "cell.tas.capacity_%(ram_size)s"),
+    ('Tasmania',
+     "sumSeries(cell.tas-m.capacity_%(ram_size)s,"
+     "cell.tas-s.capacity_%(ram_size)s,"
+     "cell.tas.capacity_%(ram_size)s)"),
     ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
     ('Intersect',
      "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
