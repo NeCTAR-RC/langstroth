@@ -49,9 +49,6 @@ DATABASES = {
     }
 }
 DATABASE_ROUTERS = ['nectar_allocations.router.AllocationsRouter']
-FIXTURE_DIRS = (
-    path_merge(__file__, '../nectar_allocations/reference_data/')
-)
 
 # The URL to your Nagios installation.
 NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
@@ -188,10 +185,8 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
     'langstroth',
     'nectar_status',
     'nectar_allocations',
