@@ -1,9 +1,12 @@
 from setuptools import setup, find_packages
 from pip.req import parse_requirements
+import uuid
 
+
+session = uuid.uuid1()
 version = '0.1'
+requirements = parse_requirements("requirements.txt", session=session)
 
-requirements = parse_requirements("requirements.txt", session=False)
 
 setup(name='langstroth',
       version=version,
