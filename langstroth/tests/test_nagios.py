@@ -1,6 +1,7 @@
 import os
 
 from django.test import TestCase
+from django.conf import settings
 
 from langstroth import nagios
 
@@ -12,7 +13,7 @@ class TestAvailability(TestCase):
 
     def test_parsing(self):
         html = open(os.path.join(DIR, 'test_availability.html')).read()
-        result = nagios.parse_availability(html)
+        result = nagios.parse_availability(html, settings.NAGIOS_SERVICE_GROUP)
         self.assertEqual(
             result,
             {'average': {'critical': '0.140%',
@@ -78,7 +79,7 @@ class TestStatus(TestCase):
 
     def test_parsing(self):
         html = open(os.path.join(DIR, 'test_status.html')).read()
-        result = nagios.parse_status(html)
+        result = nagios.parse_status(html, settings.NAGIOS_SERVICE_GROUP)
         self.assertEqual(
             result,
             {'hosts':
@@ -86,49 +87,49 @@ class TestStatus(TestCase):
               {'hostname': 'cinder.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '20d 23h 41m 30s',
-                             'display_name': 'Cinder',
+                             'display_name': 'Volume (Cinder)',
                              'name': 'http_cinder-api',
                              'last_checked': '2014-10-06 13:57:38'}]},
               'accounts.rc.nectar.org.au':
               {'hostname': 'accounts.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '20d 23h 37m 32s',
-                             'display_name': 'Webserver',
-                             'name': 'https',
+                             'display_name': 'Accounts',
+                             'name': 'http_accounts',
                              'last_checked': '2014-10-06 13:56:05'}]},
               'dashboard.rc.nectar.org.au':
               {'hostname': 'dashboard.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': ' 2d 18h 46m 57s',
-                             'display_name': 'Webserver',
-                             'name': 'https',
+                             'display_name': 'Dashboard',
+                             'name': 'http_dashboard',
                              'last_checked': '2014-10-06 13:58:00'}]},
               'designate.rc.nectar.org.au':
               {'hostname': 'designate.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '19d 14h 57m 19s',
-                             'display_name': 'Designate',
+                             'display_name': 'DNS (Designate)',
                              'name': 'http_designate-api',
                              'last_checked': '2014-10-06 13:58:43'}]},
               'glance-registry.rc.nectar.org.au':
               {'hostname': 'glance-registry.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '20d 23h 37m 36s',
-                             'display_name': 'Glance Registry',
+                             'display_name': 'Image Registry (Glance)',
                              'name': 'http_glance-registry',
                              'last_checked': '2014-10-06 13:58:31'}]},
               'glance.rc.nectar.org.au':
               {'hostname': 'glance.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '18d 22h 57m  4s',
-                             'display_name': 'Glance',
+                             'display_name': 'Image (Glance)',
                              'name': 'http_glance-api',
                              'last_checked': '2014-10-06 13:58:17'}]},
               'heat.rc.nectar.org.au':
               {'hostname': 'heat.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '19d 14h 56m 49s',
-                             'display_name': 'Heat',
+                             'display_name': 'Orchestration (Heat)',
                              'name': 'http_heat-api',
                              'last_checked': '2014-10-06 13:59:26'}]},
               'ceilometer.rc.nectar.org.au':
@@ -142,12 +143,12 @@ class TestStatus(TestCase):
               {'hostname': 'keystone.rc.nectar.org.au',
                'services': [{'status': 'OK',
                              'duration': '34d  0h 46m 14s',
-                             'display_name': 'Keystone Admin',
+                             'display_name': 'Identity Admin (Keystone)',
                              'name': 'http_keystone-adm',
                              'last_checked': '2014-10-06 13:59:07'},
                             {'status': 'OK',
                              'duration': '33d 21h 20m 49s',
-                             'display_name': 'Keystone',
+                             'display_name': 'Identity (Keystone)',
                              'name': 'http_keystone-pub',
                              'last_checked': '2014-10-06 13:57:59'}]},
               'nova.rc.nectar.org.au':
@@ -159,6 +160,6 @@ class TestStatus(TestCase):
                              'last_checked': '2014-10-06 13:56:12'},
                             {'status': 'OK',
                              'duration': '35d  3h  5m 12s',
-                             'display_name': 'Nova',
+                             'display_name': 'Compute (Nova)',
                              'name': 'http_nova-api',
                              'last_checked': '2014-10-06 13:56:08'}]}}})
