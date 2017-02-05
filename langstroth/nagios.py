@@ -9,17 +9,40 @@ from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
-SERVICE_NAMES = {'http_cinder-api': 'Cinder',
+SERVICE_NAMES = {'http_cinder-api': 'Volume (Cinder)',
+                 'http_aodh-api': 'Alarming (Aodh)',
                  'https': 'Webserver',
-                 'http_ceilometer-api': 'Ceilometer',
-                 'http_glance-registry': 'Glance Registry',
-                 'http_keystone-adm': 'Keystone Admin',
-                 'http_keystone-pub': 'Keystone',
+                 'http_dashboard': 'Dashboard',
+                 'http_accounts': 'Accounts',
+                 'http_murano-api': 'Application Catalog (Murano)',
+                 'http_glance-registry': 'Image Registry (Glance)',
+                 'http_keystone-adm': 'Identity Admin (Keystone)',
+                 'http_keystone-pub': 'Identity (Keystone)',
+                 'http_neutron-api': 'Network (Neutron)',
+                 'http_swift-api': 'Object Store (Swift)',
                  'http_ec2': 'EC2',
-                 'http_nova-api': "Nova",
-                 'http_heat-api': "Heat",
-                 'http_glance-api': "Glance",
-                 'http_designate-api': "Designate"}
+                 'http_nova-api': "Compute (Nova)",
+                 'http_heat-api': "Orchestration (Heat)",
+                 'http_gnocchi-api': "Metric (Gnocchi)",
+                 'http_glance-api': "Image (Glance)",
+                 'http_designate-api': "DNS (Designate)",
+                 'http_manila-api': 'Share (Manila)',
+                 'http_sahara-api': "Data Processing (Sahara)",
+                 'tempest_intersect-01_compute': 'intersect-01',
+                 'tempest_intersect-02_compute': 'intersect-02',
+                 'tempest_melbourne-np_compute': 'melbourne-np',
+                 'tempest_melbourne-qh2_compute': 'melbourne-qh2',
+                 'tempest_monash-01_compute': 'monash-01',
+                 'tempest_monash-02_compute': 'monash-02',
+                 'tempest_nci_compute': 'NCI',
+                 'tempest_pawsey_compute': 'pawsey-01',
+                 'tempest_qld_compute': 'QRIScloud',
+                 'tempest_sa_compute': 'sa',
+                 'tempest_sa_compute': 'tasmania',
+                 'tempest_coreservices_compute': "Core Services",
+                 'tempest_melbourne_compute': "QH2-Test",
+                 'tempest_dev_compute': "Dev",
+}
 
 
 def parse_service_availability(service):
@@ -32,12 +55,12 @@ def parse_service_availability(service):
             "critical": crit.text.split(' ')[0]}
 
 
-def parse_availability(html):
+def parse_availability(html, service_group):
     tr = cssselect.GenericTranslator()
     h = lxml.etree.HTML(html)
     table = None
     for i, e in enumerate(h.xpath(tr.css_to_xpath('.dataTitle')), -1):
-        if settings.NAGIOS_SERVICE_GROUP not in e.text:
+        if service_group not in e.text:
             continue
         if 'Service State Breakdowns' not in e.text:
             continue
@@ -72,20 +95,21 @@ def parse_hostlink(hostlink):
 def parse_service(service_columns):
     tr = cssselect.GenericTranslator()
     name = service_columns[0].xpath(tr.css_to_xpath('a'))[0].text
+    service_name = SERVICE_NAMES.get(name)
     return {
         'name': name,
-        'display_name': SERVICE_NAMES.get(name),
+        'display_name': service_name,
         'status': service_columns[1].text,
         'last_checked': service_columns[2].text,
         'duration': service_columns[3].text}
 
 
-def parse_status(html):
+def parse_status(html, service_group):
     tr = cssselect.GenericTranslator()
     h = lxml.etree.HTML(html)
     table = None
     for i, e in enumerate(h.xpath(tr.css_to_xpath('.statusTitle')), -1):
-        if settings.NAGIOS_SERVICE_GROUP not in e.text:
+        if service_group not in e.text:
             continue
         if 'Service Status Details' not in e.text:
             continue
@@ -120,18 +144,18 @@ def gm_timestamp(datetime_object):
     return calendar.timegm(datetime_object.utctimetuple())
 
 
-def get_availability(start_date, end_date):
+def get_availability(start_date, end_date, service_group=settings.NAGIOS_SERVICE_GROUP):
     query = settings.AVAILABILITY_QUERY_TEMPLATE % (
         gm_timestamp(start_date),
         gm_timestamp(end_date),
-        settings.NAGIOS_SERVICE_GROUP)
+        service_group)
     url = settings.NAGIOS_URL + query
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
-    return parse_availability(resp.text)
+    return parse_availability(resp.text, service_group)
 
 
-def get_status():
-    query = settings.STATUS_QUERY_TEMPLATE % settings.NAGIOS_SERVICE_GROUP
+def get_status(service_group=settings.NAGIOS_SERVICE_GROUP):
+    query = settings.STATUS_QUERY_TEMPLATE % service_group
     url = settings.NAGIOS_URL + query
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
-    return parse_status(resp.text)
+    return parse_status(resp.text, service_group)
