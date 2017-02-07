@@ -11,6 +11,7 @@ LOG = logging.getLogger(__name__)
 
 SERVICE_NAMES = {'http_cinder-api': 'Volume (Cinder)',
                  'http_aodh-api': 'Alarming (Aodh)',
+                 'https': 'Webserver',
                  'http_dashboard': 'Dashboard',
                  'http_accounts': 'Accounts',
                  'http_ceilometer-api': 'Ceilometer',
