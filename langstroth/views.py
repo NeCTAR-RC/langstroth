@@ -154,13 +154,21 @@ def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in INST_TARGETS]
+    #from langstroth.timeseries.graphite import GraphiteTimeSeries
+    #ts = GraphiteTimeSeries()
+    from langstroth.timeseries.gnocchi import GnocchiTimeSeries
+    ts = GnocchiTimeSeries()
+    data = ts.get_data(INST_TARGETS, q_summarise, q_from)
+    #targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
+    #           for alias, target in INST_TARGETS]
 
-    req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
-    return HttpResponse(dumps(data), req.headers['content-type'])
+    #req = graphite.get(from_date=q_from, targets=targets)
+    data = graphite.fill_null_datapoints(data)
 
+    return HttpResponse(dumps(data), 'application/json')
+
+#data = [{'target': <NAME>, 'datapoints': [[value, timestamp],]},]
+    
 
 CORES_TARGETS = [
     ('Melbourne University',
@@ -183,12 +191,15 @@ def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in CORES_TARGETS]
+    #targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
+    #           for alias, target in CORES_TARGETS]
 
-    req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
-    return HttpResponse(dumps(data), req.headers['content-type'])
+    #req = graphite.get(from_date=q_from, targets=targets)
+    from langstroth.timeseries.gnocchi import GnocchiTimeSeries
+    ts = GnocchiTimeSeries()
+    data = ts.get_data(CORES_TARGETS, q_summarise, q_from)
+    data = graphite.fill_null_datapoints(data)
+    return HttpResponse(dumps(data), 'application/json')
 
 
 CAPACITY_TARGETS = [
