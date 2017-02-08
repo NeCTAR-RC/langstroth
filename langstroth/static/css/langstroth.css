@@ -2,11 +2,17 @@
     cursor: pointer;
 }
 
-
 table .service {
     width: 200px;
 }
 
+thead {
+    font-weight: bold;
+}
+
+.crampt {
+        padding: 2px 8px 2px 8px !important;
+}
 
 #averages {
     padding-right:  200px;
