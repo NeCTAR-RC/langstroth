@@ -8,6 +8,7 @@ import logging
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.cache import cache
+from django.conf import settings
 
 from langstroth import nagios
 from langstroth import graphite
@@ -21,48 +22,63 @@ def round_to_day(datetime_object):
                              datetime_object.day)
 
 
-def index(request):
-    now = datetime.datetime.now()
-    then = round_to_day(now) - relativedelta(months=6)
+def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
+               service_group_type='api'):
 
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
-        availability = (cache.get('_nagios_availability')
-                        or nagios.get_availability(then, now))
-        cache.set('nagios_availability', availability)
-        cache.set('_nagios_availability', availability, 600)
+        availability = (cache.get('_nagios_availability_%s' % service_group)
+                        or nagios.get_availability(then, now, service_group))
+        cache.set('nagios_availability_%s' % service_group, availability)
+        cache.set('_nagios_availability_%s' % service_group, availability, 600)
     except:
-        availability = cache.get('nagios_availability')
+        availability = cache.get('nagios_availability_%s' % service_group)
 
     LOG.debug("Availability: " + str(availability))
 
     try:
-        status = nagios.get_status()
-        cache.set('nagios_status', status)
+        status = nagios.get_status(service_group)
+        cache.set('nagios_status_%s' % service_group, status)
     except:
-        status = cache.get('nagios_status')
+        status = cache.get('nagios_status_%s' % service_group)
 
     LOG.debug("Status: " + str(status))
 
-    context = {"title": "National Endpoint Status",
-               "tagline": "",
-               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
-
     if availability:
-        context['average'] = availability['average']
+        context['%s_average' % service_group_type] = availability['average']
         for host in status['hosts'].values():
             for service in host['services']:
                 service['availability'] = \
                     availability['services'][service['name']]
 
     if status:
-        context['hosts'] = sorted(status['hosts'].values(),
-                                  key=itemgetter('hostname'))
+        context['%s_hosts' % service_group_type] = sorted(
+            status['hosts'].values(),
+            key=itemgetter('hostname'))
     else:
-        context['hosts'] = []
+        context['%s_hosts' % service_group_type] = []
 
+    error = False
     if not status or not availability:
+        error = True
+    return context, error
+
+
+def index(request):
+    now = datetime.datetime.now()
+    then = round_to_day(now) - relativedelta(months=6)
+
+    context = {"title": "Research Cloud Status",
+               "tagline": "",
+               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
+
+    context, error = _get_hosts(context, now, then)
+    context, error = _get_hosts(context, now, then,
+                                service_group='tempest_site',
+                                service_group_type='site')
+
+    if error:
         return render(request, "index.html", context, status=503)
     return render(request, "index.html", context)
 
