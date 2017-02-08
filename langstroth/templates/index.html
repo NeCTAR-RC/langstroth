@@ -3,30 +3,44 @@
 {% block content %}
 <div class="row">
 
-  {% if hosts %}
+  {% if api_hosts %}
   <div class="col-md-12">
     <h4>6 month average from {{ report_range }}</h4>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td class="success" title="Service OK">OK: {{ average.ok }}</td>
-          <td class="warning" title="Service Warning">Warning: {{ average.warning }}</td>
-          <td class="danger" title="Service Critical">Critical: {{ average.critical }}</td>
-          <td class="active" title="Service Unknown">Unknown: {{ average.unknown }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 
-  {% for host in hosts %}
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">{{ host.hostname }}</h3>
+        <h2 class="panel-title">Service Endpoints</h2>
+        <p>Is the service endpoint up and accepting requests</p>
       </div>
+    <table class="table">
+      <thead class="table-header">
+        <tr>
+          <td class="crampt">Service</td>
+          <td class="crampt">Status</td>
+          <td class="success crampt" title="Service OK">OK</td>
+          <td class="warning crampt" title="Service Warning">Warning</td>
+          <td class="danger crampt" title="Service Critical">Critical</td>
+          <td class="active crampt" title="Service Unknown">Unknown</td>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td>All Services</td>
+          <td></td>
+          <td class="success" title="Service OK">{{ api_average.ok }}</td>
+          <td class="warning" title="Service Warning">{{ api_average.warning }}</td>
+          <td class="danger" title="Service Critical">{{ api_average.critical }}</td>
+          <td class="active" title="Service Unknown">{{ api_average.unknown }}</td>
+        </tr>
+      </tfoot>
+      <tbody>
+      {% for host in api_hosts %}
       {% for service in host.services %}
-      <div class="panel-body">
-        <h3 class="panel-title">
+        <tr>
+          <td>{{ service.display_name }}</td>
+          <td>
           {% if service.status|lower == 'ok' %}
           <span title="Service is {{service.status}}"
                 class="glyphicon glyphicon-ok text-success">
@@ -44,23 +58,80 @@
                 class="glyphicon glyphicon-question-sign glyphicon-warning text-muted">
           </span>
           {% endif %}
-          {{ service.display_name }}
-          <small title="Last checked">{{ service.last_checked }}</small>
-        </h3>
-      </div>
-      <table class="table">
-        <tr>
-          <td>Availability</td>
+          </td>
           <td class="success" title="Service OK">{{ service.availability.ok }}</td>
           <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
           <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
           <td class="active" title="Service Unknown">{{ service.availability.unknown }}</td>
         </tr>
-      </table>
       {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table>
     </div>
   </div>
-  {% endfor %}
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Availability Zones</h2>
+        <p>We periodically boot an instance and test network and metadata access</p>
+      </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="crampt">Service</td>
+          <td class="crampt">Status</td>
+          <td class="success crampt" title="Service OK">OK</td>
+          <td class="warning crampt" title="Service Warning">Warning</td>
+          <td class="danger crampt" title="Service Critical">Critical</td>
+          <td class="active crampt" title="Service Unknown">Unknown</td>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+	  <td>All Zones</td>
+          <td></td>
+          <td class="success" title="Service OK">{{ site_average.ok }}</td>
+          <td class="warning" title="Service Warning">{{ site_average.warning }}</td>
+          <td class="danger" title="Service Critical">{{ site_average.critical }}</td>
+          <td class="active" title="Service Unknown">{{ site_average.unknown }}</td>
+        </tr>
+      </tfoot>
+      <tbody>
+      {% for host in site_hosts %}
+      {% for service in host.services %}
+        <tr>
+	  <td>{{ service.display_name }}</td>
+          <td>
+          {% if service.status|lower == 'ok' %}
+          <span title="Instance boot check is {{service.status}}"
+                class="glyphicon glyphicon-ok text-success">
+          </span>
+          {% elif service.status|lower == 'warning' %}
+          <span title="Instance boot check is {{service.status}}"
+                class="glyphicon glyphicon-warning-sign text-warning">
+          </span>
+          {% elif service.status|lower == 'critical' %}
+          <span title="Instance boot check is {{service.status}}"
+                class="glyphicon glyphicon-remove text-danger">
+          </span>
+          {% else %}
+          <span title="Instance booting is {{service.status}}"
+                class="glyphicon glyphicon-question-sign glyphicon-warning text-muted">
+          </span>
+          {% endif %}
+          </td>
+          <td class="success" title="Service OK">{{ service.availability.ok }}</td>
+          <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
+          <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
+          <td class="active" title="Service Unknown">{{ service.availability.unknown }}</td>
+        </tr>
+      {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
   {% else %}
 
 
