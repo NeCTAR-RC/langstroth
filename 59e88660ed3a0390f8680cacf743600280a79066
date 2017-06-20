@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_da1ca416",
+        "filename": "langstroth/views.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-06-20T23:08:02Z",
+      "side": 1,
+      "message": "would like to see the string time represented as \u0027Now\u0027 for this case.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "59e88660ed3a0390f8680cacf743600280a79066",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
