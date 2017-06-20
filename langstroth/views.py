@@ -25,15 +25,16 @@ def round_to_day(datetime_object):
 def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
                service_group_type='api'):
 
+    cache_key = 'nagios_availability_%s_%s_%s' % (service_group, now, then)
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
-        availability = (cache.get('_nagios_availability_%s' % service_group)
+        availability = (cache.get("_%s" % cache_key)
                         or nagios.get_availability(then, now, service_group))
-        cache.set('nagios_availability_%s' % service_group, availability)
-        cache.set('_nagios_availability_%s' % service_group, availability, 600)
+        cache.set(cache_key, availability)
+        cache.set("_%s" % cache_key, availability, 600)
     except:
-        availability = cache.get('nagios_availability_%s' % service_group)
+        availability = cache.get(cache_key)
 
     LOG.debug("Availability: " + str(availability))
 
@@ -66,15 +67,36 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
 
 
 def index(request):
-    now = datetime.datetime.now()
-    then = round_to_day(now) - relativedelta(months=6)
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    now = None
+    if end:
+        try:
+            end = datetime.datetime.strptime(end, "%Y-%m-%d")
+        except ValueError:
+            end = datetime.datetime.now()
+            now = 'Now'
+    else:
+        end = datetime.datetime.now()
+        now = 'Now'
+    if start:
+        try:
+            start = datetime.datetime.strptime(start, "%Y-%m-%d")
+        except ValueError:
+            start = round_to_day(start) - relativedelta(months=1)
+    else:
+        start = start - relativedelta(months=1)
+
+    start = round_to_day(start)
+    end = round_to_day(end)
 
     context = {"title": "Research Cloud Status",
                "tagline": "",
-               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
+               "report_range": "%s to %s" % (start.strftime('%d, %b %Y'),
+                                             now or end.strftime('%d, %b %Y'))}
 
-    context, error = _get_hosts(context, now, then)
-    context, error = _get_hosts(context, now, then,
+    context, error = _get_hosts(context, end, start)
+    context, error = _get_hosts(context, end, start,
                                 service_group='tempest_site',
                                 service_group_type='site')
 
