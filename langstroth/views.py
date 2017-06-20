@@ -66,15 +66,34 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
 
 
 def index(request):
-    now = datetime.datetime.now()
-    then = round_to_day(now) - relativedelta(months=6)
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+
+    if end:
+        try:
+            end = datetime.datetime.strptime(end, "%Y-%m-%d")
+        except ValueError:
+            end = datetime.datetime.now()
+    else:
+        end = datetime.datetime.now()
+    if start:
+        try:
+            start = datetime.datetime.strptime(start, "%Y-%m-%d")
+        except ValueError:
+            start = round_to_day(start) - relativedelta(months=1)
+    else:
+        start = start - relativedelta(months=1)
+
+    start = round_to_day(start)
+    end = round_to_day(end)
 
     context = {"title": "Research Cloud Status",
                "tagline": "",
-               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
+               "report_range": "%s to %s" % (start.strftime('%d, %b %Y'),
+                                             end.strftime('%d, %b %Y'))}
 
-    context, error = _get_hosts(context, now, then)
-    context, error = _get_hosts(context, now, then,
+    context, error = _get_hosts(context, end, start)
+    context, error = _get_hosts(context, end, start,
                                 service_group='tempest_site',
                                 service_group_type='site')
 
