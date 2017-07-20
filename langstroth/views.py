@@ -160,11 +160,11 @@ INST_TARGETS = [
     ('NCI', "az.NCI.total_instances"),
     ('Tasmania', "az.tasmania.total_instances"),
     ('Pawsey', "az.pawsey-01.total_instances"),
-    ('Auckland', "az.auckland.total_instances"),
-    ('Swinburne', "az.swinburne-01.total_instances"),
     ('Intersect',
      "sumSeries(az.intersect-01.total_instances,"
      "az.intersect-02.total_instances)"),
+    ('Swinburne', "az.swinburne-01.total_instances"),
+    ('Auckland', "az.auckland.total_instances"),
 ]
 
 
@@ -191,11 +191,11 @@ CORES_TARGETS = [
     ('NCI', "az.NCI.used_vcpus"),
     ('Tasmania', "az.tasmania.used_vcpus"),
     ('Pawsey', "az.pawsey-01.used_vcpus"),
-    ('Swinburne', "az.swinburne-01.used_vcpus"),
-    ('Auckland', "az.auckland.used_vcpus"),
     ('Intersect',
      "sumSeries(az.intersect-01.used_vcpus,"
      "az.intersect-02.used_vcpus)"),
+    ('Swinburne', "az.swinburne-01.used_vcpus"),
+    ('Auckland', "az.auckland.used_vcpus"),
 ]
 
 
@@ -229,11 +229,11 @@ CAPACITY_TARGETS = [
      "cell.tas-s.capacity_%(ram_size)s,"
      "cell.tas.capacity_%(ram_size)s)"),
     ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
-    ('Swinburne', "cell.sut1.capacity_%(ram_size)s"),
-    ('Auckland', "cell.auckland.capacity_%(ram_size)s"),
     ('Intersect',
      "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
      "cell.intersect-02.capacity_%(ram_size)s)"),
+    ('Swinburne', "cell.sut1.capacity_%(ram_size)s"),
+    ('Auckland', "cell.auckland.capacity_%(ram_size)s"),
 ]
 
 
