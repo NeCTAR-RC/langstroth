@@ -160,6 +160,8 @@ INST_TARGETS = [
     ('NCI', "az.NCI.total_instances"),
     ('Tasmania', "az.tasmania.total_instances"),
     ('Pawsey', "az.pawsey-01.total_instances"),
+    ('Auckland', "az.auckland.total_instances"),
+    ('Swinburne', "az.swinburne-01.total_instances"),
     ('Intersect',
      "sumSeries(az.intersect-01.total_instances,"
      "az.intersect-02.total_instances)"),
@@ -189,6 +191,8 @@ CORES_TARGETS = [
     ('NCI', "az.NCI.used_vcpus"),
     ('Tasmania', "az.tasmania.used_vcpus"),
     ('Pawsey', "az.pawsey-01.used_vcpus"),
+    ('Swinburne', "az.swinburne-01.used_vcpus"),
+    ('Auckland', "az.auckland.used_vcpus"),
     ('Intersect',
      "sumSeries(az.intersect-01.used_vcpus,"
      "az.intersect-02.used_vcpus)"),
@@ -225,6 +229,8 @@ CAPACITY_TARGETS = [
      "cell.tas-s.capacity_%(ram_size)s,"
      "cell.tas.capacity_%(ram_size)s)"),
     ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
+    ('Swinburne', "cell.sut1.capacity_%(ram_size)s"),
+    ('Auckland', "cell.auckland.capacity_%(ram_size)s"),
     ('Intersect',
      "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
      "cell.intersect-02.capacity_%(ram_size)s)"),
@@ -259,6 +265,7 @@ QUERY = {
     'monash': ["az.monash-01.domain.*.used_vcpus",
                "az.monash-02.domain.*.used_vcpus"],
     'pawsey': ["az.pawsey-01.domain.*.used_vcpus"],
+    'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
     'intersect': ["az.intersect-01.domain.*.used_vcpus",
                   "az.intersect-02.domain.*.used_vcpus"],
     'all': ["az.melbourne-qh2.domain.*.used_vcpus",
@@ -266,13 +273,16 @@ QUERY = {
             "az.monash-01.domain.*.used_vcpus",
             "az.monash-02.domain.*.used_vcpus",
             "az.NCI.domain.*.used_vcpus",
+            "az.auckland.domain.*.used_vcpus",
             "az.sa.domain.*.used_vcpus",
             "az.qld.domain.*.used_vcpus",
             "az.QRIScloud.domain.*.used_vcpus",
             "az.tasmania.domain.*.used_vcpus",
             "az.intersect-01.domain.*.used_vcpus",
             "az.intersect-02.domain.*.used_vcpus",
-            "az.pawsey-01.domain.*.used_vcpus"]
+            "az.pawsey-01.domain.*.used_vcpus",
+            "az.swinburne-01.domain.*.used_vcpus",
+        ]
 }
 
 
