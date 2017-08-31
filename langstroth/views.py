@@ -127,7 +127,6 @@ FAULTS_TARGETS = [
     ('ERSA', "az.sa.instance_faults"),
     ('NCI', "az.NCI.instance_faults"),
     ('Tasmania', "az.tasmania.instance_faults"),
-    ('Pawsey', "az.pawsey-01.instance_faults"),
     ('Intersect',
      "sumSeries(az.intersect-01.instance_faults,"
      "az.intersect-02.instance_faults)"),
@@ -228,7 +227,6 @@ CAPACITY_TARGETS = [
      "sumSeries(cell.tas-m.capacity_%(ram_size)s,"
      "cell.tas-s.capacity_%(ram_size)s,"
      "cell.tas.capacity_%(ram_size)s)"),
-    ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
     ('Intersect',
      "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
      "cell.intersect-02.capacity_%(ram_size)s)"),
@@ -264,7 +262,6 @@ QUERY = {
             "az.QRIScloud.domain.*.used_vcpus"],
     'monash': ["az.monash-01.domain.*.used_vcpus",
                "az.monash-02.domain.*.used_vcpus"],
-    'pawsey': ["az.pawsey-01.domain.*.used_vcpus"],
     'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
     'intersect': ["az.intersect-01.domain.*.used_vcpus",
                   "az.intersect-02.domain.*.used_vcpus"],
@@ -280,7 +277,6 @@ QUERY = {
             "az.tasmania.domain.*.used_vcpus",
             "az.intersect-01.domain.*.used_vcpus",
             "az.intersect-02.domain.*.used_vcpus",
-            "az.pawsey-01.domain.*.used_vcpus",
             "az.swinburne-01.domain.*.used_vcpus"]
 }
 
