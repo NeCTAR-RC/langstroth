@@ -152,7 +152,7 @@ function projectDetails() {
       var pathExtension = window.location.hash;
       if (pathExtension) {
         var route = allocations.parseForPath(pathExtension);
-        route.unshift(projectName);
+        route.unshift(projectDescription);
         breadcrumbs.setRoute(route);
         breadcrumbs.navigate(function(route, i) {
           var urlExtension = "";
