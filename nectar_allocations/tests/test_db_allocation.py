@@ -21,15 +21,15 @@ class AllocationDBTest(TestCase):
     def test_fixtures(self):
         self.assertEquals(5, AllocationRequest.objects.count())
 
-    def test_allocation_has_project_name(self):
+    def test_allocation_has_project_description(self):
         try:
             allocation0 = AllocationRequest. \
-                objects.get(project_name="Shoreview")
+                objects.get(project_description="Shoreview")
         except AllocationRequest.DoesNotExist:
             allocation0 = None
         try:
             allocation1 = AllocationRequest \
-                .objects.get(project_name="decadal variability "
+                .objects.get(project_description="decadal variability "
                              "in DMS flux in the  Southern Ocean")
         except AllocationRequest.DoesNotExist:
             allocation1 = None
@@ -43,7 +43,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(2, len(allocations))
 
     def test_find_active_allocations_including_new_requests(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = '11'
         request0.field_of_research_2 = '22'
         request0.field_of_research_3 = '33'
@@ -52,7 +53,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(3, len(allocations))
 
     def test_find_active_allocations_including_third_null_fors(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = '11'
         request0.field_of_research_2 = '22'
         request0.field_of_research_3 = None
@@ -61,7 +63,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(3, len(allocations))
 
     def test_find_active_allocations_including_2_null_fors(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = '11'
         request0.field_of_research_2 = None
         request0.field_of_research_3 = None
@@ -70,7 +73,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(3, len(allocations))
 
     def test_find_active_allocations_excluding_first_null_fors(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = None
         request0.field_of_research_2 = '22'
         request0.field_of_research_3 = '33'
@@ -79,7 +83,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(3, len(allocations))
 
     def test_find_active_allocations_excluding_second_null_fors(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = '11'
         request0.field_of_research_2 = None
         request0.field_of_research_3 = '33'
@@ -88,7 +93,8 @@ class AllocationDBTest(TestCase):
         self.assertEquals(3, len(allocations))
 
     def test_find_active_allocations_excluding_3_null_fors(self):
-        request0 = AllocationRequest(project_name='Project0', status='A')
+        request0 = AllocationRequest(project_description='Project0',
+                                     status='A')
         request0.field_of_research_1 = None
         request0.field_of_research_2 = None
         request0.field_of_research_3 = None
@@ -99,13 +105,13 @@ class AllocationDBTest(TestCase):
     def test_partition_active_allocations(self):
         sub_allocations = AllocationRequest.partition_active_allocations()
         self.assertEquals(len(sub_allocations), 3)
-        sub_allocations.sort(key=lambda summary: summary['project_name']
+        sub_allocations.sort(key=lambda summary: summary['project_description']
                              + str(summary['id']))
 
         sub_allocation = sub_allocations[0]
         self.assertEquals('qqqqqq.edu.au', sub_allocation['institution'])
         self.assertEquals('USQ eResearch Services Sandbox',
-                          sub_allocation['project_name'])
+                          sub_allocation['project_description'])
         self.assertEquals('099901', sub_allocation['for_6'])
         self.assertEquals('0999', sub_allocation['for_4'])
         self.assertEquals('09', sub_allocation['for_2'])
@@ -115,7 +121,7 @@ class AllocationDBTest(TestCase):
         sub_allocation = sub_allocations[1]
         self.assertEquals('qqqqqq.edu.au', sub_allocation['institution'])
         self.assertEquals('USQ eResearch Services Sandbox',
-                          sub_allocation['project_name'])
+                          sub_allocation['project_description'])
         self.assertEquals('070104', sub_allocation['for_6'])
         self.assertEquals('0701', sub_allocation['for_4'])
         self.assertEquals('07', sub_allocation['for_2'])
@@ -125,7 +131,7 @@ class AllocationDBTest(TestCase):
         sub_allocation = sub_allocations[2]
         self.assertEquals('gggg.edu.au', sub_allocation['institution'])
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          sub_allocation['project_name'])
+                          sub_allocation['project_description'])
         self.assertEquals('080109', sub_allocation['for_6'])
         self.assertEquals('0801', sub_allocation['for_4'])
         self.assertEquals('08', sub_allocation['for_2'])
@@ -138,13 +144,13 @@ class AllocationDBTest(TestCase):
 
         self.assertEquals('USQ eResearch Services Sandbox',
                           allocations_tree['09']['0999']
-                          ['099901'][0]['projectName'])
+                          ['099901'][0]['projectDescription'])
         self.assertEquals('USQ eResearch Services Sandbox',
                           allocations_tree['07']['0701']
-                          ['070104'][0]['projectName'])
+                          ['070104'][0]['projectDescription'])
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
                           allocations_tree['08']['0801']
-                          ['080109'][0]['projectName'])
+                          ['080109'][0]['projectDescription'])
 
     def test_restructure_allocations_tree(self):
         name_children_tree = AllocationRequest.restructure_allocations_tree()
@@ -218,7 +224,7 @@ class AllocationDBTest(TestCase):
 
         self.assertEquals(1, len(project_allocations))
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          project_allocations[0]['project_name'])
+                          project_allocations[0]['project_description'])
         self.assertEquals('2014-01-06', project_allocations[0]['start_date'])
         self.assertEquals('2014-01-31', project_allocations[0]['end_date'])
         expected_usecase = "In this project, an algorithm has been " \
@@ -237,7 +243,7 @@ class AllocationDBTest(TestCase):
 
         self.assertEquals(1, len(project_allocations))
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          project_allocations[0]['project_name'])
+                          project_allocations[0]['project_description'])
         self.assertEquals('2014-01-06', project_allocations[0]['start_date'])
         self.assertEquals('2014-01-31', project_allocations[0]['end_date'])
         self.assertFalse('use_case' in project_allocations[0])
@@ -251,7 +257,7 @@ class AllocationDBTest(TestCase):
         self.assertEquals(2, len(project_allocations))
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_allocations[0]['project_name'])
+                          project_allocations[0]['project_description'])
         self.assertEquals('2014-02-17', project_allocations[0]['start_date'])
         self.assertEquals('2014-05-17', project_allocations[0]['end_date'])
         expected_usecase = "The cloud instances will be used to set up " \
@@ -266,7 +272,7 @@ class AllocationDBTest(TestCase):
                           project_allocations[0]['usage_patterns'])
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_allocations[1]['project_name'])
+                          project_allocations[1]['project_description'])
         self.assertEquals('2014-02-17', project_allocations[1]['start_date'])
         self.assertEquals('2014-05-17', project_allocations[1]['end_date'])
         expected_usecase = "The cloud instances will be used to set up " \
@@ -288,14 +294,14 @@ class AllocationDBTest(TestCase):
         self.assertEquals(2, len(project_allocations))
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_allocations[0]['project_name'])
+                          project_allocations[0]['project_description'])
         self.assertEquals('2014-02-17', project_allocations[0]['start_date'])
         self.assertEquals('2014-05-17', project_allocations[0]['end_date'])
         self.assertFalse('use_case' in project_allocations[0])
         self.assertFalse('usage_patterns' in project_allocations[0])
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_allocations[1]['project_name'])
+                          project_allocations[1]['project_description'])
         self.assertEquals('2014-02-17', project_allocations[1]['start_date'])
         self.assertEquals('2014-05-17', project_allocations[1]['end_date'])
         self.assertFalse('use_case' in project_allocations[1])
@@ -307,7 +313,7 @@ class AllocationDBTest(TestCase):
             .project_from_request_id(request_id)
 
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          project_summary['project_name'])
+                          project_summary['project_description'])
         self.assertEquals('2014-01-06', project_summary['start_date'])
         self.assertEquals('2014-01-31', project_summary['end_date'])
         expected_usecase = "In this project, an algorithm has been " \
@@ -339,7 +345,7 @@ class AllocationDBTest(TestCase):
             .project_from_request_id(request_id)
 
         self.assertEquals('UoM_Trajectory_Inference_Attacks',
-                          project_summary['project_name'])
+                          project_summary['project_description'])
         self.assertEquals('2014-01-06', project_summary['start_date'])
         self.assertEquals('2014-01-31', project_summary['end_date'])
         self.assertFalse('use_case' in project_summary)
@@ -365,7 +371,7 @@ class AllocationDBTest(TestCase):
             .project_from_request_id(request_id)
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_summary['project_name'])
+                          project_summary['project_description'])
         self.assertEquals('2014-02-17', project_summary['start_date'])
         self.assertEquals('2014-05-17', project_summary['end_date'])
         expected_usecase = "The cloud instances will be used to set up quick " \
@@ -399,7 +405,7 @@ class AllocationDBTest(TestCase):
             .project_from_request_id(request_id)
 
         self.assertEquals('USQ eResearch Services Sandbox',
-                          project_summary['project_name'])
+                          project_summary['project_description'])
         self.assertEquals('2014-02-17', project_summary['start_date'])
         self.assertEquals('2014-05-17', project_summary['end_date'])
         self.assertFalse('use_case' in project_summary)

@@ -256,7 +256,7 @@ function hideRelatedLabels(d, i) {
 
 var projectMarkup = "<div class='details-container centred-container'>" +
       "<table class='table-striped table-condensed'>" +
-      "<tr><th>Project: </th><td>{{projectName}}</td></tr>" +
+      "<tr><th>Project: </th><td>{{projectDescription}}</td></tr>" +
       "<tr><th>Institution: </th><td>{{institutionName}}</td></tr>" +
       "<tr><th>Core quota: </th><td>{{coreQuota}}</td></tr>" +
       "<tr><th>Instance quota: </th><td>{{instanceQuota}}</td></tr>" +
@@ -267,7 +267,7 @@ Mustache.parse(projectMarkup);
 
 function showProjectSummary(data) {
   var view = {
-    projectName: data.projectName.makeWrappable(),
+    projectDescription: data.projectDescription.makeWrappable(),
     institutionName: data.institutionName,
     coreQuota: data.coreQuota.toFixed(0),
     instanceQuota: data.instanceQuota.toFixed(0)

@@ -32,7 +32,7 @@ class AllocationRequest(models.Model):
         max_length=1, null=False, choices=STATUS_CHOICES, default='N')
     created_by = models.CharField(max_length=100, null=False)
     submit_date = models.DateField(null=False, default='2012-01-16')
-    project_name = models.CharField(max_length=200, null=False)
+    project_description = models.CharField(max_length=200, null=False)
     contact_email = models.CharField(max_length=75, null=False)
     start_date = models.DateField(null=False, default='2012-01-16')
     end_date = models.DateField(null=False, default='2012-01-16')
@@ -50,11 +50,11 @@ class AllocationRequest(models.Model):
     for_percentage_2 = models.IntegerField(null=False, default=0)
     field_of_research_3 = models.CharField(max_length=6, null=True)
     for_percentage_3 = models.IntegerField(null=False, default=0)
-    tenant_uuid = models.CharField(max_length=36, null=True)
+    project_id = models.CharField(max_length=36, null=True)
     instance_quota = models.IntegerField(null=False, default=0)
     ram_quota = models.IntegerField(null=False, default=0)
     core_quota = models.IntegerField(null=False, default=0)
-    tenant_name = models.CharField(max_length=100, null=True)
+    project_name = models.CharField(max_length=100, null=True)
     status_explanation = models.CharField(max_length=200, null=True)
     volume_zone = models.CharField(max_length=64, null=True)
     object_storage_zone = models.CharField(max_length=64, null=True)
@@ -64,10 +64,10 @@ class AllocationRequest(models.Model):
     parent_request = models.ForeignKey('self', null=True)
 
     def __unicode__(self):
-        return self.project_name + '(' + str(self.id) + ')'
+        return self.project_description + '(' + str(self.id) + ')'
 
     class Meta:
-        ordering = ["project_name"]
+        ordering = ["project_description"]
         app_label = 'nectar_allocations'
         db_table = 'rcallocation_allocationrequest'
         managed = False if not settings.TEST_MODE else True
@@ -112,9 +112,9 @@ class AllocationRequest(models.Model):
         seen = set()
         keep = []
         for allocation in all_approved_allocations:
-            if allocation.project_name not in seen:
+            if allocation.project_description not in seen:
                 keep.append(allocation)
-                seen.add(allocation.project_name)
+                seen.add(allocation.project_description)
         return keep
 
     @staticmethod
@@ -143,8 +143,8 @@ class AllocationRequest(models.Model):
         allocation_summary['id'] = self.id
         allocation_summary['institution'] = \
             self.institution_from_email(self.contact_email)
-        allocation_summary['project_name'] = \
-            self.project_name
+        allocation_summary['project_description'] = \
+            self.project_description
         # Redact any email addresses.
         if self.show_private_fields:
             allocation_summary['usage_patterns'] = \
@@ -226,7 +226,7 @@ class AllocationRequest(models.Model):
                 branch_minor[allocation_code_6] = list()
             twig = dict()
             twig['id'] = allocation['id']
-            twig['projectName'] = allocation['project_name']
+            twig['projectDescription'] = allocation['project_description']
             twig['institution'] = allocation['institution']
             if cls.show_private_fields:
                 twig['useCase'] = allocation['use_case']
@@ -246,7 +246,7 @@ class AllocationRequest(models.Model):
     def create_allocation_tree_leaf_node(cls, allocation_summary):
         allocation_items = {
             'id': allocation_summary['id'],
-            'name': allocation_summary['projectName'],
+            'name': allocation_summary['projectDescription'],
             'institution': allocation_summary['institution'],
             'instanceQuota': allocation_summary['instanceQuota'],
             'coreQuota': allocation_summary['coreQuota']
@@ -294,7 +294,7 @@ class AllocationRequest(models.Model):
         project_record = cls.__project_summary_record(base_request)
         project_summary.append(project_record)
         other_requests = cls.objects \
-            .filter(project_name=base_request.project_name) \
+            .filter(project_description=base_request.project_description) \
             .exclude(id=request_id)
         for other_request in other_requests:
             project_record = cls.__project_summary_record(other_request)
@@ -312,8 +312,8 @@ class AllocationRequest(models.Model):
     def __project_summary_record(cls, request):
         project_record = {
             'id': request.id,
-            'project_name': request.project_name,
-            'tenant_uuid': request.tenant_uuid,
+            'project_description': request.project_description,
+            'project_id': request.project_id,
             'institution': cls.institution_from_email(request.contact_email),
             'start_date': request.start_date.strftime('%Y-%m-%d'),
             'end_date': request.end_date.strftime('%Y-%m-%d'),

@@ -4,7 +4,7 @@
     "model": "nectar_allocations.allocationrequest",
     "fields": {
         "parent_request": null,
-        "tenant_name": null,
+        "project_name": null,
         "instances": 30,
         "approver_email": "ggggg@bbbb.edu.au",
         "ram_quota": 120,
@@ -16,7 +16,7 @@
         "for_percentage_3": 0,
         "for_percentage_2": 0,
         "status": "X",
-        "project_name": "UoM_Trajectory_Inference_Attacks",
+        "project_description": "UoM_Trajectory_Inference_Attacks",
         "end_date": "2014-01-31",
         "field_of_research_2": null,
         "field_of_research_3": null,
@@ -32,7 +32,7 @@
         "core_hours": 36000,
         "instance_quota": 30,
         "cores": 2,
-        "tenant_uuid": null,
+        "project_id": null,
         "usage_patterns": "Data is stored on a remote server so no storage is needed. Please contact joe.bloggs@unimelb.edu.au."
     }
 },
@@ -41,7 +41,7 @@
     "model": "nectar_allocations.allocationrequest",
     "fields": {
         "parent_request": null,
-        "tenant_name": "",
+        "project_name": "",
         "instances": 2,
         "approver_email": "iiiiii@pppppp.edu.au",
         "ram_quota": 16,
@@ -53,7 +53,7 @@
         "for_percentage_3": 0,
         "for_percentage_2": 40,
         "status": "A",
-        "project_name": "USQ eResearch Services Sandbox",
+        "project_description": "USQ eResearch Services Sandbox",
         "end_date": "2014-05-17",
         "field_of_research_2": "070104",
         "field_of_research_3": null,
@@ -69,7 +69,7 @@
         "core_hours": 1000,
         "instance_quota": 4,
         "cores": 4,
-        "tenant_uuid": "",
+        "project_id": "",
         "usage_patterns": "Many users and small data sets as well as small number of users and large data sets. This will vary depending on the tests and the resesearch group. Please contact joe.bloggs@unimelb.edu.au."
     }
 },
@@ -78,7 +78,7 @@
     "model": "nectar_allocations.allocationrequest",
     "fields": {
         "parent_request": null,
-        "tenant_name": "",
+        "project_name": "",
         "instances": 3,
         "approver_email": "iiiiii@pppppp.edu.au",
         "ram_quota": 16,
@@ -90,7 +90,7 @@
         "for_percentage_3": 0,
         "for_percentage_2": 40,
         "status": "A",
-        "project_name": "USQ eResearch Services Sandbox",
+        "project_description": "USQ eResearch Services Sandbox",
         "end_date": "2014-05-17",
         "field_of_research_2": "070104",
         "field_of_research_3": null,
@@ -106,7 +106,7 @@
         "core_hours": 1000,
         "instance_quota": 2,
         "cores": 5,
-        "tenant_uuid": "",
+        "project_id": "",
         "usage_patterns": "Many users and small data sets as well as small number of users and large data sets. This will vary depending on the tests and the resesearch group. Please contact joe.bloggs@unimelb.edu.au."
     }
 },
@@ -115,7 +115,7 @@
     "model": "nectar_allocations.allocationrequest",
     "fields": {
         "parent_request": null,
-        "tenant_name": null,
+        "project_name": null,
         "instances": 1,
         "approver_email": "",
         "ram_quota": 0,
@@ -127,7 +127,7 @@
         "for_percentage_3": 20,
         "for_percentage_2": 20,
         "status": "E",
-        "project_name": "Shoreview",
+        "project_description": "Shoreview",
         "end_date": "2016-03-31",
         "field_of_research_2": "050203",
         "field_of_research_3": "050209",
@@ -143,7 +143,7 @@
         "core_hours": 200,
         "instance_quota": 0,
         "cores": 1,
-        "tenant_uuid": null,
+        "project_id": null,
         "usage_patterns": "The machine will host the Shoreview website. Storage of many images is required.  Please contact joe.bloggs@unimelb.edu.au."
     }
 },
@@ -152,7 +152,7 @@
     "model": "nectar_allocations.allocationrequest",
     "fields": {
         "parent_request": null,
-        "tenant_name": null,
+        "project_name": null,
         "instances": 1,
         "approver_email": "",
         "ram_quota": 0,
@@ -164,7 +164,7 @@
         "for_percentage_3": 0,
         "for_percentage_2": 0,
         "status": "E",
-        "project_name": "decadal variability in DMS flux in the  Southern Ocean",
+        "project_description": "decadal variability in DMS flux in the  Southern Ocean",
         "end_date": "2014-07-01",
         "field_of_research_2": null,
         "field_of_research_3": null,
@@ -180,7 +180,7 @@
         "core_hours": 100,
         "instance_quota": 10,
         "cores": 1,
-        "tenant_uuid": null,
+        "project_id": null,
         "usage_patterns": "large data sets, small number of users. Please contact joe.bloggs@unimelb.edu.au."
     }
 }

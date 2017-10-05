@@ -25,7 +25,7 @@ def project_details_page(request, allocation_request_id):
         .project_from_request_id(allocation_request_id)
 
     context = {
-        "title": allocation_dict['project_name'].replace('_', ' '),
+        "title": allocation_dict['project_description'].replace('_', ' '),
         "tagline": "",
         "allocation_request_id": allocation_request_id}
     return render(request, "project_details.html", context)
@@ -60,7 +60,7 @@ def project_summary(request, allocation_request_id):
             .project_from_request_id(allocation_request_id)
     except AllocationRequest.DoesNotExist:
         raise Http404("Allocation does not Exist")
-    tenancy_id = allocation_dict['tenant_uuid']
+    tenancy_id = allocation_dict['project_id']
     usages = project_details.find_current_project_resource_usage(tenancy_id)
     for usage in usages:
         if usage['target'] == 'instance_count':
