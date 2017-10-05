@@ -4,7 +4,7 @@
 
 var headings = {
   "modified_time" : "Modified time",
-  "project_name" : "Project name",
+  "project_description" : "Project name",
   "start_date" : "Start date",
   "end_date" : "End date",
   "instance_quota" : "Instance quota",
