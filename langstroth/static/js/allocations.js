@@ -50,7 +50,7 @@ Allocations.prototype.restructureAllocations =
     } else {
       // add the leaf value.
       allocationItem.id = child.id;
-      allocationItem.projectName = child.name;
+      allocationItem.projectDescription = child.name;
       allocationItem.institutionName = child.institution;
       allocationItem.coreQuota = child.coreQuota;
       allocationItem.instanceQuota = child.instanceQuota;
