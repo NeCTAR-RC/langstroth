@@ -18,7 +18,7 @@ def organise_allocations_tree(cls):
 
     child0 = {
         'id': 199L,
-        'projectName': u'CharacterisationVL - [Additional resource]',
+        'projectDescription': u'CharacterisationVL - [Additional resource]',
         'institution': u'monash.edu',
         'coreQuota': 80.0,
         'instanceQuota': 80.0,
@@ -26,7 +26,7 @@ def organise_allocations_tree(cls):
 
     child1 = {
         'id': 420L,
-        'projectName': u'UTas Climate Change and Health Adaptions',
+        'projectDescription': u'UTas Climate Change and Health Adaptions',
         'institution': u'utas.edu.au',
         'coreQuota': 3.2,
         'instanceQuota': 3.2,
@@ -34,7 +34,7 @@ def organise_allocations_tree(cls):
 
     child2 = {
         'id': 253L,
-        'projectName': u'Sport and Recreation Spatial',
+        'projectDescription': u'Sport and Recreation Spatial',
         'institution': u'ballarat.edu.au',
         'coreQuota': 1.2,
         'instanceQuota': 1.2,
@@ -66,8 +66,10 @@ class AllocationTest(test.TestCase):
     old_organise_allocations_tree = None
 
     def setUp(self):
-        self.request0 = AllocationRequest(project_name="Project X", status="E")
-        self.request1 = AllocationRequest(project_name="Project Y", status="X")
+        self.request0 = AllocationRequest(project_description="Project X",
+                                          status="E")
+        self.request1 = AllocationRequest(project_description="Project Y",
+                                          status="X")
         self.old_organise_allocations_tree = \
             AllocationRequest.organise_allocations_tree
         AllocationRequest.organise_allocations_tree = organise_allocations_tree
@@ -78,10 +80,10 @@ class AllocationTest(test.TestCase):
         AllocationRequest.organise_allocations_tree = \
             self.old_organise_allocations_tree
 
-    def test_request_has_project_name(self):
+    def test_request_has_project_description(self):
 
-        self.assertEqual(self.request0.project_name, 'Project X')
-        self.assertEqual(self.request1.project_name, 'Project Y')
+        self.assertEqual(self.request0.project_description, 'Project X')
+        self.assertEqual(self.request1.project_description, 'Project Y')
 
     def test_request_has_status(self):
         self.assertEqual(self.request0.status, 'E')
@@ -247,7 +249,7 @@ class AllocationTest(test.TestCase):
 #             'core_quota': 0.5,
 #             'instance_quota': 1.0,
 #             'institution': u'deakin.edu.au',
-#             'project_name': u'Deakin_Bonza',
+#             'project_description': u'Deakin_Bonza',
 #             }]
 
     def test_restructure_allocations_tree(self):

@@ -132,7 +132,7 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     })
     .text(function(row) {
       return breadcrumbs.isForCodeLevel() ? row.target
-          : row.projectName.makeWrappable() ;
+          : row.projectDescription.makeWrappable() ;
     });
 
   rows.select("td.col1")
@@ -184,7 +184,7 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     .style("color", "white")
     .text(function(row) {
       return breadcrumbs.isForCodeLevel() ? row.target
-          : row.projectName.makeWrappable() ;
+          : row.projectDescription.makeWrappable() ;
     });
 
   newRows.append("td")
