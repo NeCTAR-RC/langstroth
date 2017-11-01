@@ -40,12 +40,16 @@ def filter_null_datapoints(response_data):
 def _fill_nulls(data, template):
     data = dict([(timestamp, value) for value, timestamp in data])
     previous_value = 0.0
+    no_data_count = 0
     for point in template:
         timestamp = point[TIMESTAMP_INDEX]
         value = point[VALUE_INDEX]
         if timestamp in data:
             value = data[timestamp]
         if value is None:
+            if no_data_count > 30:
+                previous_value = 0.0
+            no_data_count += 1
             yield [previous_value, timestamp]
         else:
             previous_value = value
