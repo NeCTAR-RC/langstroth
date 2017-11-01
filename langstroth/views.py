@@ -25,16 +25,15 @@ def round_to_day(datetime_object):
 def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
                service_group_type='api'):
 
-    cache_key = 'nagios_availability_%s_%s_%s' % (service_group, now, then)
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
-        availability = (cache.get("_%s" % cache_key)
+        availability = (cache.get('_nagios_availability_%s' % service_group)
                         or nagios.get_availability(then, now, service_group))
-        cache.set(cache_key, availability)
-        cache.set("_%s" % cache_key, availability, 600)
+        cache.set('nagios_availability_%s' % service_group, availability)
+        cache.set('_nagios_availability_%s' % service_group, availability, 600)
     except:
-        availability = cache.get(cache_key)
+        availability = cache.get('nagios_availability_%s' % service_group)
 
     LOG.debug("Availability: " + str(availability))
 
@@ -67,36 +66,15 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
 
 
 def index(request):
-    start = request.GET.get('start')
-    end = request.GET.get('end')
-    now = None
-    if end:
-        try:
-            end = datetime.datetime.strptime(end, "%Y-%m-%d")
-        except ValueError:
-            end = datetime.datetime.now()
-            now = 'Now'
-    else:
-        end = datetime.datetime.now()
-        now = 'Now'
-    if start:
-        try:
-            start = datetime.datetime.strptime(start, "%Y-%m-%d")
-        except ValueError:
-            start = round_to_day(start) - relativedelta(months=1)
-    else:
-        start = start - relativedelta(months=1)
-
-    start = round_to_day(start)
-    end = round_to_day(end)
+    now = datetime.datetime.now()
+    then = round_to_day(now) - relativedelta(months=6)
 
     context = {"title": "Research Cloud Status",
                "tagline": "",
-               "report_range": "%s to %s" % (start.strftime('%d, %b %Y'),
-                                             now or end.strftime('%d, %b %Y'))}
+               "report_range": "%s to Now" % then.strftime('%d, %b %Y')}
 
-    context, error = _get_hosts(context, end, start)
-    context, error = _get_hosts(context, end, start,
+    context, error = _get_hosts(context, now, then)
+    context, error = _get_hosts(context, now, then,
                                 service_group='tempest_site',
                                 service_group_type='site')
 
@@ -149,6 +127,7 @@ FAULTS_TARGETS = [
     ('ERSA', "az.sa.instance_faults"),
     ('NCI', "az.NCI.instance_faults"),
     ('Tasmania', "az.tasmania.instance_faults"),
+    ('Pawsey', "az.pawsey-01.instance_faults"),
     ('Intersect',
      "sumSeries(az.intersect-01.instance_faults,"
      "az.intersect-02.instance_faults)"),
@@ -163,7 +142,7 @@ def total_faults(request):
                for alias, target in FAULTS_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -197,7 +176,7 @@ def total_instance_count(request):
                for alias, target in INST_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -228,7 +207,7 @@ def total_used_cores(request):
                for alias, target in CORES_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -249,6 +228,7 @@ CAPACITY_TARGETS = [
      "sumSeries(cell.tas-m.capacity_%(ram_size)s,"
      "cell.tas-s.capacity_%(ram_size)s,"
      "cell.tas.capacity_%(ram_size)s)"),
+    ('Pawsey', "cell.pawsey-01.capacity_%(ram_size)s"),
     ('Intersect',
      "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
      "cell.intersect-02.capacity_%(ram_size)s)"),
@@ -266,7 +246,7 @@ def total_capacity(request, ram_size=4096):
         for alias, target in CAPACITY_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
 
     return HttpResponse(dumps(data), req.headers['content-type'])
 
@@ -284,6 +264,7 @@ QUERY = {
             "az.QRIScloud.domain.*.used_vcpus"],
     'monash': ["az.monash-01.domain.*.used_vcpus",
                "az.monash-02.domain.*.used_vcpus"],
+    'pawsey': ["az.pawsey-01.domain.*.used_vcpus"],
     'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
     'intersect': ["az.intersect-01.domain.*.used_vcpus",
                   "az.intersect-02.domain.*.used_vcpus"],
@@ -299,6 +280,7 @@ QUERY = {
             "az.tasmania.domain.*.used_vcpus",
             "az.intersect-01.domain.*.used_vcpus",
             "az.intersect-02.domain.*.used_vcpus",
+            "az.pawsey-01.domain.*.used_vcpus",
             "az.swinburne-01.domain.*.used_vcpus"]
 }
 
