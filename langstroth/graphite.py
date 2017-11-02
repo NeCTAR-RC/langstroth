@@ -37,17 +37,26 @@ def filter_null_datapoints(response_data):
     return response_data
 
 
-def _fill_nulls(data, template):
+def _fill_nulls(data, template, summarise=None):
     data = dict([(timestamp, value) for value, timestamp in data])
     previous_value = 0.0
     no_data_count = 0
+    if summarise == '3days':
+        max_no_data = 2
+    elif summarise == '1days':
+        max_no_data = 6
+    elif summarise == '12hours':
+        max_no_data = 12
+    else:
+        max_no_data = 30
+
     for point in template:
         timestamp = point[TIMESTAMP_INDEX]
         value = point[VALUE_INDEX]
         if timestamp in data:
             value = data[timestamp]
         if value is None:
-            if no_data_count > 30:
+            if no_data_count > max_no_data:
                 previous_value = 0.0
             no_data_count += 1
             yield [previous_value, timestamp]
@@ -56,7 +65,7 @@ def _fill_nulls(data, template):
             yield [value, timestamp]
 
 
-def fill_null_datapoints(response_data):
+def fill_null_datapoints(response_data, summarise=None):
     """Extend graphite data sets to the same length and fill in any missing
     values with either 0.0 or the previous real value that existed.
 
@@ -70,7 +79,8 @@ def fill_null_datapoints(response_data):
     for data_series in response_data:
         data_points = data_series['datapoints']
         data_series['datapoints'] = list(_fill_nulls(data_points,
-                                                     template=tmpl))
+                                                     template=tmpl,
+                                                     summarise=summarise))
 
     return response_data
 

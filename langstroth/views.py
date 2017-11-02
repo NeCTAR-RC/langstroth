@@ -163,7 +163,7 @@ def total_faults(request):
                for alias, target in FAULTS_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -197,7 +197,7 @@ def total_instance_count(request):
                for alias, target in INST_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -228,7 +228,7 @@ def total_used_cores(request):
                for alias, target in CORES_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
@@ -266,7 +266,7 @@ def total_capacity(request, ram_size=4096):
         for alias, target in CAPACITY_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json())
+    data = graphite.fill_null_datapoints(req.json(), q_summarise)
 
     return HttpResponse(dumps(data), req.headers['content-type'])
 
