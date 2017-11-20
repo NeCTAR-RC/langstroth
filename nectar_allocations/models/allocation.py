@@ -56,8 +56,6 @@ class AllocationRequest(models.Model):
     core_quota = models.IntegerField(null=False, default=0)
     project_name = models.CharField(max_length=100, null=True)
     status_explanation = models.CharField(max_length=200, null=True)
-    volume_zone = models.CharField(max_length=64, null=True)
-    object_storage_zone = models.CharField(max_length=64, null=True)
     approver_email = models.CharField(max_length=75, null=True)
     modified_time = models.DateTimeField(default=timezone.now, null=False)
 
