@@ -25,7 +25,8 @@ def round_to_day(datetime_object):
 def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
                service_group_type='api'):
 
-    cache_key = 'nagios_availability_%s_%s_%s' % (service_group, now, then)
+    cache_key = 'nagios_availability_%s_%s_%s' % (service_group,
+                                                  now.date(), then.date())
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
@@ -85,7 +86,8 @@ def index(request):
         except ValueError:
             start = round_to_day(start) - relativedelta(months=1)
     else:
-        start = start - relativedelta(months=1)
+        current = datetime.datetime.now()
+        start = current - relativedelta(months=1)
 
     start = round_to_day(start)
     end = round_to_day(end)
