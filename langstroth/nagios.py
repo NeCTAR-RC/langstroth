@@ -99,6 +99,8 @@ def parse_service(service_columns):
     tr = cssselect.GenericTranslator()
     name = service_columns[0].xpath(tr.css_to_xpath('a'))[0].text
     service_name = SERVICE_NAMES.get(name)
+    if not service_name:
+        raise ValueError
     return {
         'name': name,
         'display_name': service_name,
@@ -137,8 +139,12 @@ def parse_status(html, service_group):
                 current_host = parse_hostlink(hostname[0])
                 hosts[current_host['hostname']] = current_host
 
-            service = parse_service(children[1:])
-            current_host['services'].append(service)
+            try:
+                service = parse_service(children[1:])
+            except ValueError:
+                pass
+            else:
+                current_host['services'].append(service)
     context = {"hosts": hosts}
     return context
 
