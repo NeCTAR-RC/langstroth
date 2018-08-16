@@ -1,4 +1,5 @@
 from json import dumps
+from django.views.decorators.cache import cache_page
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from nectar_allocations.models.forcode import ForCode
@@ -47,7 +48,7 @@ def for_codes(request):
     json_string = dumps(code_dict)
     return HttpResponse(json_string, "application/json")
 
-
+@cache_page(60 * 60 * 24)
 def allocation_tree(request):
     allocation_dict = AllocationRequest.restructure_allocations_tree()
     json_string = dumps(allocation_dict)

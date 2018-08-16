@@ -36,11 +36,11 @@ class AllocationRequest(models.Model):
     contact_email = models.CharField(max_length=75, null=False)
     start_date = models.DateField(null=False, default='2012-01-16')
     end_date = models.DateField(null=False, default='2012-01-16')
-    primary_instance_type = models.CharField(
-        max_length=1, null=False, choices=INSTANCE_TYPE_CHOICES, default='S')
-    cores = models.IntegerField(null=False, default=1)
-    core_hours = models.IntegerField(null=False, default=100)
-    instances = models.IntegerField(null=False, default=1)
+    #primary_instance_type = models.CharField(
+    #    max_length=1, null=False, choices=INSTANCE_TYPE_CHOICES, default='S')
+    #cores = models.IntegerField(null=False, default=1)
+    #core_hours = models.IntegerField(null=False, default=100)
+    #instances = models.IntegerField(null=False, default=1)
     use_case = models.TextField(null=False)
     usage_patterns = models.TextField(null=False)
     geographic_requirements = models.TextField(null=False)
@@ -51,9 +51,9 @@ class AllocationRequest(models.Model):
     field_of_research_3 = models.CharField(max_length=6, null=True)
     for_percentage_3 = models.IntegerField(null=False, default=0)
     project_id = models.CharField(max_length=36, null=True)
-    instance_quota = models.IntegerField(null=False, default=0)
-    ram_quota = models.IntegerField(null=False, default=0)
-    core_quota = models.IntegerField(null=False, default=0)
+    #instance_quota = models.IntegerField(null=False, default=0)
+    #ram_quota = models.IntegerField(null=False, default=0)
+    #core_quota = models.IntegerField(null=False, default=0)
     project_name = models.CharField(max_length=100, null=True)
     status_explanation = models.CharField(max_length=200, null=True)
     approver_email = models.CharField(max_length=75, null=True)
@@ -133,8 +133,15 @@ class AllocationRequest(models.Model):
 
     def apply_partitioned_quotas(self, allocation_summary, percentage):
         fraction = float(percentage) / 100.0
-        allocation_summary['instance_quota'] = self.instance_quota * fraction
-        allocation_summary['core_quota'] = self.core_quota * fraction
+        instance_quota = Quota.objects.filter(group__allocation=self, resource_id=53)
+        core_quota = Quota.objects.filter(group__allocation=self, resource_id=47)
+        #core_quota = self.quotas.quota_set.filter(resource_id=47)
+        if instance_quota:
+            instance_quota = instance_quota[0].quota
+        if core_quota:
+            core_quota = core_quota[0].quota
+        allocation_summary['instance_quota'] = instance_quota * fraction
+        allocation_summary['core_quota'] = core_quota * fraction
 
     def summary(self, code):
         allocation_summary = dict()
@@ -339,3 +346,89 @@ class AllocationRequest(models.Model):
                 cls.apply_privacy_policy(request.usage_patterns)
 
         return project_record
+
+class Zone(models.Model):
+    name = models.CharField(primary_key=True, max_length=32)
+    display_name = models.CharField(max_length=64)
+    
+    def __unicode__(self):
+        return self.display_name
+
+    class Meta:
+        app_label = 'nectar_allocations'
+        db_table = 'rcallocation_zone'
+        managed = False if not settings.TEST_MODE else True
+
+
+class ServiceType(models.Model):
+    catalog_name = models.CharField(primary_key=True, max_length=32)
+    name = models.CharField(max_length=64)
+    description = models.TextField(null=True, blank=True)
+    zones = models.ManyToManyField(Zone)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'nectar_allocations'
+        db_table = 'rcallocation_service_type'
+        managed = False if not settings.TEST_MODE else True
+
+
+class Resource(models.Model):
+    name = models.CharField(max_length=64)
+    service_type = models.ForeignKey(ServiceType)
+    quota_name = models.CharField(max_length=32)
+    unit = models.CharField(max_length=32)
+    requestable = models.BooleanField(default=True)
+    help_text = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def codename(self):
+        return "%s.%s" % (self.service_type.catalog_name, self.quota_name)
+
+    class Meta:
+        unique_together = ('service_type', 'quota_name')
+        app_label = 'nectar_allocations'
+        db_table = 'rcallocation_resource'
+        managed = False if not settings.TEST_MODE else True
+
+
+class QuotaGroup(models.Model):
+    allocation = models.ForeignKey(AllocationRequest, related_name='quotas')
+    zone = models.ForeignKey(Zone)
+    service_type = models.ForeignKey(ServiceType)
+
+    class Meta:
+        unique_together = ("allocation", "zone", "service_type")
+        app_label = 'nectar_allocations'
+        db_table = 'rcallocation_quotagroup'
+        managed = False if not settings.TEST_MODE else True
+
+    def __unicode__(self):
+        return '{0} {1} {2}'.format(self.allocation.id,
+                                    self.service_type, self.zone)
+
+
+class Quota(models.Model):
+    group = models.ForeignKey(QuotaGroup)
+    resource = models.ForeignKey(Resource)
+    requested_quota = models.PositiveIntegerField(
+        'Requested quota',
+        default='0')
+    quota = models.PositiveIntegerField(
+        "Allocated quota",
+        default='0')
+
+    class Meta:
+        unique_together = ("group", "resource")
+        app_label = 'nectar_allocations'
+        db_table = 'rcallocation_quota'
+        managed = False if not settings.TEST_MODE else True
+
+    def __unicode__(self):
+        return '{0} {1} {2}'.format(self.group.allocation.id,
+                                    self.resource, self.group.zone)
+
