@@ -531,20 +531,18 @@ function populatePalette(route) {
 //---- Data Loading.
 
 function load() {
-  d3.json("/allocations/rest/for_codes", function(error, forObjects) {
-    d3.json(
-        "/allocations/rest/applications/approved/tree",
-        function(error, allocationObjects) {
-        forTitleMap = forObjects;
-        allocations = new Allocations(allocationObjects.children);
-        var route = null;
-        var pathExtension = window.location.hash;
-        if (pathExtension) {
-          route = allocations.parseForPath(pathExtension);
-          breadcrumbs.setRoute(route);
-          populatePalette(route);
-        }
-        refreshPlotAndTable(route);
+  d3.json(allocationURL + "/for-codes/", function(error, forObjects) {
+    d3.json(allocationURL + "/for-tree/", function(error, allocationObjects) {
+      forTitleMap = forObjects;
+      allocations = new Allocations(allocationObjects.children);
+      var route = null;
+      var pathExtension = window.location.hash;
+      if (pathExtension) {
+        route = allocations.parseForPath(pathExtension);
+        breadcrumbs.setRoute(route);
+        populatePalette(route);
+      }
+      refreshPlotAndTable(route);
     });
   });
 }
