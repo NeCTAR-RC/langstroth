@@ -7,7 +7,6 @@ import os
 TEST_MODE = True
 
 DEFAULT_DATABASE_NAME = '../langstroth.db'
-ALLOCATION_DATABASE_NAME = '../nectar_allocations.db'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -22,16 +21,8 @@ DATABASES = {
         'NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
         'TEST_NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
     },
-    # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
-    'allocations_db': {
-        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        # Or path to database file if using sqlite3.
-        'NAME': path_merge(__file__, ALLOCATION_DATABASE_NAME),
-        'TEST_NAME': path_merge(__file__, ALLOCATION_DATABASE_NAME),
-    }
 }
-DATABASE_ROUTERS = ['nectar_allocations.router_for_testing.TestRouter']
+
 FIXTURE_DIRS = ()
 
 # Password strings populated by an edited version of the install_uat.sh script.
@@ -60,7 +51,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
     'langstroth',
     'nectar_status',
     'nectar_allocations',

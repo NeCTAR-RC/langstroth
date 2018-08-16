@@ -34,6 +34,10 @@
 {% endblock %}
 
 {% block extra_script %}
+  <script>
+    // Global vars
+    var allocationURL = '{{ allocation_url }}';
+  </script>
   <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
   <script src="{{ STATIC_URL }}js/breadcrumbs.js"></script>
   <script src="{{ STATIC_URL }}js/colour_palette.js"></script>
