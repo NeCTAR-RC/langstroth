@@ -15,7 +15,6 @@ SITE_DOMAIN = ""
 TEST_MODE = True
 
 DEFAULT_DATABASE_NAME = '../langstroth.db'
-ALLOCATION_DATABASE_NAME = '../nectar_allocations.db'
 
 NAGIOS_PASSWORD = ""
 
@@ -41,14 +40,7 @@ DATABASES = {
         'NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
         'TEST_NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
     },
-    # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
-    'allocations_db': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': path_merge(__file__, ALLOCATION_DATABASE_NAME),
-        'TEST_NAME': path_merge(__file__, ALLOCATION_DATABASE_NAME),
-    }
 }
-DATABASE_ROUTERS = ['nectar_allocations.router.AllocationsRouter']
 
 # The URL to your Nagios installation.
 NAGIOS_URL = "http://nagios.test/cgi-bin/nagios3/"
@@ -79,6 +71,8 @@ STATUS_QUERY_TEMPLATE = "status.cgi" \
 
 # The URL to the graphite web interface
 GRAPHITE_URL = "http://graphite.test"
+
+ALLOCATION_API_URL = "http://allocations.test/rest_api/"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

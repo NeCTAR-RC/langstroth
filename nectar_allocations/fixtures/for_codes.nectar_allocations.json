@@ -1,9 +1,0 @@
-[
-    {
-        "pk": "1234",
-        "model": "nectar_status.forcode"
-        "fields": {
-            "name": "onetwothreeefour"
-        }
-    },
-]

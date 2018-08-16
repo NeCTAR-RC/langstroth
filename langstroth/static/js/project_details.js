@@ -11,8 +11,6 @@ var forTitleMap = {};
 var headings = {
   "start_date" : "Start date",
   "end_date" : "End date",
-  "instance_quota" : "Instance quota",
-  "core_quota" : "Core quota",
   "for_distribution" : "FOR distribution",
   "submit_date" : "Submit date",
   "modified_time" : "Modified time"
@@ -87,7 +85,35 @@ function tabulateSummary(pageAreaSelector, projectSummary, forTranslation) {
       }
       return projectSummary[row];
     });
+}
 
+function tabulateQuotas(pageAreaSelector, projectSummary) {
+  // Define the table with heading.
+  var table = d3.select(pageAreaSelector).append("table")
+        .attr("class", "table table-striped table-bordered table-condensed");
+  tbody = table.append("tbody");
+
+  var quotas = projectSummary.quotas;
+
+  // create a row for each object in the data
+  var rows = tbody.selectAll('tr')
+    .data(quotas)
+    .enter()
+    .append('tr');
+
+  rows.append("th")
+    .style("max-width", "270px")
+    .style("min-width", "230px")
+    .style("width", "130px")
+    .text(function(row) {
+      label = row.resource + " (" + row.zone + ")";
+      return label;
+  });
+
+  rows.append("td")
+    .text(function(row) {
+      return row.quota;
+  });
 }
 
 //==== Pie Chart for Instance and Core Quota.
@@ -135,19 +161,24 @@ function graphQuota(pageAreaSelector, quotaKey, usage) {
 //==== Project Allocation: Assembling the Pieces.
 // Table and 2 pie charts.
 
+function getQuota(projectSummary, resource) {
+  for (var q in projectSummary.quotas) {
+    quota = projectSummary.quotas[q];
+    if (quota.resource == "compute.instances") {
+      return quota.quota;
+    } else {
+      return "Unknown";
+    }
+  }
+}
+
 function projectDetails() {
-  d3.json("/allocations/rest/for_codes", function(error, forTranslation) {
-    d3.json("/allocations/rest/applications/" + allocationId + "/approved", function(error, projectSummary) {
+  d3.json(allocationURL + "/for-codes/", function(error, forTranslation) {
+    d3.json(allocationURL + "/allocations/" + allocationId + "/", function(error, projectSummary) {
       tabulateSummary("#project-summary", projectSummary, forTranslation);
+      tabulateQuotas("#project-quota", projectSummary);
 
-      var coreUsage = [projectSummary.used_cores, projectSummary.core_quota - projectSummary.used_cores];
-      graphQuota("#core-pie-chart","cores", coreUsage);
-      $("#core-label").html("Used&nbsp;" + projectSummary.used_cores + "&nbsp;of&nbsp;" + projectSummary.core_quota);
-
-      var instanceUsage = [projectSummary.used_instances, projectSummary.instance_quota - projectSummary.used_instances];
-      graphQuota("#instance-pie-chart","instances", instanceUsage);
-      $("#instance-label").html("Used&nbsp;" + projectSummary.instances + "&nbsp;of&nbsp;" + projectSummary.instance_quota);
-
+      /*
       forTitleMap = forTranslation;
       var pathExtension = window.location.hash;
       if (pathExtension) {
@@ -164,7 +195,7 @@ function projectDetails() {
           var destinationUrl = '/allocations/applications/approved/visualisation' + urlExtension;
           window.location.href = destinationUrl;
         });
-      }
+      }*/
     });
   });
 }
