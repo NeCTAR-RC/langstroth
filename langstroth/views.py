@@ -172,10 +172,12 @@ def total_faults(request):
 INST_TARGETS = [
     ('Melbourne University',
      "sumSeries(az.melbourne-qh2.total_instances,"
+     "az.melbourne-qh2-uom.total_instances,"
      "az.melbourne-np.total_instances)"),
     ('Monash University',
      "sumSeries(az.monash-01.total_instances,"
-     "az.monash-02.total_instances)"),
+     "az.monash-02.total_instances,"
+     "az.monash-03.total_instances)"),
     ('QCIF',
      "sumSeries(az.qld.total_instances,"
      "az.QRIScloud.total_instances)"),
@@ -205,9 +207,13 @@ def total_instance_count(request):
 
 CORES_TARGETS = [
     ('Melbourne University',
-     "sumSeries(az.melbourne-qh2.used_vcpus,az.melbourne-np.used_vcpus)"),
+     "sumSeries(az.melbourne-qh2.used_vcpus,"
+     "az.melbourne-np.used_vcpus,"
+     "az.melbourne-qh2-uom.used_vcpus)"),
     ('Monash University',
-     "sumSeries(az.monash-01.used_vcpus,az.monash-02.used_vcpus)"),
+     "sumSeries(az.monash-01.used_vcpus,"
+     "az.monash-02.used_vcpus,"
+     "az.monash-03.used_vcpus)"),
     ('QCIF',
      "sumSeries(az.qld.used_vcpus,az.QRIScloud.used_vcpus)"),
     ('ERSA', "az.sa.used_vcpus"),
