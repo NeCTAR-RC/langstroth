@@ -60,3 +60,6 @@ langstroth/data/*
 /langstroth.egg-info/
 /.tox/
 coverage.xml
+.cache
+.coverage
+.pytest_cache
