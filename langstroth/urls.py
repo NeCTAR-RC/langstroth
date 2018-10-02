@@ -13,7 +13,7 @@ urlpatterns = patterns(
     url(r'^domain/cores_per_domain$',
         'langstroth.views.total_cores_per_domain', name='domain'),
 
-    # Growth Visualisations
+    # Usage Visualisations
     url(r'^growth/infrastructure/$', 'langstroth.views.growth', name='growth'),
     url(r'^faults/$', 'langstroth.views.faults', name='faults'),
     url(r'^faults/instance_faults$', 'langstroth.views.total_faults'),
