@@ -33,8 +33,9 @@ var charts = {};
       .x(function(d) { return d[1];})
       .y(function(d) { return d[0];})
       .useInteractiveGuideline(true)
+      .showTotalInTooltip(true)
       .rightAlignYAxis(true)
-      .transitionDuration(500)
+      .duration(500)
       .showControls(true)
       .clipEdge(true);
 

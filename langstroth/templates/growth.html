@@ -13,11 +13,15 @@
 <div class="container">
   <div class="row">
     <h4>Total Instances</h4>
-    <svg class="chart" id="instance_count" data-url="/growth/instance_count"></svg>
+    <div class="chart-container">
+      <svg class="chart" id="instance_count" data-url="/growth/instance_count"></svg>
+    </div>
   </div>
   <div class="row">
     <h4>Used VCPUs</h4>
-    <svg class="chart" id="vcpu_used" data-url="/growth/used_cores"></svg>
+    <div class="chart-container">
+      <svg class="chart" id="vcpu_used" data-url="/growth/used_cores"></svg>
+    </div>
   </div>
 </div>
 {% endblock %}
