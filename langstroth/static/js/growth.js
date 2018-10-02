@@ -84,6 +84,8 @@ graphduration('#1month', '1hour', '-1months', 'month.');
 graphduration('#6months','12hours', '-6months', '6 months.');
 graphduration('#1year', '1days', '-1years', 'year.');
 graphduration('#3years', '3days', '-3years', '3 years.');
+graphduration('#5years', '5days', '-5years', '5 years.');
+graphduration('#alltime', '10days', '-8years', 'all time.');
 
 $('.chart').each(function (index, graph) {
   url = $(graph).data('url');
