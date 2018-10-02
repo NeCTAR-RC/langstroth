@@ -1,5 +1,3 @@
-growth_text = 'Over the last ';
-
 var colors = d3.scale.category20();
 keyColor = function(d, i) {return colors(d.target);};
 
@@ -33,8 +31,9 @@ var charts = {};
       .x(function(d) { return d[1];})
       .y(function(d) { return d[0];})
       .useInteractiveGuideline(true)
+      .showTotalInTooltip(true)
       .rightAlignYAxis(true)
-      .transitionDuration(500)
+      .duration(500)
       .showControls(true)
       .clipEdge(true);
 
@@ -58,7 +57,7 @@ graphduration =
         $('#graph-buttons button').removeClass('active');
 
         $(selector).addClass('active');
-        $('small.lead').text(growth_text + duration_text);
+        $('small.lead').text(duration_text);
 
         var graphs = $('.chart');
         /* Set the default path to the resource */
@@ -77,12 +76,14 @@ graphduration =
 
   };
 
-graphduration('#1day', '1hour', '-1day', 'day.');
-graphduration('#1week', '1hour', '-7days', 'week.');
-graphduration('#1month', '1hour', '-1months', 'month.');
-graphduration('#6months','12hours', '-6months', '6 months.');
-graphduration('#1year', '1days', '-1years', 'year.');
-graphduration('#3years', '3days', '-3years', '3 years.');
+graphduration('#1day', '1hour', '-1day', 'Over the last day.');
+graphduration('#1week', '1hour', '-7days', 'Over the last week.');
+graphduration('#1month', '1hour', '-1months', 'Over the last month.');
+graphduration('#6months','12hours', '-6months', 'Over the last 6 months.');
+graphduration('#1year', '1days', '-1years', 'Over the last year.');
+graphduration('#3years', '3days', '-3years', 'Over the last 3 years.');
+graphduration('#5years', '5days', '-5years', 'Over the last 5 years.');
+graphduration('#alltime', '10days', '20120101', 'Since January 2012.');
 
 $('.chart').each(function (index, graph) {
   url = $(graph).data('url');
