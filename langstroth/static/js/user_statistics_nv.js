@@ -30,8 +30,9 @@ var areaChart = nv.models.stackedAreaChart()
         return d[0];
     })
     .useInteractiveGuideline(true)
+    .showTotalInTooltip(true)
     .rightAlignYAxis(true)
-    .transitionDuration(500)
+    .duration(500)
     .showControls(false)
     .showLegend(false)
     .clipEdge(true);
@@ -54,7 +55,7 @@ var histoChart = nv.models.historicalBarChart()
         return d[0];
     })
     .rightAlignYAxis(true)
-    .transitionDuration(500);
+    .duration(500);
 
 histoChart.xAxis.tickFormat(function(d) {
     return shortDateFormat(new Date(d)) ;
@@ -69,7 +70,7 @@ var svg = null;
 function visualise(trend, chart) {
 
     // Clean up the internal graph array.
-    while(nv.graphs.length > 0) {
+    while(undefined !== nv.graphs && nv.graphs.length > 0) {
         nv.graphs.pop();
     }
 

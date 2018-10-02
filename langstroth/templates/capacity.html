@@ -21,7 +21,9 @@
 {% for size in ram_sizes %}
   <div class="row">
     <h4>Flavour Size: {{ size }}MB</h4>
-    <svg class="chart" id="capacity_{{ size }}" data-url="/capacity/{{ size }}"></svg>
+    <div class="chart-container">
+      <svg class="chart" id="capacity_{{ size }}" data-url="/capacity/{{ size }}"></svg>
+    </div>
   </div>
 {% endfor %}
 </div>
