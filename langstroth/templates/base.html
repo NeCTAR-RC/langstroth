@@ -8,53 +8,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Bootstrap -->
-      <link href='//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/paper/bootstrap.min.css' type='text/css' media='screen' rel='stylesheet'/>
-      <link href='{{ STATIC_URL }}css/langstroth.css' type='text/css' media='screen' rel='stylesheet'/>
-      {% block extra_head %}
-      {% endblock %}
-    </head>
-    <body>
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><img src='{{ STATIC_URL }}img/logo.svg' width='198' height='28'/></a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-              <li class="{% active request 'availability' %}"><a href="/">Availability</a></li>
-              <li class="{% active request 'growth' %}"><a href="/growth/infrastructure/">Usage</a></li>
-              <li class="{% active request 'domain' %}"><a href="/domain">Composition</a></li>
-              <li class="{% active request 'allocations' %}"><a href="/allocations">Allocations</a></li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </div>
-      </nav>
-
+    <!-- Bootstrap -->
+    <link href='//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/paper/bootstrap.min.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{{ STATIC_URL }}css/langstroth.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
       <div class="container">
-        <div class="page-header">
-          {% block page-header %}
-          <h1>{{ title }}&nbsp;<small class="lead">{{ tagline }}</small></h1>
-          {% endblock %}
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src='{{ STATIC_URL }}img/logo.svg' width='198' height='28'/></a>
         </div>
-        <br/>
-        {% block content %}
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+            <li class="{% active request 'availability' %}"><a href="/">Availability</a></li>
+            <li class="{% active request 'growth' %}"><a href="/growth/infrastructure/">Usage</a></li>
+            <li class="{% active request 'domain' %}"><a href="/domain">Composition</a></li>
+            <li class="{% active request 'allocations' %}"><a href="/allocations">Allocations</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="page-header">
+        {% block page-header %}
+        <h1>{{ title }}&nbsp;<small class="lead">{{ tagline }}</small></h1>
         {% endblock %}
       </div>
-      <script src="//code.jquery.com/jquery.js"></script>
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
-      {% block extra_script %}
+      <br/>
+      {% block content %}
       {% endblock %}
-    </body>
-  </html>
+    </div>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    {% block extra_script %}
+    {% endblock %}
+  </body>
+</html>
