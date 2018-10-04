@@ -4,15 +4,21 @@
 <div class="row">
 
   {% if api_hosts %}
-  <div class="col-md-12">
-    <h4>6 month average from {{ report_range }}</h4>
+  <div class="row">
+    <div id="graph-buttons" class="btn-group pull-right">
+      <a href="/?start=-12months" id="12months" class="btn btn-default">12 months</a>
+      <a href="/?start=-6months" id="6months" class="btn btn-default">6 months</a>
+      <a href="/?start=-1months" id="1months" class="btn btn-default active">1 month</a>
+      <a href="/?start=-1weeks" id="1weeks" class="btn btn-default">1 week</a>
+    </div>
   </div>
+  <br />
 
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h2 class="panel-title">Service Endpoints</h2>
-        <p>Is the service endpoint up and accepting requests</p>
+        <p>Periodic healthcheck testing of the service endpoint.</p>
       </div>
     <table class="table">
       <thead class="table-header">
@@ -73,8 +79,8 @@
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h2 class="panel-title">Availability Zones</h2>
-        <p>We periodically boot an instance and test network and metadata access</p>
+        <h2 class="panel-title">Instance Launch</h2>
+        <p>Periodic testing of launching new instances, networking and metadata access.<p>
       </div>
     <table class="table">
       <thead>
@@ -143,4 +149,8 @@
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/index.js"></script>
 {% endblock %}
