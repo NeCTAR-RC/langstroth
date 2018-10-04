@@ -4,11 +4,13 @@ from operator import itemgetter
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 import logging
+import re
 
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.cache import cache
 from django.conf import settings
+from django.template.defaultfilters import pluralize
 
 from langstroth import nagios
 from langstroth import graphite
@@ -71,35 +73,54 @@ def index(request):
     start = request.GET.get('start')
     end = request.GET.get('end')
     now = None
+    start_date = None
+    end_date = None
+    report_range = None
     if end:
         try:
-            end = datetime.datetime.strptime(end, "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(end, "%Y-%m-%d")
         except ValueError:
-            end = datetime.datetime.now()
-            now = 'Now'
-    else:
-        end = datetime.datetime.now()
-        now = 'Now'
-    if start:
-        try:
-            start = datetime.datetime.strptime(start, "%Y-%m-%d")
-        except ValueError:
-            start = round_to_day(start) - relativedelta(months=1)
-    else:
-        current = datetime.datetime.now()
-        start = current - relativedelta(months=1)
+            pass
 
-    start = round_to_day(start)
-    end = round_to_day(end)
+    if not end_date:
+        end_date = datetime.datetime.now()
+        now = 'Now'
+
+    if start:
+        if start.startswith('-'):
+            try:
+                res = re.search(r'^-(?P<value>\d*)(?P<period>\w+)$', start)
+                value = int(res.group('value'))
+                period = res.group('period')
+                args = {period: value}
+                start_date = datetime.datetime.now() - relativedelta(**args)
+                report_range = "Over the last %d %s%s" % (
+                    value, period.rstrip('s'), pluralize(value))
+            except Exception:
+                pass
+        else:
+            try:
+                start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+            except ValueError:
+                pass
+
+    if not start_date:
+        start_date = datetime.datetime.now() - relativedelta(months=1)
+        report_range = "Over the last 1 month"
+
+    start_date = round_to_day(start_date)
+    end_date = round_to_day(end_date)
+
+    if not report_range:
+        report_range = "%s to %s" % (start_date.strftime('%d %b %Y'),
+                                     now or end_date.strftime('%d %b %Y'))
 
     context = {"title": "Research Cloud Status",
-               "tagline": "",
-               "report_range": "%s to %s" % (start.strftime('%d, %b %Y'),
-                                             now or end.strftime('%d, %b %Y'))}
+               "tagline": report_range}
 
-    context, error = _get_hosts(context, end, start)
-    context, error = _get_hosts(context, end, start,
-                                service_group='tempest_site',
+    context, error = _get_hosts(context, end_date, start_date)
+    context, error = _get_hosts(context, end_date, start_date,
+                                service_group='tempest_compute_site',
                                 service_group_type='site')
 
     if error:
