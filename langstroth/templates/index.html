@@ -4,9 +4,15 @@
 <div class="row">
 
   {% if api_hosts %}
-  <div class="col-md-12">
-    <h4>6 month average from {{ report_range }}</h4>
+  <div class="row">
+    <div id="graph-buttons" class="btn-group pull-right">
+      <a href="/?start=-12months" id="12months" class="btn btn-default">12 months</a>
+      <a href="/?start=-6months" id="6months" class="btn btn-default">6 months</a>
+      <a href="/?start=-1months" id="1months" class="btn btn-default">1 month</a>
+      <a href="/?start=-1weeks" id="1weeks" class="btn btn-default">1 week</a>
+    </div>
   </div>
+  <br />
 
   <div class="col-md-6">
     <div class="panel panel-default">
@@ -143,4 +149,8 @@
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/index.js"></script>
 {% endblock %}
