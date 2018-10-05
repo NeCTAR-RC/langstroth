@@ -41,7 +41,7 @@ areaChart.xAxis.tickFormat(function(d) {
     return shortDateFormat(new Date(d)) ;
 });
 
-areaChart.xAxis.ticks(d3.time.month, 3);
+areaChart.xAxis.ticks(d3.time.year);
 areaChart.xScale(d3.time.scale());
 areaChart.yAxis.tickFormat(frequencyFormat);
 
