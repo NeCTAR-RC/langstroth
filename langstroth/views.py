@@ -287,27 +287,17 @@ def choose_first(datapoints):
 
 QUERY = {
     'melbourne': ["az.melbourne-qh2.domain.*.used_vcpus",
+                  "az.melbourne-qh2-uom.domain.*.used_vcpus",
                   "az.melbourne-np.domain.*.used_vcpus"],
     'qld': ["az.qld.domain.*.used_vcpus",
             "az.QRIScloud.domain.*.used_vcpus"],
     'monash': ["az.monash-01.domain.*.used_vcpus",
-               "az.monash-02.domain.*.used_vcpus"],
+               "az.monash-02.domain.*.used_vcpus",
+               "az.monash-03.domain.*.used_vcpus"],
     'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
     'intersect': ["az.intersect-01.domain.*.used_vcpus",
                   "az.intersect-02.domain.*.used_vcpus"],
-    'all': ["az.melbourne-qh2.domain.*.used_vcpus",
-            "az.melbourne-np.domain.*.used_vcpus",
-            "az.monash-01.domain.*.used_vcpus",
-            "az.monash-02.domain.*.used_vcpus",
-            "az.NCI.domain.*.used_vcpus",
-            "az.auckland.domain.*.used_vcpus",
-            "az.sa.domain.*.used_vcpus",
-            "az.qld.domain.*.used_vcpus",
-            "az.QRIScloud.domain.*.used_vcpus",
-            "az.tasmania.domain.*.used_vcpus",
-            "az.intersect-01.domain.*.used_vcpus",
-            "az.intersect-02.domain.*.used_vcpus",
-            "az.swinburne-01.domain.*.used_vcpus"]
+    'all': ["az.*.domain.*.used_vcpus"],
 }
 
 
