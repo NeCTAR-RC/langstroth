@@ -37,6 +37,10 @@ var arc = d3.svg.arc()
       .innerRadius(radius - 120)
       .outerRadius(outerRadius);
 
+var tooltip = d3.select('#viz')
+      .append('div')
+      .attr('class', 'chart-tooltip');
+
 var svg = d3.select("#viz").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -88,7 +92,7 @@ function change() {
 
   $.get( "/domain/cores_per_domain", {'az': this.id}, function( data ) {
     zero(dataset);
-    update(dataset,  data);
+    update(dataset, data);
     // clearTimeout(timeout);
     var new_path = svg.selectAll("g.slice").data(pie(dataset));
 
@@ -141,9 +145,6 @@ function change() {
       .duration(400)
       .style("opacity", 1);
 
-
-
-
     // new elements
     var g = new_path.enter()
           .append('g')
@@ -165,6 +166,16 @@ function change() {
       .transition()
       .duration(750)
       .attrTween("d", arcTween);
+
+    new_path.on("mousemove", function(d){
+      tooltip.style("left", d3.event.pageX+10+"px");
+      tooltip.style("top", d3.event.pageY-30+"px");
+      tooltip.style("display", "inline-block");
+      tooltip.html("<b>"+d.data.target+"</b><br>"+(d.data.value)+" VCPUs");
+    });
+    new_path.on("mouseout", function(d){
+      tooltip.style("display", "none");
+    });
 
     g.filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
       .append("text")

@@ -36,3 +36,17 @@ img.graphite {
 .sad-jumbotron div {
     margin: 0 auto;
 }
+
+.chart-tooltip {
+    position: absolute;
+    display: none;
+    width: auto;
+    height: auto;
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: -3px 3px 15px #888888;
+    color: black;
+    padding: 5px;
+    text-align: center;
+}
