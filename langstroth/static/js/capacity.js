@@ -35,7 +35,6 @@ var charts = {};
     var chart = nv.models.lineChart()
       .margin({right: 100})
       .useInteractiveGuideline(true)
-      .showTotalInTooltip(true)
       .duration(500);
 
     //Format x-axis labels with custom function.
