@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a3b66d4_9e3cc6b2",
+        "filename": "langstroth/templates/allocation_home.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-02-26T05:05:54Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "4ad20f2dfda15aa226ddf55678aa4157321b7806",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a667c79_67a36295",
+        "filename": "langstroth/templates/allocation_home.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-02-26T05:05:54Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "4ad20f2dfda15aa226ddf55678aa4157321b7806",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
