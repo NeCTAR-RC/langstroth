@@ -152,11 +152,33 @@ def capacity(request):
     return render(request, "capacity.html", context)
 
 
-def domain(request):
-    context = {
-        "title": "By domain",
-        "tagline": ""}
-    return render(request, "domain.html", context)
+def composition(request, name):
+    title = None
+    if name == 'domain':
+        title = 'Composition by domain'
+        desc = ("This graph shows a break down of usage by the number of "
+                "VCPUs allocated, grouped by the domain of the user who "
+                "launched a VM.  As a result this graph isn't a true "
+                "representation of the number of VCPU's being used by an "
+                "institution, since many allocations have collaborators from "
+                "different institutions.")
+    elif name == 'allocation_home':
+        title = 'Composition by allocation home'
+        desc = ("This graph shows a break down of usage by the number of "
+                "VCPUs allocated, grouped by the allocation home. This value "
+                "could be national, none or the specified home institution. "
+                "The value of none might be for certain internal projects, or "
+                "project trials."
+                "In some cases, a project might be categorised as national, "
+                "but does not necessarily meet the requrements, so these "
+                "figures may not be accurate")
+
+    if title:
+        context = {
+            "title": title,
+            "desc": desc
+        }
+        return render(request, "composition.html", context)
 
 
 FAULTS_TARGETS = [
@@ -306,40 +328,39 @@ def choose_first(datapoints):
             yield value
 
 
-QUERY = {
-    'melbourne': ["az.melbourne-qh2.domain.*.used_vcpus",
-                  "az.melbourne-qh2-uom.domain.*.used_vcpus",
-                  "az.melbourne-np.domain.*.used_vcpus"],
-    'qld': ["az.qld.domain.*.used_vcpus",
-            "az.QRIScloud.domain.*.used_vcpus"],
-    'monash': ["az.monash-01.domain.*.used_vcpus",
-               "az.monash-02.domain.*.used_vcpus",
-               "az.monash-03.domain.*.used_vcpus"],
-    'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
-    'intersect': ["az.intersect-01.domain.*.used_vcpus",
-                  "az.intersect-02.domain.*.used_vcpus"],
-    'all': ["az.*.domain.*.used_vcpus"],
+COMPOSITION_QUERY = {
+    'melbourne': ["az.melbourne-qh2.%s.*.used_vcpus",
+                  "az.melbourne-qh2-uom.%s.*.used_vcpus",
+                  "az.melbourne-np.%s.*.used_vcpus"],
+    'qld': ["az.qld.%s.*.used_vcpus",
+            "az.QRIScloud.%s.*.used_vcpus"],
+    'monash': ["az.monash-01.%s.*.used_vcpus",
+               "az.monash-02.%s.*.used_vcpus",
+               "az.monash-03.%s.*.used_vcpus"],
+    'swinburne': ["az.swinburne-01.%s.*.used_vcpus"],
+    'intersect': ["az.intersect-01.%s.*.used_vcpus",
+                  "az.intersect-02.%s.*.used_vcpus"],
+    'all': ["az.*.%s.*.used_vcpus"],
 }
 
-
-def total_cores_per_domain(request):
+def composition_cores(request, name):
     q_from = request.GET.get('from', "-60minutes")
     q_az = request.GET.get('az', "melbourne")
     targets = []
 
-    if q_az in QUERY:
-        targets.extend([graphite.Target(target)
-                        for target in QUERY[q_az]])
+    if q_az in COMPOSITION_QUERY:
+        targets.extend([graphite.Target(target % name)
+                        for target in COMPOSITION_QUERY[q_az]])
     else:
-        targets.append(graphite.Target("az.%s.domain.*.used_vcpus" % q_az))
+        targets.append(graphite.Target("az.%s.%s.*.used_vcpus" % (q_az, name)))
     req = graphite.get(from_date=q_from, targets=targets)
     cleaned = defaultdict(dict)
-    for domain in req.json():
-        domain_name = '.'.join(domain['target'].split('.')[-2].split('_'))
-        data = cleaned[domain_name]
-        data['target'] = domain_name
+    for item in req.json():
+        item_name = '.'.join(item['target'].split('.')[-2].split('_'))
+        data = cleaned[item_name]
+        data['target'] = item_name
         try:
-            count = choose_first(domain['datapoints']).next()
+            count = choose_first(item['datapoints']).next()
         except:
             count = 0
         if data.get('value'):

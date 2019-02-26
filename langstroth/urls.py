@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import RedirectView
 
 from langstroth import error
 
@@ -8,10 +9,20 @@ urlpatterns = patterns(
 
     url(r'^$', 'langstroth.views.index', name='home'),
 
-    # Domain Visualisations
-    url(r'^domain/$', 'langstroth.views.domain', name='domain'),
-    url(r'^domain/cores_per_domain$',
-        'langstroth.views.total_cores_per_domain', name='domain'),
+    # Composition Visualisations
+    url(r'^composition/(?P<name>\w+)/$', 'langstroth.views.composition',
+        name='composition'),
+    url(r'^composition/(?P<name>\w+)/cores$',
+        'langstroth.views.composition_cores', name='composition'),
+    
+    # Redirect from old url
+    url(r'^domain/$', RedirectView.as_view(url='/composition/domain',
+                                           permanent=True), name='composition'),
+
+    # Allocation Home Visualisations
+    url(r'^allocation_home/$', 'langstroth.views.allocation_home', name='allocation_home'),
+    url(r'^allocation_home/cores_per_allocation_home$',
+        'langstroth.views.total_cores_per_allocation_home', name='allocation_home'),
 
     # Usage Visualisations
     url(r'^growth/infrastructure/$', 'langstroth.views.growth', name='growth'),
