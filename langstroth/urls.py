@@ -13,6 +13,11 @@ urlpatterns = patterns(
     url(r'^domain/cores_per_domain$',
         'langstroth.views.total_cores_per_domain', name='domain'),
 
+    # Allocation Home Visualisations
+    url(r'^allocation_home/$', 'langstroth.views.allocation_home', name='allocation_home'),
+    url(r'^allocation_home/cores_per_allocation_home$',
+        'langstroth.views.total_cores_per_allocation_home', name='allocation_home'),
+
     # Usage Visualisations
     url(r'^growth/infrastructure/$', 'langstroth.views.growth', name='growth'),
     url(r'^faults/$', 'langstroth.views.faults', name='faults'),

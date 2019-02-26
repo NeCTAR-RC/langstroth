@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="row">
+  <div id="graph-buttons" class="btn-group pull-right">
+    <button id="all" type="button" class="btn btn-default active">All</button>
+    <button id="melbourne" type="button" class="btn btn-default">Melbourne University</button>
+    <button id="monash" type="button" class="btn btn-default">Monash University</button>
+    <button id="qld" type="button" class="btn btn-default">QCIF</button>
+    <button id="sa" type="button" class="btn btn-default">ERSA</button>
+    <button id="NCI" type="button" class="btn btn-default">NCI</button>
+    <button id="tasmania" type="button" class="btn btn-default">Tasmania</button>
+    <button id="intersect" type="button" class="btn btn-default">Intersect</button>
+    <button id="swinburne" type="button" class="btn btn-default">Swinburne</button>
+    <button id="auckland" type="button" class="btn btn-default">Auckland</button>
+  </div>
+</div>
+<br />
+<div class="row">
+  <p>
+    This graph shows a break down of usage by the number of VCPUs allocated,
+    grouped by the allocation home of the project that launched a VM. 
+	This data isn't entirely accurate, as many projects are classified as
+	<i>National</i>, when they should be classed as <i>Local</i> to an
+	institution, but they will be updated over time.
+  </p>
+</div>
+<div class="clearfix"></div>
+<div id="viz"></div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}js/d3.v3.js"></script>
+<script src="{{ STATIC_URL }}js/allocation_home.js"></script>
+{% endblock %}

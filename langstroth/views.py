@@ -159,6 +159,13 @@ def domain(request):
     return render(request, "domain.html", context)
 
 
+def allocation_home(request):
+    context = {
+        "title": "By allocation home",
+        "tagline": ""}
+    return render(request, "allocation_home.html", context)
+
+
 FAULTS_TARGETS = [
     ('Melbourne University',
      "sumSeries(az.melbourne-qh2.instance_faults,"
@@ -306,7 +313,7 @@ def choose_first(datapoints):
             yield value
 
 
-QUERY = {
+DOMAIN_QUERY = {
     'melbourne': ["az.melbourne-qh2.domain.*.used_vcpus",
                   "az.melbourne-qh2-uom.domain.*.used_vcpus",
                   "az.melbourne-np.domain.*.used_vcpus"],
@@ -327,9 +334,9 @@ def total_cores_per_domain(request):
     q_az = request.GET.get('az', "melbourne")
     targets = []
 
-    if q_az in QUERY:
+    if q_az in DOMAIN_QUERY:
         targets.extend([graphite.Target(target)
-                        for target in QUERY[q_az]])
+                        for target in DOMAIN_QUERY[q_az]])
     else:
         targets.append(graphite.Target("az.%s.domain.*.used_vcpus" % q_az))
     req = graphite.get(from_date=q_from, targets=targets)
@@ -340,6 +347,51 @@ def total_cores_per_domain(request):
         data['target'] = domain_name
         try:
             count = choose_first(domain['datapoints']).next()
+        except:
+            count = 0
+        if data.get('value'):
+            data['value'] += count
+        else:
+            data['value'] = count
+    cleaned = cleaned.values()
+    cleaned.sort(key=itemgetter('value'))
+    return HttpResponse(dumps(cleaned), req.headers['content-type'])
+
+
+HOME_QUERY = {
+    'melbourne': ["az.melbourne-qh2.allocation_home.*.used_vcpus",
+                  "az.melbourne-qh2-uom.allocation_home.*.used_vcpus",
+                  "az.melbourne-np.allocation_home.*.used_vcpus"],
+    'qld': ["az.qld.allocation_home.*.used_vcpus",
+            "az.QRIScloud.allocation_home.*.used_vcpus"],
+    'monash': ["az.monash-01.allocation_home.*.used_vcpus",
+               "az.monash-02.allocation_home.*.used_vcpus",
+               "az.monash-03.allocation_home.*.used_vcpus"],
+    'swinburne': ["az.swinburne-01.allocation_home.*.used_vcpus"],
+    'intersect': ["az.intersect-01.allocation_home.*.used_vcpus",
+                  "az.intersect-02.allocation_home.*.used_vcpus"],
+    'all': ["az.*.allocation_home.*.used_vcpus"],
+}
+
+
+def total_cores_per_allocation_home(request):
+    q_from = request.GET.get('from', "-60minutes")
+    q_az = request.GET.get('az', "melbourne")
+    targets = []
+
+    if q_az in HOME_QUERY:
+        targets.extend([graphite.Target(target)
+                        for target in HOME_QUERY[q_az]])
+    else:
+        targets.append(graphite.Target("az.%s.allocation_home.*.used_vcpus" % q_az))
+    req = graphite.get(from_date=q_from, targets=targets)
+    cleaned = defaultdict(dict)
+    for allocation_home in req.json():
+        allocation_home_name = '.'.join(allocation_home['target'].split('.')[-2].split('_'))
+        data = cleaned[allocation_home_name]
+        data['target'] = allocation_home_name
+        try:
+            count = choose_first(allocation_home['datapoints']).next()
         except:
             count = 0
         if data.get('value'):
