@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 
+{% load nav_bar %}
+
+{% block page-header %}
+  <div role="navigation" class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button data-target=".subnav-collapse" data-toggle="collapse"
+                class="navbar-toggle collapsed" type="button">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse subnav-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="{% active request 'domain' %}"><a href="/composition/domain/">Domain</a></li>
+          <li class="{% active request 'allocation_home' %}"><a href="/composition/allocation_home/">Allocation home</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h1>{{ title }}</h1>
+{% endblock %}
 
 {% block content %}
+<div class="row">
+  <p>{{ desc }}</p>
+</div>
+<br />
+
 <div class="row">
   <div id="graph-buttons" class="btn-group pull-right">
     <button id="all" type="button" class="btn btn-default active">All</button>
@@ -16,21 +46,11 @@
     <button id="auckland" type="button" class="btn btn-default">Auckland</button>
   </div>
 </div>
-<br />
-<div class="row">
-  <p>
-    This graph shows a break down of usage by the number of VCPUs allocated,
-    grouped by the domain of the user who launched a VM.  As a result this
-    graph isn't a true representation of the number of VCPU's being used by an
-    institution, since many allocations have collaborators from different
-    institutions.
-  </p>
-</div>
 <div class="clearfix"></div>
 <div id="viz"></div>
 {% endblock %}
 
 {% block extra_script %}
 <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
-<script src="{{ STATIC_URL }}js/domains.js"></script>
+<script src="{{ STATIC_URL }}js/composition.js"></script>
 {% endblock %}
