@@ -233,7 +233,8 @@ INST_TARGETS = [
     ('Pawsey', "az.pawsey-01.total_instances"),
     ('Intersect',
      "sumSeries(az.intersect-01.total_instances,"
-     "az.intersect-02.total_instances)"),
+     "az.intersect-02.total_instances),"
+     "az.intersect.total_instances)"),
     ('Swinburne', "az.swinburne-01.total_instances"),
     ('Auckland', "az.auckland.total_instances"),
 ]
@@ -268,7 +269,8 @@ CORES_TARGETS = [
     ('Pawsey', "az.pawsey-01.used_vcpus"),
     ('Intersect',
      "sumSeries(az.intersect-01.used_vcpus,"
-     "az.intersect-02.used_vcpus)"),
+     "az.intersect-02.used_vcpus),"
+     "az.intersect.used_vcpus)"),
     ('Swinburne', "az.swinburne-01.used_vcpus"),
     ('Auckland', "az.auckland.used_vcpus"),
 ]
@@ -342,7 +344,8 @@ COMPOSITION_QUERY = {
                "az.monash-03.%s.*.used_vcpus"],
     'swinburne': ["az.swinburne-01.%s.*.used_vcpus"],
     'intersect': ["az.intersect-01.%s.*.used_vcpus",
-                  "az.intersect-02.%s.*.used_vcpus"],
+                  "az.intersect-02.%s.*.used_vcpus",
+                  "az.intersect.%s.*.used_vcpus"],
     'all': ["az.*.%s.*.used_vcpus"],
 }
 
