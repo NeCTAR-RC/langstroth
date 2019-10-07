@@ -143,16 +143,6 @@ def faults(request):
     return render(request, "faults.html", context)
 
 
-def capacity(request):
-    context = {
-        "title": "Capacity",
-        "tagline": "Over the last 6 months.",
-        'ram_sizes': [768, 2048, 4096, 6144, 8192,
-                      12288, 16384, 32768, 49152, 65536]
-    }
-    return render(request, "capacity.html", context)
-
-
 def composition(request, name):
     title = None
     if name == 'domain':
@@ -311,20 +301,6 @@ CAPACITY_TARGETS = [
     ('Swinburne', "cell.sut1.capacity_%(ram_size)s"),
     ('Auckland', "cell.auckland.capacity_%(ram_size)s"),
 ]
-
-
-def total_capacity(request, ram_size=4096):
-    q_from = request.GET.get('from', "-6months")
-    q_summarise = request.GET.get('summarise', None)
-
-    targets = [graphite.Target(
-        target % {'ram_size': ram_size}).summarize(q_summarise).alias(alias)
-        for alias, target in CAPACITY_TARGETS]
-
-    req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json(), q_summarise)
-
-    return HttpResponse(dumps(data), req.headers['content-type'])
 
 
 def choose_first(datapoints):
