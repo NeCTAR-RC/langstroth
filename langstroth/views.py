@@ -143,16 +143,6 @@ def faults(request):
     return render(request, "faults.html", context)
 
 
-def capacity(request):
-    context = {
-        "title": "Capacity",
-        "tagline": "Over the last 6 months.",
-        'ram_sizes': [768, 2048, 4096, 6144, 8192,
-                      12288, 16384, 32768, 49152, 65536]
-    }
-    return render(request, "capacity.html", context)
-
-
 def composition(request, name):
     title = None
     if name == 'domain':
@@ -285,45 +275,6 @@ def total_used_cores(request):
 
     req = graphite.get(from_date=q_from, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
-    return HttpResponse(dumps(data), req.headers['content-type'])
-
-
-CAPACITY_TARGETS = [
-    ('Melbourne University',
-     "sumSeries(cell.qh2.capacity_%(ram_size)s,"
-     "cell.np.capacity_%(ram_size)s,"
-     "cell.melbourne.capacity_%(ram_size)s)"),
-    ('Monash University',
-     "sumSeries(cell.monash-01.capacity_%(ram_size)s,"
-     "cell.monash-02.capacity_%(ram_size)s,"
-     "cell.monash.capacity_%(ram_size)s)"),
-    ('Monash University', "cell.monash.capacity_%(ram_size)s"),
-    ('QCIF', "cell.qld-upstart.capacity_%(ram_size)s"),
-    ('ERSA', "cell.sa-cw.capacity_%(ram_size)s"),
-    ('NCI', "cell.NCI.capacity_%(ram_size)s"),
-    ('Tasmania',
-     "sumSeries(cell.tas-m.capacity_%(ram_size)s,"
-     "cell.tas-s.capacity_%(ram_size)s,"
-     "cell.tas.capacity_%(ram_size)s)"),
-    ('Intersect',
-     "sumSeries(cell.intersect-01.capacity_%(ram_size)s,"
-     "cell.intersect-02.capacity_%(ram_size)s)"),
-    ('Swinburne', "cell.sut1.capacity_%(ram_size)s"),
-    ('Auckland', "cell.auckland.capacity_%(ram_size)s"),
-]
-
-
-def total_capacity(request, ram_size=4096):
-    q_from = request.GET.get('from', "-6months")
-    q_summarise = request.GET.get('summarise', None)
-
-    targets = [graphite.Target(
-        target % {'ram_size': ram_size}).summarize(q_summarise).alias(alias)
-        for alias, target in CAPACITY_TARGETS]
-
-    req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json(), q_summarise)
-
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
