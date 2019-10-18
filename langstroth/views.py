@@ -173,38 +173,6 @@ def composition(request, name):
     else:
         raise Http404
 
-
-FAULTS_TARGETS = [
-    ('Melbourne University',
-     "sumSeries(az.melbourne-qh2.instance_faults,"
-     "az.melbourne-np.instance_faults)"),
-    ('Monash University',
-     "sumSeries(az.monash-01.instance_faults,"
-     "az.monash-02.instance_faults)"),
-    ('QCIF',
-     "sumSeries(az.qld.instance_faults,"
-     "az.QRIScloud.instance_faults)"),
-    ('ERSA', "az.sa.instance_faults"),
-    ('NCI', "az.NCI.instance_faults"),
-    ('Tasmania', "az.tasmania.instance_faults"),
-    ('Intersect',
-     "sumSeries(az.intersect-01.instance_faults,"
-     "az.intersect-02.instance_faults)"),
-]
-
-
-def total_faults(request):
-    q_from = request.GET.get('from', "-6months")
-    q_summarise = request.GET.get('summarise', None)
-
-    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in FAULTS_TARGETS]
-
-    req = graphite.get(from_date=q_from, targets=targets)
-    data = graphite.fill_null_datapoints(req.json(), q_summarise)
-    return HttpResponse(dumps(data), req.headers['content-type'])
-
-
 INST_TARGETS = [
     ('Melbourne University',
      "sumSeries(az.melbourne-qh2.total_instances,"
