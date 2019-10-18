@@ -173,65 +173,18 @@ def composition(request, name):
     else:
         raise Http404
 
-INST_TARGETS = [
-    ('Melbourne University',
-     "sumSeries(az.melbourne-qh2.total_instances,"
-     "az.melbourne-qh2-uom.total_instances,"
-     "az.melbourne-np.total_instances)"),
-    ('Monash University',
-     "sumSeries(az.monash-01.total_instances,"
-     "az.monash-02.total_instances,"
-     "az.monash-03.total_instances)"),
-    ('QCIF',
-     "sumSeries(az.qld.total_instances,"
-     "az.QRIScloud.total_instances)"),
-    ('ERSA', "az.sa.total_instances"),
-    ('NCI', "az.NCI.total_instances"),
-    ('Tasmania', "az.tasmania.total_instances"),
-    ('Pawsey', "az.pawsey-01.total_instances"),
-    ('Intersect',
-     "sumSeries(az.intersect-01.total_instances,"
-     "az.intersect-02.total_instances,"
-     "az.intersect.total_instances)"),
-    ('Swinburne', "az.swinburne-01.total_instances"),
-    ('Auckland', "az.auckland.total_instances"),
-]
-
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
 
     targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in INST_TARGETS]
+               for alias, target in settings.INST_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
-
-CORES_TARGETS = [
-    ('Melbourne University',
-     "sumSeries(az.melbourne-qh2.used_vcpus,"
-     "az.melbourne-np.used_vcpus,"
-     "az.melbourne-qh2-uom.used_vcpus)"),
-    ('Monash University',
-     "sumSeries(az.monash-01.used_vcpus,"
-     "az.monash-02.used_vcpus,"
-     "az.monash-03.used_vcpus)"),
-    ('QCIF',
-     "sumSeries(az.qld.used_vcpus,az.QRIScloud.used_vcpus)"),
-    ('ERSA', "az.sa.used_vcpus"),
-    ('NCI', "az.NCI.used_vcpus"),
-    ('Tasmania', "az.tasmania.used_vcpus"),
-    ('Pawsey', "az.pawsey-01.used_vcpus"),
-    ('Intersect',
-     "sumSeries(az.intersect-01.used_vcpus,"
-     "az.intersect-02.used_vcpus,"
-     "az.intersect.used_vcpus)"),
-    ('Swinburne', "az.swinburne-01.used_vcpus"),
-    ('Auckland', "az.auckland.used_vcpus"),
-]
 
 
 def total_used_cores(request):
@@ -239,7 +192,7 @@ def total_used_cores(request):
     q_summarise = request.GET.get('summarise', None)
 
     targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in CORES_TARGETS]
+               for alias, target in settings.CORES_TARGETS]
 
     req = graphite.get(from_date=q_from, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
@@ -252,31 +205,14 @@ def choose_first(datapoints):
             yield value
 
 
-COMPOSITION_QUERY = {
-    'melbourne': ["az.melbourne-qh2.%s.*.used_vcpus",
-                  "az.melbourne-qh2-uom.%s.*.used_vcpus",
-                  "az.melbourne-np.%s.*.used_vcpus"],
-    'qld': ["az.qld.%s.*.used_vcpus",
-            "az.QRIScloud.%s.*.used_vcpus"],
-    'monash': ["az.monash-01.%s.*.used_vcpus",
-               "az.monash-02.%s.*.used_vcpus",
-               "az.monash-03.%s.*.used_vcpus"],
-    'swinburne': ["az.swinburne-01.%s.*.used_vcpus"],
-    'intersect': ["az.intersect-01.%s.*.used_vcpus",
-                  "az.intersect-02.%s.*.used_vcpus",
-                  "az.intersect.%s.*.used_vcpus"],
-    'all': ["az.*.%s.*.used_vcpus"],
-}
-
-
 def composition_cores(request, name):
     q_from = request.GET.get('from', "-60minutes")
     q_az = request.GET.get('az', "melbourne")
     targets = []
 
-    if q_az in COMPOSITION_QUERY:
+    if q_az in settings.COMPOSITION_QUERY:
         targets.extend([graphite.Target(target % name)
-                        for target in COMPOSITION_QUERY[q_az]])
+                        for target in settings.COMPOSITION_QUERY[q_az]])
     else:
         targets.append(graphite.Target("az.%s.%s.*.used_vcpus" % (q_az, name)))
     req = graphite.get(from_date=q_from, targets=targets)
