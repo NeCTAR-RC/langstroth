@@ -1,5 +1,5 @@
 import requests
-from urllib import urlencode
+from urllib.parse import urlencode
 from operator import itemgetter
 
 from django.conf import settings
