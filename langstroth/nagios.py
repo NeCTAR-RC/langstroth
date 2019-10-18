@@ -30,6 +30,7 @@ SERVICE_NAMES = {'http_cinder-api': 'Volume',
                  'http_designate-api': 'DNS',
                  'http_manila-api': 'Shared Filesystem',
                  'http_sahara-api': 'Data Processing',
+                 'http_trove-api': 'Database',
                  'tempest_auckland_compute': 'auckland',
                  'tempest_intersect-01_compute': 'intersect-01',
                  'tempest_intersect-02_compute': 'intersect-02',
@@ -45,7 +46,9 @@ SERVICE_NAMES = {'http_cinder-api': 'Volume',
                  'tempest_tasmania_compute': 'tasmania',
                  'tempest_coreservices_compute': 'Core Services',
                  'tempest_melbourne_compute': 'QH2-Test',
-                 'tempest_dev_compute': 'Dev'}
+                 'tempest_lani_compute': 'Lani',
+                 'tempest_luna_compute': 'Luna',
+}
 
 
 def parse_service_availability(service):
