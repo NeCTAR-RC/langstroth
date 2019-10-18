@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block extra_head %}
-    <link href='{{ STATIC_URL }}css/allocation-visualisation.css' type='text/css' media='screen' rel='stylesheet'/>
-    <link href='{{ STATIC_URL }}css/master-detail.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{% static "css/allocation-visualisation.css" %}' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{% static "css/master-detail.css" %}' type='text/css' media='screen' rel='stylesheet'/>
 {% endblock %}
 
 {% block content %}
@@ -38,10 +39,10 @@
     // Global vars
     var allocationURL = '{{ allocation_url }}';
   </script>
-  <script src="{{ STATIC_URL }}js/d3.v3.js"></script>
-  <script src="{{ STATIC_URL }}js/breadcrumbs.js"></script>
-  <script src="{{ STATIC_URL }}js/colour_palette.js"></script>
-  <script src="{{ STATIC_URL }}js/allocations.js"></script>
-  <script src="{{ STATIC_URL }}js/allocations_pie.js"></script>
-  <script src="{{ STATIC_URL }}js/for_table.js"></script>
+  <script src='{% static "js/d3.v3.js" %}'></script>
+  <script src='{% static "js/breadcrumbs.js" %}'></script>
+  <script src='{% static "js/colour_palette.js" %}'></script>
+  <script src='{% static "js/allocations.js" %}'></script>
+  <script src='{% static "js/allocations_pie.js" %}'></script>
+  <script src='{% static "js/for_table.js" %}'></script>
 {% endblock %}
