@@ -221,13 +221,13 @@ def composition_cores(request, name):
         data = cleaned[item_name]
         data['target'] = item_name
         try:
-            count = choose_first(item['datapoints']).next()
+            count = next(choose_first(item['datapoints']))
         except Exception:
             count = 0
         if data.get('value'):
             data['value'] += count
         else:
             data['value'] = count
-    cleaned = cleaned.values()
-    cleaned.sort(key=itemgetter('value'))
+    cleaned = list(cleaned.values())
+    sorted(cleaned, key=lambda x: x['value'])
     return HttpResponse(dumps(cleaned), req.headers['content-type'])
