@@ -1,13 +1,26 @@
-Source: python-langstroth
+Source: langstroth
 Section: unknown
 Priority: optional
 Maintainer: Russell Sim <russell.sim@gmail.com>
-Build-Depends: debhelper (>= 9), python-all (>= 2.6), python-setuptools, python-pip
+Build-Depends: debhelper (>= 9),
+               python3-all (>= 2.6),
+               python3-setuptools,
+               python3-pip,
+               python3-pytest,
+               python3-pytest-django,
+               python3-django,
+               python3-httpretty,
+               python3-requests,
+               python3-cssselect,
+               python3-lxml
 Standards-Version: 3.9.5
 Homepage: https://github.com/NeCTAR-RC/langstroth
 
-Package: python-langstroth
+Package: python3-langstroth
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libapache2-mod-wsgi
-Description: Check the status of the NeCTAR cloud
- langstroth, Check the status of the NeCTAR cloud
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         ${python3:Depends},
+         libapache2-mod-wsgi-py3
+Description: Check the status of the Nectar cloud
+ langstroth, Check the status of the Nectar cloud

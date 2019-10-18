@@ -11,6 +11,7 @@ def path_for_tests(file_name):
     of the pathname and filename."""
     return path.abspath(path.join(path.dirname(__file__), file_name))
 
+
 FILE_PATH = path_for_tests("./users_total_daily_graphite_response.json")
 
 

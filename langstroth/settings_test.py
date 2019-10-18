@@ -11,8 +11,6 @@ TEST_MODE = True
 DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
@@ -46,22 +44,6 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'langstroth',
-    'nectar_status',
-    'nectar_allocations',
-    'user_statistics',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-)
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
 
 if not path.exists(path.dirname(DEBUG_LOG)):

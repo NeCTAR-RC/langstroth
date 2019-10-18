@@ -2,7 +2,6 @@ import json
 
 from django.test import TestCase
 import httpretty
-import requests
 
 
 daily_accumulated_users = [
