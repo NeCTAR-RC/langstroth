@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% load nav_bar %}
 
 <!DOCTYPE html>
@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css' type='text/css' media='screen' rel='stylesheet'/>
-    <link href='{{ STATIC_URL }}css/langstroth.css' type='text/css' media='screen' rel='stylesheet'/>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+    <link href='{% static "css/langstroth.css" %}' type='text/css' media='screen' rel='stylesheet'/>
+    <link rel="shortcut icon" href='{% static "img/favicon.ico" %}'>
     {% block extra_head %}
     {% endblock %}
   </head>
@@ -27,7 +27,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><img src='{{ STATIC_URL }}img/logo.svg' width='198' height='28'/></a>
+          <a class="navbar-brand" href="#"><img src='{% static "img/logo.svg" %}' width='198' height='28'/></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
