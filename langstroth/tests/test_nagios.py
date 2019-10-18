@@ -13,7 +13,7 @@ class TestAvailability(TestCase):
     maxDiff = None
 
     def test_parsing(self):
-        html = open(os.path.join(DIR, 'test_availability.html')).read()
+        html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
         result = nagios.parse_availability(html, settings.NAGIOS_SERVICE_GROUP)
         self.assertEqual(
             result,

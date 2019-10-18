@@ -1,1 +1,1 @@
-from test_nagios import *  # NOQA
+from langstroth.tests.test_nagios import *  # NOQA
