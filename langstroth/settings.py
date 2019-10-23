@@ -17,8 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Langstroth  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import logging
+import os
+
 from .defaults import *  # NOQA
 
 
@@ -32,4 +33,3 @@ if os.path.exists(CUSTOM_SETTINGS_PATH):
     exec(open(CUSTOM_SETTINGS_PATH, "rb").read())
 else:
     LOG.warn("Missing custom settings file: %s. " % CUSTOM_SETTINGS_PATH)
-

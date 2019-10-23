@@ -1,6 +1,6 @@
 # Django settings for langstroth project.
-import sys
 from os import path
+import sys
 
 from user_statistics.settings import *  # NOQA
 
@@ -29,8 +29,10 @@ MANAGERS = ADMINS
 
 def path_merge(pathname, filename):
     """Returns the absolute path to the merged dirname of the pathname and
-    filename."""
+    filename.
+    """
     return path.abspath(path.join(path.dirname(pathname), filename))
+
 
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/

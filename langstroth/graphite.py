@@ -1,8 +1,9 @@
+from operator import itemgetter
 import requests
 from urllib import urlencode
-from operator import itemgetter
 
 from django.conf import settings
+
 
 GRAPHITE = settings.GRAPHITE_URL + "/render/"
 
@@ -13,8 +14,7 @@ TIMESTAMP_INDEX = 1
 
 
 def filter_null_datapoints(response_data):
-    """
-    Example Graphite response =
+    """Example Graphite response =
     [
         {
             "target": "Cumulative",

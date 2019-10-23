@@ -1,10 +1,10 @@
-import logging
 import calendar
+import logging
 
-import requests
 import cssselect
-import lxml.etree
 from django.conf import settings
+import lxml.etree
+import requests
 
 
 LOG = logging.getLogger(__name__)

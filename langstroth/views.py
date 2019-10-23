@@ -1,20 +1,20 @@
-import datetime
-from json import dumps
-from operator import itemgetter
 from collections import defaultdict
+import datetime
 from dateutil.relativedelta import relativedelta
+from json import dumps
 import logging
+from operator import itemgetter
 import re
 
+from django.conf import settings
+from django.core.cache import cache
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.core.cache import cache
-from django.conf import settings
 from django.template.defaultfilters import pluralize
 
-from langstroth import nagios
 from langstroth import graphite
+from langstroth import nagios
 
 LOG = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
                         or nagios.get_availability(then, now, service_group))
         cache.set(cache_key, availability)
         cache.set("_%s" % cache_key, availability, 600)
-    except:
+    except Exception:
         availability = cache.get(cache_key)
 
     LOG.debug("Availability: " + str(availability))
@@ -45,7 +45,7 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     try:
         status = nagios.get_status(service_group)
         cache.set('nagios_status_%s' % service_group, status)
-    except:
+    except Exception:
         status = cache.get('nagios_status_%s' % service_group)
 
     LOG.debug("Status: " + str(status))
@@ -186,7 +186,6 @@ def total_instance_count(request):
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
-
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
     q_summarise = request.GET.get('summarise', None)
@@ -223,7 +222,7 @@ def composition_cores(request, name):
         data['target'] = item_name
         try:
             count = choose_first(item['datapoints']).next()
-        except:
+        except Exception:
             count = 0
         if data.get('value'):
             data['value'] += count
