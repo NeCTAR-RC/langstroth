@@ -20,6 +20,8 @@ Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ${python3:Depends},
+         python3-pymysql,
+         python3-memcache,
          libjs-jquery,
          libapache2-mod-wsgi-py3
 Description: Check the status of the Nectar cloud
