@@ -1,7 +1,7 @@
 import json
+from unittest import mock
 
 from django.test import TestCase
-import httpretty
 
 
 daily_accumulated_users = [
@@ -27,22 +27,15 @@ daily_accumulated_users = [
 class UserStatisticsViewTest(TestCase):
 
     # Web pages
-
     def test_user_registrations_page(self):
         response = self.client.get(
             "/growth/users/")
         self.assertEqual(200, response.status_code)
 
     # Web services with JSON pay loads.
-
-    @httpretty.activate
-    def test_rest_for_frequency(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://graphite.dev.rc.nectar.org.au/render/',
-            body=json.dumps(daily_accumulated_users),
-            content_type="application/json")
-
+    @mock.patch('langstroth.graphite.requests.get')
+    def test_rest_for_frequency(self, mock_get):
+        mock_get.return_value.json.return_value = daily_accumulated_users
         response = self.client.get(
             "/growth/users/rest/registrations/frequency")
         assert 200 == response.status_code
