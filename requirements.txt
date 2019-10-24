@@ -3,3 +3,5 @@ lxml
 cssselect
 Django==1.11.11
 python-dateutil
+pymysql
+python-memcached
