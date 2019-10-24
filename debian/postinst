@@ -43,7 +43,7 @@ fi
 
 #DEBHELPER#
 
-django-admin syncdb --settings="langstroth.settings" --noinput
+django-admin migrate --settings="langstroth.settings" --noinput
 django-admin collectstatic --settings="langstroth.settings" --noinput
 
 chown -R www-data:www-data /var/log/langstroth
