@@ -4,11 +4,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from langstroth import nagios
-
-
 DIR = os.path.abspath(os.path.dirname(__file__))
-
-
 class TestAvailability(TestCase):
     maxDiff = None
 
@@ -83,7 +79,7 @@ class TestStatus(TestCase):
         result = nagios.parse_status(html, settings.NAGIOS_SERVICE_GROUP)
         self.assertEqual(
             result,
-            {'hosts':
+            {'host':
              {'cinder.rc.nectar.org.au':
               {'hostname': 'cinder.rc.nectar.org.au',
                'services': [{'status': 'OK',
