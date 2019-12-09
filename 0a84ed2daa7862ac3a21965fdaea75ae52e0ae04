@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9bda175_f101cc7b",
+        "filename": "langstroth/tests/test_nagios.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-12-09T02:19:01Z",
+      "side": 1,
+      "message": "That should be hosts",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 18
+      },
+      "revId": "0a84ed2daa7862ac3a21965fdaea75ae52e0ae04",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
