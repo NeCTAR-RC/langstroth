@@ -118,8 +118,8 @@ load();
 
 // Flick between the 2 kinds of chart/data.
 
-function change() {
-    $('#graph-buttons button').removeClass('active');
+function changeGraph() {
+    $('#graph-buttons li').removeClass('active');
     $(this).addClass('active');
     isCumulative = this.id == 'cumulative';
     var trendSelector = isCumulative ? 0 : 1;
@@ -128,4 +128,4 @@ function change() {
     visualise([trend], chart);
 }
 
-d3.selectAll("button").on("click", change);
+d3.selectAll("#graph-buttons li").on("click", changeGraph);
