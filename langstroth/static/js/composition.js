@@ -61,11 +61,11 @@ path.transition()  // update
   .duration(750)
   .attrTween("d", arcTween);
 
-d3.selectAll("button").on("click", change);
+d3.selectAll("#graph-buttons li").on("click", changeSource);
 
 
 // Perform an in-place update of the data
-function update(dest, source) {
+function updateData(dest, source) {
   hash_map = {};
   for (var i in source) {
     hash_map[source[i].target] = source[i];
@@ -86,13 +86,13 @@ function update(dest, source) {
 }
 
 
-function change() {
-  $('#graph-buttons button').removeClass('active');
+function changeSource() {
+  $('#graph-buttons li').removeClass('active');
   $(this).addClass('active');
 
   $.get("cores", {'az': this.id}, function(data) {
     zero(dataset);
-    update(dataset, data);
+    updateData(dataset, data);
     // clearTimeout(timeout);
     var new_path = svg.selectAll("g.slice").data(pie(dataset));
 
@@ -267,4 +267,4 @@ function arcTweenOut(a) {
   };
 }
 
-$("#all").click();
+$("#all").click(); // start with 'all'

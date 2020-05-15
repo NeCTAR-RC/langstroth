@@ -9,14 +9,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css' type='text/css' media='screen' rel='stylesheet'/>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/3.4.1/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-czdUt3c5InCk6AjJWW7zMMS5xcvRAyC6tWoWfXuRYfX6Vvv4Es8m8eRjzMChD493" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link href='{% static "css/langstroth.css" %}' type='text/css' media='screen' rel='stylesheet'/>
     <link rel="shortcut icon" href='{% static "img/favicon.ico" %}'>
     {% block extra_head %}
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -27,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><img src='{% static "img/logo.svg" %}' width='198' height='28'/></a>
+          <a class="navbar-brand" href="/"><img src='{% static "img/logo.svg" %}'/></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,7 +43,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div id="main-content" class="container">
       <div class="page-header">
         {% block page-header %}
         <h1>{{ title }}&nbsp;<small class="lead">{{ tagline }}</small></h1>
@@ -52,8 +53,74 @@
       {% block content %}
       {% endblock %}
     </div>
+
+    <div class="clearfix"></div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row vertical-align">
+          <div class="col-xs-8 footer-text">
+            <p>The Nectar Research Cloud is a service of the Australian Research Data Commons (ARDC).
+               The Australian Research Data Commons (ARDC) is enabled by the National Collaborative Research Infrastructure Strategy Program (NCRIS).
+               <a href="https://ardc.edu.au/about/" target="_blank">Read more about the ARDC...</a>
+            </p>
+          </div>
+          <div class="container col-xs-4">
+            <div class="row vertical-align">
+              <div class="col-md-7">
+                  <a href="https://www.ardc.edu.au/" target="_blank">
+                    <img src={% static "img/ardc_logo_rev.svg" %} class="img-responsive" alt="Australian Research Data Commons (ARDC)"/>
+                  </a>
+              </div>
+              <div class="col-md-5">
+                  <a href="https://education.gov.au/national-collaborative-research-infrastructure-strategy-ncris" target="_blank">
+                    <img src={% static "img/ncris_mono_rev.svg" %} class="img-responsive" alt="National Collaborative Research Infrastructure Strategy (NCRIS)" />
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div> <!-- row -->
+
+        <div class="row h-100 footer-links">
+          <div class="col-sm-3 col-xs-6">
+            <h3>Quicklinks</h3>
+              <ul>
+                <li><a href="https://dashboard.rc.nectar.org.au">Dashboard</a></li>
+                <li><a href="https://status.rc.nectar.org.au">Cloud Status</a></li>
+                <li><a href="https://dashboard.rc.nectar.org.au/terms">Terms and Conditions</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-3 col-xs-6">
+            <h3>Explore</h3>
+              <ul>
+                <li><a href="https://support.ehelp.edu.au/support/solutions/folders/6000190150">Cloud Basics</a></li>
+                <li><a href="https://support.ehelp.edu.au/support/solutions/folders/6000232361">Cloud Services</a></li>
+                <li><a href="https://support.ehelp.edu.au/support/solutions/folders/6000230414">Cloud Applications</a></li>
+                <li><a href="https://support.ehelp.edu.au/support/solutions/folders/6000190155">Cloud Fundamentals</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-3 col-xs-6">
+            <h3>Help</h3>
+              <ul>
+                <li><a href="https://support.ehelp.edu.au/support/home" target="_blank">Support Home</a></li>
+                <li><a href="https://support.ehelp.edu.au/support/tickets/new" target="_blank">Request Support</a></li>
+                <li><a href="https://tutorials.rc.nectar.org.au">Tutorials</a></li>
+              </ul>
+            </div>
+          <div class="col-sm-3 col-xs-6">
+            <h3>External Resources</h3>
+              <ul>
+                <li><a href="https://ardc.edu.au/">ARDC Home</a></li>
+                <li><a href="https://ardc.edu.au/services/">ARDC Online Services</a></li>
+              </ul>
+            </div>
+          </div>
+        </div> <!-- row -->
+      </div> <!-- container -->
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     {% block extra_script %}
     {% endblock %}

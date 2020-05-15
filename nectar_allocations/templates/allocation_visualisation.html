@@ -9,10 +9,10 @@
 {% block content %}
     <div class="row">
       <div class="col-md-3">
-        <div id="graph-buttons" class="btn-group">
-        <button id="cores" type="button" class="btn btn-default active">Cores</button>
-        <button id="instances" type="button" class="btn btn-default">Instances</button>
-        </div>
+        <ul id="graph-buttons" class="nav nav-tabs">
+          <li id="cores" class="active"><a href="#" data-toggle="tab">Cores</a></li>
+          <li id="instances"><a href="#" data-toggle="tab">Instances</a></li>
+        </ul>
       </div>
       <div class="col-md-2 col-md-offset-2">
         <h4><div id="statistics-area" class="label label-default"></div></h4>
