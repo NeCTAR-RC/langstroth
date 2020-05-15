@@ -3,13 +3,15 @@
 
 {% block content %}
 <div class="row">
-  <div id="graph-buttons" class="btn-group pull-right">
-    <button id="alltime" type="button" class="btn btn-default">All</button>
-    <button id="5years" type="button" class="btn btn-default">5 years</button>
-    <button id="3years" type="button" class="btn btn-default">3 years</button>
-    <button id="1year" type="button" class="btn btn-default">12 months</button>
-    <button id="6months" type="button" class="btn btn-default active">6 months</button>
-    <button id="1month" type="button" class="btn btn-default">1 month</button>
+  <div class="container">
+    <ul id="graph-buttons" class="nav nav-tabs pull-right">
+      <li id="alltime"><a href="#" data-toggle="tab">All</a></li>
+      <li id="5years"><a href="#" data-toggle="tab">5 years</a></li>
+      <li id="3years"><a href="#" data-toggle="tab">3 years</a></li>
+      <li id="1year"><a href="#" data-toggle="tab">12 months</a></li>
+      <li id="6months" class="active"><a href="#" data-toggle="tab">6 months</a></li>
+      <li id="1month"><a href="#" data-toggle="tab">1 month</a></li>
+    </ul>
   </div>
 </div>
 
