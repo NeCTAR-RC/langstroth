@@ -61,7 +61,7 @@ path.transition()  // update
   .duration(750)
   .attrTween("d", arcTween);
 
-d3.selectAll("button").on("click", change);
+d3.selectAll("#graph-buttons li").on("click", change);
 
 
 // Perform an in-place update of the data
@@ -87,7 +87,7 @@ function update(dest, source) {
 
 
 function change() {
-  $('#graph-buttons button').removeClass('active');
+  $('#graph-buttons li').removeClass('active');
   $(this).addClass('active');
 
   $.get( "/domain/cores_per_domain", {'az': this.id}, function( data ) {
