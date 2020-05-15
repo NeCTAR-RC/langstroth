@@ -54,7 +54,7 @@ graphduration =
     button = $(selector);
     button.click(
       function () {
-        $('#graph-buttons button').removeClass('active');
+        $('#graph-buttons li').removeClass('active');
 
         $(selector).addClass('active');
         $('small.lead').text(duration_text);

@@ -1,0 +1,137 @@
+commit 0ff8ac144aa88b07f8b8206bd799be71964f724c
+Author: Andy Botting <andy@andybotting.com>
+Date:   Tue Oct 2 17:56:50 2018 +1000
+
+    DO NOT COMMIT - local dev changes
+    
+    Change-Id: Iac3a53544085caf25524d36ee6491625512605e1
+
+diff --git a/langstroth/nagios.py b/langstroth/nagios.py
+index af6b43d..0974d1c 100644
+--- a/langstroth/nagios.py
++++ b/langstroth/nagios.py
+@@ -45,7 +45,8 @@ SERVICE_NAMES = {'http_cinder-api': 'Volume (Cinder)',
+                  'tempest_tasmania_compute': 'tasmania',
+                  'tempest_coreservices_compute': "Core Services",
+                  'tempest_melbourne_compute': "QH2-Test",
+-                 'tempest_dev_compute': "Dev"}
++                 'tempest_cn_compute': "CN",
++                 'tempest_elk_compute': "ELK"}
+ 
+ 
+ def parse_service_availability(service):
+diff --git a/langstroth/templates/domain.html b/langstroth/templates/domain.html
+index e3462a5..8ed3d85 100644
+--- a/langstroth/templates/domain.html
++++ b/langstroth/templates/domain.html
+@@ -5,15 +5,8 @@
+ <div class="row">
+   <div id="graph-buttons" class="btn-group pull-right">
+     <button id="all" type="button" class="btn btn-default active">All</button>
+-    <button id="melbourne" type="button" class="btn btn-default">Melbourne University</button>
+-    <button id="monash" type="button" class="btn btn-default">Monash University</button>
+-    <button id="qld" type="button" class="btn btn-default">QCIF</button>
+-    <button id="sa" type="button" class="btn btn-default">ERSA</button>
+-    <button id="NCI" type="button" class="btn btn-default">NCI</button>
+-    <button id="tasmania" type="button" class="btn btn-default">Tasmania</button>
+-    <button id="intersect" type="button" class="btn btn-default">Intersect</button>
+-    <button id="swinburne" type="button" class="btn btn-default">Swinburne</button>
+-    <button id="auckland" type="button" class="btn btn-default">Auckland</button>
++    <button id="cn" type="button" class="btn btn-default">CN</button>
++    <button id="elk" type="button" class="btn btn-default">ELK</button>
+   </div>
+ </div>
+ <div class="row">
+diff --git a/langstroth/views.py b/langstroth/views.py
+index e5ce270..33da4d2 100644
+--- a/langstroth/views.py
++++ b/langstroth/views.py
+@@ -170,26 +170,8 @@ def total_faults(request):
+ 
+ 
+ INST_TARGETS = [
+-    ('Melbourne University',
+-     "sumSeries(az.melbourne-qh2.total_instances,"
+-     "az.melbourne-qh2-uom.total_instances,"
+-     "az.melbourne-np.total_instances)"),
+-    ('Monash University',
+-     "sumSeries(az.monash-01.total_instances,"
+-     "az.monash-02.total_instances,"
+-     "az.monash-03.total_instances)"),
+-    ('QCIF',
+-     "sumSeries(az.qld.total_instances,"
+-     "az.QRIScloud.total_instances)"),
+-    ('ERSA', "az.sa.total_instances"),
+-    ('NCI', "az.NCI.total_instances"),
+-    ('Tasmania', "az.tasmania.total_instances"),
+-    ('Pawsey', "az.pawsey-01.total_instances"),
+-    ('Intersect',
+-     "sumSeries(az.intersect-01.total_instances,"
+-     "az.intersect-02.total_instances)"),
+-    ('Swinburne', "az.swinburne-01.total_instances"),
+-    ('Auckland', "az.auckland.total_instances"),
++    ('CN', "az.cn.total_instances"),
++    ('ELK', "az.elk.total_instances"),
+ ]
+ 
+ 
+@@ -206,25 +188,9 @@ def total_instance_count(request):
+ 
+ 
+ CORES_TARGETS = [
+-    ('Melbourne University',
+-     "sumSeries(az.melbourne-qh2.used_vcpus,"
+-     "az.melbourne-np.used_vcpus,"
+-     "az.melbourne-qh2-uom.used_vcpus)"),
+-    ('Monash University',
+-     "sumSeries(az.monash-01.used_vcpus,"
+-     "az.monash-02.used_vcpus,"
+-     "az.monash-03.used_vcpus)"),
+-    ('QCIF',
+-     "sumSeries(az.qld.used_vcpus,az.QRIScloud.used_vcpus)"),
+-    ('ERSA', "az.sa.used_vcpus"),
+-    ('NCI', "az.NCI.used_vcpus"),
+-    ('Tasmania', "az.tasmania.used_vcpus"),
+-    ('Pawsey', "az.pawsey-01.used_vcpus"),
+-    ('Intersect',
+-     "sumSeries(az.intersect-01.used_vcpus,"
+-     "az.intersect-02.used_vcpus)"),
+-    ('Swinburne', "az.swinburne-01.used_vcpus"),
+-    ('Auckland', "az.auckland.used_vcpus"),
++    ('CN', "az.cn.used_vcpus"),
++    ('ELK', "az.elk.used_vcpus"),
++
+ ]
+ 
+ 
+@@ -286,28 +252,8 @@ def choose_first(datapoints):
+ 
+ 
+ QUERY = {
+-    'melbourne': ["az.melbourne-qh2.domain.*.used_vcpus",
+-                  "az.melbourne-np.domain.*.used_vcpus"],
+-    'qld': ["az.qld.domain.*.used_vcpus",
+-            "az.QRIScloud.domain.*.used_vcpus"],
+-    'monash': ["az.monash-01.domain.*.used_vcpus",
+-               "az.monash-02.domain.*.used_vcpus"],
+-    'swinburne': ["az.swinburne-01.domain.*.used_vcpus"],
+-    'intersect': ["az.intersect-01.domain.*.used_vcpus",
+-                  "az.intersect-02.domain.*.used_vcpus"],
+-    'all': ["az.melbourne-qh2.domain.*.used_vcpus",
+-            "az.melbourne-np.domain.*.used_vcpus",
+-            "az.monash-01.domain.*.used_vcpus",
+-            "az.monash-02.domain.*.used_vcpus",
+-            "az.NCI.domain.*.used_vcpus",
+-            "az.auckland.domain.*.used_vcpus",
+-            "az.sa.domain.*.used_vcpus",
+-            "az.qld.domain.*.used_vcpus",
+-            "az.QRIScloud.domain.*.used_vcpus",
+-            "az.tasmania.domain.*.used_vcpus",
+-            "az.intersect-01.domain.*.used_vcpus",
+-            "az.intersect-02.domain.*.used_vcpus",
+-            "az.swinburne-01.domain.*.used_vcpus"]
++    'all': ["az.cn.domain.*.used_vcpus",
++            "az.elk.domain.*.used_vcpus"]
+ }
+ 
+ 
