@@ -6,149 +6,125 @@
 
   {% if api_hosts %}
   <div class="row">
-    <div id="graph-buttons" class="btn-group pull-right">
-      <a href="/?start=-12months" id="12months" class="btn btn-default">12 months</a>
-      <a href="/?start=-6months" id="6months" class="btn btn-default">6 months</a>
-      <a href="/?start=-1months" id="1months" class="btn btn-default active">1 month</a>
-      <a href="/?start=-1weeks" id="1weeks" class="btn btn-default">1 week</a>
+    <div class="container">
+      <ul id="graph-buttons" class="nav nav-tabs pull-right">
+        <li id="12months"><a href="/?start=-12months">12 months</a></li>
+        <li id="6months"><a href="/?start=-6months">6 months</a></li>
+        <li id="1months" class="active"><a href="/?start=-1months">1 month</a></li>
+        <li id="1weeks"><a href="/?start=-1weeks">1 week</a></li>
+      </ul>
     </div>
   </div>
   <br />
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Service Endpoints</h4>
+      </div>
+      <div class="panel-body">
+        Periodic healthcheck testing of the service endpoints.
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-xs-4">Service</th>
+            <th class="col-xs-2 text-center">Status</th>
+            <th class="col-xs-2 status-bg-ok text-center" title="Service OK">OK</th>
+            <th class="col-xs-2 status-bg-warning text-center" title="Service Warning">Warning</th>
+            <th class="col-xs-2 status-bg-critical text-center" title="Service Critical">Critical</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for host in api_hosts %}
+          {% for service in host.services %}
+            <tr>
+              <td>{{ service.display_name }}</td>
+              <td class="text-center">
+                <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}" />
+              </td>
+              <td class="status-bg-ok text-right" title="Service OK">
+                {{ service.availability.ok|floatformat:"2" }}%
+              </td>
+              <td class="status-bg-warning text-right" title="Service Warning">
+                {{ service.availability.warning|floatformat:"2" }}%
+              </td>
+              <td class="status-bg-critical text-right" title="Service Critical">
+                {{ service.availability.critical|floatformat:"2" }}%
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>All Services</td>
+            <td></td>
+            <td class="status-bg-ok text-right" title="Service OK">{{ api_average.ok|floatformat:"2" }}%</td>
+            <td class="status-bg-warning text-right" title="Service Warning">{{ api_average.warning|floatformat:"2" }}%</td>
+            <td class="status-bg-critical text-right" title="Service Critical">{{ api_average.critical|floatformat:"2" }}%</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h2 class="panel-title">Service Endpoints</h2>
-        <p>Periodic healthcheck testing of the service endpoint.</p>
+        <h4>Instance Launch</h4>
       </div>
-    <table class="table">
-      <thead class="table-header">
-        <tr>
-          <td class="crampt">Service</td>
-          <td class="crampt">Status</td>
-          <td class="success crampt" title="Service OK">OK</td>
-          <td class="warning crampt" title="Service Warning">Warning</td>
-          <td class="danger crampt" title="Service Critical">Critical</td>
-          <td class="active crampt" title="Service Unknown">Unknown</td>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td>All Services</td>
-          <td></td>
-          <td class="success" title="Service OK">{{ api_average.ok }}</td>
-          <td class="warning" title="Service Warning">{{ api_average.warning }}</td>
-          <td class="danger" title="Service Critical">{{ api_average.critical }}</td>
-          <td class="active" title="Service Unknown">{{ api_average.unknown }}</td>
-        </tr>
-      </tfoot>
-      <tbody>
-      {% for host in api_hosts %}
-      {% for service in host.services %}
-        <tr>
-          <td>{{ service.display_name }}</td>
-          <td>
-          {% if service.status|lower == 'ok' %}
-          <span title="Service is {{service.status}}"
-                class="glyphicon glyphicon-ok text-success">
-          </span>
-          {% elif service.status|lower == 'warning' %}
-          <span title="Service is {{service.status}}"
-                class="glyphicon glyphicon-warning-sign text-warning">
-          </span>
-          {% elif service.status|lower == 'critical' %}
-          <span title="Service is {{service.status}}"
-                class="glyphicon glyphicon-remove text-danger">
-          </span>
-          {% else %}
-          <span title="Service is {{service.status}}"
-                class="glyphicon glyphicon-question-sign glyphicon-warning text-muted">
-          </span>
-          {% endif %}
-          </td>
-          <td class="success" title="Service OK">{{ service.availability.ok }}</td>
-          <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
-          <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
-          <td class="active" title="Service Unknown">{{ service.availability.unknown }}</td>
-        </tr>
-      {% endfor %}
-      {% endfor %}
-      </tbody>
-    </table>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 class="panel-title">Instance Launch</h2>
-        <p>Periodic testing of launching new instances, networking and metadata access.<p>
+      <div class="panel-body">
+       Periodic testing of launching new instances, networking and metadata access.
       </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <td class="crampt">Service</td>
-          <td class="crampt">Status</td>
-          <td class="success crampt" title="Service OK">OK</td>
-          <td class="warning crampt" title="Service Warning">Warning</td>
-          <td class="danger crampt" title="Service Critical">Critical</td>
-          <td class="active crampt" title="Service Unknown">Unknown</td>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td>All Zones</td>
-          <td></td>
-          <td class="success" title="Service OK">{{ site_average.ok }}</td>
-          <td class="warning" title="Service Warning">{{ site_average.warning }}</td>
-          <td class="danger" title="Service Critical">{{ site_average.critical }}</td>
-          <td class="active" title="Service Unknown">{{ site_average.unknown }}</td>
-        </tr>
-      </tfoot>
-      <tbody>
-      {% for host in site_hosts %}
-      {% for service in host.services %}
-        <tr>
-          <td>{{ service.display_name }}</td>
-          <td>
-          {% if service.status|lower == 'ok' %}
-          <span title="Instance boot check is {{service.status}}"
-                class="glyphicon glyphicon-ok text-success">
-          </span>
-          {% elif service.status|lower == 'warning' %}
-          <span title="Instance boot check is {{service.status}}"
-                class="glyphicon glyphicon-warning-sign text-warning">
-          </span>
-          {% elif service.status|lower == 'critical' %}
-          <span title="Instance boot check is {{service.status}}"
-                class="glyphicon glyphicon-remove text-danger">
-          </span>
-          {% else %}
-          <span title="Instance booting is {{service.status}}"
-                class="glyphicon glyphicon-question-sign glyphicon-warning text-muted">
-          </span>
-          {% endif %}
-          </td>
-          <td class="success" title="Service OK">{{ service.availability.ok }}</td>
-          <td class="warning" title="Service Warning">{{ service.availability.warning }}</td>
-          <td class="danger" title="Service Critical">{{ service.availability.critical }}</td>
-          <td class="active" title="Service Unknown">{{ service.availability.unknown }}</td>
-        </tr>
-      {% endfor %}
-      {% endfor %}
-      </tbody>
-    </table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-xs-4">Availability Zone</th>
+            <th class="col-xs-2 text-center">Status</th>
+            <th class="col-xs-2 status-bg-ok text-center" title="Boot success">Success</th>
+            <th class="col-xs-2 status-bg-warning text-center" title="Out of capacity">Capacity</th>
+            <th class="col-xs-2 status-bg-critical text-center" title="Boot failure">Failed</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for host in site_hosts %}
+          {% for service in host.services %}
+            <tr>
+              <td>{{ service.display_name }}</td>
+              <td class="text-center">
+                <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}" />
+              </td>
+              <td class="status-bg-ok text-right" title="{{ service.display_name }} boot success">
+                {{ service.availability.ok|floatformat:"2" }}%
+              </td>
+              <td class="status-bg-warning text-right" title="{{ service.display_name }} out of capacity">
+                {{ service.availability.warning|floatformat:"2" }}%
+              </td>
+              <td class="status-bg-critical text-right" title="{{ service.display_name }} boot failure">
+                {{ service.availability.critical|floatformat:"2" }}%
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>All Zones</td>
+            <td></td>
+            <td class="status-bg-ok text-right" title="Boot success">{{ site_average.ok|floatformat:"2" }}%</td>
+            <td class="status-bg-warning text-right" title="Out of capacity">{{ site_average.warning|floatformat:"2" }}%</td>
+            <td class="status-bg-critical text-right" title="Boot failure">{{ site_average.critical|floatformat:"2" }}%</td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
   {% else %}
-
-
-    <div class="sad-jumbotron col-md-6 col-md-offset-3">
-      <img src='{% static "img/sad.png" %}' class="img-responsive"/>
-      <p class="lead">Ooohhhh, noooo. I have no cloud friends.
-    </div>
-
+  <div class="sad-jumbotron col-md-6 col-md-offset-3">
+    <img src='{% static "img/sad.png" %}' class="img-responsive"/>
+    <p class="lead">Ooohhhh, noooo. I have no cloud friends.
+  </div>
   {% endif %}
-
 </div>
 {% endblock %}
 

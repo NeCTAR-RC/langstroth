@@ -2,25 +2,10 @@
 {% load nav_bar %}
 
 {% block page-header %}
-  <div role="navigation" class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button data-target=".subnav-collapse" data-toggle="collapse"
-                class="navbar-toggle collapsed" type="button">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="navbar-collapse subnav-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="{% active request 'infrastructure' %}"><a href="/growth/infrastructure/">Infrastructure</a></li>
-          <li class="{% active request 'users' %}"><a href="/growth/users/">Users</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <ul class="nav nav-tabs">
+    <li role="presentaion" class="{% active request 'infrastructure' %}"><a href="/growth/infrastructure/">Infrastructure</a></li>
+    <li role="presentaion" class="{% active request 'users' %}"><a href="/growth/users/">Users</a></li>
+  </ul>
 
   <h1>{{ title }}
     <small class="lead">
