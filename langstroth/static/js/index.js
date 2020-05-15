@@ -14,7 +14,7 @@ function setActiveButtons() {
     if (start[0] == '-') {
       start = start.substring(1);
     }
-    $("#graph-buttons").find("a").each(function () {
+    $("#graph-buttons").find("li").each(function () {
       var id = $(this).attr('id');
       if (start === id) {
         $(this).addClass('active');

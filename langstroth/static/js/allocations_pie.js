@@ -478,7 +478,7 @@ function arcTweenOut(a) {
 //---- Main Function: Process the data and visualise it.
 
 function selectedCoreQuota() {
-  var activeButton = $('button#cores.active').text();
+  var activeButton = $('li#cores.active').text();
   var isCoreQuota = activeButton == "Cores";
   return isCoreQuota;
 }
@@ -551,13 +551,13 @@ load();
 
 //---- Additional User Interactions.
 
-function change() {
-  $('#graph-buttons button').removeClass('active');
+function changeGraph() {
+  $('#graph-buttons li').removeClass('active');
   $(this).addClass('active');
   refreshPlotAndTable(breadcrumbs.route());
 }
 
-d3.selectAll("button").on("click", change);
+d3.selectAll("#graph-buttons li").on("click", changeGraph);
 
 $(document).ready(function(){
     $("#plot-area")

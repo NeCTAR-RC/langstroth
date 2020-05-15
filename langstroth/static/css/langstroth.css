@@ -1,17 +1,171 @@
+/* Use flex box to push footer to bottom */
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  line-height: 1.5em;
+}
+
+#main-content {
+  flex: 1;
+}
+
+.navbar {
+  font-size: 1.1em;
+}
+
+.navbar-inverse {
+  background-color: #000;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: #222;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-link,
+.navbar-inverse .btn-link {
+  color: #ccc;
+}
+
+.navbar-brand {
+  padding: 10px;
+}
+
+.navbar-brand img{
+  height: 44px;
+}
+
+
+.nav-tabs {
+  font-size: 16px;
+}
+
+.page-header {
+  padding-bottom: 0;
+  margin: 0;
+  border-bottom:1px solid #eeeeee;
+}
+
+/*
+ * Footer
+ */
+.footer {
+  font-size: 1.1em;
+  margin-top: 20px;
+  background: #000;
+  color: #fff;
+  padding: 20px;
+}
+
+.footer ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 10px;
+}
+
+.footer h3 {
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.footer h3::after,
+.footer h4::after {
+  content: "";
+  background: #fff;
+  height: 2px;
+  display: block;
+  margin-top: 10px;
+  max-width: 50px;
+}
+
+.footer-text a {
+  color: #F8B20E;  /* orange */
+  text-decoration: underline;
+}
+
+.footer-text a:hover,
+.footer-text a:focus {
+  color: #E51875;  /* pink */
+}
+
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: #00A2C4;  /* blue */
+}
+
+/* Alignment of logos in footer */
+.vertical-align {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon:before {
+  font-family: FontAwesome;
+  font-size: 1.8em;
+  line-height: 0;
+  display: inline-block;
+  vertical-align: middle;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-ok:before {
+  content: "\f00c";
+  color: #4caf50;
+}
+
+.icon-warning:before {
+  content: "\f071";
+  color: #ffad1f;
+}
+
+.icon-critical:before {
+  content: "\f00d";
+  color: #e0245e;
+}
+
+.status-bg-ok {
+  background-color: #dff0d8;
+}
+
+.status-bg-warning {
+  background-color: #ffe0b2;
+}
+
+.status-bg-critical {
+  background-color: #f9bdbb;
+}
+
+
 .table-sorter th {
     cursor: pointer;
 }
 
-table .service {
-    width: 200px;
-}
-
-thead {
+thead, tfoot {
     font-weight: bold;
-}
-
-.crampt {
-        padding: 2px 8px 2px 8px !important;
 }
 
 #averages {
