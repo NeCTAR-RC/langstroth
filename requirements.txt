@@ -1,7 +1,7 @@
 requests
 lxml
 cssselect
-Django==1.11.11
+Django==1.11.28
 python-dateutil
 pymysql
 python-memcached
