@@ -50,14 +50,26 @@ SERVICE_NAMES = {'http_cinder-api': 'Volume',
                  'tempest_luna_compute': 'Luna'}
 
 
+def parse_percent_string(s):
+    """Convert Nagios string value like '99.998% (99.998%)' into a float"""
+    s = s.split(' ')[0]
+    s = s.split('%')[0]
+    try:
+        s = float(s)
+    except Exception:
+        s = 0.0
+    return s
+
+
 def parse_service_availability(service):
     host, service, ok, warn, unknown, crit, undet = service.getchildren()
-    nagios_service_name = "".join([t for t in service.itertext()])
-    return {"name": nagios_service_name,
-            "ok": ok.text.split(' ')[0],
-            "warning": warn.text.split(' ')[0],
-            "unknown": unknown.text.split(' ')[0],
-            "critical": crit.text.split(' ')[0]}
+    nagios_service_name = ''.join([t for t in service.itertext()])
+    print(ok.text.split(' ')[0])
+    return {'name': nagios_service_name,
+            'ok': parse_percent_string(ok.text),
+            'warning': parse_percent_string(warn.text),
+            'unknown': parse_percent_string(unknown.text),
+            'critical': parse_percent_string(crit.text)}
 
 
 def parse_availability(html, service_group):
@@ -77,18 +89,18 @@ def parse_availability(html, service_group):
         for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
             if 'colspan' in row.getchildren()[0].attrib:
                 title, ok, warn, unknown, crit, undet = row.getchildren()
-                average = {"name": "Average",
-                           "ok": ok.text.split(' ')[0],
-                           "warning": warn.text.split(' ')[0],
-                           "unknown": unknown.text.split(' ')[0],
-                           "critical": crit.text.split(' ')[0]}
+                average = {'name': 'Average',
+                           'ok': parse_percent_string(ok.text),
+                           'warning': parse_percent_string(warn.text),
+                           'unknown': parse_percent_string(unknown.text),
+                           'critical': parse_percent_string(crit.text)}
                 continue
             service = parse_service_availability(row)
             services[service['name']] = service
 
     context = {
-        "services": services,
-        "average": average}
+        'services': services,
+        'average': average}
     return context
 
 
