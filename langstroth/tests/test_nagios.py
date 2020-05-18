@@ -8,6 +8,19 @@ from langstroth import nagios
 
 DIR = os.path.abspath(os.path.dirname(__file__))
 
+class TestNagios(TestCase):
+
+    def test_parse_percent_string(self):
+        value = '1.123%'
+        result = nagios.parse_percent_string(value)
+        self.assertEqual(result, 1.123)
+
+
+    def test_parse_percent_string_invalid(self):
+        value = 'bad_value'
+        result = nagios.parse_percent_string(value)
+        self.assertEqual(result, 0.0)
+
 
 class TestAvailability(TestCase):
     maxDiff = None
@@ -17,62 +30,62 @@ class TestAvailability(TestCase):
         result = nagios.parse_availability(html, settings.NAGIOS_SERVICE_GROUP)
         self.assertEqual(
             result,
-            {'average': {'critical': '0.140%',
+            {'average': {'critical': 0.14,
                          'name': 'Average',
-                         'ok': '99.860%',
-                         'unknown': '0.000%',
-                         'warning': '0.000%'},
+                         'ok': 99.860,
+                         'unknown': 0.0,
+                         'warning': 0.0},
              'services': {
-                 'http_cinder-api': {'critical': '0.055%',
+                 'http_cinder-api': {'critical': 0.055,
                                      'name': 'http_cinder-api',
-                                     'ok': '99.945%',
-                                     'unknown': '0.000%',
-                                     'warning': '0.000%'},
-                 'http_designate-api': {'critical': '0.000%',
+                                     'ok': 99.945,
+                                     'unknown': 0.0,
+                                     'warning': 0.0},
+                 'http_designate-api': {'critical': 0.0,
                                         'name': 'http_designate-api',
-                                        'ok': '100.000%',
-                                        'unknown': '0.000%',
-                                        'warning': '0.000%'},
-                 'http_ec2': {'critical': '0.413%',
+                                        'ok': 100.0,
+                                        'unknown': 0.0,
+                                        'warning': 0.0},
+                 'http_ec2': {'critical': 0.413,
                               'name': 'http_ec2',
-                              'ok': '99.587%',
-                              'unknown': '0.000%',
-                              'warning': '0.000%'},
-                 'http_glance-api': {'critical': '0.018%',
+                              'ok': 99.587,
+                              'unknown': 0.0,
+                              'warning': 0.0},
+                 'http_glance-api': {'critical': 0.018,
                                      'name': 'http_glance-api',
-                                     'ok': '99.982%',
-                                     'unknown': '0.000%',
-                                     'warning': '0.000%'},
-                 'http_glance-registry': {'critical': '0.103%',
+                                     'ok': 99.982,
+                                     'unknown': 0.0,
+                                     'warning': 0.0},
+                 'http_glance-registry': {'critical': 0.103,
                                           'name': 'http_glance-registry',
-                                          'ok': '99.897%',
-                                          'unknown': '0.000%',
-                                          'warning': '0.000%'},
-                 'http_heat-api': {'critical': '0.000%',
+                                          'ok': 99.897,
+                                          'unknown': 0.0,
+                                          'warning': 0.0},
+                 'http_heat-api': {'critical': 0.0,
                                    'name': 'http_heat-api',
-                                   'ok': '100.000%',
-                                   'unknown': '0.000%',
-                                   'warning': '0.000%'},
-                 'http_keystone-adm': {'critical': '0.074%',
+                                   'ok': 100.0,
+                                   'unknown': 0.0,
+                                   'warning': 0.0},
+                 'http_keystone-adm': {'critical': 0.074,
                                        'name': 'http_keystone-adm',
-                                       'ok': '99.926%',
-                                       'unknown': '0.000%',
-                                       'warning': '0.000%'},
-                 'http_keystone-pub': {'critical': '0.099%',
+                                       'ok': 99.926,
+                                       'unknown': 0.0,
+                                       'warning': 0.0},
+                 'http_keystone-pub': {'critical': 0.099,
                                        'name': 'http_keystone-pub',
-                                       'ok': '99.901%',
-                                       'unknown': '0.000%',
-                                       'warning': '0.000%'},
-                 'http_nova-api': {'critical': '0.433%',
+                                       'ok': 99.901,
+                                       'unknown': 0.0,
+                                       'warning': 0.0},
+                 'http_nova-api': {'critical': 0.433,
                                    'name': 'http_nova-api',
-                                   'ok': '99.567%',
-                                   'unknown': '0.000%',
-                                   'warning': '0.000%'},
-                 'https': {'critical': '0.205%',
+                                   'ok': 99.567,
+                                   'unknown': 0.0,
+                                   'warning': 0.0},
+                 'https': {'critical': 0.205,
                            'name': 'https',
-                           'ok': '99.795%',
-                           'unknown': '0.000%',
-                           'warning': '0.000%'}}})
+                           'ok': 99.795,
+                           'unknown': 0.0,
+                           'warning': 0.0}}})
 
 
 class TestStatus(TestCase):
