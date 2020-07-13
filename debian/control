@@ -3,9 +3,10 @@ Section: unknown
 Priority: optional
 Maintainer: Russell Sim <russell.sim@gmail.com>
 Build-Depends: debhelper (>= 9),
-               python3-all (>= 2.6),
+               python3-all (>= 3.2),
                python3-setuptools,
                python3-pip,
+               python3-pbr,
                python3-pytest,
                python3-pytest-django,
                python3-django,
