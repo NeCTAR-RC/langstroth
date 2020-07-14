@@ -11,12 +11,8 @@ setuptools.setup(
     author_email='',
     url='https://github.com/NeCTAR-RC/langstroth',
     license='GPLv3',
-    packages=[
-        'langstroth',
-        'nectar_allocations',
-        'nectar_status',
-        'user_statistics',
-    ],
+    packages=setuptools.find_packages(
+        exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
     install_requires=parse_requirements(),
@@ -34,4 +30,3 @@ setuptools.setup(
         'Programming Language :: Python :: 3.6',
     ),
 )
-
