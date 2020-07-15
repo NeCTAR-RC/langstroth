@@ -1,3 +1,13 @@
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if(pair[0] == variable){return pair[1];}
+  }
+  return(false);
+}
+
 var colors = d3.scale.category20();
 keyColor = function(d, i) {return colors(d.target);};
 
@@ -62,9 +72,18 @@ graphduration =
         var graphs = $('.chart');
         /* Set the default path to the resource */
 
+        var until = '';
         graphs.each(function (index, graph) {
           url = $(graph).data('url');
-          d3.json(url + '?format=json&summarise=' + summarise + '&from=' + from, function(data) {
+          if (selector == "#alltime") {
+            if (getQueryVariable('from')) {
+                from = getQueryVariable('from');
+            }
+            if (getQueryVariable('until')) {
+                until = getQueryVariable('until');
+            }
+          }
+          d3.json(url + '?format=json&summarise=' + summarise + '&from=' + from + '&until=' + until, function(data) {
             data = format_data(data);
             d3.select(graph)
               .datum(data)

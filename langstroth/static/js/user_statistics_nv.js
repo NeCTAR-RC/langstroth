@@ -7,6 +7,16 @@ unixTimestamp = function(timestamp) {
     return new Date(timestamp * 1000);
 };
 
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if(pair[0] == variable){return pair[1];}
+  }
+  return(false);
+}
+
 formatData = function(data) {
     return data.map(function(series) {
         series.values = series.datapoints;
@@ -104,8 +114,18 @@ function sumByMonth (values) {
 }
 
 function load() {
+    var url = '/growth/users/rest/registrations/frequency';
+    var from = '';
+    var until = '';
+    if (getQueryVariable('from')) {
+      from = getQueryVariable('from');
+    }
+    if (getQueryVariable('until')) {
+      until = getQueryVariable('until');
+    }
+
     d3.json(
-        "/growth/users/rest/registrations/frequency",
+        url + '?from=' + from + '&until=' + until,
         function(responseData) {
             compositeDataSeries = formatData(responseData);
             compositeDataSeries[1].values = sumByMonth(compositeDataSeries[1].values);

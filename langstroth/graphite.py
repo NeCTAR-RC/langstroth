@@ -121,7 +121,7 @@ class Target(object):
         return not self.__eq__(other)
 
 
-def get(from_date=None, targets=[]):
+def get(from_date=None, until_date=None, targets=[]):
     """Get some metrics from graphite.  Return a requests.models.Response
     object.
 
@@ -131,5 +131,7 @@ def get(from_date=None, targets=[]):
 
     if from_date:
         arguments.append(('from', from_date))
+    if until_date:
+        arguments.append(('until', until_date))
 
     return requests.get(GRAPHITE + "?" + urlencode(arguments))

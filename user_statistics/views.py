@@ -18,7 +18,10 @@ def user_registrations_page(request):
 
 
 def registrations_frequency(request):
+    q_from = request.GET.get('from')
+    q_until = request.GET.get('until')
+
     registration_cumulative_history = \
-        find_daily_accumulated_users()
+        find_daily_accumulated_users(q_from, q_until)
     json_string = dumps(registration_cumulative_history)
     return HttpResponse(json_string, "application/json")

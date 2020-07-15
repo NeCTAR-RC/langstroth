@@ -176,24 +176,26 @@ def composition(request, name):
 
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
+    q_until = request.GET.get('until', None)
     q_summarise = request.GET.get('summarise', None)
 
     targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
                for alias, target in settings.INST_TARGETS]
 
-    req = graphite.get(from_date=q_from, targets=targets)
+    req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 
 
 def total_used_cores(request):
     q_from = request.GET.get('from', "-6months")
+    q_until = request.GET.get('until', None)
     q_summarise = request.GET.get('summarise', None)
 
     targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
                for alias, target in settings.CORES_TARGETS]
 
-    req = graphite.get(from_date=q_from, targets=targets)
+    req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
     return HttpResponse(dumps(data), req.headers['content-type'])
 

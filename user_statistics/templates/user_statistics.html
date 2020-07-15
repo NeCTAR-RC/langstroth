@@ -8,15 +8,14 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-md-12">
-      <div id="graph-buttons" class="btn-group">
-        <button id="cumulative" type="button"
-        	class="btn btn-default active">Cumulative</button>
-        <button id="frequency" type="button"
-        	class="btn btn-default">Frequency</button>
-      </div>
+    <div class="container">
+      <ul id="graph-buttons" class="nav nav-tabs pull-right">
+        <li id="cumulative" class="active"><a href="#" data-toggle="tab">Cumulative</a></li>
+        <li id="frequency"><a href="#" data-toggle="tab">Frequency</a></li>
+      </ul>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-12">
       <div id="inner-plot-container">
