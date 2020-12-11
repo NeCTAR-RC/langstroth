@@ -8,3 +8,7 @@ def handler500(request):
                   {"title": "ERROR: Internal Server Error",
                    "message": "An unhandled error has occured.  \
                    Our staff have been emailed."})
+
+
+def handler400(request, exception):
+    return handler500(request)

@@ -32,4 +32,4 @@ urlpatterns = [
 ]
 
 handler500 = error.handler500
-handler400 = error.handler500
+handler400 = error.handler400
