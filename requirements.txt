@@ -3,6 +3,6 @@ lxml
 cssselect
 Django==2.2.12
 python-dateutil
-pymysql
+mysqlclient
 python-memcached
 pbr
