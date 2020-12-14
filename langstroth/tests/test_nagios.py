@@ -156,11 +156,6 @@ class TestStatus(TestCase):
               'keystone.rc.nectar.org.au':
               {'hostname': 'keystone.rc.nectar.org.au',
                'services': [{'status': 'OK',
-                             'duration': '34d  0h 46m 14s',
-                             'display_name': 'Identity Admin',
-                             'name': 'http_keystone-adm',
-                             'last_checked': '2014-10-06 13:59:07'},
-                            {'status': 'OK',
                              'duration': '33d 21h 20m 49s',
                              'display_name': 'Identity',
                              'name': 'http_keystone-pub',
