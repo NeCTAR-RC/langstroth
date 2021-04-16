@@ -483,9 +483,15 @@ function selectedCoreQuota() {
   return isCoreQuota;
 }
 
+function selectedDataFilter() {
+  var activeButton = $('#filter-buttons').children('li.active').text();
+  return activeButton;
+}
+
 function processResponse(route, resource) {
   var isCoreQuota = selectedCoreQuota();
-  var dataset = allocations.dataset(route, isCoreQuota);
+  var selectedFilter = selectedDataFilter();
+  var dataset = allocations.dataset(route, isCoreQuota, selectedFilter);
   var sum = d3.sum(dataset, function (d) {
     return d.value;
   });
@@ -557,7 +563,14 @@ function changeGraph() {
   refreshPlotAndTable(breadcrumbs.route());
 }
 
+function changeFilter() {
+  $('#filter-buttons li').removeClass('active');
+  $(this).addClass('active');
+  refreshPlotAndTable(breadcrumbs.route());
+}
+
 d3.selectAll("#graph-buttons li").on("click", changeGraph);
+d3.selectAll("#filter-buttons li").on("click", changeFilter);
 
 $(document).ready(function(){
     $("#plot-area")

@@ -9,13 +9,20 @@
 {% block content %}
     <div class="row">
       <div class="col-md-3">
-        <ul id="graph-buttons" class="nav nav-tabs">
-          <li id="cores" class="active"><a href="#" data-toggle="tab">Cores</a></li>
-          <li id="instances"><a href="#" data-toggle="tab">Instances</a></li>
+        <ul id="filter-buttons" class="nav nav-tabs">
+          <li id="filter-all" class="active"><a href="#" data-toggle="tab">All</a></li>
+          <li id="filter-national"><a href="#" data-toggle="tab">National</a></li>
+          <li id="filter-local"><a href="#" data-toggle="tab">Local</a></li>
         </ul>
       </div>
       <div class="col-md-2 col-md-offset-2">
         <h4><div id="statistics-area" class="label label-default"></div></h4>
+      </div>
+      <div class="col-md-3 pull-right">
+        <ul id="graph-buttons" class="nav nav-tabs pull-right">
+          <li id="cores" class="active"><a href="#" data-toggle="tab">Cores</a></li>
+          <li id="instances"><a href="#" data-toggle="tab">Instances</a></li>
+        </ul>
       </div>
     </div>
     <div class="row top-buffer" id="chart-navigator-1">

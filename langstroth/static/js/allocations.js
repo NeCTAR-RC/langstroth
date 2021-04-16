@@ -33,7 +33,7 @@ Allocations.prototype.nextLevel = function(forCodes, children) {
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
 Allocations.prototype.restructureAllocations =
-                              function (subTree, isCoreQuota) {
+                              function (subTree, isCoreQuota, applyFilter) {
   var colourIndex = 0;
   var dataset = [];
   var allocationCount = subTree.length;
@@ -46,7 +46,7 @@ Allocations.prototype.restructureAllocations =
     var allocationItem = {};
     if (child.children) {
       // add the branch value.
-      sum = this.nextLevelSum(child.children, isCoreQuota);
+      sum = this.nextLevelSum(child.children, isCoreQuota, applyFilter);
     } else {
       // add the leaf value.
       allocationItem.id = child.id;
@@ -69,23 +69,27 @@ Allocations.prototype.restructureAllocations =
 };
 
 // Recurse the allocation tree to return a sum.
-Allocations.prototype.nextLevelSum = function(children, isCoreQuota) {
+Allocations.prototype.nextLevelSum = function(children, isCoreQuota, applyFilter) {
   var sum = 0.0;
   var childCount = children.length;
   for (var childIndex = 0; childIndex < childCount; childIndex++) {
     var child = children[childIndex];
     if (child.children) {
-      sum += this.nextLevelSum(child.children, isCoreQuota);
+      sum += this.nextLevelSum(child.children, isCoreQuota, applyFilter);
     } else {
-      sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
+      if ( ((applyFilter == 'National') && (child.national)) ||
+           ((applyFilter == 'Local') && (!child.national)) ||
+           (applyFilter == 'All') ) {
+        sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
+      }
     }
   }
   return sum;
 };
 
-Allocations.prototype.dataset = function(route, isCoreQuota) {
+Allocations.prototype.dataset = function(route, isCoreQuota, applyFilter) {
   var tree = route ? this.traverse(route) : this.allocationTree;
-  return this.restructureAllocations(tree, isCoreQuota);
+  return this.restructureAllocations(tree, isCoreQuota, applyFilter);
 };
 
 Allocations.prototype.assemblePathWithoutZeros
