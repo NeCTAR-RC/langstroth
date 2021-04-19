@@ -5,14 +5,22 @@
 // ColourPalette management class.
 
 function ColourPalette() {
-  this.basePalette = this.fill(d3.scale.category20(), 22);
+
+  var colours = ['#4169e1', '#dc143c', '#ff4500', '#ffd700', '#008000',
+                 '#00bfff', '#008b8b', '#9400d3', '#0000ff', '#db7093',
+                 '#c26200', '#00fa9a', '#8b4513', '#00ffff', '#556b2f',
+                 '#ffa07a', '#7cfc00', '#7f007f', '#9acd32', '#ee82ee',
+                 '#ff1493', '#d8bfd8',];
+ 
+  // d3.schemeCategory20
+  this.basePalette = this.fill(colours, 22);
   this.paletteStack = [this.basePalette];
 }
 
 ColourPalette.prototype.fill = function (colourScale, colourCount) {
   var colourLookup = [];
   for (var colourIndex = 0; colourIndex < colourCount; colourIndex++) {
-    var colour = colourScale(colourIndex);
+    var colour = colourScale[colourIndex];
     colourLookup.push(colour);
   }
   return colourLookup;
@@ -41,9 +49,11 @@ ColourPalette.prototype.getColour = function (colourIndex) {
 
 ColourPalette.prototype.push = function (colourIndex, datasetLength) {
   var currentColour = this.getColour(colourIndex);
-  var newPalette = this.fill(d3.scale.linear()
-          .domain([0, datasetLength + 10])
-          .range([currentColour, "white"]), datasetLength);
+  var paletteRange = d3.scaleLinear()
+      .domain([0, datasetLength + 5])
+      .range([currentColour, "#fff"]);
+  var paletteArr = Array.from(Array(datasetLength), (_, i) => paletteRange(i));
+  var newPalette = this.fill(paletteArr, datasetLength);
   this.paletteStack.push(newPalette);
 };
 
