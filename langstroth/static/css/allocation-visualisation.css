@@ -16,8 +16,8 @@ table.for-projects caption {
 }
 
 .table-hover tbody tr:hover td {
-    background-color: Blue;
-    color: White;
+    background-color: #3f3f3f;
+    color: #fff;
 }
 
 .opaque-plot-label {

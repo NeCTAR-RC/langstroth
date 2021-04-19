@@ -69,7 +69,7 @@ Breadcrumbs.prototype.navigate = function(adjustPage) {
     .html(function(d, i) {
       var forCode = d;
       var markup = forCode == '*' ?
-          '<span class="glyphicon glyphicon-home"></span>'
+          '<span class="fa fa-home"></span>'
             : '<span style="text-transform: capitalize">' +
             self.title(forCode, i) +
             '</span>';

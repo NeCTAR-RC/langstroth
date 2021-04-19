@@ -3,7 +3,7 @@
 
 {% block extra_head %}
 <link href='{% static "css/allocation-visualisation.css" %}' type='text/css' media='screen' rel='stylesheet'/>
-    <link href='{% static "css/master-detail.css" %}' type='text/css' media='screen' rel='stylesheet'/>
+<link href='{% static "css/master-detail.css" %}' type='text/css' media='screen' rel='stylesheet'/>
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
     var allocationId = '{{ allocation_request_id }}';
     var projectName = '{{ title }}';
   </script>
-  <script src='{% static "js/d3.v3.js" %}'></script>
+  <script src='{% static "js/d3.v4.min.js" %}'></script>
   <script src='{% static "js/breadcrumbs.js" %}'></script>
   <script src='{% static "js/allocations.js" %}'></script>
   <script src='{% static "js/project_details.js" %}'></script>
