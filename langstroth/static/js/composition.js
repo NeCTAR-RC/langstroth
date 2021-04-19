@@ -1,3 +1,5 @@
+
+
 var dataset = [];
 
 function zero(array) {
@@ -24,16 +26,13 @@ var enterAntiClockwise = {
   endAngle: Math.PI * 2
 };
 
-
-var x = d3.scale.linear()
+var x = d3.scaleLinear()
       .range([0, 2 * Math.PI]);
 
-var color = d3.scale.category20();
-
-var pie = d3.layout.pie()
+var pie = d3.pie()
       .value(function(d) { return d.value; });
 
-var arc = d3.svg.arc()
+var arc = d3.arc()
       .innerRadius(radius - 120)
       .outerRadius(outerRadius);
 
@@ -85,6 +84,43 @@ function updateData(dest, source) {
   }
 }
 
+function stringToColour(str) {
+  var favs = new Map([
+    ['none', '#777'],
+    ['PT', '#444'],
+    ['national', '#fcaf3e'],
+    ['uom', '#35659e'],
+    ['unimelb.edu.au', '#35659e'],
+    ['monash', '#2a95dd'],
+    ['monash.edu', '#2a95dd'],
+    ['tpac', '#ee262e'],
+    ['utas.edu.au', '#ee262e'],
+    ['qcif', '#52247a'],
+    ['uq.edu.au', '#52247a'],
+    ['intersect', '#edd400'],
+    ['intersect.org.au', '#edd400'],
+    ['swinburne', '#08a209'],
+    ['swin.edu.au', '#08a209'],
+    ['auckland', '#cb53cb'],
+    ['auckland.ac.nz', '#cb53cb'],
+    ['aucklanduni.ac.nz', '#cb53cb'],
+  ]);
+
+  var fav = favs.get(str);
+  if (fav)
+    return fav;
+
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var colour = '#';
+  for (var j = 0; j < 3; j++) {
+    var value = (hash >> (j * 8)) & 0xFF;
+    colour += ('00' + value.toString(16)).substr(-2);
+  }
+  return colour;
+}
 
 function changeSource() {
   $('#graph-buttons li').removeClass('active');
@@ -93,18 +129,19 @@ function changeSource() {
   $.get("cores", {'az': this.id}, function(data) {
     zero(dataset);
     updateData(dataset, data);
+
     // clearTimeout(timeout);
     var new_path = svg.selectAll("g.slice").data(pie(dataset));
 
-    var total_vcpu = d3.sum(dataset, function (d) {
+    var total_vcpu = d3.sum(dataset, function(d) {
       return d.value;
     });
-
 
     // update elements
     svg.select("text.total")
       .attr("dy", ".40em")
       .style("text-anchor", "middle")
+      .style("font", "12px Roboto")
       .text(function(d) { return "VCPU Used: " + total_vcpu; });
 
     new_path.select('path')
@@ -120,6 +157,7 @@ function changeSource() {
       .text(function(d) {
         return d.data.target;
       })
+      .style("font", "11px Roboto")
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
@@ -138,7 +176,7 @@ function changeSource() {
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", "White")
-      .style("font", "bold 12px Arial")
+      .style("font", "bold 10px Roboto")
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)
       .transition()
@@ -152,7 +190,8 @@ function changeSource() {
 
     g.append("path")
       .attr("fill", function (d, i) {
-        return color(i);
+        //console.log(d);
+        return stringToColour(d.data.target);
       })
       .attr('d', arc(enterClockwise))
       .each(function (d) {
@@ -167,13 +206,13 @@ function changeSource() {
       .duration(750)
       .attrTween("d", arcTween);
 
-    new_path.on("mousemove", function(d){
-      tooltip.style("left", d3.event.pageX+10+"px");
-      tooltip.style("top", d3.event.pageY-30+"px");
+    g.on("mousemove", function(event, d){
+      tooltip.style("left", event.pageX+10+"px");
+      tooltip.style("top", event.pageY-30+"px");
       tooltip.style("display", "inline-block");
       tooltip.html("<b>"+d.data.target+"</b><br>"+(d.data.value)+" VCPUs");
     });
-    new_path.on("mouseout", function(d){
+    g.on("mouseout", function(d){
       tooltip.style("display", "none");
     });
 
@@ -182,6 +221,7 @@ function changeSource() {
       .text(function(d) {
         return d.data.target;
       })
+      .style("font", "11px Roboto")
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       }).style("opacity", 0)
@@ -198,14 +238,12 @@ function changeSource() {
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", "White")
-      .style("font", "bold 12px Arial")
+      .style("font", "bold 10px Roboto")
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)
       .transition()
       .duration(400)
       .style("opacity", 1);
-
-
 
     // remove old elements
     new_path.exit().select('text')

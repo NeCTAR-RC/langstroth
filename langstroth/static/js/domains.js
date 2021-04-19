@@ -24,11 +24,10 @@ var enterAntiClockwise = {
   endAngle: Math.PI * 2
 };
 
-
 var x = d3.scale.linear()
       .range([0, 2 * Math.PI]);
 
-var color = d3.scale.category20();
+var color = d3.scale.category10();
 
 var pie = d3.layout.pie()
       .value(function(d) { return d.value; });
@@ -85,6 +84,16 @@ function update(dest, source) {
   }
 }
 
+function getColorPalette(datasetLength) {
+  var paletteRange = d3.scaleLinear()
+      .domain([0, datasetLength + 5])
+      .range([currentColour, "#fff"]);
+  var paletteArr = [];
+  for (var i = 0; i < n; ++i) {
+    paletteArr.push(paletteRange(i));
+  }
+  return paletteArr;
+}
 
 function change() {
   $('#graph-buttons li').removeClass('active');
@@ -93,6 +102,7 @@ function change() {
   $.get( "/domain/cores_per_domain", {'az': this.id}, function( data ) {
     zero(dataset);
     update(dataset, data);
+    var colourPalette = getColorPalette(data.length);
     // clearTimeout(timeout);
     var new_path = svg.selectAll("g.slice").data(pie(dataset));
 
@@ -152,7 +162,7 @@ function change() {
 
     g.append("path")
       .attr("fill", function (d, i) {
-        return color(i);
+        return colourPalette[i];
       })
       .attr('d', arc(enterClockwise))
       .each(function (d) {

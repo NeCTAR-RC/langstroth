@@ -8,7 +8,7 @@ function getQueryVariable(variable) {
   return(false);
 }
 
-var colors = d3.scale.category20();
+var colors = d3.scale.category10();
 keyColor = function(d, i) {return colors(d.target);};
 
 unix_timestamp = function(timestamp){

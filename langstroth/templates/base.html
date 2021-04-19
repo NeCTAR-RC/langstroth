@@ -9,9 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootswatch/3.4.1/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-czdUt3c5InCk6AjJWW7zMMS5xcvRAyC6tWoWfXuRYfX6Vvv4Es8m8eRjzMChD493" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-    <link href='{% static "css/langstroth.css" %}' type='text/css' media='screen' rel='stylesheet'/>
+    <link href='{% static "css/bootstrap-3.4.1.min.css" %}' rel='stylesheet'/>
+    <link href='{% static "css/font-awesome.min.css" %}' rel='stylesheet'/>
+    <link href='{% static "css/langstroth.css" %}' rel='stylesheet'/>
     <link rel="shortcut icon" href='{% static "img/favicon.ico" %}'>
     {% block extra_head %}
     {% endblock %}
@@ -119,9 +119,9 @@
       </div> <!-- container -->
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <script src='{% static "js/jquery-3.3.1.min.js" %}'></script>
+    <script src='{% static "js/bootstrap-3.4.1.min.js" %}'></script>
+    <script src='{% static "js/mustache-0.8.1.min.js" %}'></script>
     {% block extra_script %}
     {% endblock %}
   </body>

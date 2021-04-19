@@ -60,15 +60,15 @@ var enterAntiClockwise = {
   endAngle: Math.PI * 2
 };
 
-var x = d3.scale.linear().range([0, 2 * Math.PI]);
+var x = d3.scaleLinear().range([0, 2 * Math.PI]);
 
 var TEXT_HEIGHT_ALLOWANCE = 0.1;
 
 var LABEL_MAX_LENGTH = 10;
 
-var HILITE_SEGMENT_COLOUR = "blue";
-var HILITE_TEXT_COLOUR = "white";
-var UNHILITE_SEGMENT_COLOUR = "white";
+var HILITE_SEGMENT_COLOUR = "#3f3f3f";
+var HILITE_TEXT_COLOUR = "#fff";
+var UNHILITE_SEGMENT_COLOUR = "#fff";
 var UNHILITE_TEXT_COLOUR = "";
 var HILITE_SEGMENT_WIDTH = "2";
 var UNHILITE_SEGMENT_WIDTH = "1";
@@ -96,12 +96,12 @@ var plotGroup = d3.select("#plot-area").append("svg")
 
 //---- Define the plot layout and plotting algorithm - a pie chart.
 
-var pie = d3.layout.pie()
+var pie = d3.pie()
       .startAngle(-Math.PI / 2)
       .endAngle(2 * Math.PI - Math.PI / 2)
       .value(function(d) { return d.value; });
 
-var arc = d3.svg.arc()
+var arc = d3.arc()
       .innerRadius(INNER_RADIUS)
       .outerRadius(OUTER_RADIUS);
 
@@ -124,7 +124,7 @@ var zoomOutButton = plotGroup.append("g")
 zoomOutButton.append("circle")
   .attr("id", "inner-circle")
   .attr("r", INNER_RADIUS)
-  .style("fill", "white");
+  .style("fill", "#fff");
 zoomOutButton.append("text")
   .attr("class", "click-message")
   .attr("text-anchor", "middle")
