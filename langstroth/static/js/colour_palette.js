@@ -53,7 +53,7 @@ ColourPalette.prototype.push = function (colourIndex, datasetLength) {
       .domain([0, datasetLength + 5])
       .range([currentColour, "#fff"]);
   var paletteArr = [];
-  for (var i = 0; i < n; ++i) {
+  for (var i = 0; i < datasetLength; ++i) {
     paletteArr.push(paletteRange(i));
   }
   var newPalette = this.fill(paletteArr, datasetLength);
