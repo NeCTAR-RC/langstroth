@@ -24,6 +24,12 @@ var projectHeadings = {
 //==== HTML Table For Allocations for FOR Codes.
 // Populated on page load. Dynamic update after page load is not supported.
 
+// Get either black or white text to contrast against a given colour
+function getTextColour(colour) {
+  var dark = d3.lab(colour).l < 70;
+  return dark ? "#fff" : "#000";
+}
+
 function inflateChartSegment(d, i) {
   var segment = d3.selectAll("path").filter(function(row) {
     return (row.data.colourIndex == d.colourIndex);
@@ -130,9 +136,13 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     .style("background-color", function (d, i) {
       return colourPalette.getColour(d.colourIndex);
     })
+    .style("color", function (d, i) {
+      var colour =  colourPalette.getColour(d.colourIndex);
+      return getTextColour(colour);
+    })
     .text(function(row) {
       return breadcrumbs.isForCodeLevel() ? row.target
-          : row.projectDescription.makeWrappable() ;
+          : row.projectDescription.makeWrappable();
     });
 
   rows.select("td.col1")
@@ -181,7 +191,10 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
     .style("background-color", function (d, i) {
       return colourPalette.getColour(d.colourIndex);
     })
-    .style("color", "white")
+    .style("color", function (d, i) {
+      var colour =  colourPalette.getColour(d.colourIndex);
+      return getTextColour(colour);
+    })
     .text(function(row) {
       return breadcrumbs.isForCodeLevel() ? row.target
           : row.projectDescription.makeWrappable() ;
