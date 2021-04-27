@@ -1,5 +1,11 @@
 var dataset = [];
 
+// Get either black or white text to contrast against a given colour
+function getTextColour(colour) {
+  var dark = d3.lab(colour).l < 70;
+  return dark ? `#fff` : `#000`;
+}
+
 function zero(array) {
   for (var i in array) {
     array[i].value = 0;
@@ -174,7 +180,10 @@ function changeSource() {
         d.innerRadius = outerRadius/2;
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
-      .style("fill", "White")
+      .style("fill", function (d) {
+        var colour = stringToColour(d.data.target);
+        return getTextColour(colour);
+      })
       .style("font", "bold 10px Roboto")
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)
@@ -235,7 +244,10 @@ function changeSource() {
         d.innerRadius = outerRadius/2;
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
-      .style("fill", "White")
+      .style("fill", function (d) {
+        var colour = stringToColour(d.data.target);
+        return getTextColour(colour);
+      })
       .style("font", "bold 10px Roboto")
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)

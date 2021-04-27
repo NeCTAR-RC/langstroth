@@ -30,6 +30,12 @@ String.prototype.makeWrappable = function() {
   return labelStr;
 };
 
+// Get either black or white text to contrast against a given colour
+function getTextColour(colour) {
+  var dark = d3.lab(colour).l < 70;
+  return dark ? `#fff` : `#000`;
+}
+
 //==== Data visualisation
 
 //---- Visualisation Constants
@@ -367,8 +373,11 @@ function visualise( dataset, totalResource ) {
       d.innerRadius = OUTER_RADIUS/2;
       return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
     })
-    .style("fill", "White")
-    .style("font", "bold 12px Arial")
+    .style("fill", function (d) {
+      var colour =  colourPalette.getColour(d.data.colourIndex);
+      return getTextColour(colour);
+    })
+    .style("font", "bold 11px Roboto")
     .text(function(d) {
       var label = null;
       if (breadcrumbs.isForCodeLevel()) {
@@ -401,8 +410,11 @@ function visualise( dataset, totalResource ) {
       d.innerRadius = OUTER_RADIUS/2;
       return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
     })
-    .style("fill", "White")
-    .style("font", "bold 12px Arial")
+    .style("fill", function (d) {
+      var colour =  colourPalette.getColour(d.data.colourIndex);
+      return getTextColour(colour);
+    })
+    .style("font", "bold 11px Roboto")
     .text(function(d) {
       var label = null;
       if (breadcrumbs.isForCodeLevel()) {
