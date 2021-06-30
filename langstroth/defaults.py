@@ -175,7 +175,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'langstroth',
-    'nectar_status',
     'nectar_allocations',
     'user_statistics',
 ]
