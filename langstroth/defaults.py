@@ -174,7 +174,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'langstroth',
+    'langstroth.outages',
     'nectar_allocations',
     'user_statistics',
 ]

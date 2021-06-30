@@ -1,9 +1,15 @@
 from django.conf.urls import include
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
+from rest_framework import routers
 
 from langstroth import error
 from langstroth import views
+from langstroth.outages import api
+
+
+router = routers.DefaultRouter()
+router.register(r'outages', api.OutageViewSet)
 
 
 urlpatterns = [
@@ -29,6 +35,7 @@ urlpatterns = [
 
     # Allocations Browser
     url(r'^allocations/', include('nectar_allocations.urls')),
+    url(r'^api/', include(router.urls)),
 ]
 
 handler500 = error.handler500
