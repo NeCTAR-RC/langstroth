@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block page-header %}
+  <div id="page-header" class="container my-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/outages">Announcements</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ outage.title }}</li>
+      </ol>
+    </nav>
+    <h1 class="pb-4">Service Announcement</h1>
+    <div class="row">
+      <div class="col-12 col-md-8 col-xl-9">
+        <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+        <h3>{{ outage.title }}</h3>
+        <ul class="list-unstyled">
+          {% if outage.scheduled %}
+          <li>
+            <strong>Scheduled start:</strong> {{ outage.scheduled_start }} 
+            <strong>Scheduled end:</strong> {{ outage.scheduled_end }}
+            {% if outage.cancelled %}
+            <strong>Cancelled</strong>
+            {% endif %}
+          </li>
+          {% endif %}
+          {% if outage.start %}
+          <li>
+            <strong>Outage start:</strong> {{ outage.start }}
+            {% if outage.end %}
+            <strong>Outage end:</strong> {{ outage.end }}
+            {% else %}
+            <strong>Outage is ongoing</strong>
+            {% endif %}
+          </li>
+          {% endif %}
+          <!-- <li><strong>Affected Zones:</strong></li>
+          <li><strong>Affected Services:</strong></li> -->
+        </ul>
+        <p>{{ outage.description|linebreaks }}</p>
+      </div>
+      {% if not outage.cancelled %}
+      <div class="col-12 col-md-4 col-xl-3">
+        <div class="card">
+          <div class="card-body text-center">
+            <h6>Current Status:</h6>
+            <p class="h5 text-uppercase">{{ outage.status_display }}</p>
+            <h6>Severity:</h6>
+            <img class="severity-dial" src='{% static "img/severity" %}{{ outage.severity }}.svg' />
+            <p class="h5 text-uppercase">{{ outage.severity_display }}</p>
+            <p>Last modification at: <br />
+              <strong>{{ outage.latest_modification_time }}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% with updates=outage.visible_updates %}
+  
+  <div class="container mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h2>Updates</h2>
+        <hr />
+        {% if updates|length > 0 %}
+          <ul class="updates-list">
+            {% for update in updates reversed %}
+              <li class="update-item {% if forloop.first %}text-dark{% endif %}">
+                <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
+                <span class="h5 text-uppercase">{{ update.status_display }}</span>
+                <p>
+                  <strong>{{ update.content }}</strong><br />
+                  Update created {{ update.time|naturaltime }}.
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>There are currently no updates.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+{% endblock %}

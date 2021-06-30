@@ -15,6 +15,7 @@ from django.template.defaultfilters import pluralize
 
 from langstroth import graphite
 from langstroth import nagios
+from langstroth.outages import models
 
 LOG = logging.getLogger(__name__)
 
@@ -64,6 +65,8 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
             key=itemgetter('hostname'))
     else:
         context['%s_hosts' % service_group_type] = []
+
+    context["current_outages"] = models.Outage.objects.current_outages()
 
     error = False
     if not status or not availability:

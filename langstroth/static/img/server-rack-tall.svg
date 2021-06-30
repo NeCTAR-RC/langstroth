@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.12 167.27">
+<g id="server-rack2" data-name="server-rack2">
+<rect x="0.5" y="0.5" width="82.12" height="166.77"/>
+<rect x="0.5" y="0.5" width="82.12" height="165.97" fill="none" stroke="#020202" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="8.72" y="10.71" width="65.68" height="20.21" fill="#333"/>
+<rect x="15.61" y="18.44" width="15.62" height="4.75" fill="#969696"/>
+<circle cx="40.79" cy="20.81" r="2.99" fill="#f8b20e"/>
+<circle cx="49.01" cy="20.81" r="2.99" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.2" end="60" /></circle>
+<circle cx="57.23" cy="20.81" r="2.99" fill="#969696"/>
+<circle cx="65.45" cy="20.81" r="2.99" fill="#f8b20e"/>
+<rect x="8.72" y="42.21" width="65.68" height="20.21" fill="#333"/>
+<rect x="15.61" y="49.94" width="15.62" height="4.75" fill="#969696"/>
+<circle cx="40.79" cy="52.31" r="2.99" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.4" end="60" /></circle>
+<circle cx="49.01" cy="52.31" r="2.99" fill="#f8b20e"/>
+<circle cx="57.23" cy="52.31" r="2.99" fill="#969696"/>
+<circle cx="65.45" cy="52.31" r="2.99" fill="#f8b20e"/>
+<rect x="8.72" y="73.71" width="65.68" height="20.21" fill="#333"/>
+<rect x="15.61" y="81.44" width="15.62" height="4.75" fill="#969696"/>
+<circle cx="40.79" cy="83.81" r="2.99" fill="#f8b20e"/>
+<circle cx="49.01" cy="83.81" r="2.99" fill="#f8b20e"/>
+<circle cx="57.23" cy="83.81" r="2.99" fill="#969696"/>
+<circle cx="65.45" cy="83.81" r="2.99" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.6" end="60" /></circle>
+<rect x="8.72" y="105.21" width="65.68" height="20.21" fill="#333"/>
+<rect x="15.61" y="112.94" width="15.62" height="4.75" fill="#969696"/>
+<circle cx="40.79" cy="115.31" r="2.99" fill="#f8b20e"/>
+<circle cx="49.01" cy="115.31" r="2.99" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.8" end="60" /></circle>
+<circle cx="57.23" cy="115.31" r="2.99" fill="#969696"/>
+<circle cx="65.45" cy="115.31" r="2.99" fill="#f8b20e"/>
+<rect x="8.72" y="136.71" width="65.68" height="20.21" fill="#333"/>
+<rect x="15.61" y="144.44" width="15.62" height="4.75" fill="#969696"/>
+<circle cx="40.79" cy="146.81" r="2.99" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="1" end="60" /></circle>
+<circle cx="49.01" cy="146.81" r="2.99" fill="#f8b20e"/>
+<circle cx="57.23" cy="146.81" r="2.99" fill="#969696"/>
+<circle cx="65.45" cy="146.81" r="2.99" fill="#f8b20e"/>
+</g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.54 201.79">
+<g id="server-rack1" data-name="server-rack1">
+<rect x="0.55" y="0.55" width="117.44" height="200.69"/>
+<rect x="0.55" y="0.55" width="117.44" height="200.69" fill="none" stroke="#020202" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1"/>
+<rect x="12.3" y="15.15" width="93.93" height="28.9" fill="#333"/>
+<rect x="22.16" y="26.2" width="22.33" height="6.79" fill="#969696"/>
+<circle cx="58.17" cy="29.6" r="4.27" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0" end="60" /></circle>
+<circle cx="69.92" cy="29.6" r="4.27" fill="#f8b20e"/>
+<circle cx="81.67" cy="29.6" r="4.27" fill="#969696"/>
+<circle cx="93.42" cy="29.6" r="4.27" fill="#f8b20e"/>
+<rect x="12.3" y="60.19" width="93.93" height="28.9" fill="#333"/>
+<rect x="22.16" y="71.25" width="22.33" height="6.79" fill="#969696"/>
+<circle cx="58.17" cy="74.64" r="4.27" fill="#f8b20e"/>
+<circle cx="69.92" cy="74.64" r="4.27" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.2" end="60" /></circle>
+<circle cx="81.67" cy="74.64" r="4.27" fill="#969696"/>
+<circle cx="93.42" cy="74.64" r="4.27" fill="#f8b20e"/>
+<rect x="12.3" y="105.24" width="93.93" height="28.9" fill="#333"/>
+<rect x="22.16" y="116.3" width="22.33" height="6.79" fill="#969696"/>
+<circle cx="58.17" cy="119.69" r="4.27" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.5" end="60" /></circle>
+<circle cx="69.92" cy="119.69" r="4.27" fill="#f8b20e"/>
+<circle cx="81.67" cy="119.69" r="4.27" fill="#969696"/>
+<circle cx="93.42" cy="119.69" r="4.27" fill="#f8b20e"/>
+<rect x="12.3" y="150.29" width="93.93" height="28.9" fill="#333"/>
+<rect x="22.16" y="161.34" width="22.33" height="6.79" fill="#969696"/>
+<circle cx="58.17" cy="164.74" r="4.27" fill="#f8b20e"/>
+<circle cx="69.92" cy="164.74" r="4.27" fill="#f8b20e"/>
+<circle cx="81.67" cy="164.74" r="4.27" fill="#969696"/>
+<circle cx="93.42" cy="164.74" r="4.27" fill="#f8b20e"><animate attributeName="opacity" dur="0.5s" values="0;1;0" repeatCount="indefinite" begin="0.7" end="60" /></circle>
+</g>
+</svg>

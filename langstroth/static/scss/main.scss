@@ -1,7 +1,7 @@
-// Use ARDC Proxima Nova
-@import url("https://use.typekit.net/nlr0joz.css");
-// $font-family-sans-serif: "Proxima Nova", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
-$font-family-base: proxima-nova, sans-serif;
+// Use Figtree Google Font
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+$font-family-sans-serif: 'Figtree', sans-serif;
+$font-family-base: 'Figtree', sans-serif;
 $font-size-base: 0.875rem;
 $form-label-font-weight: 600;
 
@@ -78,7 +78,7 @@ footer {
 
 .h1, .h2, .h3, .h4, .h5, .h6, 
 h1, h2, h3, h4, h5, h6 {
-  font-family: proxima-nova, sans-serif;
+  font-family: $font-family-base;
   font-style: normal;
   font-weight: 600;
 }
@@ -130,6 +130,24 @@ span.disabled {
   h1 {
     color: $gray-500 !important;
   }
+  #cloud-ok {
+    position: relative;
+    #ok-tick {
+      display: inline-block;
+      vertical-align: middle;
+      animation: fadeIn 2s ease-in, bubble 1s ease-in-out 1s;
+    }
+    #ok-message {
+      display: inline-block;
+      vertical-align: middle;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: reveal 8s;
+      span {
+        animation: slideIn 8s;
+      }
+    }
+  }
   .clouds {
     position: absolute;
     width: 100%;
@@ -141,28 +159,64 @@ span.disabled {
   #clouds1 {
     margin-bottom: 0px;
     /* opacity: .5; */
-    background-image: url(../img/clouds1.svg);
-    // animation: cloudMove 300s infinite;
+    background-image: url(../img/clouds1.png);
+    animation: cloudMove 300s infinite;
     animation-timing-function: linear;
   }
   #clouds2 {
     margin-bottom: -30px;
-    background-image: url(../img/clouds2.svg);
-    // animation: cloudMove 200s infinite;
+    background-image: url(../img/clouds2.png);
+    animation: cloudMove 200s infinite;
     animation-timing-function: linear;
   }
   #clouds3 {
     margin-bottom: 20px;
     background-position-x: -140px;
-    background-image: url(../img/clouds3.svg);
-    // animation: cloudMove 200s infinite;
+    background-image: url(../img/clouds3.png);
+    animation: cloudMove 400s infinite;
     animation-timing-function: linear;
+  }
+  .rack {
+    position: absolute;
+    &.rack-back {
+      bottom: 20px;
+    }
+    &.rack-mid {
+      bottom: 0;
+    }
+    &.rack-front {
+      bottom: -30px;
+    }
+  }
+  #rack1 {
+    left: 15%;
+  }
+  #rack2 {
+    left: 45%;
+  }
+  #rack3 {
+    left: 90%;
+  }
+  #rack4 {
+    left: 5%;
+  }
+  #rack5 {
+    left: 80%;
+  }
+  #rack6 {
+    left: 25%;
+  }
+  #rack7 {
+    left: 65%;
   }
 }
 
 @include media-breakpoint-down(md) {
   .clouds {
     height: 60px;
+  }
+  .rack {
+    display: none;
   }
 }
 
@@ -266,6 +320,89 @@ img.graphite {
     min-height: 300px;
 }
 
+.alert-severity1 {
+  color: shift-color($ardc-blue, 40%);
+  background-color: shift-color($ardc-blue, -80%);
+  border-color: shift-color($ardc-blue, -70%);
+  .alert-link {
+    color: shade-color(shift-color($ardc-blue, 40%), 20%);
+  }
+}
+
+.alert-severity2 {
+  color: shift-color($ardc-orange, 40%);
+  background-color: shift-color($ardc-orange, -80%);
+  border-color: shift-color($ardc-orange, -70%);
+  .alert-link {
+    color: shade-color(shift-color($ardc-orange, 40%), 20%);
+  }
+}
+
+.alert-severity3 {
+  color: shift-color($ardc-pink, 40%);
+  background-color: shift-color($ardc-pink, -80%);
+  border-color: shift-color($ardc-pink, -70%);
+  .alert-link {
+    color: shade-color(shift-color($ardc-pink, 40%), 20%);
+  }
+}
+
+.severity-dial {
+  width: 100%;
+  max-width: 100px;
+}
+
+.severity-dial-sm {
+  width: 100%;
+  max-width: 60px;
+}
+
+.outage-status-S-emoji::before {
+  content: "🕰";
+}
+
+.outage-status-F-emoji::before {
+  content: "✅";
+}
+
+.outage-status-W-emoji::before {
+  content: "👀";
+}
+
+.outage-status-P-emoji::before {
+  content: "💡";
+}
+
+.outage-status-ID-emoji::before {
+  content: "🎯";
+}
+
+.outage-status-IN-emoji::before {
+  content: "🧐";
+}
+
+.updates-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+	border-left: 3px solid $purple;
+  .update-item {
+    padding: 20px;
+    color: #666666;
+    &:before {
+      content: "\2022";
+      text-align: center;
+      color: #8E489B;
+      font-size: 2em;
+      font-weight: bold;
+      display: inline-block;
+      width: 18px;
+      margin-left: -30px;
+      background: #fff;
+    }
+  }
+}
+
 .chart-container {
     height: 400px;
 }
@@ -309,6 +446,31 @@ img.graphite {
 /*
  * CSS Animation Functions
  */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bubble {
+  0% { transform: scale(1); }
+  50%   { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideIn {
+  0% { margin-left: -800px; }
+  20% { margin-left: -800px; }
+  35% { margin-left: 0px; }
+  100% { margin-left: 0px; }
+}
+
+@keyframes reveal {
+  0% { opacity:0; width: 0px; }
+  20% { opacity:1; width: 0px; }
+  30% { opacity:1; width: auto; }
+  100% { opacity:1; width: auto; }
+}
 
 @keyframes cloudMove {
   0% {

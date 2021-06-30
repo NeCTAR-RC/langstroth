@@ -4,16 +4,45 @@
 {% block page-header %}
 <div id="status-banner" class="container-fluid bg-dark">
   <canvas id="stars" width="1400" height="900"></canvas>
-  <div class="row">
-    <div class="col-lg-12 col-xl-10 offset-xl-1 text-center">
-      <h1 class="h5 text-light text-uppercase my-4">System Status &amp; Announcements</h5>
-      <div class="text-white my-5">
-        <!-- <p class="fs-2"><i class="fas fa-check-circle text-success"></i> All is well in the cloud.</p> -->
+  <div class="row mb-5">
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+      <h1 class="h5 text-center text-light text-uppercase my-4">System Status &amp; Announcements</h1>
+      {% if current_outages|length == 0 %}
+      <div id="cloud-ok" class="text-center text-white my-5">
+        <i id="ok-tick" class="fas fa-check-circle text-success fs-1"></i>
+        <div id="ok-message"><span class="fs-2">All is well in the cloud.</span></div>
       </div>
+      {% else %}
+      <div id="cloud-alerts" class="my-5">
+        {% for outage in current_outages %}
+        <div class="alert alert-severity{{ outage.severity }}" role="alert">
+          <a href="outages/{{outage.id}}" class="alert-link float-end">View Announcement <i class="fas fa-chevron-right"></i></a>
+          <h5 class="alert-heading text-uppercase">{% if outage.scheduled %} Scheduled {% else %} Unscheduled {% endif %} Outage</h5>
+          <p class="fs-4">{{outage.title}}</p>
+          <p class="mb-0">
+            <strong>Severity:</strong> {{outage.severity_display}},
+            <strong>Status:</strong> {{outage.status_display}},
+            {% if outage.start %}
+            <strong>Started:</strong> {{outage.start}}
+            {% else %}
+            <strong>Scheduled for:</strong> {{outage.scheduled_start}}
+            {% endif %}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
   </div>
+  <img src='{% static "img/server-rack-short.svg" %}' id="rack1" class="rack rack-back" width="90" />
+  <img src='{% static "img/server-rack-tall.svg" %}' id="rack2" class="rack rack-back" width="80" />
+  <img src='{% static "img/server-rack-tall.svg" %}' id="rack3" class="rack rack-back" width="70" />
   <div id="clouds3" class="clouds"></div>
+  <img src='{% static "img/server-rack-tall.svg" %}' id="rack4" class="rack rack-mid" width="90" />
+  <img src='{% static "img/server-rack-short.svg" %}' id="rack5" class="rack rack-mid" width="120" />
   <div id="clouds1" class="clouds"></div>
+  <img src='{% static "img/server-rack-short.svg" %}' id="rack6" class="rack rack-front" width="140" />
+  <img src='{% static "img/server-rack-tall.svg" %}' id="rack7" class="rack rack-front" width="100" />
   <div id="clouds2" class="clouds"></div>
 </div>
 {% endblock %}
@@ -126,7 +155,7 @@
   {% else %}
   <div class="row justify-content-md-center">
     <div class="sad-jumbotron col-md-6 text-center">
-      <img src='{% static "img/sad.png" %}' class="img-responsive"/>
+      <img src='{% static "img/sad.png" %}' class="img-fluid"/>
       <p class="fs-4 my-3">Ooohhhh, noooo. I have no cloud friends.</p>
     </div>
   </div>

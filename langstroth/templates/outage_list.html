@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Announcements</li>
+    </ol>
+  </nav>
+  <h1>{{ title }}&nbsp;<small class="lead">{{ tagline }}</small></h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mb-4">
+  <div class="card">
+    <div class="card-body">
+      <p>There are {{ outages|length }} service announcements.</p>
+      {% if outages|length > 0 %}
+        <ul class="list-unstyled">
+          {% for outage in outages %}
+          <li class="d-flex py-4">
+            <div class="announcement-severity">
+              <img class="severity-dial-sm" src='{% static "img/severity" %}{{ outage.severity }}.svg' />
+            </div>
+            <div class="announcement-details ps-4">
+              <h5 class="text-uppercase">
+                {% if outage.status_display == "Resolved" %}(Resolved)&nbsp;{% elif outage.status_display == "Completed" %}(Completed)&nbsp;{% endif %}
+                {{ outage.scheduled_display }} Outage
+              </h5>
+              <h4>
+                {{ outage.title }}
+              </h4>
+              <p>
+                <strong>Status:</strong> {{ outage.status_display }}
+                {% if outage.start %}
+                  <strong>Start:</strong> {{ outage.start }}
+                {% elif outage.scheduled and outage.schedule_start %}
+                  <strong>Start:</strong> {{ outage.schedule_start }} (scheduled)
+                {% endif %}
+                {% if outage.end %}
+                  <strong>End:</strong> {{ outage.end }}
+                {% elif outage.scheduled and outage.schedule_end%}
+                  <strong>End:</strong> {{ outage.schedule_end }} (scheduled).</p>
+                {% endif %}
+              </p>
+              <a href="{{ outage.id }}" target="_blank" class="btn-link float-right">View Announcement <i class="fa fa-chevron-right"></i></a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

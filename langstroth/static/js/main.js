@@ -16,12 +16,12 @@ window.onload = function() {
   // if(window.location.hash) { scrollToId(window.location.hash) };
   
   // Stop css animations after 1 minute
-  // setTimeout(function() {
-  //   // pause cloud animations
-  //   for(const cloud of document.getElementsByClassName("clouds")) {
-  //     cloud.classList.add('paused');
-  //   }
-  // }, 10000);
+  setTimeout(function() {
+    // pause cloud animations
+    for(const cloud of document.getElementsByClassName("clouds")) {
+      cloud.classList.add('paused');
+    }
+  }, 60000);
 };
 
 // removes the focus state on from the buttons that were clicked to launch a modal

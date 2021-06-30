@@ -20,6 +20,39 @@ NAGIOS_PASSWORD = ""
 
 DEBUG = True
 
+# If USE_OIDC is True we will use OIDC for authentication for the
+# Admin site.  If False, use classic username + password.
+USE_OIDC = False
+
+# OpenID Connect Auth settings.
+#
+# If USE_OIDC is set to True in the settings file, you also need to
+# provide appropriate values for the OIDC_SERVER_URL, OIDC_RP_CLIENT_ID
+# and OIDC_RP_CLIENT_SECRET in the settings file.  Refer to the README file
+# for more information on what they should be.
+#
+# If USE_OIDC is False (the default) then the dummy values are just enough to
+# allow the mozilla_django_oidc app to initialize.
+
+OIDC_SERVER_URL = 'dummy-id'
+
+OIDC_RP_CLIENT_ID = 'dummy-url'
+OIDC_RP_SIGN_ALGO = 'RS256'
+
+# OIDC_RP_SCOPES should include a scope that serves the ``roles`` claim
+# in the ID token, with an array of user's roles.
+OIDC_RP_SCOPES = 'openid email'
+
+# OpenID Connect settings
+OIDC_OP_AUTHORIZATION_ENDPOINT = f'{OIDC_SERVER_URL}/auth'
+OIDC_OP_TOKEN_ENDPOINT = f'{OIDC_SERVER_URL}/token'
+OIDC_OP_USER_ENDPOINT = f'{OIDC_SERVER_URL}/userinfo'
+OIDC_OP_JWKS_ENDPOINT = f'{OIDC_SERVER_URL}/certs'
+
+OIDC_RP_CLIENT_SECRET = 'secret'
+
+OIDC_USERNAME_ALGO = 'langstroth.auth.generate_username'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -157,6 +190,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'langstroth.auth.NoDjangoAdminForEndUserMiddleware'
 ]
 
 ROOT_URLCONF = 'langstroth.urls'
@@ -178,24 +212,31 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = [
+    'langstroth',
+    'langstroth.outages',
+    'nectar_allocations',
+    'user_statistics',
     'django.contrib.admin',
     'django.contrib.auth',
+    'mozilla_django_oidc',
+    'django.contrib.humanize',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'langstroth',
-    'nectar_allocations',
-    'user_statistics',
+    'rest_framework',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'langstroth.auth.NectarAuthBackend',
 ]
 
 AUTH_USER_MODEL = 'langstroth.User'
+
+LOGIN_REDIRECT_URL = "/admin/"
 
 WSGI_APPLICATION = 'langstroth.wsgi.application'
 
