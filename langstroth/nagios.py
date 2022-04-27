@@ -11,7 +11,6 @@ LOG = logging.getLogger(__name__)
 
 SERVICE_NAMES = {'http_cinder-api': 'Volume',
                  'http_aodh-api': 'Alarming',
-                 'https': 'Webserver',
                  'http_dashboard': 'Dashboard',
                  'http_accounts': 'Accounts',
                  'http_ceilometer-api': 'Ceilometer',
@@ -33,6 +32,8 @@ SERVICE_NAMES = {'http_cinder-api': 'Volume',
                  'http_blazar-api': 'Reservation',
                  'http_octavia-api': 'Load Balancer',
                  'http_barbican-api': 'Key Manager',
+                 'https_registry': 'Container Registry',
+                 'https_bumblebee': 'Virtual Desktop',
                  'tempest_auckland_compute': 'auckland',
                  'tempest_intersect-01_compute': 'intersect-01',
                  'tempest_intersect-02_compute': 'intersect-02',
@@ -65,12 +66,11 @@ def parse_percent_string(s):
 def parse_service_availability(service):
     host, service, ok, warn, unknown, crit, undet = service.getchildren()
     nagios_service_name = ''.join([t for t in service.itertext()])
-    print(ok.text.split(' ')[0])
+    ok_value = parse_percent_string(ok.text) + parse_percent_string(warn.text)
+    critical_value = parse_percent_string(crit.text)
     return {'name': nagios_service_name,
-            'ok': parse_percent_string(ok.text),
-            'warning': parse_percent_string(warn.text),
-            'unknown': parse_percent_string(unknown.text),
-            'critical': parse_percent_string(crit.text)}
+            'ok': ok_value,
+            'critical': critical_value}
 
 
 def parse_availability(html, service_group):
@@ -90,11 +90,12 @@ def parse_availability(html, service_group):
         for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
             if 'colspan' in row.getchildren()[0].attrib:
                 title, ok, warn, unknown, crit, undet = row.getchildren()
+                ok_value = (parse_percent_string(ok.text)
+                            + parse_percent_string(warn.text))
+                critical_value = parse_percent_string(crit.text)
                 average = {'name': 'Average',
-                           'ok': parse_percent_string(ok.text),
-                           'warning': parse_percent_string(warn.text),
-                           'unknown': parse_percent_string(unknown.text),
-                           'critical': parse_percent_string(crit.text)}
+                           'ok': ok_value,
+                           'critical': critical_value}
                 continue
             service = parse_service_availability(row)
             services[service['name']] = service

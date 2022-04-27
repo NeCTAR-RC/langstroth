@@ -30,7 +30,6 @@
             <th class="col-xs-4">Service</th>
             <th class="col-xs-2 text-center">Status</th>
             <th class="col-xs-2 status-bg-ok text-center" title="Service OK">OK</th>
-            <th class="col-xs-2 status-bg-warning text-center" title="Service Warning">Warning</th>
             <th class="col-xs-2 status-bg-critical text-center" title="Service Critical">Critical</th>
           </tr>
         </thead>
@@ -45,9 +44,6 @@
               <td class="status-bg-ok text-right" title="Service OK">
                 {{ service.availability.ok|floatformat:"2" }}%
               </td>
-              <td class="status-bg-warning text-right" title="Service Warning">
-                {{ service.availability.warning|floatformat:"2" }}%
-              </td>
               <td class="status-bg-critical text-right" title="Service Critical">
                 {{ service.availability.critical|floatformat:"2" }}%
               </td>
@@ -60,7 +56,6 @@
             <td>All Services</td>
             <td></td>
             <td class="status-bg-ok text-right" title="Service OK">{{ api_average.ok|floatformat:"2" }}%</td>
-            <td class="status-bg-warning text-right" title="Service Warning">{{ api_average.warning|floatformat:"2" }}%</td>
             <td class="status-bg-critical text-right" title="Service Critical">{{ api_average.critical|floatformat:"2" }}%</td>
           </tr>
         </tfoot>
@@ -82,7 +77,6 @@
             <th class="col-xs-4">Availability Zone</th>
             <th class="col-xs-2 text-center">Status</th>
             <th class="col-xs-2 status-bg-ok text-center" title="Boot success">Success</th>
-            <th class="col-xs-2 status-bg-warning text-center" title="Out of capacity">Capacity</th>
             <th class="col-xs-2 status-bg-critical text-center" title="Boot failure">Failed</th>
           </tr>
         </thead>
@@ -97,9 +91,6 @@
               <td class="status-bg-ok text-right" title="{{ service.display_name }} boot success">
                 {{ service.availability.ok|floatformat:"2" }}%
               </td>
-              <td class="status-bg-warning text-right" title="{{ service.display_name }} out of capacity">
-                {{ service.availability.warning|floatformat:"2" }}%
-              </td>
               <td class="status-bg-critical text-right" title="{{ service.display_name }} boot failure">
                 {{ service.availability.critical|floatformat:"2" }}%
               </td>
@@ -112,7 +103,6 @@
             <td>All Zones</td>
             <td></td>
             <td class="status-bg-ok text-right" title="Boot success">{{ site_average.ok|floatformat:"2" }}%</td>
-            <td class="status-bg-warning text-right" title="Out of capacity">{{ site_average.warning|floatformat:"2" }}%</td>
             <td class="status-bg-critical text-right" title="Boot failure">{{ site_average.critical|floatformat:"2" }}%</td>
           </tr>
         </tfoot>
