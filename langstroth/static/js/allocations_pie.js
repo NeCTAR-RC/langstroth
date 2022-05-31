@@ -152,8 +152,8 @@ function zoomIn(data) {
     var dataset = processResponse(route, resource);
     colourPalette.push(data.colourIndex, dataset.length);
     visualise(dataset, resource.total);
-    var isCoreQuota = selectedCoreQuota();
-    tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+    var quota = selectedQuota();
+    tabulateAllocations(table, dataset, resource.total, quota);
   } else {
     // Instead of zooming the plot, navigate to another page.
     var urlExtension = '#/FOR/' + breadcrumbs.getZeroPaddedForCode();
@@ -182,8 +182,8 @@ function zoomOut(p) {
     colourPalette.pop();
     // Display pie chart and table.
     visualise(dataset, resource.total);
-    var isCoreQuota = selectedCoreQuota();
-    tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+    var quota = selectedQuota();
+    tabulateAllocations(table, dataset, resource.total, quota);
   }
 }
 
@@ -266,6 +266,7 @@ var projectMarkup = "<div class='details-container centred-container'>" +
       "<tr><th>Institution: </th><td>{{institutionName}}</td></tr>" +
       "<tr><th>Core quota: </th><td>{{coreQuota}}</td></tr>" +
       "<tr><th>Instance quota: </th><td>{{instanceQuota}}</td></tr>" +
+      "<tr><th>SU budget: </th><td>{{budgetQuota}}</td></tr>" +
       "</table>" +
       "</div>";
 
@@ -276,7 +277,8 @@ function showProjectSummary(data) {
     projectDescription: data.projectDescription.makeWrappable(),
     institutionName: data.institutionName,
     coreQuota: data.coreQuota.toFixed(0),
-    instanceQuota: data.instanceQuota.toFixed(0)
+    instanceQuota: data.instanceQuota.toFixed(0),
+    budgetQuota: data.budgetQuota.toFixed(0),
   };
   var rendered = Mustache.render(projectMarkup, view);
   toolTip.html(rendered);
@@ -307,8 +309,9 @@ function showFORDescription(d) {
 
 function visualise( dataset, totalResource ) {
 
-  var countLabelPrefix = selectedCoreQuota() ? "Core count: "
-      : "Instance count: ";
+  var quota = selectedQuota();
+  var countLabelPrefix = (quota == "cores") ? "Core count: " :
+      (quota == "budget") ? "SU budget: " : "Instance count: ";
   totalText.text(function(d) {
     return countLabelPrefix + totalResource.toFixed(0); });
 
@@ -489,24 +492,49 @@ function arcTweenOut(a) {
 
 //---- Main Function: Process the data and visualise it.
 
-function selectedCoreQuota() {
-  var activeButton = $('li#cores.active').text();
-  var isCoreQuota = activeButton == "Cores";
-  return isCoreQuota;
+function selectedQuota() {
+  return $('#graph-buttons').children('li.active').attr('id');
 }
 
-function selectedDataFilter() {
-  var activeButton = $('#filter-buttons').children('li.active').text();
-  return activeButton;
+function selectedSiteFilter() {
+    var activeButton = $('#filter-buttons').children('li.active').attr('id');
+  // Return the predicate (a function) that will be used to filter
+  // tree nodes for National, Local or all allocations.
+  if (activeButton == "national") {
+    return function(node) { return node.national; };
+  } else if (activeButton == "local") {
+    return function(node) { return !node.national; };
+  } else {
+    return function(node) { return true; };
+  }
+}
+
+function selectedCodeFilter() {
+    var activeButton = $('#code-buttons').children('li.active').attr('id');
+  // Return the predicate (a function) that will be used to filter
+  // tree nodes according to their FoR code series.  Note it assumes
+  // that the node's 'name' contains a FoR code (not a project name).
+  if (activeButton == "2008") {
+    return function(node) {
+      var code_2 = node.name.substring(0, 2);
+      return code_2 >= "01" && code_2 <= "22";
+    };
+  } else if (activeButton == "2020") {
+    return function(node) {
+      var code_2 = node.name.substring(0, 2);
+      return code_2 >= "30" && code_2 <= "52";
+    };
+  } else {
+    return function(node) { return true; };
+  }
 }
 
 function processResponse(route, resource) {
-  var isCoreQuota = selectedCoreQuota();
-  var selectedFilter = selectedDataFilter();
-  var dataset = allocations.dataset(route, isCoreQuota, selectedFilter);
-  var sum = d3.sum(dataset, function (d) {
-    return d.value;
-  });
+  var quota = selectedQuota();
+  var siteFilter = selectedSiteFilter();
+  var codeFilter = selectedCodeFilter();
+  var dataset = allocations.dataset(route, quota, siteFilter, codeFilter);
+  var sum = d3.sum(dataset, function (d) { return d.value; });
   resource.total = sum;
   return dataset;
 }
@@ -515,21 +543,21 @@ function refreshPlotAndTable(route) {
   var resource = {};
   var dataset = processResponse(route, resource);
   visualise(dataset, resource.total);
-  var isCoreQuota = selectedCoreQuota();
-  tabulateAllocations(table, dataset, resource.total, isCoreQuota);
+  var quota = selectedQuota();
+  tabulateAllocations(table, dataset, resource.total, quota);
 }
 
 function populatePalette(route) {
   colourPalette.reset();
   if (route.length > 0) {
-    var isCoreQuota = selectedCoreQuota();
+    var quota = selectedQuota();
     var reversedPath = [];
     var forPath = route.concat();
     var partialPath = [];
     var levelCount = route.length;
     for(var levelIndex = 0; levelIndex < levelCount; levelIndex++) {
       var forCode = forPath.pop();
-      var dataset = allocations.dataset(partialPath, isCoreQuota);
+      var dataset = allocations.dataset(partialPath, quota);
       var dataCount = dataset.length;
       var foundColourIndex = -1;
       for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
@@ -549,20 +577,29 @@ function populatePalette(route) {
 //---- Data Loading.
 
 function load() {
-  d3.json(allocationURL + "/for-codes/", function(error, forObjects) {
-    d3.json(allocationURL + "/for-tree/", function(error, allocationObjects) {
-      forTitleMap = forObjects;
-      allocations = new Allocations(allocationObjects.children);
-      var route = null;
-      var pathExtension = window.location.hash;
-      if (pathExtension) {
-        route = allocations.parseForPath(pathExtension);
-        breadcrumbs.setRoute(route);
-        populatePalette(route);
-      }
-      refreshPlotAndTable(route);
+  if (forcodeSeries == "") {
+    suffix = forcodeSeries;
+  } else {
+    suffix = "-" + forcodeSeries;
+  }
+  d3.json(
+    allocationURL + "/for-codes" + suffix + "/",
+    function(error, forObjects) {
+      d3.json(
+        allocationURL + "/for-tree" + suffix + "/",
+        function(error, allocationObjects) {
+          forTitleMap = forObjects;
+          allocations = new Allocations(allocationObjects.children);
+          var route = null;
+          var pathExtension = window.location.hash;
+          if (pathExtension) {
+            route = allocations.parseForPath(pathExtension);
+            breadcrumbs.setRoute(route);
+            populatePalette(route);
+          }
+          refreshPlotAndTable(route);
+        });
     });
-  });
 }
 
 load();
@@ -575,14 +612,25 @@ function changeGraph() {
   refreshPlotAndTable(breadcrumbs.route());
 }
 
-function changeFilter() {
+function changeSiteFilter() {
   $('#filter-buttons li').removeClass('active');
   $(this).addClass('active');
   refreshPlotAndTable(breadcrumbs.route());
 }
 
+function changeCodeFilter() {
+  // Only allow ANZSRC code series switching at the top level.  (We could
+  // allow it if we reverted to the top level as well ...)
+  if (breadcrumbs.isHome()) {
+    $('#code-buttons li').removeClass('active');
+    $(this).addClass('active');
+    refreshPlotAndTable(breadcrumbs.route());
+  }
+}
+
 d3.selectAll("#graph-buttons li").on("click", changeGraph);
-d3.selectAll("#filter-buttons li").on("click", changeFilter);
+d3.selectAll("#filter-buttons li").on("click", changeSiteFilter);
+d3.selectAll("#code-buttons li").on("click", changeCodeFilter);
 
 $(document).ready(function(){
     $("#plot-area")

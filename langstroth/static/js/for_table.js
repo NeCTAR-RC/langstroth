@@ -68,7 +68,7 @@ function zoomInTable(d) {
   zoomIn(d);
 }
 
-function buildTable(pageAreaSelector, isCoreQuota) {
+function buildTable(pageAreaSelector, quota) {
   // Define the table with heading.
   var tableClass = "for-projects table-striped table-bordered " +
     "table-condensed table-hover";
@@ -94,12 +94,13 @@ function buildTable(pageAreaSelector, isCoreQuota) {
   headerRow.append("th")
     .attr("class", "col3")
     .style("min-width", "20px")
-    .text(isCoreQuota ? "Cores" : "Instances");
+    .text((quota == "budget") ? "SU Budgets" :
+          (quota == "cores") ? "Cores" : "Instances");
 
   return table;
 }
 
-function tabulateAllocations(table, dataset, total, isCoreQuota) {
+function tabulateAllocations(table, dataset, total, quota) {
 
   var thead = table.select("thead");
 
@@ -122,7 +123,8 @@ function tabulateAllocations(table, dataset, total, isCoreQuota) {
 
   thead.select("th.col3")
     .text(function(row) {
-      return isCoreQuota ? "Cores" : "Instances";
+      return (quota == "budget") ? "SU Budgets" :
+             (quota == "cores") ? "Cores" : "Instances";
     });
 
   // Attach the data

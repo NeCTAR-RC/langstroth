@@ -33,20 +33,23 @@ Allocations.prototype.nextLevel = function(forCodes, children) {
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
 Allocations.prototype.restructureAllocations =
-                              function (subTree, isCoreQuota, applyFilter) {
+        function (subTree, quota, siteFilter, codeFilter) {
   var colourIndex = 0;
   var dataset = [];
   var allocationCount = subTree.length;
+  var forcode_re = /^\d{2,6}$/;
   for (var allocationIndex = 0;
-    allocationIndex < allocationCount;
-    allocationIndex++) {
-    var sum = 0.0;
+       allocationIndex < allocationCount;
+       allocationIndex++) {
     var child = subTree[allocationIndex];
-    var name = child.name;
+    if (forcode_re.test(child.name) && !codeFilter(child)) {
+      continue;
+    }
+    var sum = 0.0;
     var allocationItem = {};
     if (child.children) {
       // add the branch value.
-      sum = this.nextLevelSum(child.children, isCoreQuota, applyFilter);
+      sum = this.nextLevelSum(child.children, quota, siteFilter);
     } else {
       // add the leaf value.
       allocationItem.id = child.id;
@@ -54,9 +57,11 @@ Allocations.prototype.restructureAllocations =
       allocationItem.institutionName = child.institution;
       allocationItem.coreQuota = child.coreQuota;
       allocationItem.instanceQuota = child.instanceQuota;
-      sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
+      allocationItem.budgetQuota = child.budgetQuota;
+      sum = (quota == "budget") ? child.budgetQuota :
+            (quota == "cores") ? child.coreQuota : child.instanceQuota;
     }
-    allocationItem.target = name;
+    allocationItem.target = child.name;
     allocationItem.value = sum;
     dataset.push(allocationItem);
   }
@@ -69,27 +74,26 @@ Allocations.prototype.restructureAllocations =
 };
 
 // Recurse the allocation tree to return a sum.
-Allocations.prototype.nextLevelSum = function(children, isCoreQuota, applyFilter) {
+Allocations.prototype.nextLevelSum = function(children, quota, siteFilter) {
   var sum = 0.0;
   var childCount = children.length;
   for (var childIndex = 0; childIndex < childCount; childIndex++) {
     var child = children[childIndex];
     if (child.children) {
-      sum += this.nextLevelSum(child.children, isCoreQuota, applyFilter);
+      sum += this.nextLevelSum(child.children, quota, siteFilter);
     } else {
-      if ( ((applyFilter == 'National') && (child.national)) ||
-           ((applyFilter == 'Local') && (!child.national)) ||
-           (applyFilter == 'All') ) {
-        sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
+      if (siteFilter(child)) {
+        sum += (quota == "budget") ? child.budgetQuota :
+               (quota == "cores") ? child.coreQuota : child.instanceQuota;
       }
     }
   }
   return sum;
 };
 
-Allocations.prototype.dataset = function(route, isCoreQuota, applyFilter) {
+Allocations.prototype.dataset = function(route, quota, siteFilter, codeFilter) {
   var tree = route ? this.traverse(route) : this.allocationTree;
-  return this.restructureAllocations(tree, isCoreQuota, applyFilter);
+  return this.restructureAllocations(tree, quota, siteFilter, codeFilter);
 };
 
 Allocations.prototype.assemblePathWithoutZeros

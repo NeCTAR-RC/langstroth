@@ -75,6 +75,20 @@ GRAPHITE_URL = "http://graphite.test"
 
 ALLOCATION_API_URL = "http://allocations.test/rest_api/"
 
+# This determines which FoR code series will be requested from the
+# allocations API.  Values understood by the server are "2008", "2020"
+# and "all".  The "all" option means all FoR codes subject to server-side
+# filtering.
+FOR_CODE_SERIES = "all"
+
+# This lists the 2-digit code ranges for each FoR code series.  For example,
+# ANZSRC 2008 defines 2-digit FoR codes "01" through "22" inclusive.
+FOR_CODE_RANGES = {
+    "2008": ("01", "22"),
+    "2020": ("30", "52"),
+    "all": ("00", "99"),
+}
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
