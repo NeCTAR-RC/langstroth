@@ -4,9 +4,10 @@ ADD requirements.txt /app/requirements.txt
 
 RUN set -ex \
     && python -m venv /env \
-    && /env/bin/pip install --upgrade pip \
+    && /env/bin/pip install --no-cache-dir --upgrade pip \
     && /env/bin/pip install --no-cache-dir -r /app/requirements.txt \
-    && /env/bin/pip install gunicorn
+    && /env/bin/pip install --no-cache-dir django-storage-swift \
+    && /env/bin/pip install --no-cache-dir gunicorn
 
 ADD langstroth /app/langstroth
 ADD user_statistics /app/user_statistics
