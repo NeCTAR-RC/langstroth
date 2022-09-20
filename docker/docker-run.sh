@@ -18,4 +18,4 @@ echo "** Starting Django collectstatic **"
 ./manage.py collectstatic --noinput
 echo "** Completed Django collectstatic **"
 
-gunicorn --log-file=- --bind :80 --workers 3 langstroth.wsgi
+gunicorn --bind :80 --access-logfile=- --worker-tmp-dir /dev/shm --workers 3 langstroth.wsgi
