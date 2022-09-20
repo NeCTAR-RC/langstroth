@@ -43,8 +43,9 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     LOG.debug("Availability: " + str(availability))
 
     try:
-        status = nagios.get_status(service_group)
-        cache.set('nagios_status_%s' % service_group, status)
+        status = (cache.get('nagios_status_%s' % service_group)
+                  or nagios.get_status(service_group))
+        cache.set('nagios_status_%s' % service_group, status, 600)
     except Exception:
         status = cache.get('nagios_status_%s' % service_group)
 
