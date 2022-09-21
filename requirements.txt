@@ -1,8 +1,8 @@
 requests
 lxml
 cssselect
-Django==2.2.12
+Django<5.0.0
 python-dateutil
 mysqlclient
-python-memcached
+pymemcache
 pbr

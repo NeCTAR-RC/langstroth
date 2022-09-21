@@ -22,6 +22,13 @@ DATABASES = {
         'NAME': '/var/lib/langstroth/nectar_allocations.db'}
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
 # The URL to your Nagios installation.
 NAGIOS_URL = "http://graphite.example.com/cgi-bin/nagios3/"
 
@@ -50,10 +57,6 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
-USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
