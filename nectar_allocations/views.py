@@ -9,7 +9,6 @@ def index_page(request):
         "allocation_url": settings.ALLOCATION_API_URL,
         "forcode_series": settings.FOR_CODE_SERIES,
     }
-    print (context)
     return render(request, "allocation_visualisation.html", context)
 
 
