@@ -500,9 +500,9 @@ function selectedSiteFilter() {
     var activeButton = $('#filter-buttons').children('li.active').attr('id');
   // Return the predicate (a function) that will be used to filter
   // tree nodes for National, Local or all allocations.
-  if (activeButton == "national") {
+  if (activeButton == "filter-national") {
     return function(node) { return node.national; };
-  } else if (activeButton == "local") {
+  } else if (activeButton == "filter-local") {
     return function(node) { return !node.national; };
   } else {
     return function(node) { return true; };
