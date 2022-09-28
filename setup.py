@@ -5,7 +5,7 @@ from pbr.packaging import parse_requirements
 
 setuptools.setup(
     name='langstroth',
-    version='0.1',
+    version='2.0.0',
     description=('Status page for the NeCTAR Research Cloud'),
     author='NeCTAR',
     author_email='',
