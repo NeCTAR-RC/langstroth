@@ -1,4 +1,4 @@
-FROM python:3.8.12-bullseye
+FROM python:3.8-bullseye
 
 ADD requirements.txt /app/requirements.txt
 
