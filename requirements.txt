@@ -6,3 +6,5 @@ python-dateutil
 mysqlclient
 pymemcache
 pbr
+django_compressor==4.4
+django-libsass==0.9

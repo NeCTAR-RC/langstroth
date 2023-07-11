@@ -64,12 +64,12 @@ Breadcrumbs.prototype.navigate = function(adjustPage) {
     .enter()
     .append("li")
     .attr("class", function(d, i) {
-          return i == self.breadCrumbs.length - 1 ? "active" : "";
+          return i == self.breadCrumbs.length - 1 ? "breadcrumb-item active" : "breadcrumb-item";
     })
     .html(function(d, i) {
       var forCode = d;
       var markup = forCode == '*' ?
-          '<span class="fa fa-home"></span>'
+          '<i class="fas fa-home"></i>'
             : '<span style="text-transform: capitalize">' +
             self.title(forCode, i) +
             '</span>';

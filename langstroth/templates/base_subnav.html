@@ -2,14 +2,16 @@
 {% load nav_bar %}
 
 {% block page-header %}
-  <ul class="nav nav-tabs">
-    <li role="presentaion" class="{% active request 'infrastructure' %}"><a href="/growth/infrastructure/">Infrastructure</a></li>
-    <li role="presentaion" class="{% active request 'users' %}"><a href="/growth/users/">Users</a></li>
-  </ul>
+  <div id="page-header" class="container my-5">
+    <ul class="nav nav-pills justify-content-end">
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'infrastructure' %}" href="/growth/infrastructure/">Infrastructure</a></li>
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'users' %}" href="/growth/users/">Users</a></li>
+    </ul>
 
-  <h1>{{ title }}
-    <small class="lead">
-      {{ tagline }}
-    </small>
-  </h1>
+    <h1>{{ title }}
+      <small class="lead">
+        {{ tagline }}
+      </small>
+    </h1>
+  </div>
 {% endblock %}

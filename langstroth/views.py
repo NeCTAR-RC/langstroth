@@ -233,4 +233,5 @@ def composition_cores(request, name):
             data['value'] = count
     cleaned = list(cleaned.values())
     sorted(cleaned, key=lambda x: x['value'])
-    return HttpResponse(dumps(cleaned), req.headers['content-type'])
+    return HttpResponse(dumps(cleaned),
+                        content_type=req.headers['Content-Type'])

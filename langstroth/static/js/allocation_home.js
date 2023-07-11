@@ -61,7 +61,7 @@ path.transition()  // update
   .duration(750)
   .attrTween("d", arcTween);
 
-d3.selectAll("#graph-buttons li").on("click", change);
+d3.selectAll("#graph-buttons li a").on("click", change);
 
 
 // Perform an in-place update of the data
@@ -87,8 +87,8 @@ function update(dest, source) {
 
 
 function change() {
-  $('#graph-buttons li').removeClass('active');
-  $(this).addClass('active');
+  $('#graph-buttons li a').removeClass('active');
+  $(this).find("a").addClass('active');
 
   $.get( "/allocation_home/cores_per_allocation_home", {'az': this.id}, function( data ) {
     zero(dataset);
@@ -267,4 +267,4 @@ function arcTweenOut(a) {
   };
 }
 
-$("#all").click();
+$("#filter-all a").click();

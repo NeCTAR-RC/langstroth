@@ -1,7 +1,7 @@
 function getQueryVariable(variable) {
   var query = window.location.search.substring(1);
   var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
+  for (var i = 0; i < vars.length; i++) {
     var pair = vars[i].split("=");
     if(pair[0] == variable){return pair[1];}
   }
@@ -17,9 +17,9 @@ function setActiveButtons() {
     $("#graph-buttons").find("li").each(function () {
       var id = $(this).attr('id');
       if (start === id) {
-        $(this).addClass('active');
+        $(this).find("a").addClass('active');
       } else {
-        $(this).removeClass('active');
+        $(this).find("a").removeClass('active');
       }
     });
   }

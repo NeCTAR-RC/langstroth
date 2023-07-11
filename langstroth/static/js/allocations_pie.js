@@ -493,11 +493,11 @@ function arcTweenOut(a) {
 //---- Main Function: Process the data and visualise it.
 
 function selectedQuota() {
-  return $('#graph-buttons').children('li.active').attr('id');
+  return $('#graph-buttons').find('a.active').parent('li').attr('id');
 }
 
 function selectedSiteFilter() {
-    var activeButton = $('#filter-buttons').children('li.active').attr('id');
+    var activeButton = $('#filter-buttons').find('a.active').parent('li').attr('id');
   // Return the predicate (a function) that will be used to filter
   // tree nodes for National, Local or all allocations.
   if (activeButton == "filter-national") {
@@ -510,7 +510,7 @@ function selectedSiteFilter() {
 }
 
 function selectedCodeFilter() {
-    var activeButton = $('#code-buttons').children('li.active').attr('id');
+    var activeButton = $('#code-buttons').find('a.active').parent('li').attr('id');
   // Return the predicate (a function) that will be used to filter
   // tree nodes according to their FoR code series.  Note it assumes
   // that the node's 'name' contains a FoR code (not a project name).
@@ -607,13 +607,13 @@ load();
 //---- Additional User Interactions.
 
 function changeGraph() {
-  $('#graph-buttons li').removeClass('active');
+  $('#graph-buttons li a').removeClass('active');
   $(this).addClass('active');
   refreshPlotAndTable(breadcrumbs.route());
 }
 
 function changeSiteFilter() {
-  $('#filter-buttons li').removeClass('active');
+  $('#filter-buttons li a').removeClass('active');
   $(this).addClass('active');
   refreshPlotAndTable(breadcrumbs.route());
 }
@@ -622,30 +622,12 @@ function changeCodeFilter() {
   // Only allow ANZSRC code series switching at the top level.  (We could
   // allow it if we reverted to the top level as well ...)
   if (breadcrumbs.isHome()) {
-    $('#code-buttons li').removeClass('active');
+    $('#code-buttons li a').removeClass('active');
     $(this).addClass('active');
     refreshPlotAndTable(breadcrumbs.route());
   }
 }
 
-d3.selectAll("#graph-buttons li").on("click", changeGraph);
-d3.selectAll("#filter-buttons li").on("click", changeSiteFilter);
-d3.selectAll("#code-buttons li").on("click", changeCodeFilter);
-
-$(document).ready(function(){
-    $("#plot-area")
-        .affix({
-            offset: {
-                top: function () {
-                    return $("#plot-area").parent().offset().top;
-                }
-            }
-        })
-        .on('affix.bs.affix affix-top.bs.affix affix-bottom.bs.affix',
-            function(evt){
-                if ($("#table-area").height() < $("#plot-area").height()){
-                    evt.preventDefault();
-                    $("#plot-area").removeClass("affix affix-top affix-bottom");
-                }
-            });
-});
+d3.selectAll("#graph-buttons li a").on("click", changeGraph);
+d3.selectAll("#filter-buttons li a").on("click", changeSiteFilter);
+d3.selectAll("#code-buttons li a").on("click", changeCodeFilter);

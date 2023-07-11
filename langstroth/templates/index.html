@@ -1,118 +1,134 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page-header %}
+<div id="status-banner" class="container-fluid bg-dark">
+  <canvas id="stars" width="1400" height="900"></canvas>
+  <div class="row">
+    <div class="col-lg-12 col-xl-10 offset-xl-1 text-center">
+      <h1 class="h5 text-light text-uppercase my-4">System Status &amp; Announcements</h5>
+      <div class="text-white my-5">
+        <!-- <p class="fs-2"><i class="fas fa-check-circle text-success"></i> All is well in the cloud.</p> -->
+      </div>
+    </div>
+  </div>
+  <div id="clouds3" class="clouds"></div>
+  <div id="clouds1" class="clouds"></div>
+  <div id="clouds2" class="clouds"></div>
+</div>
+{% endblock %}
+
 {% block content %}
-<div class="row">
+<div class="container">
 
   {% if api_hosts %}
-  <div class="row">
-    <div class="container">
-      <ul id="graph-buttons" class="nav nav-tabs pull-right">
-        <li id="12months"><a href="/?start=-12months">12 months</a></li>
-        <li id="6months"><a href="/?start=-6months">6 months</a></li>
-        <li id="1months" class="active"><a href="/?start=-1months">1 month</a></li>
-        <li id="1weeks"><a href="/?start=-1weeks">1 week</a></li>
-      </ul>
-    </div>
-  </div>
-  <br />
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4>Service Endpoints</h4>
+  <ul id="graph-buttons" class="nav nav-tabs">
+    <li class="nav-item" id="12months"><a class="nav-link" href="/?start=-12months" data-toggle="tab">12 months</a></li>
+    <li class="nav-item" id="6months"><a class="nav-link" href="/?start=-6months" data-toggle="tab">6 months</a></li>
+    <li class="nav-item" id="1months"><a class="nav-link active" href="/?start=-1months" data-toggle="tab">1 month</a></li>
+    <li class="nav-item" id="1weeks"><a class="nav-link" href="/?start=-1weeks" data-toggle="tab">1 week</a></li>
+  </ul>
+  <div class="row my-4">
+    <div class="col-12 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Service Endpoints</h4>
+        </div>
+        <div class="panel-body">
+          <p>Periodic healthcheck testing of the service endpoints.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th class="text-center">Status</th>
+                <th class="status-bg-ok text-center" title="Service OK">OK</th>
+                <th class="status-bg-critical text-center" title="Service Critical">Critical</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for host in api_hosts %}
+              {% for service in host.services %}
+                <tr>
+                  <td>{{ service.display_name }}</td>
+                  <td class="text-center">
+                    <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}" />
+                  </td>
+                  <td class="status-bg-ok text-center" title="Service OK">
+                    {{ service.availability.ok|floatformat:"2" }}%
+                  </td>
+                  <td class="status-bg-critical text-center" title="Service Critical">
+                    {{ service.availability.critical|floatformat:"2" }}%
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>All Services</td>
+                <td></td>
+                <td class="status-bg-ok text-center" title="Service OK">{{ api_average.ok|floatformat:"2" }}%</td>
+                <td class="status-bg-critical text-center" title="Service Critical">{{ api_average.critical|floatformat:"2" }}%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
-      <div class="panel-body">
-        Periodic healthcheck testing of the service endpoints.
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-xs-4">Service</th>
-            <th class="col-xs-2 text-center">Status</th>
-            <th class="col-xs-2 status-bg-ok text-center" title="Service OK">OK</th>
-            <th class="col-xs-2 status-bg-critical text-center" title="Service Critical">Critical</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for host in api_hosts %}
-          {% for service in host.services %}
-            <tr>
-              <td>{{ service.display_name }}</td>
-              <td class="text-center">
-                <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}" />
-              </td>
-              <td class="status-bg-ok text-right" title="Service OK">
-                {{ service.availability.ok|floatformat:"2" }}%
-              </td>
-              <td class="status-bg-critical text-right" title="Service Critical">
-                {{ service.availability.critical|floatformat:"2" }}%
-              </td>
-            </tr>
-          {% endfor %}
-        {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>All Services</td>
-            <td></td>
-            <td class="status-bg-ok text-right" title="Service OK">{{ api_average.ok|floatformat:"2" }}%</td>
-            <td class="status-bg-critical text-right" title="Service Critical">{{ api_average.critical|floatformat:"2" }}%</td>
-          </tr>
-        </tfoot>
-      </table>
     </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4>Instance Launch</h4>
+    <div class="col-12 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Instance Launch</h4>
+        </div>
+        <div class="panel-body">
+          <p>Periodic testing of launching new instances, networking and metadata access.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Availability Zone</th>
+                <th class="text-center">Status</th>
+                <th class="status-bg-ok text-center" title="Boot success">Success</th>
+                <th class="status-bg-critical text-center" title="Boot failure">Failed</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for host in site_hosts %}
+              {% for service in host.services %}
+                <tr>
+                  <td>{{ service.display_name }}</td>
+                  <td class="text-center">
+                    <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}" />
+                  </td>
+                  <td class="status-bg-ok text-center" title="{{ service.display_name }} boot success">
+                    {{ service.availability.ok|floatformat:"2" }}%
+                  </td>
+                  <td class="status-bg-critical text-center" title="{{ service.display_name }} boot failure">
+                    {{ service.availability.critical|floatformat:"2" }}%
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>All Zones</td>
+                <td></td>
+                <td class="status-bg-ok text-center" title="Boot success">{{ site_average.ok|floatformat:"2" }}%</td>
+                <td class="status-bg-critical text-center" title="Boot failure">{{ site_average.critical|floatformat:"2" }}%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
-      <div class="panel-body">
-       Periodic testing of launching new instances, networking and metadata access.
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-xs-4">Availability Zone</th>
-            <th class="col-xs-2 text-center">Status</th>
-            <th class="col-xs-2 status-bg-ok text-center" title="Boot success">Success</th>
-            <th class="col-xs-2 status-bg-critical text-center" title="Boot failure">Failed</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for host in site_hosts %}
-          {% for service in host.services %}
-            <tr>
-              <td>{{ service.display_name }}</td>
-              <td class="text-center">
-                <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}" />
-              </td>
-              <td class="status-bg-ok text-right" title="{{ service.display_name }} boot success">
-                {{ service.availability.ok|floatformat:"2" }}%
-              </td>
-              <td class="status-bg-critical text-right" title="{{ service.display_name }} boot failure">
-                {{ service.availability.critical|floatformat:"2" }}%
-              </td>
-            </tr>
-          {% endfor %}
-        {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>All Zones</td>
-            <td></td>
-            <td class="status-bg-ok text-right" title="Boot success">{{ site_average.ok|floatformat:"2" }}%</td>
-            <td class="status-bg-critical text-right" title="Boot failure">{{ site_average.critical|floatformat:"2" }}%</td>
-          </tr>
-        </tfoot>
-      </table>
     </div>
   </div>
   {% else %}
-  <div class="sad-jumbotron col-md-6 col-md-offset-3">
-    <img src='{% static "img/sad.png" %}' class="img-responsive"/>
-    <p class="lead">Ooohhhh, noooo. I have no cloud friends.
+  <div class="row justify-content-md-center">
+    <div class="sad-jumbotron col-md-6 text-center">
+      <img src='{% static "img/sad.png" %}' class="img-responsive"/>
+      <p class="fs-4 my-3">Ooohhhh, noooo. I have no cloud friends.</p>
+    </div>
   </div>
   {% endif %}
 </div>
@@ -120,4 +136,24 @@
 
 {% block extra_script %}
 <script src='{% static "js/index.js"%}'></script>
+<script type="text/javascript">
+  function getRandom(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}			
+  var canvas = document.getElementById('stars'),
+  context = canvas.getContext('2d'),
+  stars = 600,
+  colorrange = [0,60,240];
+  for (var i = 0; i < stars; i++) {
+    var x = Math.random() * canvas.offsetWidth;
+    y = Math.random() * canvas.offsetHeight,
+    radius = Math.random() * 1.2,
+    hue = colorrange[getRandom(0,colorrange.length - 1)],
+    sat = getRandom(50,100);
+    context.beginPath();
+    context.arc(x, y, radius, 0, 360);
+    context.fillStyle = "hsl(" + hue + ", " + sat + "%, 88%)";
+    context.fill();
+  }
+</script>
 {% endblock %}

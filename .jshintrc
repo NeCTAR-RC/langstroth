@@ -1,4 +1,5 @@
 {
   "laxbreak": true,
-  "maxerr": 1000
+  "maxerr": 1000,
+  "esversion": 9
 }

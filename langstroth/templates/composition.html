@@ -4,33 +4,33 @@
 {% load nav_bar %}
 
 {% block page-header %}
-  <ul class="nav nav-tabs">
-    <li role="presentaion" class="{% active request 'domain' %}"><a href="/composition/domain/">Domain</a></li>
-    <li role="presentation" class="{% active request 'allocation_home' %}"><a href="/composition/allocation_home/">Allocation home</a></li>
-  </ul>
+  <div id="page-header" class="container my-5">
+    <ul class="nav nav-pills justify-content-end">
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'domain' %}" href="/composition/domain/">Domain</a></li>
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'allocation_home' %}" href="/composition/allocation_home/">Allocation Home</a></li>
+    </ul>
 
-  <h1>{{ title }}</h1>
+    <h1>{{ title }}</h1>
+  </div>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="container">
+<div class="container">
+  <div class="row">
     <p>{{ desc }}</p>
   </div>
-</div>
 
-<div class="row">
-  <div class="container">
+  <div class="row">
     <ul id="graph-buttons" class="nav nav-tabs pull-right">
-      <li id="all" class="active"><a href="#" data-toggle="tab">All</a></li>
-      <li id="ardc"><a href="#" data-toggle="tab">ARDC</a></li>
-      <li id="melbourne"><a href="#" data-toggle="tab">Melbourne University</a></li>
-      <li id="monash"><a href="#" data-toggle="tab">Monash University</a></li>
-      <li id="qld"><a href="#" data-toggle="tab">QCIF</a></li>
-      <li id="tasmania"><a href="#" data-toggle="tab">Tasmania</a></li>
-      <li id="intersect"><a href="#" data-toggle="tab">Intersect</a></li>
-      <li id="swinburne"><a href="#" data-toggle="tab">Swinburne</a></li>
-      <li id="auckland"><a href="#" data-toggle="tab">Auckland</a></li>
+      <li class="nav-item" id="all"><a class="nav-link active" href="#" data-toggle="tab">All</a></li>
+      <li class="nav-item" id="ardc"><a class="nav-link" href="#" data-toggle="tab">ARDC</a></li>
+      <li class="nav-item" id="melbourne"><a class="nav-link" href="#" data-toggle="tab">Melbourne University</a></li>
+      <li class="nav-item" id="monash"><a class="nav-link" href="#" data-toggle="tab">Monash University</a></li>
+      <li class="nav-item" id="qld"><a class="nav-link" href="#" data-toggle="tab">QCIF</a></li>
+      <li class="nav-item" id="tasmania"><a class="nav-link" href="#" data-toggle="tab">Tasmania</a></li>
+      <li class="nav-item" id="intersect"><a class="nav-link" href="#" data-toggle="tab">Intersect</a></li>
+      <li class="nav-item" id="swinburne"><a class="nav-link" href="#" data-toggle="tab">Swinburne</a></li>
+      <li class="nav-item" id="auckland"><a class="nav-link" href="#" data-toggle="tab">Auckland</a></li>
     </ul>
   </div>
 </div>

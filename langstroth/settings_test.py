@@ -44,6 +44,19 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+INSTALLED_APPS = [
+    "langstroth",
+    "nectar_allocations",
+    "user_statistics",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.messages",
+    "django.contrib.sessions",
+    "django.contrib.staticfiles",
+    "compressor"
+]
+
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
 
 if not path.exists(path.dirname(DEBUG_LOG)):

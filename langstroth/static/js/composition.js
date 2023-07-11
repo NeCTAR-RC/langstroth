@@ -64,7 +64,7 @@ path.transition()  // update
   .duration(750)
   .attrTween("d", arcTween);
 
-d3.selectAll("#graph-buttons li").on("click", changeSource);
+d3.selectAll("#graph-buttons li a").on("click", changeSource);
 
 
 // Perform an in-place update of the data
@@ -122,13 +122,13 @@ function stringToColour(str) {
   var colour = '#';
   for (var j = 0; j < 3; j++) {
     var value = (hash >> (j * 8)) & 0xFF;
-    colour += ('00' + value.toString(16)).substr(-2);
+    colour += ('00' + value.toString(16)).substring(-2);
   }
   return colour;
 }
 
 function changeSource() {
-  $('#graph-buttons li').removeClass('active');
+  $('#graph-buttons li a').removeClass('active');
   $(this).addClass('active');
 
   $.get("cores", {'az': this.id}, function(data) {
@@ -315,4 +315,4 @@ function arcTweenOut(a) {
   };
 }
 
-$("#all").click(); // start with 'all'
+$("#all a").click(); // start with 'all'

@@ -70,8 +70,7 @@ function zoomInTable(d) {
 
 function buildTable(pageAreaSelector, quota) {
   // Define the table with heading.
-  var tableClass = "for-projects table-striped table-bordered " +
-    "table-condensed table-hover";
+  var tableClass = "for-projects table table-striped table-bordered table-hover";
   var table = d3.select(pageAreaSelector).append("table")
         .attr("class", tableClass);
   var thead = table.append("thead");

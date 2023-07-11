@@ -1,38 +1,37 @@
 {% extends "base_subnav.html" %}
 {% load static %}
 
-{% block content %}
-<div class="row">
-  <div class="container">
-    <ul id="graph-buttons" class="nav nav-tabs pull-right">
-      <li id="alltime"><a href="#" data-toggle="tab">All</a></li>
-      <li id="5years"><a href="#" data-toggle="tab">5 years</a></li>
-      <li id="3years"><a href="#" data-toggle="tab">3 years</a></li>
-      <li id="1year"><a href="#" data-toggle="tab">12 months</a></li>
-      <li id="6months" class="active"><a href="#" data-toggle="tab">6 months</a></li>
-      <li id="1month"><a href="#" data-toggle="tab">1 month</a></li>
-    </ul>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <h4>Total Instances</h4>
-    <div class="chart-container">
-      <svg class="chart" id="instance_count" data-url="/growth/instance_count"></svg>
-    </div>
-  </div>
-  <div class="row">
-    <h4>Used VCPUs</h4>
-    <div class="chart-container">
-      <svg class="chart" id="vcpu_used" data-url="/growth/used_cores"></svg>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
 {% block extra_head %}
 <link href='{% static "css/nv.d3.min.css" %}' type='text/css' media='screen' rel='stylesheet'/>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <ul id="graph-buttons" class="nav nav-tabs">
+    <li class="nav-item" id="alltime"><a class="nav-link" href="#" data-toggle="tab">All</a></li>
+    <li class="nav-item" id="5years"><a class="nav-link" href="#" data-toggle="tab">5 years</a></li>
+    <li class="nav-item" id="3years"><a class="nav-link" href="#" data-toggle="tab">3 years</a></li>
+    <li class="nav-item" id="1year"><a class="nav-link" href="#" data-toggle="tab">12 months</a></li>
+    <li class="nav-item" id="6months"><a class="nav-link active" href="#" data-toggle="tab">6 months</a></li>
+    <li class="nav-item" id="1month"><a class="nav-link" href="#" data-toggle="tab">1 month</a></li>
+  </ul>
+  <div class="row my-4">
+    <div class="col-12">
+      <h4>Total Instances</h4>
+      <div class="chart-container">
+        <svg class="chart" id="instance_count" data-url="/growth/instance_count"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="row my-4">
+    <div class="col-12">
+      <h4>Used VCPUs</h4>
+      <div class="chart-container">
+        <svg class="chart" id="vcpu_used" data-url="/growth/used_cores"></svg>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_script %}

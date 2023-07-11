@@ -1,29 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_head %}
-<link href='{% static "css/allocation-visualisation.css" %}' type='text/css' media='screen' rel='stylesheet'/>
-<link href='{% static "css/master-detail.css" %}' type='text/css' media='screen' rel='stylesheet'/>
-{% endblock %}
-
 {% block content %}
-    <div class="row">
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-12">
       <h4>Allocation details</h4>
-      <div class="col-md-12">
         <div id="project-summary" class='project-details-container'></div>
       </div>
     </div>
-    <div class="row">
+    <div class="row my-4">
+      <div class="col-12">
       <h4>Allocation quota</h4>
-      <div class="col-md-12">
         <div id="project-quota" class='project-details-container'></div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        &nbsp;
-      </div>
-    </div>
+  </div>
 {% endblock %}
 
 {% block extra_script %}

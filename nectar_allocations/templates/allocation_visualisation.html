@@ -7,46 +7,44 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row col-md-12">
-      <div class="col-md-4">
-        <ul id="filter-buttons" class="nav nav-tabs pull-left">
-          <li id="filter-all" class="active"><a href="#" data-toggle="tab">All</a></li>
-          <li id="filter-national"><a href="#" data-toggle="tab">National</a></li>
-          <li id="filter-local"><a href="#" data-toggle="tab">Local</a></li>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-4 my-2">
+        <ul id="filter-buttons" class="nav nav-pills justify-content-md-start">
+          <li id="filter-all" class="nav-item"><a class="nav-link active" href="#" data-toggle="tab">All</a></li>
+          <li id="filter-national" class="nav-item"><a class="nav-link" href="#" data-toggle="tab">National</a></li>
+          <li id="filter-local" class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Local</a></li>
         </ul>
       </div>
-      <div class="col-md-4 center-block">
-        <ul id="graph-buttons" class="nav nav-tabs center-block">
-          <li id="cores" class="active"><a href="#" data-toggle="tab">Cores</a></li>
-          <li id="instances"><a href="#" data-toggle="tab">Instances</a></li>
-          <li id="budget"><a href="#" data-toggle="tab">Budget</a></li>
+      <div class="col-12 col-md-4 my-2">
+        <ul id="graph-buttons" class="nav nav-pills justify-content-md-center">
+          <li id="cores" class="nav-item"><a class="nav-link active" href="#" data-toggle="tab">Cores</a></li>
+          <li id="instances" class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Instances</a></li>
+          <li id="budget" class="nav-item"><a class="nav-link" href="#" data-toggle="tab">Budget</a></li>
         </ul>
       </div>
-      <div class="col-md-4">
-        <ul id="code-buttons" class="nav nav-tabs pull-right">
-          <li id="2008" class="active"><a href="#" data-toggle="tab">ANZSRC 2008</a></li>
-          <li id="2020"><a href="#" data-toggle="tab">ANZSRC 2020</a></li>
+      <div class="col-12 col-md-4 my-2">
+        <ul id="code-buttons" class="nav nav-pills justify-content-md-end">
+          <li id="2008" class="nav-item"><a class="nav-link active" href="#" data-toggle="tab">ANZSRC 2008</a></li>
+          <li id="2020" class="nav-item"><a class="nav-link" href="#" data-toggle="tab">ANZSRC 2020</a></li>
         </ul>
       </div>
     </div>
-    <div class="row col-md-12">
-      <div class="col-md-4 col-md-offset-4" center-block">
-        <h4><div id="statistics-area" class="label label-default"></div></h4>
-      </div>
-    </div>
-    <div class="row top-buffer" id="chart-navigator-1">
-      <div class="col-md-12">
+    <div class="row my-4" id="chart-navigator-1">
+      <div class="col-12 col-md-12">
         <ul class="breadcrumb"></ul>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 col-xs-12">
-        <div id="plot-area"></div>
+      <div class="col-12 col-md-6">
+        <h4 id="statistics-area" class="text-center"></h4>
+        <div id="plot-area" class="d-flex justify-content-center"></div>
       </div>
-      <div class="col-md-6 col-xs-12">
-        <div id="table-area" class="text-center"></div>
+      <div class="col-12 col-md-6 justify-content-end">
+        <div id="table-area"></div>
       </div>
     </div>
+  </div>
 {% endblock %}
 
 {% block extra_script %}

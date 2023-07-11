@@ -1,6 +1,9 @@
 .tox/**/*.js
 **/*.min.js
+htmlcov/*.js
 langstroth/static/js/d3.v3.js
 langstroth/static/js/jquery.tablesorter.js
 langstroth/static/js/jquery.metadata.js
 langstroth/static/js/nv.d3.js
+langstroth/static/js/bootstrap/bootstrap.bundle.js
+langstroth/static/js/bootstrap/bootstrap.js
