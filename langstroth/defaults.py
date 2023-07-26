@@ -189,6 +189,14 @@ INSTALLED_APPS = [
     'user_statistics',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'langstroth.User'
+
 WSGI_APPLICATION = 'langstroth.wsgi.application'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
