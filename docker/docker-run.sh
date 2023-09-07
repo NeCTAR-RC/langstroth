@@ -7,7 +7,7 @@ else
     echo "** Secrets not found! **"
 fi
 
-if [ "$DJANGO_MIGRATE:-no" == "yes" ]; then
+if [ "${DJANGO_MIGRATE:-no}" == "yes" ]; then
   echo "** Starting Django migrate **"
   ./manage.py migrate
 else
