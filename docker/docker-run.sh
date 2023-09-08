@@ -18,4 +18,8 @@ echo "** Starting Django collectstatic **"
 ./manage.py collectstatic --noinput
 echo "** Completed Django collectstatic **"
 
+echo "** Starting Django compress **"
+./manage.py compress --verbosity 3
+echo "** Completed Django compress **"
+
 gunicorn --bind :80 --access-logfile=- --worker-tmp-dir /dev/shm --workers 3 langstroth.wsgi
