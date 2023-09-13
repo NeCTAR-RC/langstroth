@@ -20,6 +20,8 @@ NAGIOS_PASSWORD = ""
 
 DEBUG = True
 
+SERVE_STATIC = False
+
 # If USE_OIDC is True we will use OIDC for authentication for the
 # Admin site.  If False, use classic username + password.
 USE_OIDC = False

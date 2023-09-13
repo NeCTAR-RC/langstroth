@@ -1,6 +1,10 @@
+import functools
+import re
+
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.staticfiles.views import serve
 from django.urls import path
 from django.urls import re_path
 from django.views.generic.base import RedirectView
@@ -50,7 +54,7 @@ urlpatterns = [
 ]
 
 if settings.USE_OIDC:
-    additional_patterns = [
+    urlpatterns += [
         # Admin Interface
         path('admin/login/',
              oidc_views.OIDCAuthenticationRequestView.as_view(), name='login'),
@@ -62,12 +66,23 @@ if settings.USE_OIDC:
              oidc_views.OIDCAuthenticationRequestView.as_view(), name='login'),
     ]
 else:
-    additional_patterns = [
+    urlpatterns += [
         # Admin Interface
         path('admin/', admin.site.urls),
     ]
 
-urlpatterns += additional_patterns
+# This is a temporary hack to serve up static content in non-DEBUG
+# mode as well.
+if settings.SERVE_STATIC and not settings.DEBUG:
+    insecure = functools.partial(serve, insecure=True)
+    prefix = settings.STATIC_URL
+    staticpatterns = [
+        re_path(
+            r"^%s(?P<path>.*)$" % re.escape(prefix.lstrip("/")),
+            view=insecure
+        )
+    ]
+    urlpatterns = staticpatterns + urlpatterns
 
 handler500 = error.handler500
 handler400 = error.handler400
