@@ -69,6 +69,8 @@ else:
     urlpatterns += [
         # Admin Interface
         path('admin/', admin.site.urls),
+        path('login/', RedirectView.as_view(url='/admin/login',
+                                            permanent=False))
     ]
 
 # This is a temporary hack to serve up static content in non-DEBUG

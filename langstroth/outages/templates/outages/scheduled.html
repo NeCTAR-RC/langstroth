@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Announcements</li>
+      <li class="breadcrumb-item active" aria-current="page">Create Scheduled</li>
+    </ol>
+  </nav>
+  <h1 class="pb-4">Create a Scheduled Outage Announcement</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mb-4">
+  <div class="card">
+    <div class="card-body">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.scheduled.as_hidden }}
+        <fieldset>
+          <div class="mb-3">
+            <div class="form-label">Title</div>
+            <div>
+              {{ form.title }}
+              {% for error in form.title.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Description</div>
+            <div>
+              {{ form.description }}
+              {% for error in form.description.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Severity</div>
+            <div>
+              {{ form.scheduled_severity }}
+              {% for error in form.scheduled_severity.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Scheduled start date & time</div>
+            <div>
+              {{ form.scheduled_start }}
+              {% for error in form.scheduled_start.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Schedule end date & time</div>
+            <div>
+              {{ form.scheduled_end }}
+              {% for error in form.scheduled_end.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+{{ form.media }}
+{% endblock %}

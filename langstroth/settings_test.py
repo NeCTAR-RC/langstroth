@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
-    "compressor"
+    "compressor",
+    "bootstrap_datepicker_plus",
 ]
 
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA

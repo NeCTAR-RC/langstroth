@@ -1,12 +1,13 @@
 requests
 lxml
 cssselect
-Django<5.0.0
+Django~=4.0
 djangorestframework
 python-dateutil
 mysqlclient
 pymemcache
 pbr
-django_compressor==4.4
-django-libsass==0.9
-mozilla-django-oidc==3.0.0
+django_compressor~=4.4
+django-libsass~=0.9
+mozilla-django-oidc~=3.0
+django-bootstrap-datepicker-plus~=5.0

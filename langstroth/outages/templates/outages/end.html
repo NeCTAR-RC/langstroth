@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/outages">Announcements</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ outage.title }}</li>
+    </ol>
+  </nav>
+  <h1 class="pb-4">Service Announcement</h1>
+  <div class="row">
+    <div class="col-12 col-md-8 col-xl-9">
+      <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+      <h3>{{ outage.title }}</h3>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mb-4">
+  <div class="card">
+    <div class="card-body">
+      <h2>Final update</h2>
+      <hr />
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.outage }}
+        <fieldset>
+          <div class="mb-3">
+            <div class="form-label">Status</div>
+            <div>
+              {{ form.status }}
+              {% for error in form.status.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">End date & time</div>
+            <div>
+              {{ form.time }}
+              {% for error in form.time.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Severity</div>
+            <div>
+              {{ form.severity }}
+              {% for error in form.severity.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Initial message</div>
+            <div>
+              {{ form.content }}
+              {% for error in form.content.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">End the Outage</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+{{ form.media }}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "outages/detail.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mb-4">
+  <div class="alert alert-danger">
+    Are you sure you want to cancel this Service Outage?
+  </div>
+  <form action="{% url 'cancel' outage.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes</button>
+    <button type="button" class="btn btn-secondary"
+            onclick="window.location.href='{% url 'outage' outage.id %}';">No</button>
+  </form>
+</div>
+{% endblock %}

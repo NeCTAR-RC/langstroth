@@ -1,6 +1,5 @@
-import datetime
-
 from django.db import models
+from django.utils import timezone
 from langstroth.models import User
 
 # Informally, there are two outage workflows.
@@ -113,7 +112,7 @@ class Outage(models.Model):
 
     @property
     def is_current(self):
-        now = datetime.datetime.now(datetime.timezone.utc)
+        now = timezone.now()
         return ((self.start and not self.end)
                 or (self.scheduled
                     and self.scheduled_start
@@ -140,7 +139,7 @@ class Outage(models.Model):
     @property
     def status_display(self):
         last = self.latest_update
-        return last.status_display if last else "Not Started"
+        return last.status_display if last else "Scheduled"
 
     @property
     def severity_display(self):

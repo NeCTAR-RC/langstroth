@@ -227,6 +227,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'bootstrap_datepicker_plus',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -239,6 +240,8 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'langstroth.User'
 
 LOGIN_REDIRECT_URL = "/admin/"
+
+LOGIN_URL = "/admin/login"
 
 WSGI_APPLICATION = 'langstroth.wsgi.application'
 

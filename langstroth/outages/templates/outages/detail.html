@@ -13,7 +13,7 @@
     </nav>
     <h1 class="pb-4">Service Announcement</h1>
     <div class="row">
-      <div class="col-12 col-md-8 col-xl-9">
+      <div class="col-12 col-md-8 col-xl-9" id="outage-{{ outage.id }}">
         <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
         <h3>{{ outage.title }}</h3>
         <ul class="list-unstyled">
@@ -39,7 +39,7 @@
           <!-- <li><strong>Affected Zones:</strong></li>
           <li><strong>Affected Services:</strong></li> -->
         </ul>
-        <p>{{ outage.description|linebreaks }}</p>
+        {{ outage.description|linebreaks }}
       </div>
       {% if not outage.cancelled %}
       <div class="col-12 col-md-4 col-xl-3">
@@ -70,20 +70,37 @@
         <h2>Updates</h2>
         <hr />
         {% if updates|length > 0 %}
-          <ul class="updates-list">
-            {% for update in updates reversed %}
-              <li class="update-item {% if forloop.first %}text-dark{% endif %}">
-                <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
-                <span class="h5 text-uppercase">{{ update.status_display }}</span>
-                <p>
-                  <strong>{{ update.content }}</strong><br />
-                  Update created {{ update.time|naturaltime }}.
-                </p>
-              </li>
-            {% endfor %}
-          </ul>
+        <ul class="updates-list">
+          {% for update in updates reversed %}
+          <li class="update-item {% if forloop.first %}text-dark{% endif %}" id="update-{{ update.id }}">
+            <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
+            <span class="h5 text-uppercase">{{ update.status_display }}</span>
+            <p>
+              <strong>{{ update.content }}</strong><br />
+              Update created {{ update.time|naturaltime }}.
+            </p>
+          </li>
+          {% endfor %}
+        </ul>
         {% else %}
-          <p>There are currently no updates.</p>
+        <p>There are currently no updates.</p>
+        {% endif %}
+        {% if request.user.is_staff %}
+        <div class="btn-bar">
+          {% if outage.end %}
+          <a href="{{ outage.id }}/add_update/" class="btn btn-primary me-3" id="reopen">Reopen outage</a>
+          {% elif outage.start %}
+          <a href="{{ outage.id }}/add_update/" class="btn btn-primary me-3" id="update">Add an update</a>
+          {% endif %}
+          {% if outage.scheduled and not outage.cancelled and not outage.start %}
+          <a href="{{ outage.id }}/start/" class="btn btn-primary me-3" id="start">Start outage</a>
+          <a href="{{ outage.id }}/cancel/" class="btn btn-primary me-3" id="cancel">Cancel outage</a>
+          {% endif %}
+          {% if outage.start and not outage.end %}
+          <a href="{{ outage.id }}/end/" class="btn btn-primary me-3" id="end">End outage</a>
+          {% endif %}
+          <a href="/admin/outages/outage/{{ outage.id }}/change/" class="btn btn-secondary me-3" id="edit">Edit Outage / Updates</a>
+        </div>
         {% endif %}
       </div>
     </div>
