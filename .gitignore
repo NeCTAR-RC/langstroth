@@ -49,6 +49,8 @@ langstroth/settings.py
 .pydevproject
 .settings
 .settings/*
+.eggs
+.eggs/*
 install_uat.sh
 langstroth/settings_uat.py
 langstroth/settings_dev.py
@@ -65,4 +67,3 @@ coverage.xml
 .pytest_cache
 .venv
 static/CACHE
-

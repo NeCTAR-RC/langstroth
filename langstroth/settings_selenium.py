@@ -1,27 +1,22 @@
-# Django settings for Langstroth project's unit tests
+# Django settings for Langstroth project's selenium tests
 
 # Pick up the default settings then override them in this file.
 from .defaults import *  # NOQA
 import os
 from os import path
 
+import django
 
 TEST_MODE = True
 
-DEFAULT_DATABASE_NAME = '../langstroth.db'
-
 DEBUG = True
 
-DATABASES = {
-    # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
-    'default': {
-        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        # Or path to database file if using sqlite3.
-        'NAME': path_merge(__file__, DEFAULT_DATABASE_NAME), # NOQA
-        'TEST_NAME': path_merge(__file__, DEFAULT_DATABASE_NAME), # NOQA
-    },
-}
+COMPRESS_ENABLED = False
+
+COMPRESS_PRECOMPILERS = []
+
+if DEBUG:
+    COMPRESS_DEBUG_TOGGLE = 'whatever'
 
 FIXTURE_DIRS = ()
 
@@ -44,19 +39,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-INSTALLED_APPS = [
-    "langstroth",
-    "nectar_allocations",
-    "user_statistics",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.messages",
-    "django.contrib.sessions",
-    "django.contrib.staticfiles",
-    "compressor",
-    "bootstrap_datepicker_plus",
-]
+INSTALLED_APPS += ['compressor'] # NOQA
 
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
 
@@ -69,3 +52,7 @@ LOGGING['handlers']['file'] = {  # NOQA
     # Create the log directory with the correct permissions by hand.
     'filename': DEBUG_LOG,
 }
+
+ALLOWED_HOSTS += ['testserver'] # NOQA
+
+django.setup()

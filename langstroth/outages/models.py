@@ -179,7 +179,7 @@ class OutageUpdate(models.Model):
     deleted = models.BooleanField(blank=True, default=False)
 
     class Meta:
-        ordering = ['time']
+        ordering = ['time', 'pk']
 
     @property
     def status_display(self):
