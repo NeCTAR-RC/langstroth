@@ -171,7 +171,8 @@ def composition(request, name):
     if title:
         context = {
             "title": title,
-            "desc": desc
+            "desc": desc,
+            "tabs": settings.COMPOSITION_TABS,
         }
         return render(request, "composition.html", context)
     else:
