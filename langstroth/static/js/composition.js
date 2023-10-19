@@ -75,9 +75,9 @@ function updateData(dest, source) {
   }
 
   for (var j in dest) {
-    var key = dest[i].target;
+    var key = dest[j].target;
     if (source[key]) {
-      dest[i].value = source[key].value;
+      dest[j].value = source[key].value;
     }
   }
 
