@@ -12,6 +12,8 @@ DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 DEBUG = True
 
+USE_TZ = True
+
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
@@ -46,6 +48,7 @@ STATICFILES_DIRS = (
 
 INSTALLED_APPS = [
     "langstroth",
+    "langstroth.outages",
     "nectar_allocations",
     "user_statistics",
     "django.contrib.admin",
@@ -55,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.staticfiles",
     "compressor",
+    "rest_framework",
     "bootstrap_datepicker_plus",
 ]
 
