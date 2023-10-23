@@ -115,7 +115,10 @@ class Outage(models.Model):
     def is_current(self):
         now = datetime.datetime.now(datetime.timezone.utc)
         return ((self.start and not self.end)
-                or (self.scheduled and self.scheduled_start < now
+                or (self.scheduled
+                    and self.scheduled_start
+                    and self.scheduled_end
+                    and self.scheduled_start < now
                     and self.scheduled_end > now))
 
     @property
