@@ -7,7 +7,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>
       <li class="breadcrumb-item">Announcements</li>
-      <li class="breadcrumb-item active" aria-current="page">Create Scheduled</li>
+      <li class="breadcrumb-item active" aria-current="page">Create Unscheduled</li>
     </ol>
   </nav>
   <h1 class="pb-4">Create an Unscheduled Outage Announcement</h1>
@@ -42,6 +42,9 @@
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Create</button>
+        {% if 'outages' in request.META.HTTP_REFERER %}
+          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-link">Back to announcements</a>
+        {% endif %}
       </form>
     </div>
   </div>

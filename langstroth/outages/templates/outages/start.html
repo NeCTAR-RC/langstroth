@@ -14,7 +14,7 @@
   <h1 class="pb-4">Service Announcement</h1>
   <div class="row">
     <div class="col-12 col-md-8 col-xl-9">
-      <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+      <h5 class="text-uppercase">Scheduled Outage </h5>
       <h3>{{ outage.title }}</h3>
     </div>
   </div>
@@ -36,20 +36,19 @@
             <div>
               {{ form.status }}
               {% for error in form.status.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
           <div class="mb-3">
             <div class="form-label">Outage start date & time</div>
-            <p>
-              You may adjust this to a time in the past to record that
-              that the outage was started or was first noticed earlier.
-            </p>
+            <div class="form-text">
+              You may adjust this to a time in the past to record that the outage was started or was first noticed earlier.
+            </div>
             <div>
               {{ form.time }}
               {% for error in form.time.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
@@ -58,7 +57,7 @@
             <div>
               {{ form.severity }}
               {% for error in form.severity.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
@@ -67,12 +66,15 @@
             <div>
               {{ form.content }}
               {% for error in form.content.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Start the Outage</button>
+        {% if 'outages' in request.META.HTTP_REFERER %}
+          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-link">Back to announcement</a>
+        {% endif %}
       </form>
     </div>
   </div>

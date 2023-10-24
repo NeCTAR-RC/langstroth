@@ -36,7 +36,7 @@
             <div>
               {{ form.status }}
               {% for error in form.status.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
@@ -45,7 +45,7 @@
             <div>
               {{ form.time }}
               {% for error in form.time.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
@@ -54,7 +54,7 @@
             <div>
               {{ form.severity }}
               {% for error in form.severity.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
@@ -63,12 +63,15 @@
             <div>
               {{ form.content }}
               {% for error in form.content.errors %}
-              <span class="text-danger">{{ error }}</span>
+                <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Add Update</button>
+        {% if 'outages' in request.META.HTTP_REFERER %}
+          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-link">Back to announcement</a>
+        {% endif %}
       </form>
     </div>
   </div>

@@ -101,6 +101,20 @@ span.disabled {
   cursor: not-allowed !important;
 }
 
+.btn-bar {
+  text-align: right;
+  @include media-breakpoint-down(md) {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .btn {
+    margin-bottom: 10px;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}
+
 .navbar-dark .navbar-nav .nav-link:not(#dropdownUser1) {
   text-transform: uppercase;
 }
@@ -357,26 +371,42 @@ img.graphite {
   max-width: 60px;
 }
 
+// Started
 .outage-status-S-emoji::before {
   content: "🕰";
 }
 
-.outage-status-F-emoji::before {
+// Fixed
+.outage-status-R-emoji::before {
   content: "✅";
 }
 
+// Fixed
+.outage-status-F-emoji::before {
+  content: "🎯";
+}
+
+// Completed
+.outage-status-C-emoji::before {
+  content: "🏁";
+}
+
+// Watching
 .outage-status-W-emoji::before {
   content: "👀";
 }
 
+// Progressing
 .outage-status-P-emoji::before {
+  content: "🚧";
+}
+
+// Identified
+.outage-status-ID-emoji::before {
   content: "💡";
 }
 
-.outage-status-ID-emoji::before {
-  content: "🎯";
-}
-
+// Investigating
 .outage-status-IN-emoji::before {
   content: "🧐";
 }

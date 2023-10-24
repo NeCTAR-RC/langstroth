@@ -146,7 +146,7 @@ class UpdateOutageView(BaseUpdateCreateView):
     def check_state(self):
         outage = self.get_outage()
         if not outage.start:
-            raise BadRequest(f"Outage {self.pk} in wrong state for update")
+            raise BadRequest(f"Outage {self.pk} in wrong state for update.")
 
 
 class StartOutageView(BaseUpdateCreateView):
@@ -176,7 +176,7 @@ class StartOutageView(BaseUpdateCreateView):
             "time": (outage.scheduled_start
                      if (outage.scheduled and not outage.start)
                      else timezone.now()),
-            "content": ("Scheduled outage started"
+            "content": ("Scheduled outage started."
                         if outage.scheduled else ""),
             "status": (models.STARTED if outage.scheduled
                        else models.INVESTIGATING),
@@ -186,7 +186,7 @@ class StartOutageView(BaseUpdateCreateView):
     def check_state(self):
         outage = self.get_outage()
         if outage.cancelled or outage.start:
-            raise BadRequest(f"Outage {self.pk} in wrong state to start")
+            raise BadRequest(f"Outage {self.pk} in wrong state to start.")
 
 
 class EndOutageView(BaseUpdateCreateView):
@@ -204,9 +204,9 @@ class EndOutageView(BaseUpdateCreateView):
         return {
             "outage": outage,
             "time": timezone.now(),
-            "content": ("Scheduled outage completed"
+            "content": ("Scheduled outage completed."
                         if outage.scheduled
-                        else "Unscheduled outage resolved"),
+                        else "Unscheduled outage resolved."),
             "status": (models.COMPLETED if outage.scheduled
                        else models.RESOLVED),
             "severity": outage.latest_update.severity
@@ -216,7 +216,7 @@ class EndOutageView(BaseUpdateCreateView):
         outage = self.get_outage()
         last = outage.latest_update
         if not last or last.status in {models.RESOLVED, models.COMPLETED}:
-            raise BadRequest(f"Outage {self.pk} in wrong state to end")
+            raise BadRequest(f"Outage {self.pk} in wrong state to end.")
 
 
 class CancelOutageView(mixins.UserPassesTestMixin,
@@ -242,7 +242,7 @@ class CancelOutageView(mixins.UserPassesTestMixin,
     def _check_state(self):
         outage = self.get_object()
         if outage.cancelled or outage.start or not outage.scheduled:
-            raise BadRequest("Outage is in wrong state to cancel")
+            raise BadRequest("Outage is in wrong state to cancel.")
         return outage
 
     def test_func(self):

@@ -9,13 +9,15 @@
       <li class="breadcrumb-item active" aria-current="page">Announcements</li>
     </ol>
   </nav>
-  <h1>{{ title }}&nbsp;<small class="lead">{{ tagline }}</small></h1>
-  {% if request.user.is_staff %}
-  <div class="btn-toolbar">
-    <a href="scheduled/" id="scheduled" class="btn btn-primary me-3">Create a scheduled outage</a>
-    <a href="unscheduled/" id="unscheduled" class="btn btn-primary me-3">Create an unscheduled outage</a>
+  <div class="d-md-flex">
+    <h1 class="pb-4">Service Announcements</h1>
+    {% if request.user.is_staff %}
+      <div class="ms-auto btn-bar">
+        <a href="scheduled/" id="scheduled" class="btn btn-outline-primary btn-sm">Create scheduled outage</a>
+        <a href="unscheduled/" id="unscheduled" class="btn btn-outline-primary btn-sm">Create unscheduled outage</a>
+      </div>
+    {% endif %}
   </div>
-  {% endif %}
 </div>
 {% endblock %}
 

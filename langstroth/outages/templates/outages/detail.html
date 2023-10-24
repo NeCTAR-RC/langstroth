@@ -11,7 +11,26 @@
         <li class="breadcrumb-item active" aria-current="page">{{ outage.title }}</li>
       </ol>
     </nav>
-    <h1 class="pb-4">Service Announcement</h1>
+    <div class="d-md-flex">
+      <h1 class="pb-4">Service Announcement</h1>
+      {% if request.user.is_staff %}
+        <div class="ms-auto btn-bar">
+          {% if outage.end %}
+            <a href="{{ outage.id }}/add_update/" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
+          {% elif outage.start %}
+            <a href="{{ outage.id }}/add_update/" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
+          {% endif %}
+          {% if outage.scheduled and not outage.cancelled and not outage.start %}
+            <a href="{{ outage.id }}/start/" class="btn btn-outline-primary btn-sm" id="start"><i class="fa fa-play"></i> Start</a>
+            <a href="{{ outage.id }}/cancel/" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
+          {% endif %}
+          <a href="/admin/outages/outage/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
+          {% if outage.start and not outage.end %}
+            <a href="{{ outage.id }}/end/" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
     <div class="row">
       <div class="col-12 col-md-8 col-xl-9" id="outage-{{ outage.id }}">
         <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
@@ -67,40 +86,25 @@
   <div class="container mb-4">
     <div class="card">
       <div class="card-body">
-        <h2>Updates</h2>
+        <div class="d-flex">
+          <h2>Updates</h2>
+        </div>
         <hr />
         {% if updates|length > 0 %}
-        <ul class="updates-list">
-          {% for update in updates reversed %}
-          <li class="update-item {% if forloop.first %}text-dark{% endif %}" id="update-{{ update.id }}">
-            <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
-            <span class="h5 text-uppercase">{{ update.status_display }}</span>
-            <p>
-              <strong>{{ update.content }}</strong><br />
-              Update created {{ update.time|naturaltime }}.
-            </p>
-          </li>
-          {% endfor %}
-        </ul>
+          <ul class="updates-list">
+            {% for update in updates reversed %}
+            <li class="update-item {% if forloop.first %}text-dark{% endif %}" id="update-{{ update.id }}">
+              <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
+              <span class="h5 text-uppercase">{{ update.status_display }}</span>
+              <p>
+                <strong>{{ update.content }}</strong><br />
+                Update created {{ update.time|naturaltime }}.
+              </p>
+            </li>
+            {% endfor %}
+          </ul>
         {% else %}
-        <p>There are currently no updates.</p>
-        {% endif %}
-        {% if request.user.is_staff %}
-        <div class="btn-bar">
-          {% if outage.end %}
-          <a href="{{ outage.id }}/add_update/" class="btn btn-primary me-3" id="reopen">Reopen outage</a>
-          {% elif outage.start %}
-          <a href="{{ outage.id }}/add_update/" class="btn btn-primary me-3" id="update">Add an update</a>
-          {% endif %}
-          {% if outage.scheduled and not outage.cancelled and not outage.start %}
-          <a href="{{ outage.id }}/start/" class="btn btn-primary me-3" id="start">Start outage</a>
-          <a href="{{ outage.id }}/cancel/" class="btn btn-primary me-3" id="cancel">Cancel outage</a>
-          {% endif %}
-          {% if outage.start and not outage.end %}
-          <a href="{{ outage.id }}/end/" class="btn btn-primary me-3" id="end">End outage</a>
-          {% endif %}
-          <a href="/admin/outages/outage/{{ outage.id }}/change/" class="btn btn-secondary me-3" id="edit">Edit Outage / Updates</a>
-        </div>
+          <p>There are currently no updates.</p>
         {% endif %}
       </div>
     </div>

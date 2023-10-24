@@ -17,6 +17,17 @@ class OutageForm(forms.ModelForm):
         exclude = ['deleted', 'cancelled', 'created_by', 'updated_by',
                    'modification_time']
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        for field in self.fields.values():
+            if hasattr(field.widget, 'input_type') \
+               and field.widget.input_type == 'select':
+                field.widget.attrs['class'] = (
+                    'form-select ' + field.widget.attrs.get('class', ''))
+            else:
+                field.widget.attrs['class'] = (
+                    'form-control ' + field.widget.attrs.get('class', ''))
+
     def clean(self):
         cleaned_data = super().clean()
         scheduled = cleaned_data.get("scheduled")
@@ -52,6 +63,17 @@ class BaseOutageUpdateForm(forms.ModelForm):
     class Meta:
         model = models.OutageUpdate
         fields = '__all__'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        for field in self.fields.values():
+            if hasattr(field.widget, 'input_type') \
+               and field.widget.input_type == 'select':
+                field.widget.attrs['class'] = (
+                    'form-select ' + field.widget.attrs.get('class', ''))
+            else:
+                field.widget.attrs['class'] = (
+                    'form-control ' + field.widget.attrs.get('class', ''))
 
 
 class OutageUpdateForm(BaseOutageUpdateForm):
