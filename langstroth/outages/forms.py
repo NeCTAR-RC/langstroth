@@ -82,7 +82,7 @@ class OutageUpdateForm(BaseOutageUpdateForm):
 
 class OutageStartForm(OutageUpdateForm):
     time = forms.DateTimeField(
-        required=False, widget=DateTimePickerInput())
+        required=True, widget=DateTimePickerInput())
 
     def clean(self):
         cleaned_data = super().clean()
@@ -90,7 +90,7 @@ class OutageStartForm(OutageUpdateForm):
         # A start update 'time' in the future is not allowed because we show
         # them in 'time' order, and because the of the logic for determining
         # the current outage state and severity depends on that ordering.
-        if time > timezone.now():
+        if time and time > timezone.now():
             self.add_error("time",
                            "Outage start date & time is in the future! "
                            "If this is a scheduled outage and you need "
