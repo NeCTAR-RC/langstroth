@@ -139,7 +139,12 @@ class Outage(models.Model):
     @property
     def status_display(self):
         last = self.latest_update
-        return last.status_display if last else "Scheduled"
+        if self.scheduled:
+            return "Scheduled" if not last \
+                else "Completed" if last.status in {RESOLVED, COMPLETED} \
+                else "In progress"
+        else:
+            return last.status_display
 
     @property
     def severity_display(self):

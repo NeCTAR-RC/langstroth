@@ -219,7 +219,8 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertStrMatches("The world is ending", details, count=2)
         self.assertStrMatches("The world will be suspended", details, count=1)
         self.assertStrMatches("Severe", details, count=1)
-        self.assertStrMatches("Started", details, count=2)
+        self.assertStrMatches("Started", details, count=1)
+        self.assertStrMatches("In progress", details, count=1)
         self.assertStrMatches("Progressing", details, count=0)
         self.assertStrMatches("Completed", details, count=0)
         self.assertStrMatches("Update created", details, count=1)
@@ -254,7 +255,8 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertStrMatches("The world will be suspended", details, count=1)
         self.assertStrMatches("Severe", details, count=1)
         self.assertStrMatches("Started", details, count=1)
-        self.assertStrMatches("Progressing", details, count=2)
+        self.assertStrMatches("In progress", details, count=1)
+        self.assertStrMatches("Progressing", details, count=1)
         self.assertStrMatches("Completed", details, count=0)
         self.assertStrMatches("Update created", details, count=2)
 
@@ -290,6 +292,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertStrMatches("Severe", details, count=1)
         self.assertStrMatches("Started", details, count=1)
         self.assertStrMatches("Progressing", details, count=1)
+        self.assertStrMatches("In progress", details, count=0)
         self.assertStrMatches("Completed", details, count=2)
         self.assertStrMatches("Update created", details, count=3)
 
