@@ -3,6 +3,7 @@ lxml
 cssselect
 Django~=4.0
 djangorestframework
+django-filter
 python-dateutil
 mysqlclient
 pymemcache
@@ -11,3 +12,4 @@ django_compressor~=4.4
 django-libsass~=0.9
 mozilla-django-oidc~=3.0
 django-bootstrap-datepicker-plus~=5.0
+

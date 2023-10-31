@@ -228,6 +228,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'bootstrap_datepicker_plus',
+    'django_filters'
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
