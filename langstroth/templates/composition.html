@@ -24,7 +24,7 @@
     <ul id="graph-buttons" class="nav nav-tabs pull-right">
       {% for tab in tabs %}
       <li class="nav-item">
-        <a class="nav-link {% if tab.first %}active{% endif %}" href="#"
+        <a class="nav-link {% if forloop.first %}active{% endif %}" href="#"
            data-toggle="tab" id="{{ tab.0 }}">{{ tab.1 }}</a>
       </li>
       {% endfor %}
