@@ -62,7 +62,7 @@
       </div>
       {% if not outage.cancelled %}
       <div class="col-12 col-md-4 col-xl-3">
-        <div class="card">
+        <div class="card bg-light">
           <div class="card-body text-center">
             <h6>Current Status:</h6>
             <p class="h5 text-uppercase">{{ outage.status_display }}</p>
@@ -95,7 +95,7 @@
             {% for update in updates reversed %}
             <li class="update-item {% if forloop.first %}text-dark{% endif %}" id="update-{{ update.id }}">
               <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
-              <span class="h5 text-uppercase">{{ update.status_display }}</span>
+              <span class="outage-status">{{ update.status_display }}</span>
               <p>
                 <strong>{{ update.content }}</strong><br />
                 Update created {{ update.time|naturaltime }}.

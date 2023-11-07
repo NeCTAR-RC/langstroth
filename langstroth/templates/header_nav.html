@@ -1,0 +1,90 @@
+{% load static %}
+{% load nav_bar %}
+
+<!-- navbar -->
+<section id="navbar" class="sticky-top">
+    <nav id="navbar-top" class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container-xl">
+            <a href="/" class="navbar-brand">
+                <img src="{% static 'img/logo.svg' %}" height="40" class="d-inline-block me-2">
+                System Status
+            </a>
+
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#nav-portal"
+                aria-controls="nav-portal" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav-ardc">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://ardc.edu.au/news-and-events/subscribe/">Newsletter
+                            Subscribe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://ardc.edu.au/contact-us/">Contact Us</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-icon icon-twitter ms-2" href="https://twitter.com/ARDC_AU"><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="nav-icon icon-linkedin ms-2"
+                            href="https://www.linkedin.com/company/australian-research-data-commons/"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="nav-icon icon-youtube ms-2" href="https://www.youtube.com/c/ARDC_AU"><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="nav-icon icon-contact ms-2" href="https://ardc.edu.au/contact-us"><i
+                                class="fa fa-envelope"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <nav id="navbar-bottom" class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-xl">
+            <div class="collapse navbar-collapse" id="nav-portal">
+                <ul class="navbar-nav">
+                    <li class="nav-item {% active request 'availability' %}"><a class="nav-link" href="/">Current
+                            Status</a></li>
+                    <li class="nav-item {% active request 'outages' %}"><a class="nav-link"
+                            href="/outages">Announcements</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="d-block text-decoration-none dropdown-toggle nav-link" id="dropdownAnalytics"
+                            data-bs-toggle="dropdown" aria-expanded="false">Analytics</a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownAnalytics">
+                            <li><a class="dropdown-item {% active request 'growth' %}"
+                                    href="/growth/infrastructure/">Usage</a></li>
+                            <li><a class="dropdown-item {% active request 'composition' %}"
+                                    href="/composition/domain">Composition</a></li>
+                            <li><a class="dropdown-item {% active request 'allocations' %}"
+                                    href="/allocations">Allocations</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="https://support.ehelp.edu.au/support/home">Support
+                            Centre</a></li>
+                    {% if user.is_authenticated %}
+                    <!-- Logout & admin -->
+                    <li class="nav-item dropdown ms-lg-auto">
+                        <a href="#" class="d-block text-decoration-none dropdown-toggle nav-link nav-cta"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="d-inline-block fa fa-user"></i>
+                            <span class="d-inline-block d-lg-none ps-2">{{ user.email }}</span>
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                            {% if user.is_staff and user.is_superuser %}
+                            <li><a class="dropdown-item" href="/admin/">Admin</a></li>
+                            {% endif %}
+                            <li><a href="/admin/logout/" class="dropdown-item">Log out</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <!-- Login -->
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light" href="/admin/" role="button">Log In</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+<!-- /navbar -->
