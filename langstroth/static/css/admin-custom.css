@@ -6,13 +6,18 @@ body {
 }
 
 #header {
-    background:#000;
-    color: #fff;
+    background:#fff;
+    color: #000;
+    border-bottom: 1px solid #e5e5e5;
     height: 78px;
 }
 
+#header a:link, #header a:visited, #logout-form button {
+    color: #007891;
+}
+
 #branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: #fff;
+    color: #000;
     font-size: 1.09375rem;
 }
 

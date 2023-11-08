@@ -2,7 +2,7 @@
 {% comment %} {% load i18n  eatn_tags static %} {% endcomment %}
 {% load i18n %}
 {% load static %}
-{% block title %}{{ title }} | ADMIN{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block extrastyle %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href='{% static "css/admin-custom.css" %}' />
@@ -11,6 +11,6 @@
     <link rel="shortcut icon" href='{% static "img/favicon.ico" %}'>
 {% endblock %}
 {% block branding %}
-    <h1 id="site-name"><img src="{% static 'img/logo.svg' %}" height="60">&nbsp;&nbsp;&nbsp;<span style="display:inline-block;">System Status | ADMIN</span></h1>
+    <h1 id="site-name"><img src="{% static 'img/logo.svg' %}" height="60">&nbsp;&nbsp;&nbsp;<span style="display:inline-block;">System Status</span></h1>
 {% endblock %}
 {% block nav-global %}{% endblock %}

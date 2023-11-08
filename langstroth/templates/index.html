@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block page-header %}
-<div id="status-banner" class="container-fluid bg-dark">
+<div id="status-banner" class="bg-dark">
   <canvas id="stars" width="1400" height="900"></canvas>
-  <div class="row mb-5">
-    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+  <div class="container mb-5">
+    <div class="row">
       <h1 class="h5 text-center text-light text-uppercase my-4">System Status &amp; Announcements</h1>
       {% if current_outages|length == 0 %}
       <div id="cloud-ok" class="text-center text-white my-5">
@@ -16,7 +16,7 @@
       <div id="cloud-alerts" class="my-5">
         {% for outage in current_outages %}
         <div class="alert alert-severity{{ outage.severity }}" role="alert">
-          <a href="outages/{{outage.id}}" class="alert-link float-end">View Announcement <i class="fas fa-chevron-right"></i></a>
+          <a href="outages/{{outage.id}}" class="alert-link stretched-link float-end">View announcement<i class="fa fa-chevron-right"></i></a>
           <h5 class="alert-heading text-uppercase">{% if outage.scheduled %} Scheduled {% else %} Unscheduled {% endif %} Outage</h5>
           <p class="fs-4">{{outage.title}}</p>
           <p class="mb-0">

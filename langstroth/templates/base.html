@@ -1,5 +1,4 @@
 {% load static compress %}
-{% load nav_bar %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,57 +17,8 @@
     {% endblock %}
   </head>
   <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar-main">
-      <div class="container">
-        <a class="navbar-brand" href="/"><img src="{% static 'img/logo.svg' %}" height="60" class="d-block d-sm-inline-block me-2">
-          System Status
-        </a>
-        
-        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav navbar-right mb-2 mb-lg-0 ms-auto">
-            <li class="nav-item {% active request 'availability' %}"><a class="nav-link" href="/">Current Status</a></li>
-            <li class="nav-item {% active request 'outages' %}"><a class="nav-link" href="/outages">Announcements</a></li>
-            <div class="dropdown">
-              <a href="#" class="d-block text-decoration-none dropdown-toggle nav-link" id="dropdownAnalytics" data-bs-toggle="dropdown" aria-expanded="false">Analytics</a>
-              <ul class="dropdown-menu text-small" aria-labelledby="dropdownAnalytics">
-                <li><a class="dropdown-item {% active request 'growth' %}" href="/growth/infrastructure/">Usage</a></li>
-                <li><a class="dropdown-item {% active request 'composition' %}" href="/composition/domain">Composition</a></li>
-                <li><a class="dropdown-item {% active request 'allocations' %}" href="/allocations">Allocations</a></li>
-              </ul>
-            </div>
-            <li class="nav-item"><a class="nav-link" href="https://support.ehelp.edu.au/support/home">Support Centre</a></li>
-            {% if user.is_authenticated %}
-              <!-- Logout & admin -->
-              <li class="nav-item">
-                <div class="dropdown">
-                  <a href="#" class="d-block text-decoration-none dropdown-toggle nav-link" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="d-inline-block fa fa-user"></i>
-                    <span class="navbar-text d-inline-block d-lg-none  ps-2">{{ user.email }}</span>
-                  </a>
-                  <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    {% if user.is_staff and user.is_superuser %}
-                      <li><a class="dropdown-item" href="/admin/">Admin</a></li>
-                    {% endif %}
-                    <li><a href="/admin/logout/" class="btn btn-link dropdown-item">Log out</a></li>
-                  </ul>
-                </div>
-              </li>
-            {% else %}
-              <!-- Login -->
-              <li class="nav-item">
-                <a class="btn btn-outline-light" href="/admin/" role="button">Log In</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- /navbar -->
+    <!-- Include main header nav -->
+    {% include 'header_nav.html' %}
 
     <main role="main" class="main">
       {% block page-header %}
@@ -82,70 +32,8 @@
       </div>
     </main>
 
-    <!-- footer -->
-    <footer class="footer bg-dark text-white">
-      <div class="container">
-        <div class="row align-items-end mb-5">
-          <div class="col-sm-8 footer-text pe-5">
-            <p>The Virtual Desktop Service is a service of the Australian Research Data Commons (ARDC) and utilises the Nectar Research Cloud.
-              The Australian Research Data Commons (ARDC) is enabled by the National Collaborative Research Infrastructure Strategy Program (NCRIS).
-              <a href="https://ardc.edu.au/about/" target="_blank">Read more about the ARDC...</a>
-            </p>
-          </div>
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-7 align-self-end">
-                <a href="https://www.ardc.edu.au/" target="_blank">
-                  <img src="{% static 'img/ardc_logo_rev.svg' %}" class="img-fluid" alt="Australian Research Data Commons (ARDC)">
-                </a>
-              </div>
-              <div class="col-5 align-self-end">
-                <a href="https://education.gov.au/national-collaborative-research-infrastructure-strategy-ncris" target="_blank">
-                  <img src="{% static 'img/ncris_mono_rev.svg' %}" class="img-fluid" alt="National Collaborative Research Infrastructure Strategy (NCRIS)">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div> <!-- row -->
-        <div class="row h-100 footer-links">
-          <div class="col-sm-3 col-xs-6">
-            <h4>Quicklinks</h4>
-            <ul class="list-unstyled">
-              <li><a href="/">Home</a></li>
-              <li><a href="https://dashboard.rc.nectar.org.au/terms">Terms of Service</a></li>
-              <li><a href="https://ardc.edu.au/privacy-policy/">Privacy Policy</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-3 col-xs-6">
-            <h4>Explore</h4>
-            <ul class="list-unstyled">
-              <li><a href="http://support.nectar.org.au/support/solutions/folders/6000190150">Cloud Basics</a></li>
-              <li><a href="http://support.nectar.org.au/support/solutions/folders/6000232361">Cloud Services</a></li>
-              <li><a href="http://support.nectar.org.au/support/solutions/folders/6000230414">Cloud Applications</a></li>
-              <li><a href="http://support.nectar.org.au/support/solutions/folders/6000190155">Cloud Fundamentals</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-3 col-xs-6">
-            <h4>Help</h4>
-            <ul class="list-unstyled">
-              <li><a href="http://support.nectar.org.au/support/tickets/new" target="_blank">Request Support</a></li>
-              <li><a href="https://support.ehelp.edu.au/support/home#chat">Online Chat</a></li>
-              <li><a href="https://tutorials.rc.nectar.org.au">Tutorials</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-3 col-xs-6">
-            <h4>External Resources</h4>
-            <ul class="list-unstyled">
-              <li><a href="https://ardc.edu.au/">ARDC Home</a></li>
-              <li><a href="https://dashboard.rc.nectar.org.au/">Nectar Dashboard</a></li>
-              <li><a href="https://desktop.rc.nectar.org.au/">Virtual Desktop Service</a></li>
-              <li><a href="https://jupyterhub.rc.nectar.org.au/">Jupyter Notebook Service</a></li>
-              <li><a href="https://ardc.edu.au/services/">ARDC Online Services</a></li>
-            </ul>
-          </div>
-        </div>
-      </div> 
-    </footer>
+    <!-- Include main footer -->
+    {% include 'footer.html' %}
 
     <script src='{% static "js/jquery-3.3.1.min.js" %}'></script>
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>

@@ -1,97 +1,22 @@
 // Use Figtree Google Font
 @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-$font-family-sans-serif: 'Figtree', sans-serif;
-$font-family-base: 'Figtree', sans-serif;
-$font-size-base: 0.875rem;
-$form-label-font-weight: 600;
-
-// ARDC colours
-$ardc-blue:   #00A2C4;
-$ardc-pink:   #E51875;
-$ardc-orange: #F8B20E;
-$ardc-purple: #8E489B;
-$ardc-grey:   #969696;
-
-// Override bootstrap colours
-$dark: #000000;
-$blue: $ardc-blue;
-$pink: $ardc-pink;
-$orange: $ardc-orange;
-$purple: $ardc-purple;
-$gray: $ardc-grey;
-$green: #549948;
-
-$gray-100: #fcfcfc;
-$gray-200: #EEEEEE;
-$gray-300: #dddddd;
-$gray-400: #c6c6c6;
-$gray-500: #999999;
-$gray-600: #666666;
-$gray-700: #333333;
-$gray-800: #222222;
-$gray-900: #111111;
-
-$primary:       $purple;
-$secondary:     $gray;
-$success:       lighten($green, 2%);
-$info:          lighten($blue, 5%);
-$warning:       lighten($orange, 5%);
-$danger:        lighten($pink, 2%);
-
-$body-bg:                   $gray-100;
-$body-color:                $gray-900;
-
-//$min-contrast-ratio: 1.5;
-//$component-active-bg: $ardc-purple;
-$navbar-brand-padding-y: 0;
-$input-btn-padding-y-lg: .75rem;
-$input-btn-padding-x-lg: 1.25rem;
-// Bootstrap shadows
-$enable-shadows: true;
-
-$spacer: 1rem;
-$link-color: darken($info, 15%) !default;
-$btn-link-color: darken($primary, 10%) !default;
-$btn-link-hover-color: darken($btn-link-color, 20%) !default;
-$btn-box-shadow: false;
-$btn-active-box-shadow: false;
-
-// Bootstrap
+// ARDC theme variables
+@import "variables";
+// Bootstrap scss
 @import "./bootstrap/bootstrap";
-
 // Font awesome
 $fa-font-path: "../webfonts";
 @import "./fontawesome/fontawesome.scss";
 @import "./fontawesome/solid.scss";
 @import "./fontawesome/brands.scss";
+// ARDC theme styles
+@import "theme";
 
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-footer {
-  margin-top: auto;
-}
-
-.h1, .h2, .h3, .h4, .h5, .h6, 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-base;
-  font-style: normal;
-  font-weight: 600;
-}
-
-.btn {
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 1px;
-  border-width: 2px;
-}
-
-.btn-link {
-  text-decoration: none;
 }
 
 .btn:disabled,
@@ -120,9 +45,8 @@ span.disabled {
 }
 
 .nav-pills a.nav-link {
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 #status-banner {
@@ -328,36 +252,36 @@ thead, tfoot {
 }
 
 img.graphite {
-    background-image: url("/static/img/loader.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    min-height: 300px;
+  background-image: url("/static/img/loader.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 300px;
 }
 
 .alert-severity1 {
-  color: shift-color($ardc-blue, 40%);
-  background-color: shift-color($ardc-blue, -80%);
-  border-color: shift-color($ardc-blue, -70%);
+  color: shift-color($blue, 40%);
+  background-color: shift-color($blue, -80%);
+  border-color: shift-color($blue, -70%);
   .alert-link {
-    color: shade-color(shift-color($ardc-blue, 40%), 20%);
+    color: shade-color(shift-color($blue, 40%), 20%);
   }
 }
 
 .alert-severity2 {
-  color: shift-color($ardc-orange, 40%);
-  background-color: shift-color($ardc-orange, -80%);
-  border-color: shift-color($ardc-orange, -70%);
+  color: shift-color($orange, 40%);
+  background-color: shift-color($orange, -80%);
+  border-color: shift-color($orange, -70%);
   .alert-link {
-    color: shade-color(shift-color($ardc-orange, 40%), 20%);
+    color: shade-color(shift-color($orange, 40%), 20%);
   }
 }
 
 .alert-severity3 {
-  color: shift-color($ardc-pink, 40%);
-  background-color: shift-color($ardc-pink, -80%);
-  border-color: shift-color($ardc-pink, -70%);
+  color: shift-color($pink, 40%);
+  background-color: shift-color($pink, -80%);
+  border-color: shift-color($pink, -70%);
   .alert-link {
-    color: shade-color(shift-color($ardc-pink, 40%), 20%);
+    color: shade-color(shift-color($pink, 40%), 20%);
   }
 }
 
@@ -419,6 +343,14 @@ img.graphite {
   .update-item {
     padding: 20px;
     color: #666666;
+    .outage-status {
+      color: inherit;
+      font-size: 1.1rem;
+      margin-bottom: 0.625rem;
+      font-weight: 600;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
     &:before {
       content: "\2022";
       text-align: center;
@@ -434,38 +366,40 @@ img.graphite {
 }
 
 .chart-container {
-    height: 400px;
+  height: 400px;
 }
 
 .sad-jumbotron div {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .chart-tooltip {
-    position: absolute;
-    display: none;
-    width: auto;
-    height: auto;
-    background: none repeat scroll 0 0 white;
-    border: 0 none;
-    border-radius: 8px 8px 8px 8px;
-    box-shadow: -3px 3px 15px #888888;
-    color: black;
-    padding: 5px;
-    text-align: center;
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 white;
+  border: 0 none;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  padding: 5px;
+  text-align: center;
 }
 
 /* Override the default nv.d3 fonts */
 .nvd3 text {
-  font: normal 13px Roboto !important;
+  font: normal 13px 'Figtree' !important;
   color: #666666;
 }
+
 .nvd3 .title {
-  font: normal 13px Roboto !important;
+  font: normal 13px 'Figtree' !important;
   color: #666666;
 }
+
 .nvtooltip {
-  font-family: Roboto !important;
+  font-family: 'Figtree', sans-serif !important;
   color: #666666;
 }
 
