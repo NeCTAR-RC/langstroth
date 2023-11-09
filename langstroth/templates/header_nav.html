@@ -64,7 +64,7 @@
                     {% if user.is_authenticated %}
                     <!-- Logout & admin -->
                     <li class="nav-item dropdown ms-lg-auto">
-                        <a href="#" class="d-block text-decoration-none dropdown-toggle nav-link nav-cta"
+                        <a href="#" class="dropdown-toggle nav-link nav-cta"
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="d-inline-block fa fa-user"></i>
                             <span class="d-inline-block d-lg-none ps-2">{{ user.email }}</span>
@@ -78,8 +78,8 @@
                     </li>
                     {% else %}
                     <!-- Login -->
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light" href="/admin/" role="button">Log In</a>
+                    <li class="nav-item ms-lg-auto">
+                        <a class="nav-link nav-cta" href="/admin/" role="button">Log In</a>
                     </li>
                     {% endif %}
                 </ul>
