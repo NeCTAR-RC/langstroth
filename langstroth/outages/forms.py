@@ -4,6 +4,7 @@ from django import forms
 from django.utils import timezone
 
 from langstroth.outages import models
+from langstroth.outages import views
 
 
 class OutageForm(forms.ModelForm):
@@ -56,16 +57,14 @@ class OutageForm(forms.ModelForm):
 
 
 class BaseOutageUpdateForm(forms.ModelForm):
-    outage = forms.ModelChoiceField(
-        queryset=models.Outage.objects.exclude(deleted=True),
-        widget=forms.HiddenInput())
 
     class Meta:
         model = models.OutageUpdate
-        fields = '__all__'
+        exclude = ['outage']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
         for field in self.fields.values():
             if hasattr(field.widget, 'input_type') \
                and field.widget.input_type == 'select':
@@ -74,6 +73,23 @@ class BaseOutageUpdateForm(forms.ModelForm):
             else:
                 field.widget.attrs['class'] = (
                     'form-control ' + field.widget.attrs.get('class', ''))
+
+        # Filter the choices for the 'status' field.  This is intended to
+        # avoid non-sensical transitions but still to give operators
+        # plenty of flexibility.
+
+        outage = self.initial['outage']
+        latest = outage.latest_update
+        if latest:
+            allowed_choices = \
+                views.STATUS_TRANSITIONS[outage.scheduled].keys()
+        elif outage.scheduled:
+            allowed_choices = [models.STARTED]
+        else:
+            allowed_choices = [models.INVESTIGATING, models.IDENTIFIED]
+        self.fields['status'].choices = (
+            choice for choice in self.fields['status'].choices
+            if choice[0] in allowed_choices)
 
 
 class OutageUpdateForm(BaseOutageUpdateForm):

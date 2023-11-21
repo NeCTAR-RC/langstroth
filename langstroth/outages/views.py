@@ -10,15 +10,20 @@ from langstroth.outages import forms
 from langstroth.outages import models
 
 
-# Most likely state transitions for each Outage status code
+# Expected state transitions for each Outage status code
 STATUS_TRANSITIONS = {
-    models.STARTED: models.PROGRESSING,
-    models.PROGRESSING: models.PROGRESSING,
-    models.COMPLETED: models.PROGRESSING,
-    models.INVESTIGATING: models.IDENTIFIED,
-    models.IDENTIFIED: models.PROGRESSING,
-    models.FIXED: models.RESOLVED,          # reopen
-    models.RESOLVED: models.PROGRESSING,    # reopen
+    True: {   # Scheduled outage transitions
+        models.STARTED: models.PROGRESSING,
+        models.PROGRESSING: models.PROGRESSING,
+        models.COMPLETED: models.PROGRESSING   # reopen
+    },
+    False: {   # Unscheduled outage transitions
+        models.INVESTIGATING: models.IDENTIFIED,
+        models.IDENTIFIED: models.PROGRESSING,
+        models.PROGRESSING: models.FIXED,
+        models.FIXED: models.RESOLVED,
+        models.RESOLVED: models.PROGRESSING    # reopen
+    }
 }
 
 
@@ -136,10 +141,11 @@ class UpdateOutageView(BaseUpdateCreateView):
     def get_initial(self):
         outage = self.get_outage()
         latest = outage.latest_update
+        transitions = STATUS_TRANSITIONS[outage.scheduled]
         return {
             "outage": outage,
             "time": timezone.now(),
-            "status": STATUS_TRANSITIONS[latest.status],
+            "status": transitions[latest.status],
             "severity": latest.severity
         }
 

@@ -185,9 +185,13 @@ class OutageWorkflowTests(SeleniumTestBase):
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
         self.assertEqual("Severe",
                          Select(severity).first_selected_option.text)
+        self.assertEqual(["---------", "Minimal", "Significant", "Severe"],
+                         [o.text for o in Select(severity).options])
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Started",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Started"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Scheduled outage started.", content.text)
         form.find_element(By.XPATH,
@@ -236,6 +240,8 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Progressing",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Started", "Progressing", "Completed"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Things are happening")
@@ -271,6 +277,8 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Completed",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Started", "Progressing", "Completed"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Scheduled outage completed.", content.text)
         form.find_element(By.XPATH,
@@ -334,6 +342,8 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Investigating",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Investigating", "Identified"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Opening the curtains")
@@ -369,6 +379,9 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Identified",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Investigating", "Identified", "Progressing",
+                          "Fixed", "Resolved"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Calling the Sun hotline.")
@@ -402,6 +415,9 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Resolved",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Investigating", "Identified", "Progressing",
+                          "Fixed", "Resolved"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Unscheduled outage resolved.", content.text)
         form.find_element(By.XPATH,
@@ -436,6 +452,9 @@ class OutageWorkflowTests(SeleniumTestBase):
         status = form.find_element(By.XPATH, '//select[@name="status"]')
         self.assertEqual("Progressing",
                          Select(status).first_selected_option.text)
+        self.assertEqual(["Investigating", "Identified", "Progressing",
+                          "Fixed", "Resolved"],
+                         [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Ooops.  That should have been Oracle.")
