@@ -27,9 +27,8 @@ class OutageTestEmpty(SeleniumTestBase):
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
             self.driver.title)
-        card = self.driver.find_element(By.CLASS_NAME, "card-body")
-        summary = card.find_element(By.TAG_NAME, "p")
-        self.assertEqual("There are 0 service announcements.", summary.text)
+        with self.assertRaises(NoSuchElementException):
+            self.driver.find_element(By.CLASS_NAME, "card-body")
 
     def test_outage_0(self):
         self.driver.get(f'{self.live_server_url}/outages/0')
@@ -78,7 +77,7 @@ class OutageTestPopulated(SeleniumTestBase):
             self.driver.title)
         card = self.driver.find_element(By.CLASS_NAME, "card-body")
         summary = card.find_element(By.TAG_NAME, "p")
-        self.assertEqual("There are 1 service announcements.", summary.text)
+        self.assertTrue(summary.text.startswith("Status: Investigating"))
 
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "scheduled")
@@ -124,14 +123,14 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_admin_scheduled_lifecycle(self):
         # Login as admin
         self.driver.get(f'{self.live_server_url}/admin/login')
-        self.assertEqual("Log in | ADMIN", self.driver.title)
+        self.assertEqual("Log in", self.driver.title)
         form = self.driver.find_element(By.ID, "login-form")
         username = form.find_element(By.XPATH, '//input[@name="username"]')
         username.send_keys(self.admin.username)
         password = form.find_element(By.XPATH, '//input[@name="password"]')
         password.send_keys(PASSWORD)
         form.find_element(By.XPATH, '//input[@value="Log in"]').click()
-        self.assertEqual("Site administration | ADMIN", self.driver.title)
+        self.assertEqual("Site administration", self.driver.title)
 
         # Create announcement
         self.driver.get(f'{self.live_server_url}/outages')
@@ -299,14 +298,14 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_admin_unscheduled_lifecycle(self):
         # Login as admin
         self.driver.get(f'{self.live_server_url}/admin/login')
-        self.assertEqual("Log in | ADMIN", self.driver.title)
+        self.assertEqual("Log in", self.driver.title)
         form = self.driver.find_element(By.ID, "login-form")
         username = form.find_element(By.XPATH, '//input[@name="username"]')
         username.send_keys(self.admin.username)
         password = form.find_element(By.XPATH, '//input[@name="password"]')
         password.send_keys(PASSWORD)
         form.find_element(By.XPATH, '//input[@value="Log in"]').click()
-        self.assertEqual("Site administration | ADMIN", self.driver.title)
+        self.assertEqual("Site administration", self.driver.title)
 
         # Create announcement
         self.driver.get(f'{self.live_server_url}/outages')
@@ -462,14 +461,14 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_admin_scheduled_cancel(self):
         # Login as admin
         self.driver.get(f'{self.live_server_url}/admin/login')
-        self.assertEqual("Log in | ADMIN", self.driver.title)
+        self.assertEqual("Log in", self.driver.title)
         form = self.driver.find_element(By.ID, "login-form")
         username = form.find_element(By.XPATH, '//input[@name="username"]')
         username.send_keys(self.admin.username)
         password = form.find_element(By.XPATH, '//input[@name="password"]')
         password.send_keys(PASSWORD)
         form.find_element(By.XPATH, '//input[@value="Log in"]').click()
-        self.assertEqual("Site administration | ADMIN", self.driver.title)
+        self.assertEqual("Site administration", self.driver.title)
 
         # Create announcement
         self.driver.get(f'{self.live_server_url}/outages')

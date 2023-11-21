@@ -5,8 +5,6 @@ from .defaults import *  # NOQA
 import os
 from os import path
 
-import django
-
 TEST_MODE = True
 
 DEBUG = True
@@ -54,5 +52,3 @@ LOGGING['handlers']['file'] = {  # NOQA
 }
 
 ALLOWED_HOSTS += ['testserver'] # NOQA
-
-django.setup()
