@@ -68,28 +68,28 @@ class OutageSimpleTestCase(test.APITestCase):
             }]
 
     def test_get_unknown(self):
-        response = self.client.get("/api/outages/v1/outages/999/")
+        response = self.client.get("/api/v1/outages/999/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_known(self):
-        response = self.client.get(f"/api/outages/v1/outages/{self.one.id}/")
+        response = self.client.get(f"/api/v1/outages/{self.one.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(json.loads(response.content), self.expected[0])
-        response = self.client.get(f"/api/outages/v1/outages/{self.two.id}/")
+        response = self.client.get(f"/api/v1/outages/{self.two.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(json.loads(response.content),
                          self.expected[1])
 
     def test_get_known_redirect(self):
-        response = self.client.get(f"/api/outages/v1/outages/{self.one.id}")
+        response = self.client.get(f"/api/v1/outages/{self.one.id}")
         self.assertEqual(response.status_code,
                          status.HTTP_301_MOVED_PERMANENTLY)
         self.assertEqual(response.headers["Location"],
-                         f"/api/outages/v1/outages/{self.one.id}/")
+                         f"/api/v1/outages/{self.one.id}/")
 
     def test_get_all(self):
         # Get all with no filtering
-        response = self.client.get("/api/outages/v1/outages/")
+        response = self.client.get("/api/v1/outages/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual(len(data), 2)
@@ -97,10 +97,18 @@ class OutageSimpleTestCase(test.APITestCase):
 
     def test_get_filtered(self):
         # Just a simple filter based on a plain field
-        response = self.client.get("/api/outages/v1/outages/?cancelled=true")
+        response = self.client.get("/api/v1/outages/?cancelled=true")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual(len(data), 0)
+
+    def test_get_all_deprecated_path(self):
+        # Get all with no filtering
+        response = self.client.get("/api/outages/v1/outages/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 2)
+        self.assertEqual(data, self.expected)
 
 
 class OutageFilterTestCase(test.APITestCase):
@@ -202,7 +210,7 @@ class OutageFilterTestCase(test.APITestCase):
         """
 
         response = self.client.get(
-            f"/api/outages/v1/outages/?activity={activity}")
+            f"/api/v1/outages/?activity={activity}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual(len(data), len(expected))

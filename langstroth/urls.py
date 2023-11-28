@@ -46,6 +46,10 @@ urlpatterns = [
 
     # Outages
     re_path(r'^outages/', include('langstroth.outages.urls')),
+
+    # API
+    re_path(r'^api/v1/', include(router.urls)),
+    # Old deprecated path for API, remove once endpoint changed
     re_path(r'^api/outages/v1/', include(router.urls)),
 
     # Favicon (dev)
