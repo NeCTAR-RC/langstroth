@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 
+from langstroth.outages import filters
 from langstroth.outages import forms
 from langstroth.outages import models
 
@@ -28,10 +29,14 @@ STATUS_TRANSITIONS = {
 
 
 def index_page(request):
+    f = filters.OutageFilters(
+        request.GET,
+        is_staff=request.user.is_staff,
+        queryset=models.Outage.objects.filter(deleted=False))
     context = {
         "title": "Service Announcements",
         "tagline": "",
-        "outages": list(models.Outage.objects.filter(deleted=False))
+        "filter": f
     }
     return shortcuts.render(request, "outages/list.html", context)
 

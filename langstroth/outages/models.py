@@ -1,8 +1,12 @@
+import logging
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
 from langstroth.models import User
+
+LOG = logging.getLogger(__name__)
 
 # Informally, there are two outage workflows.
 #
@@ -152,13 +156,13 @@ class Outage(models.Model):
                 else "Completed" if last.status in {RESOLVED, COMPLETED} \
                 else "In progress"
         else:
-            return last.status_display if last else "Investigating"
+            return last.status_display if last else "Unknown"
 
     @property
     def severity_display(self):
         last = self.latest_update
-        return last.severity_display if last \
-            else _severity_display(self.scheduled_severity)
+        severity = last.severity if last else self.scheduled_severity
+        return _severity_display(severity)
 
     @property
     def severity(self):

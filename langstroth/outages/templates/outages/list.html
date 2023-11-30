@@ -23,10 +23,39 @@
 
 {% block content %}
 <div class="container mb-4">
-  <p>There are {{ outages|length }} service announcements.</p>
-  {% if outages|length > 0 %}
+  <form id="filter-form" method="get">
+    <div class="card filter-panel">
+      <div class="card-title">Filters</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <label for="scheduled_id">Type</label>
+            {{ filter.form.scheduled }}
+          </div>
+          <div class="col">
+            <label for="cancelled_id">Cancelled</label>
+            {{ filter.form.cancelled }}
+          </div>
+          <div class="col">
+            <label for="activity_id">Activity</label>
+            {{ filter.form.activity }}
+          </div>
+          <div class="col">
+            <label for="time_window_id">Time Window</label>
+            {{ filter.form.time_window }}
+          </div>
+          <!-- <div class="col">
+            <label for="ordering_id">Ordering</label>
+            {{ filter.form.ordering }}
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <p class="text-center text-muted">Showing {{ filter.qs.count }} service announcements.</p>
+  {% if filter.qs.count > 0 %}
     <ul class="list-unstyled">
-      {% for outage in outages %}
+      {% for outage in filter.qs %}
         <div class="card my-4">
           <div class="card-body">
             <li class="d-flex">

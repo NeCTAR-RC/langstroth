@@ -334,6 +334,11 @@ img.graphite {
   content: "🧐";
 }
 
+#filter-form {
+  .col > label {
+    display: block;
+  }
+}
 .updates-list {
   list-style: none;
   padding: 0;
