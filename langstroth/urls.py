@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.urls import re_path
 from django.views.generic.base import RedirectView
@@ -67,8 +68,9 @@ else:
     urlpatterns += [
         # Admin Interface
         path('admin/', admin.site.urls),
-        path('login/', RedirectView.as_view(url='/admin/login',
-                                            permanent=False))
+        path("login/",
+             auth_views.LoginView.as_view(template_name='admin/login.html'),
+             name='login'),
     ]
 
 handler500 = error.handler500
