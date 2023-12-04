@@ -3,6 +3,7 @@ from datetime import timedelta
 import json
 
 from django.utils import timezone
+from freezegun import freeze_time
 from rest_framework import status
 from rest_framework import test
 
@@ -10,6 +11,7 @@ from langstroth import models as auth_models
 from langstroth.outages import models
 
 
+@freeze_time("2012-01-14 14:32:24")
 class OutageSimpleTestCase(test.APITestCase):
 
     def setUp(self, *args, **kwargs):
@@ -42,22 +44,33 @@ class OutageSimpleTestCase(test.APITestCase):
 
         self.expected = [
             {'scheduled': False,
+             'scheduled_display': 'unscheduled',
              'cancelled': False,
              'title': "one",
              'description': "Outage one",
+             'end': None,
              'id': self.one.id,
              'scheduled_start': None,
              'scheduled_end': None,
              'scheduled_severity': None,
+             'severity': None,
+             'severity_display': 'Unknown',
+             'start': None,
              'updates': []},
             {'scheduled': False,
+             'scheduled_display': 'unscheduled',
              'cancelled': False,
              'title': "two",
              'description': "Outage two",
+             'end': None,
              'id': self.two.id,
              'scheduled_start': None,
              'scheduled_end': None,
              'scheduled_severity': None,
+             'severity': models.SEVERE,
+             'severity_display': 'Severe',
+             'start': '2012-01-14T14:32:24Z',
+             'status_display': 'Investigating',
              'updates': [{
                  'content': 'update one',
                  'severity': models.SEVERE,
@@ -72,6 +85,7 @@ class OutageSimpleTestCase(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_known(self):
+        self.maxDiff = 1000
         response = self.client.get(f"/api/v1/outages/{self.one.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(json.loads(response.content), self.expected[0])
@@ -88,6 +102,7 @@ class OutageSimpleTestCase(test.APITestCase):
                          f"/api/v1/outages/{self.one.id}/")
 
     def test_get_all(self):
+        self.maxDiff = 1000
         # Get all with no filtering
         response = self.client.get("/api/v1/outages/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

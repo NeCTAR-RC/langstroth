@@ -14,6 +14,13 @@ class OutageUpdateSerializer(serializers.ModelSerializer):
 
 
 class OutageSerializer(serializers.ModelSerializer):
+    severity = serializers.ReadOnlyField()
+    severity_display = serializers.ReadOnlyField()
+    scheduled_display = serializers.ReadOnlyField()
+    status_display = serializers.ReadOnlyField()
+    start = serializers.ReadOnlyField()
+    end = serializers.ReadOnlyField()
+
     class Meta:
         model = models.Outage
         exclude = ('created_by', 'modified_by', 'modification_time',
