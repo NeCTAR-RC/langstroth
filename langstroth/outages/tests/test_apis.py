@@ -102,14 +102,6 @@ class OutageSimpleTestCase(test.APITestCase):
         data = json.loads(response.content)
         self.assertEqual(len(data), 0)
 
-    def test_get_all_deprecated_path(self):
-        # Get all with no filtering
-        response = self.client.get("/api/outages/v1/outages/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data = json.loads(response.content)
-        self.assertEqual(len(data), 2)
-        self.assertEqual(data, self.expected)
-
 
 class OutageFilterTestCase(test.APITestCase):
 

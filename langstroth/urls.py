@@ -49,8 +49,6 @@ urlpatterns = [
 
     # API
     re_path(r'^api/v1/', include(router.urls)),
-    # Old deprecated path for API, remove once endpoint changed
-    re_path(r'^api/outages/v1/', include(router.urls)),
 
     # Favicon (dev)
     re_path(r'^favicon\.ico$',
