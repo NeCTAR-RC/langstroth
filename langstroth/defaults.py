@@ -23,9 +23,6 @@ DEBUG = True
 COMPRESS_ENABLED = not DEBUG
 COMPRESS_OFFLINE = not DEBUG
 
-
-SERVE_STATIC = False
-
 # If USE_OIDC is True we will use OIDC for authentication for the
 # Admin site.  If False, use classic username + password.
 USE_OIDC = False
@@ -194,6 +191,7 @@ SECRET_KEY = 'ofok2r^p3*m8cocztx&y7n@48(lbwij*najjyoxzxrflx@#qeh'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
