@@ -5,8 +5,6 @@ from .defaults import *  # NOQA
 import os
 from os import path
 
-TEST_MODE = True
-
 DEBUG = True
 
 COMPRESS_ENABLED = False

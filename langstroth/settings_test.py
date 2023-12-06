@@ -6,8 +6,6 @@ import os
 from os import path
 
 
-TEST_MODE = True
-
 DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 DEBUG = True

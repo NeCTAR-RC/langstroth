@@ -10,10 +10,6 @@ from user_statistics.settings import *  # NOQA
 # has the correct domain for all its page URL entries.
 SITE_DOMAIN = ""
 
-# Override this to TEST_MODE = False for the production settings file.
-# It's True here so we can populate the database with reference data.
-TEST_MODE = True
-
 DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 NAGIOS_PASSWORD = ""
