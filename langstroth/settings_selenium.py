@@ -36,3 +36,5 @@ LOGGING['handlers']['file'] = {  # NOQA
 }
 
 ALLOWED_HOSTS += ['testserver'] # NOQA
+
+WHITENOISE_AUTOREFRESH = False

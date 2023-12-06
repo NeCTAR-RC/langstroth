@@ -41,3 +41,5 @@ LOGGING['handlers']['file'] = {  # NOQA
     # Create the log directory with the correct permissions by hand.
     'filename': DEBUG_LOG,
 }
+
+WHITENOISE_AUTOREFRESH = False
