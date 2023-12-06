@@ -66,5 +66,5 @@ coverage.xml
 .coverage
 .pytest_cache
 .venv
-static/CACHE
 CACHE
+static
