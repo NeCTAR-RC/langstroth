@@ -20,6 +20,10 @@ NAGIOS_PASSWORD = ""
 
 DEBUG = True
 
+COMPRESS_ENABLED = not DEBUG
+COMPRESS_OFFLINE = not DEBUG
+
+
 SERVE_STATIC = False
 
 # If USE_OIDC is True we will use OIDC for authentication for the
@@ -178,7 +182,11 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
 # Make this unique, and don't share it with anybody.
@@ -228,7 +236,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'bootstrap_datepicker_plus',
-    'django_filters'
+    'django_filters',
+    'compressor',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
