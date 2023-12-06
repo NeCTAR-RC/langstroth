@@ -10,8 +10,6 @@ DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 DEBUG = True
 
-USE_TZ = True
-
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
@@ -23,8 +21,6 @@ DATABASES = {
     },
 }
 
-FIXTURE_DIRS = ()
-
 # Password strings populated by an edited version of the install_uat.sh script.
 NAGIOS_URL = "http://localhost:8000/static/avail.html"
 NAGIOS_AUTH = ("user", "password")
@@ -33,32 +29,6 @@ STATUS_QUERY_TEMPLATE = ""
 NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 
 GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    path_merge(__file__, 'static'), # NOQA
-    path_merge(__file__, 'data'), # NOQA
-
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
-INSTALLED_APPS = [
-    "langstroth",
-    "langstroth.outages",
-    "nectar_allocations",
-    "user_statistics",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.messages",
-    "django.contrib.sessions",
-    "django.contrib.staticfiles",
-    "compressor",
-    "rest_framework",
-    "bootstrap_datepicker_plus",
-]
 
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
 

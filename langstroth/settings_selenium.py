@@ -14,8 +14,6 @@ COMPRESS_PRECOMPILERS = []
 if DEBUG:
     COMPRESS_DEBUG_TOGGLE = 'whatever'
 
-FIXTURE_DIRS = ()
-
 # Password strings populated by an edited version of the install_uat.sh script.
 NAGIOS_URL = "http://localhost:8000/static/avail.html"
 NAGIOS_AUTH = ("user", "password")
@@ -24,18 +22,6 @@ STATUS_QUERY_TEMPLATE = ""
 NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 
 GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    path_merge(__file__, 'static'), # NOQA
-    path_merge(__file__, 'data'), # NOQA
-
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
-INSTALLED_APPS += ['compressor'] # NOQA
 
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
 
