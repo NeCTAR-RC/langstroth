@@ -2,8 +2,6 @@
 from os import path
 import sys
 
-from user_statistics.settings import *  # NOQA
-
 # Define this in the actual setting file
 # AND in the domain field of the sites database table.
 # It's used by a consistency check to ensure that siteemap.xml
@@ -121,6 +119,9 @@ FOR_CODE_RANGES = {
     "all": ("00", "99"),
 }
 
+# Date from which graphite user statistics began to be collected.
+USER_STATISTICS_START_DATE = '20111201'
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -217,8 +218,8 @@ TEMPLATES = [
 INSTALLED_APPS = [
     'langstroth',
     'langstroth.outages',
-    'nectar_allocations',
-    'user_statistics',
+    'langstroth.nectar_allocations',
+    'langstroth.user_statistics',
     'django.contrib.admin',
     'django.contrib.auth',
     'mozilla_django_oidc',

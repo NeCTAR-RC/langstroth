@@ -1,12 +1,13 @@
 from json import dumps
+
 from django.http import HttpResponse
 from django.shortcuts import render
-from user_statistics.services.user_statistics \
+
+from langstroth.user_statistics.services.user_statistics \
     import find_daily_accumulated_users
 
 
 # Web pages
-
 def user_registrations_page(request):
     context = {
         "title": "User Registrations",
@@ -15,8 +16,6 @@ def user_registrations_page(request):
 
 
 # Web services with JSON pay loads.
-
-
 def registrations_frequency(request):
     q_from = request.GET.get('from')
     q_until = request.GET.get('until')

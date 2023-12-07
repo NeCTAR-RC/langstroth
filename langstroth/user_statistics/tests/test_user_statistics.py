@@ -1,7 +1,6 @@
 from unittest import mock
 
-from user_statistics.services.user_statistics \
-    import find_daily_accumulated_users
+from langstroth.user_statistics.services import user_statistics
 
 
 GRAPHITE_OUTPUT = [
@@ -52,5 +51,5 @@ def test_find_daily_accumulated_users(mock_get):
         }
     ]
 
-    actual_accumulated_users = find_daily_accumulated_users()
+    actual_accumulated_users = user_statistics.find_daily_accumulated_users()
     assert expected_daily_accumulated_users == actual_accumulated_users

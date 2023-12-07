@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+
 class AllocationViewTest(TestCase):
 
     def test_page_index(self):

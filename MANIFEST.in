@@ -2,5 +2,3 @@ include README
 include MANIFEST.in
 include requirements.txt
 recursive-include langstroth *.html *.css *.png *.svg *.wsgi *.po *.mo *.js *.gif *.json *.otf *.eot *.ttf *.woff*
-recursive-include nectar_allocations *.html *.css *.png *.svg *.wsgi *.po *.mo *.js *.gif *.json *.otf *.eot *.ttf *.woff*
-recursive-include user_statistics *.html *.css *.png *.svg *.wsgi *.po *.mo *.js *.gif *.json *.otf *.eot *.ttf *.woff*

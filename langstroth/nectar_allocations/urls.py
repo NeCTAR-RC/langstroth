@@ -1,5 +1,5 @@
 from django.urls import re_path
-from nectar_allocations import views
+from langstroth.nectar_allocations import views
 
 urlpatterns = [
     re_path(r'^$', views.index_page, name='index_page'),

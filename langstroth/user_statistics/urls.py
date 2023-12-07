@@ -1,5 +1,5 @@
 from django.urls import re_path
-from user_statistics import views
+from langstroth.user_statistics import views
 
 
 urlpatterns = [

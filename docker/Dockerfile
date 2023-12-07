@@ -10,8 +10,6 @@ RUN set -ex \
     && /env/bin/pip install --no-cache-dir gunicorn
 
 ADD langstroth /app/langstroth
-ADD user_statistics /app/user_statistics
-ADD nectar_allocations /app/nectar_allocations
 ADD manage.py /app/manage.py
 
 
