@@ -213,7 +213,7 @@ def choose_first(datapoints):
 
 def composition_cores(request, name):
     q_from = request.GET.get('from', "-60minutes")
-    q_az = request.GET.get('az', "melbourne")
+    q_az = request.GET.get('az', "all")
     targets = []
 
     if q_az in settings.COMPOSITION_QUERY:

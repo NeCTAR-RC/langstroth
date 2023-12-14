@@ -130,11 +130,11 @@ function stringToColour(str) {
 function changeSource() {
   $('#graph-buttons li a').removeClass('active');
   $(this).addClass('active');
-  setSource();
+    setSource($(this).attr('id'));
 }
 
-function setSource() {
-  $.get("cores", {'az': this.id}, function(data) {
+function setSource(az) {
+  $.get("cores", {'az': az}, function(data) {
     zero(dataset);
     updateData(dataset, data);
 
@@ -319,5 +319,5 @@ function arcTweenOut(a) {
 }
 
 $(".navlink.active").ready(function() {
-  setSource();
+  setSource('all');
 });
