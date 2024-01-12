@@ -31,16 +31,16 @@
           <div class="card-body">
             <li class="d-flex">
               <div class="announcement-severity">
-                <img class="severity-dial-sm" src='{% static "img/severity" %}{{ outage.severity }}.svg' />
+                <img class="severity-dial-sm" src="{% get_static_prefix %}img/severity{{ outage.severity }}.svg" />
               </div>
               <div class="announcement-details ps-4">
                 <h5 class="text-uppercase">
-                  {% if outage.status_display == "Resolved" %}(Resolved)&nbsp;{% elif outage.status_display == "Completed" %}(Completed)&nbsp;{% endif %}
+		  {% if outage.status_display == "Resolved" %}(Resolved)&nbsp;{% elif outage.status_display == "Completed" %}(Completed)&nbsp;{% endif %}
                   {{ outage.scheduled_display }} Outage
                 </h5>
                 <h4>
-                  {{ outage.title }}
-                </h4>
+		  {{ outage.title }}
+		</h4>
                 <p>
                   <strong>Status:</strong> {{ outage.status_display }}
                   {% if outage.start %}

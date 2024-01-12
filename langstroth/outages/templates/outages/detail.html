@@ -67,7 +67,7 @@
             <h6>Current Status:</h6>
             <p class="h5 text-uppercase">{{ outage.status_display }}</p>
             <h6>Severity:</h6>
-            <img class="severity-dial" src='{% static "img/severity" %}{{ outage.severity }}.svg' />
+            <img class="severity-dial" src="{% get_static_prefix %}img/severity{{ outage.severity }}.svg" />
             <p class="h5 text-uppercase">{{ outage.severity_display }}</p>
             <p>Last modification at: <br />
               <strong>{{ outage.latest_modification_time }}</strong>
