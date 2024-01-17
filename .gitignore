@@ -40,8 +40,6 @@ Thumbs.db
 # Project #
 ######################
 lxml.output
-user_statistics/private_data/*
-nectar_allocations/fixtures/nectar_allocations_dump_all.json
 langstroth/data/allocation_tree.json
 logs/*
 langstroth/settings.py
@@ -67,4 +65,4 @@ coverage.xml
 .pytest_cache
 .venv
 CACHE
-static
+/static
