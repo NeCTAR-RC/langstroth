@@ -160,12 +160,6 @@ class Outage(models.Model):
     def __str__(self):
         return f"Outage({self.title})"
 
-    @property
-    def latest_modification_time(self):
-        return max([u.modification_time
-                    for u in self.updates.get_queryset().all()]
-                   + [self.modification_time])
-
 
 class OutageUpdate(models.Model):
     time = models.DateTimeField()
@@ -185,6 +179,10 @@ class OutageUpdate(models.Model):
 
     class Meta:
         ordering = ['time', 'pk']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.outage.save()
 
     @property
     def status_display(self):
