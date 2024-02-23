@@ -15,8 +15,7 @@ class OutageForm(forms.ModelForm):
 
     class Meta:
         model = models.Outage
-        exclude = ['deleted', 'cancelled', 'created_by', 'updated_by',
-                   'modification_time']
+        exclude = ['deleted', 'cancelled']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
