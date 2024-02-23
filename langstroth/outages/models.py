@@ -98,6 +98,9 @@ class Outage(models.Model):
                                     on_delete=models.PROTECT,
                                     related_name='+')
 
+    class Meta:
+        ordering = ['-modification_time']
+
     @property
     def visible_updates(self):
         return list(self.updates.get_queryset().exclude(deleted=True))
