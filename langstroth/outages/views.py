@@ -71,7 +71,6 @@ class BaseOutageCreateView(BaseCreateView):
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
-        form.instance.modification_date = timezone.now()
         return super().form_valid(form)
 
 
@@ -122,7 +121,6 @@ class BaseUpdateCreateView(BaseCreateView):
     def form_valid(self, form):
         form.instance.outage = self.get_outage()
         form.instance.created_by = self.request.user
-        form.instance.modification_date = timezone.now()
         return super().form_valid(form)
 
     def check_state(self):

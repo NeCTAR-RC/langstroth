@@ -90,7 +90,7 @@ class Outage(models.Model):
     scheduled_end = models.DateTimeField(blank=True, null=True)
     scheduled_severity = models.IntegerField(choices=SEVERITY_CHOICES,
                                              blank=True, null=True)
-    modification_time = models.DateTimeField(auto_now_add=True, editable=False)
+    modification_time = models.DateTimeField(auto_now=True, editable=False)
     created_by = models.ForeignKey(User, editable=False,
                                    on_delete=models.PROTECT,
                                    related_name='+')
@@ -169,7 +169,7 @@ class Outage(models.Model):
 
 class OutageUpdate(models.Model):
     time = models.DateTimeField()
-    modification_time = models.DateTimeField(auto_now_add=True, editable=False)
+    modification_time = models.DateTimeField(auto_now=True, editable=False)
     created_by = models.ForeignKey(User, editable=False,
                                    on_delete=models.PROTECT,
                                    related_name='+')
