@@ -16,7 +16,7 @@
       <div id="cloud-alerts" class="my-5">
         {% for outage in current_outages %}
         <div class="alert alert-severity{{ outage.severity }}" role="alert">
-          <a href="outages/{{outage.id}}" class="alert-link stretched-link float-end">View announcement<i class="fa fa-chevron-right"></i></a>
+          <a href="{{outage.get_absolute_url}}" class="alert-link stretched-link float-end">View announcement<i class="fa fa-chevron-right"></i></a>
           <h5 class="alert-heading text-uppercase">{% if outage.scheduled %} Scheduled {% else %} Unscheduled {% endif %} Outage</h5>
           <p class="fs-4">{{outage.title}}</p>
           <p class="mb-0">

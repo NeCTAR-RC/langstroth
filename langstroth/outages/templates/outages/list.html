@@ -54,7 +54,7 @@
                     <strong>End:</strong> {{ outage.schedule_end }} (scheduled).</p>
                   {% endif %}
                 </p>
-                <a href="{{ outage.id }}" target="_blank" class="card-link"><span class="card-link-btn">View announcement</span></a>
+                <a href="{{ outage.get_absolute_url }}" class="card-link"><span class="card-link-btn">View announcement</span></a>
               </div>
             </li>
           </div>

@@ -1,5 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
+
 from langstroth.models import User
 
 # Informally, there are two outage workflows.
@@ -100,6 +102,9 @@ class Outage(models.Model):
 
     class Meta:
         ordering = ['-modification_time']
+
+    def get_absolute_url(self):
+        return reverse("outage", kwargs={'pk': self.pk})
 
     @property
     def visible_updates(self):
