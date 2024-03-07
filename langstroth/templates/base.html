@@ -1,5 +1,5 @@
 {% load static compress %}
-
+{% load tz_detect %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,5 +41,6 @@
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_script %}
     {% endblock %}
+    {% tz_detect %}
   </body>
 </html>

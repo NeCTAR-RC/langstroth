@@ -38,8 +38,8 @@
         <ul class="list-unstyled">
           {% if outage.scheduled %}
           <li>
-            <strong>Scheduled start:</strong> {{ outage.scheduled_start }} 
-            <strong>Scheduled end:</strong> {{ outage.scheduled_end }}
+            <strong>Scheduled start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }}
+            <strong>Scheduled end:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }}
             {% if outage.cancelled %}
             <strong>Cancelled</strong>
             {% endif %}
@@ -47,9 +47,9 @@
           {% endif %}
           {% if outage.start %}
           <li>
-            <strong>Outage start:</strong> {{ outage.start }}
+            <strong>Outage start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
             {% if outage.end %}
-            <strong>Outage end:</strong> {{ outage.end }}
+            <strong>Outage end:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
             {% else %}
             <strong>Outage is ongoing</strong>
             {% endif %}
@@ -70,7 +70,7 @@
             <img class="severity-dial" src="{% get_static_prefix %}img/severity{{ outage.severity }}.svg" />
             <p class="h5 text-uppercase">{{ outage.severity_display }}</p>
             <p>Last modification at: <br />
-              <strong>{{ outage.modification_time }}</strong>
+              <strong>{{ outage.modification_time|date:"D, j M Y g:ia (T)" }}</strong>
             </p>
           </div>
         </div>

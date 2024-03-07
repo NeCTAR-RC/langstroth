@@ -1,4 +1,3 @@
-from datetime import datetime
 from datetime import timedelta
 import json
 
@@ -17,8 +16,6 @@ class OutageSimpleTestCase(test.APITestCase):
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
 
-        self.times = [timezone.now()]
-
         self.user = auth_models.User.objects.create(
             username="test", email="test@test.com",
             is_superuser=True)
@@ -35,7 +32,7 @@ class OutageSimpleTestCase(test.APITestCase):
             status=models.INVESTIGATING,
             severity=models.SEVERE,
             content="update one",
-            time=self.times[0],
+            time=timezone.now(),
             created_by=self.user
         )
 
@@ -73,9 +70,8 @@ class OutageSimpleTestCase(test.APITestCase):
                  'content': 'update one',
                  'severity': models.SEVERE,
                  'status': models.INVESTIGATING,
-                 'time': datetime.isoformat(
-                     timezone.localtime(self.times[0]),
-                     timespec='auto')}]
+                 'time': '2012-01-14T14:32:24Z',
+                 }]
             }]
 
     def test_get_unknown(self):

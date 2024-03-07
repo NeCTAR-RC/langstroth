@@ -50,6 +50,9 @@ urlpatterns = [
     # Favicon (dev)
     re_path(r'^favicon\.ico$',
             RedirectView.as_view(url='/static/img/favicon.ico')),
+
+    path('tz_detect/', include('tz_detect.urls')),
+
 ]
 
 if settings.USE_OIDC:

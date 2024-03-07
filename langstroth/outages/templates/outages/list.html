@@ -44,14 +44,14 @@
                 <p>
                   <strong>Status:</strong> {{ outage.status_display }}
                   {% if outage.start %}
-                    <strong>Start:</strong> {{ outage.start }}
+                    <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
                   {% elif outage.scheduled and outage.schedule_start %}
-                    <strong>Start:</strong> {{ outage.schedule_start }} (scheduled)
+                    <strong>Start:</strong> {{ outage.schedule_start|date:"D, j M Y g:ia (T)" }} (scheduled)
                   {% endif %}
                   {% if outage.end %}
-                    <strong>End:</strong> {{ outage.end }}
+                    <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
                   {% elif outage.scheduled and outage.schedule_end%}
-                    <strong>End:</strong> {{ outage.schedule_end }} (scheduled).</p>
+                    <strong>End:</strong> {{ outage.schedule_end|date:"D, j M Y g:ia (T)" }} (scheduled).</p>
                   {% endif %}
                 </p>
                 <a href="{{ outage.get_absolute_url }}" class="card-link"><span class="card-link-btn">View announcement</span></a>

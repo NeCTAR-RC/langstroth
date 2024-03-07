@@ -23,9 +23,9 @@
             <strong>Severity:</strong> {{outage.severity_display}},
             <strong>Status:</strong> {{outage.status_display}},
             {% if outage.start %}
-            <strong>Started:</strong> {{outage.start}}
+            <strong>Started:</strong> {{outage.start|date:"D, j M Y g:ia (T)"}}
             {% else %}
-            <strong>Scheduled for:</strong> {{outage.scheduled_start}}
+            <strong>Scheduled for:</strong> {{outage.scheduled_start|date:"D, j M Y g:ia (T)"}}}
             {% endif %}
           </p>
         </div>

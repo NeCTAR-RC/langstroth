@@ -139,7 +139,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Australia/Melbourne'
+TIME_ZONE = 'UTC'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -151,6 +151,12 @@ USE_I18N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+# These countries will be prioritized in the search
+# for a matching timezone. Consider putting your
+# app's most popular countries first.
+# Defaults to the top Internet using countries.
+TZ_DETECT_COUNTRIES = ('AU', 'NZ')
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -203,7 +209,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'langstroth.auth.NoDjangoAdminForEndUserMiddleware'
+    'langstroth.auth.NoDjangoAdminForEndUserMiddleware',
+    'tz_detect.middleware.TimezoneMiddleware',
+
 ]
 
 ROOT_URLCONF = 'langstroth.urls'
@@ -241,6 +249,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'django_filters',
     'compressor',
+    'tz_detect',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
