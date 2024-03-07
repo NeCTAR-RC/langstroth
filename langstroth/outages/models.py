@@ -152,7 +152,7 @@ class Outage(models.Model):
                 else "Completed" if last.status in {RESOLVED, COMPLETED} \
                 else "In progress"
         else:
-            return last.status_display
+            return last.status_display if last else "Investigating"
 
     @property
     def severity_display(self):
@@ -163,7 +163,8 @@ class Outage(models.Model):
     @property
     def severity(self):
         last = self.latest_update
-        return last.severity if last else self.scheduled_severity
+        return last.severity if last \
+            else self.scheduled_severity or SIGNIFICANT
 
     def __str__(self):
         return f"Outage({self.title})"
