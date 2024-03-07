@@ -104,7 +104,7 @@ class Outage(models.Model):
         ordering = ['-modification_time']
 
     def get_absolute_url(self):
-        return reverse("outage", kwargs={'pk': self.pk})
+        return reverse("outages:detail", kwargs={'pk': self.pk})
 
     @property
     def visible_updates(self):

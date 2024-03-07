@@ -83,7 +83,7 @@ class CreateScheduledView(BaseOutageCreateView):
     initial = {'scheduled': True}
 
     def get_success_url(self):
-        return reverse('outage', args=[self.object.id])
+        return reverse('outages:detail', args=[self.object.id])
 
 
 class CreateUnscheduledView(BaseOutageCreateView):
@@ -95,7 +95,7 @@ class CreateUnscheduledView(BaseOutageCreateView):
     initial = {'scheduled': False}
 
     def get_success_url(self):
-        return reverse('start', args=[self.object.id])
+        return reverse('outages:start', args=[self.object.id])
 
 
 class BaseUpdateCreateView(BaseCreateView):
@@ -134,7 +134,7 @@ class UpdateOutageView(BaseUpdateCreateView):
     template_name = "outages/add_update.html"
 
     def get_success_url(self):
-        return reverse('outage', args=[self.pk])
+        return reverse('outages:detail', args=[self.pk])
 
     def get_initial(self):
         outage = self.get_outage()
@@ -160,7 +160,7 @@ class StartOutageView(BaseUpdateCreateView):
     template_name = "outages/start.html"
 
     def get_success_url(self):
-        return reverse('outage', args=[self.pk])
+        return reverse('outages:detail', args=[self.pk])
 
     def get_form_class(self):
         outage = self.get_outage()
@@ -201,7 +201,7 @@ class EndOutageView(BaseUpdateCreateView):
     title = "Outage Announcement Update"
 
     def get_success_url(self):
-        return reverse('outage', args=[self.pk])
+        return reverse('outages:detail', args=[self.pk])
 
     def get_initial(self):
         outage = self.get_outage()

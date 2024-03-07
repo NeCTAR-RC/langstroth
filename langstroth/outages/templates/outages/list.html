@@ -5,7 +5,7 @@
 <div id="page-header" class="container my-5">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">Announcements</li>
     </ol>
   </nav>
@@ -13,8 +13,8 @@
     <h1 class="pb-4">Service Announcements</h1>
     {% if request.user.is_staff %}
       <div class="ms-auto btn-bar">
-        <a href="scheduled/" id="scheduled" class="btn btn-outline-primary btn-sm">Create scheduled outage</a>
-        <a href="unscheduled/" id="unscheduled" class="btn btn-outline-primary btn-sm">Create unscheduled outage</a>
+        <a href="{% url 'outages:create_scheduled' %}" id="scheduled" class="btn btn-outline-primary btn-sm">Create scheduled outage</a>
+        <a href="{% url 'outages:create_unscheduled' %}" id="unscheduled" class="btn btn-outline-primary btn-sm">Create unscheduled outage</a>
       </div>
     {% endif %}
   </div>

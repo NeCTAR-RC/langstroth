@@ -7,7 +7,7 @@
   <div class="alert alert-danger">
     Are you sure you want to cancel this Service Outage?
   </div>
-  <form action="{% url 'cancel' outage.id %}" method="post">
+  <form action="{% url 'outages:cancel' outage.id %}" method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes</button>
     <button type="button" class="btn btn-secondary"

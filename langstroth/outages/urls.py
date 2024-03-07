@@ -1,11 +1,12 @@
 from django.urls import re_path
 from langstroth.outages import views
 
+app_name = 'outages'
 urlpatterns = [
     re_path(r'^$', views.index_page,
-            name='outage_list'),
+            name='list'),
     re_path(r'^(?P<pk>\d+)/$', views.OutageDetailView.as_view(),
-            name='outage'),
+            name='detail'),
     re_path(r'^scheduled/$', views.CreateScheduledView.as_view(),
             name='create_scheduled'),
     re_path(r'^unscheduled/$', views.CreateUnscheduledView.as_view(),
