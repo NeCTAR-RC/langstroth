@@ -22,17 +22,14 @@ class OutageSimpleTestCase(test.APITestCase):
         self.user = auth_models.User.objects.create(
             username="test", email="test@test.com",
             is_superuser=True)
-        self.user.save()
 
         self.one = models.Outage.objects.create(
             scheduled=False, title="one", description="Outage one",
             created_by=self.user)
-        self.one.save()
 
         self.two = models.Outage.objects.create(
             scheduled=False, title="two", description="Outage two",
             created_by=self.user)
-        self.two.save()
         models.OutageUpdate.objects.create(
             outage=self.two,
             status=models.INVESTIGATING,
@@ -40,7 +37,7 @@ class OutageSimpleTestCase(test.APITestCase):
             content="update one",
             time=self.times[0],
             created_by=self.user
-        ).save()
+        )
 
         self.expected = [
             {'scheduled': False,
