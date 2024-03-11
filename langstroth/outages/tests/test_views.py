@@ -15,10 +15,9 @@ class ViewTests(test.TestCase):
         cls.outage1 = models.Outage.objects.create(
             scheduled=True, title="one", description="Outage one",
             created_by=cls.user)
-        # Disabled until bug fixed
-        # cls.outage2 = models.Outage.objects.create(
-        #    scheduled=False, title="one", description="Outage one",
-        #    created_by=cls.user)
+        cls.outage2 = models.Outage.objects.create(
+            scheduled=False, title="one", description="Outage one",
+            created_by=cls.user)
 
     def test_list(self):
         response = self.client.get(reverse('outages:list'))
