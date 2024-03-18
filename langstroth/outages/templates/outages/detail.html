@@ -58,7 +58,7 @@
           <!-- <li><strong>Affected Zones:</strong></li>
           <li><strong>Affected Services:</strong></li> -->
         </ul>
-        {{ outage.description|linebreaks }}
+        {{ outage.description|linebreaks|urlize }}
       </div>
       {% if not outage.cancelled %}
       <div class="col-12 col-md-4 col-xl-3">
