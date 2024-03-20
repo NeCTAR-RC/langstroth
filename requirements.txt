@@ -13,4 +13,4 @@ django-libsass~=0.9
 mozilla-django-oidc~=3.0
 django-bootstrap-datepicker-plus~=5.0
 whitenoise
-django-tz-detect @ git+https://github.com/adamcharnock/django-tz-detect@develop
+django-tz-detect>=0.5.0
