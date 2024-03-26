@@ -241,7 +241,7 @@ class CancelOutageView(mixins.UserPassesTestMixin,
         outage = self._check_state()
         outage.cancelled = True
         outage.save()
-        return shortcuts.redirect('outage_list')
+        return shortcuts.redirect(reverse('outages:list'))
 
     def _check_state(self):
         outage = self.get_object()

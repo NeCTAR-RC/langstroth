@@ -11,7 +11,7 @@
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes</button>
     <button type="button" class="btn btn-secondary"
-            onclick="window.location.href='{% url 'outage' outage.id %}';">No</button>
+            onclick="window.location.href='{% url 'outages:detail' outage.id %}';">No</button>
   </form>
 </div>
 {% endblock %}
