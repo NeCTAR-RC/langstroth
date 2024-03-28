@@ -46,7 +46,9 @@ class OutageForm(forms.ModelForm):
                                "Scheduled start must be before end!")
             if start and start < timezone.now():
                 self.add_error("scheduled_start",
-                               "Scheduled start is in the past!")
+                               "A newly scheduled outage cannot start in the "
+                               "past. Consider making this an unscheduled "
+                               "outage instead.")
             if not severity:
                 self.add_error("scheduled_severity",
                                "Scheduled severity is required")
