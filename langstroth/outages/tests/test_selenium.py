@@ -67,7 +67,7 @@ class OutageTestPopulated(SeleniumTestBase):
 
         banner = self.driver.find_element(By.ID, "status-banner")
         link = banner.find_element(By.TAG_NAME, "a")
-        self.assertEqual(f"{self.live_server_url}/outages/{self.outage.id}",
+        self.assertEqual(f"{self.live_server_url}/outages/{self.outage.id}/",
                          link.get_attribute("href"))
 
     def test_outages(self):
@@ -328,15 +328,8 @@ class OutageWorkflowTests(SeleniumTestBase):
             By.XPATH, '//textarea[@name="description"]')
         description.send_keys(
             "Look out of the window.  It is really bright out there.")
-        form.find_element(By.XPATH, '//button[text()="Create"]').click()
-        self.assertEqual(
-            "Compute Cloud Dashboard - Outage Announcement Update",
-            self.driver.title)
-
-        # First update
-        form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("---------",
+        self.assertEqual("Minimal",
                          Select(severity).first_selected_option.text)
         severity.send_keys("severe")
         status = form.find_element(By.XPATH, '//select[@name="status"]')
@@ -345,11 +338,9 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertEqual(["Investigating", "Identified"],
                          [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
-        self.assertEqual("", content.text)
+        self.assertEqual("Outage started", content.text)
         content.send_keys("Opening the curtains")
-
-        form.find_element(By.XPATH,
-                          '//button[text()="Start the Outage"]').click()
+        form.find_element(By.XPATH, '//button[text()="Create"]').click()
         self.assertEqual(
             "Compute Cloud Dashboard - Announcement Details",
             self.driver.title)

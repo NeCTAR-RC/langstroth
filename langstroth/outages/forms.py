@@ -7,7 +7,53 @@ from langstroth.outages import models
 from langstroth.outages import views
 
 
-class OutageForm(forms.ModelForm):
+class UnscheduledOutageForm(forms.ModelForm):
+    # These added fields are for the first OutageUpdate
+    time = forms.DateTimeField(
+        required=True, initial=timezone.now,
+        widget=DateTimePickerInput())
+    severity = forms.TypedChoiceField(
+        required=True, choices=models.SEVERITY_CHOICES, coerce=int)
+    status = forms.ChoiceField(
+        required=True,
+        choices=(
+            choice for choice in models.STATUS_CHOICES
+            if choice[0] in [models.INVESTIGATING, models.IDENTIFIED]))
+    content = forms.CharField(
+        required=True, initial="Outage started", widget=forms.Textarea)
+
+    class Meta:
+        model = models.Outage
+        exclude = ['deleted', 'cancelled', 'scheduled',
+                   'scheduled_start', 'scheduled_end',
+                   'scheduled_severity']
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        for field in self.fields.values():
+            if hasattr(field.widget, 'input_type') \
+               and field.widget.input_type == 'select':
+                field.widget.attrs['class'] = (
+                    'form-select ' + field.widget.attrs.get('class', ''))
+            else:
+                field.widget.attrs['class'] = (
+                    'form-control ' + field.widget.attrs.get('class', ''))
+
+    def save(self):
+        outage = super().save()
+        cleaned_data = super().clean()
+        update = models.OutageUpdate(
+            outage=outage,
+            time=cleaned_data['time'],
+            content=cleaned_data['content'],
+            severity=cleaned_data['severity'],
+            status=cleaned_data['status'],
+            created_by=outage.created_by)
+        update.save()
+        return outage
+
+
+class ScheduledOutageForm(forms.ModelForm):
     scheduled_start = forms.DateTimeField(
         required=False, widget=DateTimePickerInput())
     scheduled_end = forms.DateTimeField(

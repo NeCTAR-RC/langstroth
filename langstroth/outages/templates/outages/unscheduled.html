@@ -20,7 +20,6 @@
     <div class="card-body">
       <form action="" method="post">
         {% csrf_token %}
-        {{ form.scheduled.as_hidden }}
         <fieldset>
           <div class="mb-3">
             <div class="form-label">Title</div>
@@ -40,6 +39,42 @@
               {% endfor %}
             </div>
           </div>
+          <div class="mb-3">
+            <div class="form-label">Status</div>
+            <div>
+              {{ form.status }}
+              {% for error in form.status.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Start date & time</div>
+            <div>
+              {{ form.time }}
+              {% for error in form.time.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Initial severity</div>
+            <div>
+              {{ form.severity }}
+              {% for error in form.severity.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Initial update message</div>
+            <div>
+              {{ form.content }}
+              {% for error in form.content.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Create</button>
         {% if 'outages' in request.META.HTTP_REFERER %}
@@ -49,5 +84,8 @@
     </div>
   </div>
 </div>
+{% endblock %}
+{% block extra_script %}
+{{ form.media }}
 {% endblock %}
 

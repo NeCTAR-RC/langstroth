@@ -67,35 +67,33 @@ class OutageDetailView(BaseDetailView):
 
 class BaseOutageCreateView(BaseCreateView):
     model = models.Outage
-    form_class = forms.OutageForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('outages:detail', args=[self.object.id])
 
 
 class CreateScheduledView(BaseOutageCreateView):
     """Create a scheduled outage.
     """
 
+    form_class = forms.ScheduledOutageForm
     template_name = "outages/scheduled.html"
     title = "Create Scheduled Announcement"
     initial = {'scheduled': True}
-
-    def get_success_url(self):
-        return reverse('outages:detail', args=[self.object.id])
 
 
 class CreateUnscheduledView(BaseOutageCreateView):
     """Create an unscheduled outage.
     """
 
+    form_class = forms.UnscheduledOutageForm
     template_name = "outages/unscheduled.html"
     title = "Create Unscheduled Announcement"
     initial = {'scheduled': False}
-
-    def get_success_url(self):
-        return reverse('outages:start', args=[self.object.id])
 
 
 class BaseUpdateCreateView(BaseCreateView):
