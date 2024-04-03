@@ -7,11 +7,17 @@ from langstroth.outages import models
 from langstroth.outages import views
 
 
+PICKER_OPTS = {'showTodayButton': False,
+               'sideBySide': True,
+               'useCurrent': False,
+               'defaultDate': False}
+
+
 class UnscheduledOutageForm(forms.ModelForm):
     # These added fields are for the first OutageUpdate
     time = forms.DateTimeField(
         required=True, initial=timezone.now,
-        widget=DateTimePickerInput())
+        widget=DateTimePickerInput(options=PICKER_OPTS))
     severity = forms.TypedChoiceField(
         required=True, choices=models.SEVERITY_CHOICES, coerce=int)
     status = forms.ChoiceField(
@@ -55,9 +61,12 @@ class UnscheduledOutageForm(forms.ModelForm):
 
 class ScheduledOutageForm(forms.ModelForm):
     scheduled_start = forms.DateTimeField(
-        required=False, widget=DateTimePickerInput())
+        required=False,
+        widget=DateTimePickerInput(options=PICKER_OPTS))
     scheduled_end = forms.DateTimeField(
-        required=False, widget=DateTimePickerInput())
+        required=False,
+        widget=DateTimePickerInput(range_from="scheduled_start",
+                                   options=PICKER_OPTS))
 
     class Meta:
         model = models.Outage
