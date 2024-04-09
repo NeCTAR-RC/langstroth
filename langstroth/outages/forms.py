@@ -10,7 +10,8 @@ from langstroth.outages import views
 PICKER_OPTS = {'showTodayButton': False,
                'sideBySide': True,
                'useCurrent': False,
-               'defaultDate': False}
+               'defaultDate': False,
+               'format': 'MM/DD/YYYY HH:mm'}
 
 
 class UnscheduledOutageForm(forms.ModelForm):
