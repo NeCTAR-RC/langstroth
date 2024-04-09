@@ -11,6 +11,7 @@
     </ol>
   </nav>
   <h1 class="pb-4">Create an Unscheduled Outage Announcement</h1>
+  <p>Unsure how to create the outage? Instructions are found <a target="_blank" href="https://wiki.rc.nectar.org.au/wiki/Service_Announcements#:~:text=of%20an%20announcement.-,Creating%20and%20managing%20an%20Unscheduled%20Outage,-%5Bedit%5D">in the Nectar Wiki</a>.</p>
 </div>
 {% endblock %}
 
@@ -64,6 +65,11 @@
               {% for error in form.severity.errors %}
                 <span class="text-danger">{{ error }}</span>
               {% endfor %}
+            </div>
+            <div id="severity-help" class="form-text">
+              Severe - indicates that the problem is highly likely to be disruptive for a significant number of Nectar users.<br />
+              Significant - indicates that the problem only affects a small number of users, or that the impact is not significantly disruptive.<br />
+              Minimal - indicates that the outage is not likely to be disruptive to anyone.
             </div>
           </div>
           <div class="mb-3">
