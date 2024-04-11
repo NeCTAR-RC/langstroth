@@ -6,7 +6,6 @@ RUN set -ex \
     && python -m venv /env \
     && /env/bin/pip install --no-cache-dir --upgrade pip \
     && /env/bin/pip install --no-cache-dir -r /app/requirements.txt \
-    && /env/bin/pip install --no-cache-dir django-storage-swift \
     && /env/bin/pip install --no-cache-dir gunicorn
 
 ADD langstroth /app/langstroth
