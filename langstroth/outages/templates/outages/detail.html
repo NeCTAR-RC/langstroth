@@ -36,18 +36,22 @@
         <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
         <h3>{{ outage.title }}</h3>
         <ul class="list-unstyled">
+          {% if request.user.is_staff %}
+          <li>
+            <strong>Announcement created by:</strong> {{ outage.created_by.username }}
+          </li>
+          {% endif %}
           {% if outage.scheduled %}
           <li>
-            <strong>Scheduled start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }}
-            <strong>Scheduled end:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }}
-            {% if outage.cancelled %}
+             <strong>Scheduled start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }},
+            <strong>Scheduled end:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }}{% if outage.cancelled %},
             <strong>Cancelled</strong>
             {% endif %}
           </li>
           {% endif %}
           {% if outage.start %}
           <li>
-            <strong>Outage start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
+            <strong>Outage start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }},
             {% if outage.end %}
             <strong>Outage end:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
             {% else %}
@@ -98,7 +102,11 @@
               <span class="outage-status">{{ update.status_display }}</span>
               <p>
                 <strong>{{ update.content }}</strong><br />
-                Update created {{ update.time|naturaltime }}.
+                Update posted
+                {% if request.user.is_staff %}
+                by {{ outage.created_by.username }}
+                {% endif %}
+                {{ update.time|naturaltime }}.
               </p>
             </li>
             {% endfor %}
