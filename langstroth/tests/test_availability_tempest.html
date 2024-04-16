@@ -1,0 +1,135 @@
+<html>
+<head>
+<link rel="shortcut icon" href="/nagios4/images/favicon.ico" type="image/ico">
+<title>
+Nagios Availability
+</title>
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios4/stylesheets/common.css'>
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios4/stylesheets/avail.css'>
+</head>
+<BODY CLASS='avail'>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+<table border=0 width=100% cellspacing=0 cellpadding=0>
+<tr>
+<td align=left valign=top width=33%>
+<TABLE CLASS='infoBox' BORDER=1 CELLSPACING=0 CELLPADDING=0>
+<TR><TD CLASS='infoBox'>
+<DIV CLASS='infoBoxTitle'>Servicegroup Availability Report</DIV>
+Last Updated: Mon Jun 17 14:40:30 AEST 2024<BR>
+Nagios&reg; Core&trade; 4.3.4 - <A HREF='https://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>
+Logged in as <i>nagiosadmin</i><BR>
+</TD></TR>
+</TABLE>
+</td>
+<td align=center valign=top width=33%>
+<DIV ALIGN=CENTER CLASS='dataTitle'>
+Servicegroup 'tempest_compute_site'</DIV>
+<BR>
+<IMG SRC='/nagios4/images/trends.gif' BORDER=0 ALT='Availability Report' TITLE='Availability Report'>
+<BR CLEAR=ALL>
+<div align=center class='reportRange'>2024-05-17 10:00:00 to 2024-06-17 10:00:00</div>
+<div align=center class='reportDuration'>Duration: 31d 0h 0m 0s</div>
+</td>
+<td align=right valign=bottom width=33%>
+<form method="GET" action="avail.cgi">
+<table border=0 CLASS='optBox'>
+<tr><td valign=top align=left class='optBoxItem'>First assumed host state:</td><td valign=top align=left class='optBoxItem'>First assumed service state</td></tr>
+<tr>
+<td valign=top align=left class='optBoxItem'>
+<input type='hidden' name='t1' value='1715904000'>
+<input type='hidden' name='t2' value='1718582400'>
+<input type='hidden' name='show_log_entries' value=''>
+<input type='hidden' name='servicegroup' value='tempest_compute_site'>
+<input type='hidden' name='assumeinitialstates' value='yes'>
+<input type='hidden' name='assumestateretention' value='yes'>
+<input type='hidden' name='assumestatesduringnotrunning' value='yes'>
+<input type='hidden' name='includesoftstates' value='yes'>
+<select name='initialassumedhoststate'>
+<option value=0 >Unspecified
+<option value=-1 >Current State
+<option value=3 SELECTED>Host Up
+<option value=4 >Host Down
+<option value=5 >Host Unreachable
+</select>
+</td>
+<td CLASS='optBoxItem'>
+<select name='initialassumedservicestate'>
+<option value=0 >Unspecified
+<option value=-1 >Current State
+<option value=6 SELECTED>Service Ok
+<option value=8 >Service Warning
+<option value=7 >Service Unknown
+<option value=9 >Service Critical
+</select>
+</td>
+</tr>
+<tr><td valign=top align=left class='optBoxItem'>Report period:</td><td valign=top align=left class='optBoxItem'>Backtracked archives:</td></tr>
+<tr>
+<td valign=top align=left class='optBoxItem'>
+<select name='timeperiod'>
+<option SELECTED>[ Current time range ]
+<option value=today >Today
+<option value=last24hours >Last 24 Hours
+<option value=yesterday >Yesterday
+<option value=thisweek >This Week
+<option value=last7days >Last 7 Days
+<option value=lastweek >Last Week
+<option value=thismonth >This Month
+<option value=last31days >Last 31 Days
+<option value=lastmonth >Last Month
+<option value=thisyear >This Year
+<option value=lastyear >Last Year
+</select>
+</td>
+<td valign=top align=left CLASS='optBoxItem'>
+<input type='text' size='2' maxlength='2' name='backtrack' value='4'>
+</td>
+</tr>
+<tr><td valign=top align=left></td>
+<td valign=top align=left CLASS='optBoxItem'>
+<input type='submit' value='Update'>
+</td>
+</tr>
+<tr><td></td><td align=right valign=bottom>
+</td></tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+<div align=center class='reportTime'>[ Availability report completed in 0 min 2 sec ]</div>
+<BR><BR>
+<BR><BR>
+<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup 'tempest_compute_site' Host State Breakdowns:</DIV>
+<DIV ALIGN=CENTER>
+<TABLE BORDER=0 CLASS='data'>
+<TR><TH CLASS='data'>Host</TH><TH CLASS='data'>% Time Up</TH><TH CLASS='data'>% Time Down</TH><TH CLASS='data'>% Time Unreachable</TH><TH CLASS='data'>% Time Undetermined</TH></TR>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&show_log_entries&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>tempest.rc.nectar.org.au</a></td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'>Average</td><td CLASS='hostUP'>100.000% (100.000%)</td><td CLASS='hostDOWN'>0.000% (0.000%)</td><td CLASS='hostUNREACHABLE'>0.000% (0.000%)</td><td class='dataEven'>0.000%</td></tr></table>
+</DIV>
+<BR>
+<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup 'tempest_compute_site' Service State Breakdowns:</DIV>
+<DIV ALIGN=CENTER>
+<TABLE BORDER=0 CLASS='data'>
+<TR><TH CLASS='data'>Host</TH><TH CLASS='data'>Service</TH><TH CLASS='data'>% Time OK</TH><TH CLASS='data'>% Time Warning</TH><TH CLASS='data'>% Time Unknown</TH><TH CLASS='data'>% Time Critical</TH><TH CLASS='data'>% Time Undetermined</TH></TR>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&show_log_entries&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes'>tempest.rc.nectar.org.au</a></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_ardc-mel-1_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_ardc-mel-1_compute</a></td><td CLASS='serviceOK'>99.966% (99.966%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.034% (0.034%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_auckland_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_auckland_compute</a></td><td CLASS='serviceOK'>99.953% (99.953%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.047% (0.047%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_intersect-01_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_intersect-01_compute</a></td><td CLASS='serviceOK'>99.889% (99.889%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.111% (0.111%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2-uom_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_melbourne-qh2-uom_compute</a></td><td CLASS='serviceOK'>99.876% (99.876%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.124% (0.124%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_melbourne-qh2_compute</a></td><td CLASS='serviceOK'>99.909% (99.909%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.091% (0.091%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_monash-01_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_monash-01_compute</a></td><td CLASS='serviceOK'>99.961% (99.961%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.039% (0.039%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_monash-02_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_monash-02_compute</a></td><td CLASS='serviceOK'>99.966% (99.966%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.034% (0.034%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_monash-03_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_monash-03_compute</a></td><td CLASS='serviceOK'>99.243% (99.243%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.757% (0.757%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_qld_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_qld_compute</a></td><td CLASS='serviceOK'>99.949% (99.949%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.051% (0.051%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_swinburne-01_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_swinburne-01_compute</a></td><td CLASS='serviceOK'>99.518% (99.518%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.482% (0.482%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_tasmania-02_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_tasmania-02_compute</a></td><td CLASS='serviceOK'>98.473% (98.473%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>1.527% (1.527%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven'></td><td CLASS='dataEven'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_tasmania-s_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_tasmania-s_compute</a></td><td CLASS='serviceOK'>99.770% (99.770%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.230% (0.230%)</td><td class='dataEven'>0.000%</td></tr>
+<tr CLASS='dataOdd'><td CLASS='dataOdd'></td><td CLASS='dataOdd'><a href='avail.cgi?host=tempest.rc.nectar.org.au&service=tempest_tasmania_compute&t1=1715904000&t2=1718582400&backtrack=4&assumestateretention=yes&assumeinitialstates=yes&assumestatesduringnotrunning=yes&initialassumedhoststate=3&initialassumedservicestate=6&show_log_entries&showscheduleddowntime=yes&includesoftstates=yes'>tempest_tasmania_compute</a></td><td CLASS='serviceOK'>99.974% (99.974%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.026% (0.026%)</td><td class='dataOdd'>0.000%</td></tr>
+<tr CLASS='dataEven'><td CLASS='dataEven' colspan='2'>Average</td><td CLASS='serviceOK'>99.727% (99.727%)</td><td CLASS='serviceWARNING'>0.000% (0.000%)</td><td CLASS='serviceUNKNOWN'>0.000% (0.000%)</td><td class='serviceCRITICAL'>0.273% (0.273%)</td><td class='dataEven'>0.000%</td></tr>
+</table>
+</DIV>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+</body>
+</html>

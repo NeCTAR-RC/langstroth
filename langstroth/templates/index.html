@@ -8,10 +8,17 @@
     <div class="row">
       <h1 class="h5 text-center text-light text-uppercase my-4">System Status &amp; Announcements</h1>
       {% if current|length == 0 %}
+      {% if overall_status == "OK" %}
       <div id="cloud-ok" class="text-center text-white my-5">
         <i id="ok-tick" class="fas fa-check-circle text-success fs-1"></i>
         <div id="ok-message"><span class="fs-2">All is well in the cloud.</span></div>
       </div>
+      {% else %}
+      <div id="cloud-ok" class="text-center text-white my-5">
+        <i id="ok-tick" class="fas fa-times-circle text-danger fs-1"></i>
+        <div id="ok-message"><span class="fs-2">Service disruptions detected in the cloud.</span></div>
+      </div>
+      {% endif %}
       {% else %}
       <div id="cloud-alerts" class="my-5">
         {% for outage in current %}

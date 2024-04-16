@@ -1,0 +1,1151 @@
+<html>
+<head>
+<link rel="shortcut icon" href="/nagios4/images/favicon.ico" type="image/ico">
+<title>
+Current Network Status
+</title>
+<link rel='stylesheet' type='text/css' href='/nagios4/stylesheets/common.css' />
+<link rel='stylesheet' type='text/css' href='/nagios4/stylesheets/status.css' />
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios4/stylesheets/nag_funcs.css'>
+<script type='text/javascript' src='/nagios4/js/jquery-1.7.1.min.js'></script>
+<script type='text/javascript' src='/nagios4/js/nag_funcs.js'></script>
+</head>
+<body class='status'>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+<table class='headertable'>
+<tr>
+<td align=left valign=top width=33%>
+<TABLE CLASS='infoBox' BORDER=1 CELLSPACING=0 CELLPADDING=0>
+<TR><TD CLASS='infoBox'>
+<DIV CLASS='infoBoxTitle'>Current Network Status</DIV>
+Last Updated: Mon Jun 17 14:40:30 AEST 2024<BR>
+Updated every 90 seconds<br>
+Nagios&reg; Core&trade; 4.3.4 - <A HREF='https://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>
+Logged in as <i>nagiosadmin</i><BR>
+</TD></TR>
+</TABLE>
+<table class='linkBox'>
+<tr><td class='linkBox'>
+<a href='status.cgi?servicegroup=f5-endpoints&style=overview'>View Status Overview For This Service Group</a><br>
+<a href='status.cgi?servicegroup=f5-endpoints&style=summary'>View Status Summary For This Service Group</a><br>
+<a href='status.cgi?servicegroup=f5-endpoints&style=grid'>View Service Status Grid For This Service Group</a><br>
+<a href='status.cgi?servicegroup=all&style=detail'>View Service Status Detail For All Service Groups</a><br>
+</td></tr>
+</table>
+</td>
+<td align=center valign=top width=33%>
+<div class='hostTotals'>Host Status Totals</div>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr><td>
+<table class='hostTotals'>
+<tr>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints&hoststatustypes=2'>Up</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints&hoststatustypes=4'>Down</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints&hoststatustypes=8'>Unreachable</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints&hoststatustypes=1'>Pending</a></th>
+</tr>
+<tr>
+<td class='hostTotalsUP'>25</td>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>0</td>
+</tr>
+</table>
+</td></tr><tr><td align='center'>
+<table class='hostTotals'>
+<tr>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints&hoststatustypes=12'><em>All Problems</em></a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=f5-endpoints'><em>All Types</em></a></th>
+</tr><tr>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>25</td>
+</tr>
+</table>
+</td></tr>
+</table>
+</div>
+</td>
+<td align=center valign=top width=33%>
+<div class='serviceTotals'>Service Status Totals</div>
+<table border='0' cellspacing='0' cellpadding='0'>
+<tr><td>
+<table class='serviceTotals'>
+<tr>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=2&hoststatustypes=15'>Ok</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=4&hoststatustypes=15'>Warning</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=8&hoststatustypes=15'>Unknown</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=16&hoststatustypes=15'>Critical</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=1&hoststatustypes=15'>Pending</a></th>
+</tr>
+<tr>
+<td class='serviceTotalsOK'>56</td>
+<td class='serviceTotalsWARNING'>1</td>
+<td class='serviceTotals'>0</td>
+<td class='serviceTotals'>0</td>
+<td class='serviceTotals'>0</td>
+</tr>
+</table>
+</td></tr><tr><td align='center'>
+<table class='serviceTotals'>
+<tr>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&servicestatustypes=28&hoststatustypes=15'><em>All Problems</em></a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=f5-endpoints&style=detail&hoststatustypes=15'><em>All Types</em></a></th>
+</tr><tr>
+<td class='serviceTotalsPROBLEMS'>1</td>
+<td class='serviceTotals'>57</td>
+</tr>
+</table>
+</td></tr>
+</table>
+</div>
+</td>
+<td align=right valign=bottom>
+</td>
+</tr>
+</table>
+<table class='pageTitle' border='0' width='100%'>
+<tr>
+<td valign=top align=left width=33%>
+</td><td valign=top align=center width=33%>
+<div align='center' class='statusTitle'>Service Status Details For Service Group 'f5-endpoints'</div>
+<br></td>
+<td valign=top align=right width=33%></td>
+</tr>
+</table>
+<div id='pagelimit'>
+<div id='result_limit'>
+<label for='limit'>Limit Results: </label>
+<select onchange='set_limit("status.cgi?servicegroup=f5-endpoints&style=detail")' name='limit' id='limit'>
+<option  value='50'>50</option>
+<option selected='selected' value='100'>100</option>
+<option  value='250'>250</option>
+<option  value='1000'>1000</option>
+<option  value='0'>All</option>
+</select></div>
+<div id='top_page_numbers'></div>
+</div>
+<table border=0 width=100% class='status'>
+<tr>
+<th class='status'>Host&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=1'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by host name (ascending)' TITLE='Sort by host name (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=1'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by host name (descending)' TITLE='Sort by host name (descending)'></a></th><th class='status'>Service&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=2'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by service name (ascending)' TITLE='Sort by service name (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=2'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by service name (descending)' TITLE='Sort by service name (descending)'></a></th><th class='status'>Status&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=3'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by service status (ascending)' TITLE='Sort by service status (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=3'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by service status (descending)' TITLE='Sort by service status (descending)'></a></th><th class='status'>Last Check&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=4'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by last check time (ascending)' TITLE='Sort by last check time (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=4'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by last check time (descending)' TITLE='Sort by last check time (descending)'></a></th><th class='status'>Duration&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=6'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by state duration (ascending)' TITLE='Sort by state duration (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=6'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by state duration time (descending)' TITLE='Sort by state duration time (descending)'></a></th><th class='status'>Attempt&nbsp;<a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=1&sortoption=5'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by current attempt (ascending)' TITLE='Sort by current attempt (ascending)'></a><a href='status.cgi?servicegroup=f5-endpoints&style=detail&sorttype=2&sortoption=5'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by current attempt (descending)' TITLE='Sort by current attempt (descending)'></a></th><th class='status'>Status Information</th>
+</tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=accelerator.rc.nectar.org.au' title='accelerator.rc.nectar.org.au'>accelerator.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=accelerator.rc.nectar.org.au&service=http_cyborg-api'>http_cyborg-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:39:22</td>
+<td class='statusEven' nowrap> 5d 23h 45m 25s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 137 bytes in 0.023 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=accounts.rc.nectar.org.au' title='accounts.rc.nectar.org.au'>accounts.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=accounts.rc.nectar.org.au&service=http_accounts'>http_accounts</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:04</td>
+<td class='statusOdd' nowrap>187d 17h 25m 33s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 300 bytes in 0.026 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=alarming.rc.nectar.org.au' title='alarming.rc.nectar.org.au'>alarming.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=alarming.rc.nectar.org.au&service=http_aodh-api'>http_aodh-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:36:40</td>
+<td class='statusEven' nowrap>42d  3h 42m 56s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 285 bytes in 0.025 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=allocations.rc.nectar.org.au' title='allocations.rc.nectar.org.au'>allocations.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=allocations.rc.nectar.org.au&service=http_allocations'>http_allocations</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:38:44</td>
+<td class='statusOdd' nowrap>107d 22h 32m  4s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: HTTP/1.1 302 Found - 428 bytes in 0.031 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=cinder.rc.nectar.org.au' title='cinder.rc.nectar.org.au'>cinder.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=cinder.rc.nectar.org.au&service=http_cinder-api'>http_cinder-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:37:55</td>
+<td class='statusEven' nowrap>25d 17h 47m 43s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 176 bytes in 0.025 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=dashboard.rc.nectar.org.au' title='dashboard.rc.nectar.org.au'>dashboard.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=dashboard.rc.nectar.org.au&service=http_dashboard'>http_dashboard</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:05</td>
+<td class='statusOdd' nowrap>32d  4h 51m  3s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: HTTP/1.1 302 Found - 426 bytes in 0.029 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=dbaas.rc.nectar.org.au' title='dbaas.rc.nectar.org.au'>dbaas.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=dbaas.rc.nectar.org.au&service=http_trove-api'>http_trove-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:36:44</td>
+<td class='statusEven' nowrap> 3d  0h 33m 47s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 249 bytes in 0.028 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=designate.rc.nectar.org.au' title='designate.rc.nectar.org.au'>designate.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=designate.rc.nectar.org.au&service=http_designate-api'>http_designate-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:38:07</td>
+<td class='statusOdd' nowrap> 3d  0h 32m 24s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 137 bytes in 0.024 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=desktop.rc.nectar.org.au' title='desktop.rc.nectar.org.au'>desktop.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=desktop.rc.nectar.org.au&service=https_bumblebee'>https_bumblebee</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:37:14</td>
+<td class='statusEven' nowrap>32d  5h 18m 13s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: HTTP/1.1 200 OK - 35535 bytes in 0.035 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=gnocchi-metrics.rc.nectar.org.au' title='gnocchi-metrics.rc.nectar.org.au'>gnocchi-metrics.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=gnocchi-metrics.rc.nectar.org.au&service=http_gnocchi-api'>http_gnocchi-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:36:24</td>
+<td class='statusOdd' nowrap>234d 16h  1m 47s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 174 bytes in 0.023 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=gnocchi.rc.nectar.org.au' title='gnocchi.rc.nectar.org.au'>gnocchi.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=gnocchi.rc.nectar.org.au&service=http_gnocchi-api'>http_gnocchi-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:38:46</td>
+<td class='statusEven' nowrap> 0d 17h  6m 44s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 174 bytes in 0.023 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=heat.rc.nectar.org.au' title='heat.rc.nectar.org.au'>heat.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=heat.rc.nectar.org.au&service=http_heat-api'>http_heat-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:06</td>
+<td class='statusOdd' nowrap>25d 17h 50m 28s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 176 bytes in 0.024 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=image.rc.nectar.org.au' title='image.rc.nectar.org.au'>image.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=image.rc.nectar.org.au&service=http_glance-api'>http_glance-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:39:01</td>
+<td class='statusEven' nowrap>25d 17h 46m 53s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 137 bytes in 0.021 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=key-manager.rc.nectar.org.au' title='key-manager.rc.nectar.org.au'>key-manager.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=key-manager.rc.nectar.org.au&service=http_barbican-api'>http_barbican-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:21</td>
+<td class='statusOdd' nowrap>12d  5h 37m 40s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 295 bytes in 0.031 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=keystone.rc.nectar.org.au' title='keystone.rc.nectar.org.au'>keystone.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=keystone.rc.nectar.org.au&service=http_keystone-adm'>http_keystone-adm</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:38:20</td>
+<td class='statusEven' nowrap>25d 17h 47m 21s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 240 bytes in 0.024 second response time&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=keystone.rc.nectar.org.au&service=http_keystone-pub'>http_keystone-pub</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:17</td>
+<td class='statusOdd' nowrap> 4d  0h 36m 14s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 240 bytes in 0.025 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=lbaas.rc.nectar.org.au' title='lbaas.rc.nectar.org.au'>lbaas.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=lbaas.rc.nectar.org.au&service=http_octavia-api'>http_octavia-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:38:35</td>
+<td class='statusEven' nowrap> 0d  0h  6m 55s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 242 bytes in 0.023 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=murano.rc.nectar.org.au' title='murano.rc.nectar.org.au'>murano.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=murano.rc.nectar.org.au&service=http_murano-api'>http_murano-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:00</td>
+<td class='statusOdd' nowrap> 5d  2h 31m 32s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 176 bytes in 0.027 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=neutron.rc.nectar.org.au' title='neutron.rc.nectar.org.au'>neutron.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=neutron.rc.nectar.org.au&service=http_neutron-api'>http_neutron-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:36:42</td>
+<td class='statusEven' nowrap>25d 17h 45m 45s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 137 bytes in 0.024 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=nova.rc.nectar.org.au' title='nova.rc.nectar.org.au'>nova.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=nova.rc.nectar.org.au&service=http_ec2'>http_ec2</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:38:12</td>
+<td class='statusOdd' nowrap>584d 22h 45m 36s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;400&quot; - 332 bytes in 0.023 second response time&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=nova.rc.nectar.org.au&service=http_nova-api'>http_nova-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:38:15</td>
+<td class='statusEven' nowrap>26d 12h 16m 29s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 137 bytes in 0.021 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=placement.rc.nectar.org.au' title='placement.rc.nectar.org.au'>placement.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=placement.rc.nectar.org.au&service=http_placement-api'>http_placement-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:37:22</td>
+<td class='statusOdd' nowrap>25d 17h 48m 15s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;200&quot; - 413 bytes in 0.022 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=rating.rc.nectar.org.au' title='rating.rc.nectar.org.au'>rating.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=rating.rc.nectar.org.au&service=http_cloudkitty-api'>http_cloudkitty-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:37:19</td>
+<td class='statusEven' nowrap>18d  6h  8m 20s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 311 bytes in 0.032 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=registry.rc.nectar.org.au' title='registry.rc.nectar.org.au'>registry.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=registry.rc.nectar.org.au&service=https_registry'>https_registry</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:39:05</td>
+<td class='statusOdd' nowrap>16d 20h 21m 39s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: Status line output matched &quot;200&quot; - 360 bytes in 0.024 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=reservation.rc.nectar.org.au' title='reservation.rc.nectar.org.au'>reservation.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=reservation.rc.nectar.org.au&service=http_blazar-api'>http_blazar-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:37:04</td>
+<td class='statusEven' nowrap>31d 23h 41m 21s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 250 bytes in 0.029 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusOdd'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusOdd'><a href='extinfo.cgi?type=1&host=status.rc.nectar.org.au' title='status.rc.nectar.org.au'>status.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=status.rc.nectar.org.au&service=https_langstroth'>https_langstroth</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:37:13</td>
+<td class='statusOdd' nowrap> 3d  0h 35m 19s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>HTTP OK: HTTP/1.1 200 OK - 49801 bytes in 0.499 second response time&nbsp;</td>
+</tr>
+<tr><td colspan='6'></td></tr>
+<tr><td colspan='6'></td></tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=swift.rc.nectar.org.au' title='swift.rc.nectar.org.au'>swift.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=swift.rc.nectar.org.au&service=http_swift-api'>http_swift-api</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:36:50</td>
+<td class='statusEven' nowrap> 3d  0h 35m  9s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>HTTP OK: Status line output matched &quot;OK&quot; - 230 bytes in 0.012 second response time&nbsp;</td>
+</tr>
+</table>
+<br /><div class='itemTotalsTitle'>Results 1 - 27 of 27 Matching Services</div>
+</div>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+</body>
+</html>

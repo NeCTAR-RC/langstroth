@@ -1,0 +1,416 @@
+<html>
+<head>
+<link rel="shortcut icon" href="/nagios4/images/favicon.ico" type="image/ico">
+<title>
+Current Network Status
+</title>
+<link rel='stylesheet' type='text/css' href='/nagios4/stylesheets/common.css' />
+<link rel='stylesheet' type='text/css' href='/nagios4/stylesheets/status.css' />
+<LINK REL='stylesheet' TYPE='text/css' HREF='/nagios4/stylesheets/nag_funcs.css'>
+<script type='text/javascript' src='/nagios4/js/jquery-1.7.1.min.js'></script>
+<script type='text/javascript' src='/nagios4/js/nag_funcs.js'></script>
+</head>
+<body class='status'>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+<table class='headertable'>
+<tr>
+<td align=left valign=top width=33%>
+<TABLE CLASS='infoBox' BORDER=1 CELLSPACING=0 CELLPADDING=0>
+<TR><TD CLASS='infoBox'>
+<DIV CLASS='infoBoxTitle'>Current Network Status</DIV>
+Last Updated: Mon Jun 17 14:40:32 AEST 2024<BR>
+Updated every 90 seconds<br>
+Nagios&reg; Core&trade; 4.3.4 - <A HREF='https://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>
+Logged in as <i>nagiosadmin</i><BR>
+</TD></TR>
+</TABLE>
+<table class='linkBox'>
+<tr><td class='linkBox'>
+<a href='status.cgi?servicegroup=tempest_compute_site&style=overview'>View Status Overview For This Service Group</a><br>
+<a href='status.cgi?servicegroup=tempest_compute_site&style=summary'>View Status Summary For This Service Group</a><br>
+<a href='status.cgi?servicegroup=tempest_compute_site&style=grid'>View Service Status Grid For This Service Group</a><br>
+<a href='status.cgi?servicegroup=all&style=detail'>View Service Status Detail For All Service Groups</a><br>
+</td></tr>
+</table>
+</td>
+<td align=center valign=top width=33%>
+<div class='hostTotals'>Host Status Totals</div>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr><td>
+<table class='hostTotals'>
+<tr>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site&hoststatustypes=2'>Up</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site&hoststatustypes=4'>Down</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site&hoststatustypes=8'>Unreachable</a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site&hoststatustypes=1'>Pending</a></th>
+</tr>
+<tr>
+<td class='hostTotalsUP'>1</td>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>0</td>
+</tr>
+</table>
+</td></tr><tr><td align='center'>
+<table class='hostTotals'>
+<tr>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site&hoststatustypes=12'><em>All Problems</em></a></th>
+<th class='hostTotals'><a class='hostTotals' href='status.cgi?servicegroup=tempest_compute_site'><em>All Types</em></a></th>
+</tr><tr>
+<td class='hostTotals'>0</td>
+<td class='hostTotals'>1</td>
+</tr>
+</table>
+</td></tr>
+</table>
+</div>
+</td>
+<td align=center valign=top width=33%>
+<div class='serviceTotals'>Service Status Totals</div>
+<table border='0' cellspacing='0' cellpadding='0'>
+<tr><td>
+<table class='serviceTotals'>
+<tr>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=2&hoststatustypes=15'>Ok</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=4&hoststatustypes=15'>Warning</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=8&hoststatustypes=15'>Unknown</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=16&hoststatustypes=15'>Critical</a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=1&hoststatustypes=15'>Pending</a></th>
+</tr>
+<tr>
+<td class='serviceTotalsOK'>109</td>
+<td class='serviceTotals'>0</td>
+<td class='serviceTotalsUNKNOWN'>3</td>
+<td class='serviceTotalsCRITICAL'>5</td>
+<td class='serviceTotals'>0</td>
+</tr>
+</table>
+</td></tr><tr><td align='center'>
+<table class='serviceTotals'>
+<tr>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&servicestatustypes=28&hoststatustypes=15'><em>All Problems</em></a></th>
+<th class='serviceTotals'><a class='serviceTotals' href='status.cgi?servicegroup=tempest_compute_site&style=detail&hoststatustypes=15'><em>All Types</em></a></th>
+</tr><tr>
+<td class='serviceTotalsPROBLEMS'>8</td>
+<td class='serviceTotals'>117</td>
+</tr>
+</table>
+</td></tr>
+</table>
+</div>
+</td>
+<td align=right valign=bottom>
+</td>
+</tr>
+</table>
+<table class='pageTitle' border='0' width='100%'>
+<tr>
+<td valign=top align=left width=33%>
+</td><td valign=top align=center width=33%>
+<div align='center' class='statusTitle'>Service Status Details For Service Group 'tempest_compute_site'</div>
+<br></td>
+<td valign=top align=right width=33%></td>
+</tr>
+</table>
+<div id='pagelimit'>
+<div id='result_limit'>
+<label for='limit'>Limit Results: </label>
+<select onchange='set_limit("status.cgi?servicegroup=tempest_compute_site&style=detail")' name='limit' id='limit'>
+<option  value='50'>50</option>
+<option selected='selected' value='100'>100</option>
+<option  value='250'>250</option>
+<option  value='1000'>1000</option>
+<option  value='0'>All</option>
+</select></div>
+<div id='top_page_numbers'></div>
+</div>
+<table border=0 width=100% class='status'>
+<tr>
+<th class='status'>Host&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=1'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by host name (ascending)' TITLE='Sort by host name (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=1'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by host name (descending)' TITLE='Sort by host name (descending)'></a></th><th class='status'>Service&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=2'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by service name (ascending)' TITLE='Sort by service name (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=2'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by service name (descending)' TITLE='Sort by service name (descending)'></a></th><th class='status'>Status&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=3'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by service status (ascending)' TITLE='Sort by service status (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=3'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by service status (descending)' TITLE='Sort by service status (descending)'></a></th><th class='status'>Last Check&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=4'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by last check time (ascending)' TITLE='Sort by last check time (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=4'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by last check time (descending)' TITLE='Sort by last check time (descending)'></a></th><th class='status'>Duration&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=6'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by state duration (ascending)' TITLE='Sort by state duration (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=6'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by state duration time (descending)' TITLE='Sort by state duration time (descending)'></a></th><th class='status'>Attempt&nbsp;<a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=1&sortoption=5'><IMG SRC='/nagios4/images/up.gif' border=0 ALT='Sort by current attempt (ascending)' TITLE='Sort by current attempt (ascending)'></a><a href='status.cgi?servicegroup=tempest_compute_site&style=detail&sorttype=2&sortoption=5'><IMG SRC='/nagios4/images/down.gif' border=0 ALT='Sort by current attempt (descending)' TITLE='Sort by current attempt (descending)'></a></th><th class='status'>Status Information</th>
+</tr>
+<tr>
+<td class='statusEven'><table border=0 width='100%' cellpadding=0 cellspacing=0>
+<tr>
+<td align='left'>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td align=left valign=center class='statusEven'><a href='extinfo.cgi?type=1&host=tempest.rc.nectar.org.au' title='115.146.83.94'>tempest.rc.nectar.org.au</a></td>
+</tr>
+</table>
+</td>
+<td align=right valign=center>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_ardc-mel-1_compute'>tempest_ardc-mel-1_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_ardc-mel-1_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:14:42</td>
+<td class='statusEven' nowrap>12d 22h 20m 38s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 97.3s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_auckland_compute'>tempest_auckland_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_auckland_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:15:32</td>
+<td class='statusOdd' nowrap>25d 17h 23m 11s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 147.2s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_intersect-01_compute'>tempest_intersect-01_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_intersect-01_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:36:03</td>
+<td class='statusEven' nowrap> 1d 12h  3m 24s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 58.8s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2-uom_compute'>tempest_melbourne-qh2-uom_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2-uom_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:29:25</td>
+<td class='statusOdd' nowrap> 7d  5h 57m 23s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 81.3s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2_compute'>tempest_melbourne-qh2_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_melbourne-qh2_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:26:00</td>
+<td class='statusEven' nowrap> 0d  0h 14m 32s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 339.2s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-01_compute'>tempest_monash-01_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-01_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:15:09</td>
+<td class='statusOdd' nowrap>11d  6h 25m 44s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 124.9s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-02_compute'>tempest_monash-02_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-02_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:33:56</td>
+<td class='statusEven' nowrap> 1d 13h 35m 36s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 52.2s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-03_compute'>tempest_monash-03_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_monash-03_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:28:54</td>
+<td class='statusOdd' nowrap>10d  0h 55m 12s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 47.8s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_qld_compute'>tempest_qld_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_qld_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:40:17</td>
+<td class='statusEven' nowrap>17d  1h 24m 26s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 72.9s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_swinburne-01_compute'>tempest_swinburne-01_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_swinburne-01_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:21:09</td>
+<td class='statusOdd' nowrap> 0d  5h 44m  1s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 64.8s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania-02_compute'>tempest_tasmania-02_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania-02_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:15:01</td>
+<td class='statusEven' nowrap> 2d  5h 55m 10s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 116.3s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusOdd'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusOdd'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania-s_compute'>tempest_tasmania-s_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusOdd'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania-s_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusOdd' nowrap>2024-06-17 14:18:40</td>
+<td class='statusOdd' nowrap> 5d  1h 51m 39s</td>
+<td class='statusOdd'>1/4</td>
+<td class='statusOdd' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 96.1s&nbsp;</td>
+</tr>
+<tr>
+<td></td>
+<td class='statusEven'><table border=0 WIDTH='100%' cellspacing=0 cellpadding=0><tr><td align='left'><table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td align='left' valign=center class='statusEven'><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania_compute'>tempest_tasmania_compute</a></td></tr>
+</table>
+</td>
+<td ALIGN=RIGHT class='statusEven'>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td ALIGN=center valign=center><a href='extinfo.cgi?type=2&host=tempest.rc.nectar.org.au&service=tempest_tasmania_compute'><IMG SRC='/nagios4/images/passiveonly.gif' border=0 WIDTH=20 HEIGHT=20 ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td></tr>
+</table>
+</td>
+</tr></table></td>
+<td class='statusOK'>OK</td>
+<td class='statusEven' nowrap>2024-06-17 14:24:57</td>
+<td class='statusEven' nowrap> 0d 11h 16m 31s</td>
+<td class='statusEven'>1/4</td>
+<td class='statusEven' valign='center'>Test(s) Passed: 1, Skipped: 0, Failed: 0 in 112.6s&nbsp;</td>
+</tr>
+</table>
+<br /><div class='itemTotalsTitle'>Results 1 - 13 of 13 Matching Services</div>
+</div>
+
+<!-- Produced by Nagios (https://www.nagios.org).  Copyright (c) 1999-2007 Ethan Galstad. -->
+</body>
+</html>
+

@@ -14,8 +14,10 @@ from django.shortcuts import render
 from django.template.defaultfilters import pluralize
 
 from langstroth import graphite
-from langstroth import nagios
-from langstroth import outages
+from langstroth.nagios import get_availability
+from langstroth.nagios import get_status
+from langstroth.outages import filters
+from langstroth.outages import models
 
 LOG = logging.getLogger(__name__)
 
@@ -36,7 +38,7 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
         # nagios error.
         availability = cache.get("_%s" % cache_key)
         if not availability:
-            availability = nagios.get_availability(then, now, service_group)
+            availability = get_availability(then, now, service_group)
             cache.set("_%s" % cache_key, availability, 600)
             # Save the backup
             cache.set(cache_key, availability)
@@ -51,10 +53,11 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
         # Refresh every minute, and don't keep a backup
         status = cache.get('nagios_status_%s' % service_group)
         if not status:
-            status = nagios.get_status(service_group)
+            status = get_status(service_group)
             cache.set('nagios_status_%s' % service_group, status, 60)
     except Exception as ex:
         LOG.error("Problem getting status info", exc_info=ex)
+        status = {'hosts': {}}
 
     LOG.debug("Status: " + str(status))
 
@@ -84,20 +87,20 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     return context, error
 
 
-class SimpleActivityFilter(outages.filters.ActivityFilterMixin):
+class SimpleActivityFilter(filters.ActivityFilterMixin):
     def filter(self, queryset, name):
         return self.filter_activity(queryset, "", name)
 
 
 def _add_outages(context):
     filter = SimpleActivityFilter()
-    queryset = outages.models.Outage.objects.filter(deleted=False)
+    queryset = models.Outage.objects.filter(deleted=False)
 
     context['active'] = filter.filter(queryset, "active")
     context['completed'] = filter.filter(queryset, "completed")[:3]
     context['upcoming'] = filter.filter(queryset, "upcoming")
 
-    context['current'] = outages.models.Outage.objects.current_outages()
+    context['current'] = models.Outage.objects.current_outages()
 
 
 def index(request):
@@ -153,11 +156,26 @@ def index(request):
     context, error = _get_hosts(context, end_date, start_date,
                                 service_group='tempest_compute_site',
                                 service_group_type='site')
+
     _add_outages(context)
+
+    warning = 0
+    critical = 0
+    for hosts in (context['api_hosts'], context['site_hosts']):
+        for host in hosts:
+            for service in host['services']:
+                if service['status'] == 'Critical':
+                    critical += 1
+                elif service['status'] == 'Warning':
+                    warning += 1
+    context['overall_status'] = ('Critical' if critical > 0
+                                 else 'Warning' if warning > 0
+                                 else 'OK')
 
     if error:
         return render(request, "index.html", context, status=503)
-    return render(request, "index.html", context)
+    else:
+        return render(request, "index.html", context)
 
 
 def growth(request):
