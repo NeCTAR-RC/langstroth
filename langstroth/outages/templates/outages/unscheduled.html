@@ -39,27 +39,27 @@
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Status</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.status }}
               {% for error in form.status.errors %}
                 <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Start date & time</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.time }}
               {% for error in form.time.errors %}
                 <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Initial severity</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.severity }}
               {% for error in form.severity.errors %}
                 <span class="text-danger">{{ error }}</span>

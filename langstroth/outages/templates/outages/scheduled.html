@@ -40,27 +40,27 @@
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Severity</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.scheduled_severity }}
               {% for error in form.scheduled_severity.errors %}
               <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Scheduled start date & time</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.scheduled_start }}
               {% for error in form.scheduled_start.errors %}
               <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
-          <div class="mb-3">
+          <div class="row mb-3">
             <div class="form-label">Schedule end date & time</div>
-            <div>
+            <div class="col-md-6 col-lg-4">
               {{ form.scheduled_end }}
               {% for error in form.scheduled_end.errors %}
               <span class="text-danger">{{ error }}</span>
