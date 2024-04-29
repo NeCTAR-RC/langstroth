@@ -15,7 +15,7 @@ from django.template.defaultfilters import pluralize
 
 from langstroth import graphite
 from langstroth import nagios
-from langstroth.outages import models
+from langstroth import outages
 
 LOG = logging.getLogger(__name__)
 
@@ -66,12 +66,26 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     else:
         context['%s_hosts' % service_group_type] = []
 
-    context["current_outages"] = models.Outage.objects.current_outages()
-
     error = False
     if not status or not availability:
         error = True
     return context, error
+
+
+class SimpleActivityFilter(outages.filters.ActivityFilterMixin):
+    def filter(self, queryset, name):
+        return self.filter_activity(queryset, "", name)
+
+
+def _add_outages(context):
+    filter = SimpleActivityFilter()
+    queryset = outages.models.Outage.objects.filter(deleted=False)
+
+    context['active'] = filter.filter(queryset, "active")
+    context['completed'] = filter.filter(queryset, "completed")[:3]
+    context['upcoming'] = filter.filter(queryset, "upcoming")
+
+    context['current'] = outages.models.Outage.objects.current_outages()
 
 
 def index(request):
@@ -127,6 +141,7 @@ def index(request):
     context, error = _get_hosts(context, end_date, start_date,
                                 service_group='tempest_compute_site',
                                 service_group_type='site')
+    _add_outages(context)
 
     if error:
         return render(request, "index.html", context, status=503)
