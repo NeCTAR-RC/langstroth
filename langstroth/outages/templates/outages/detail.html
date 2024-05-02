@@ -104,7 +104,7 @@
                 <strong>{{ update.content }}</strong><br />
                 Update posted
                 {% if request.user.is_staff %}
-                by {{ outage.created_by.username }}
+                by {{ update.created_by.username }}
                 {% endif %}
                 {{ update.time|naturaltime }}.
               </p>
