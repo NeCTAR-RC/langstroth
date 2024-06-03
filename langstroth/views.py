@@ -56,8 +56,14 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
         context['%s_average' % service_group_type] = availability['average']
         for host in status['hosts'].values():
             for service in host['services']:
-                service['availability'] = \
-                    availability['services'][service['name']]
+                name = service['name']
+                try:
+                    service['availability'] = availability['services'][name]
+                except KeyError:
+                    LOG.warn("Nagios inconsistency: no availability info "
+                             "for service '" + name + "'")
+                    service['availability'] = {
+                        'name': name, 'ok': 0.0, 'critical': 0.0}
 
     if status:
         context['%s_hosts' % service_group_type] = sorted(
