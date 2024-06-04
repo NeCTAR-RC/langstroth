@@ -1,0 +1,12 @@
+{% with id=widget.attrs.id %}
+  <div class="btn-group btn-group-sm" {% if id %} id="{{ id }}"{% endif %}>
+    {% for group, options, index in widget.optgroups %}
+      {% if group %}
+        <label>{{ group }}</label>
+      {% endif %}
+      {% for option in options %}
+        {% include option.template_name with widget=option %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endwith %}

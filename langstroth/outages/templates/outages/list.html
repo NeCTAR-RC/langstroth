@@ -23,40 +23,42 @@
 
 {% block content %}
 <div class="container mb-4">
-  <p>There are {{ outages|length }} service announcements.</p>
-  {% if outages|length > 0 %}
+  <form id="filter-form" method="get">
+    <div class="card filter-panel">
+      <div class="card-title">Filters</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <label for="scheduled_id">Type</label>
+            {{ filter.form.scheduled }}
+          </div>
+          <div class="col">
+            <label for="cancelled_id">Cancelled</label>
+            {{ filter.form.cancelled }}
+          </div>
+          <div class="col">
+            <label for="activity_id">Activity</label>
+            {{ filter.form.activity }}
+          </div>
+          <div class="col">
+            <label for="time_window_id">Time Window</label>
+            {{ filter.form.time_window }}
+          </div>
+          <!-- <div class="col">
+            <label for="ordering_id">Ordering</label>
+            {{ filter.form.ordering }}
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <p class="text-center text-muted">Showing {{ filter.qs.count }} service announcements.</p>
+  {% if filter.qs.count > 0 %}
     <ul class="list-unstyled">
-      {% for outage in outages %}
+      {% for outage in filter.qs %}
         <div class="card my-4">
           <div class="card-body">
-            <li class="d-flex">
-              <div class="announcement-severity">
-                <img class="severity-dial-sm" src="{% get_static_prefix %}img/severity{{ outage.severity }}.svg" />
-              </div>
-              <div class="announcement-details ps-4">
-                <h5 class="text-uppercase">
-		  {% if outage.status_display == "Resolved" %}(Resolved)&nbsp;{% elif outage.status_display == "Completed" %}(Completed)&nbsp;{% endif %}
-                  {{ outage.scheduled_display }} Outage
-                </h5>
-                <h4>
-		  {{ outage.title }}
-		</h4>
-                <p>
-                  <strong>Status:</strong> {{ outage.status_display }}
-                  {% if outage.start %}
-                    <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
-                  {% elif outage.scheduled and outage.scheduled_start %}
-                    <strong>Start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }} (scheduled)
-                  {% endif %}
-                  {% if outage.end %}
-                    <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
-                  {% elif outage.scheduled and outage.scheduled_end%}
-                    <strong>End:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }} (scheduled).</p>
-                  {% endif %}
-                </p>
-                <a href="{{ outage.get_absolute_url }}" class="card-link"><span class="card-link-btn">View announcement</span></a>
-              </div>
-            </li>
+            {% include "outages/outage_summary.html" %}
           </div>
         </div>
       {% endfor %}

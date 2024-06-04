@@ -50,7 +50,7 @@ class OutageSimpleTestCase(test.APITestCase):
              'severity': models.SIGNIFICANT,
              'severity_display': 'Unknown',
              'start': None,
-             'status_display': 'Investigating',
+             'status_display': 'Unknown',
              'updates': []},
             {'scheduled': False,
              'scheduled_display': 'unscheduled',

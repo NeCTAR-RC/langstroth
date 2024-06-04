@@ -236,6 +236,14 @@ ul.list-bullet {
   color: $dark !important;
 }
 
+.btn-check:checked + .btn-outline-secondary, 
+.btn-check:active + .btn-outline-secondary, 
+.btn-outline-secondary:active, 
+.btn-outline-secondary.active, 
+.btn-outline-secondary.dropdown-toggle.show {
+  color: $white !important;
+}
+
 .card {
   .card-body {
     .card-link {
@@ -392,20 +400,47 @@ ul.list-bullet {
 }
 
 .card.filter-panel {
-  padding-top: 30px;
+  padding-top: 10px;
   margin-bottom: 40px;
   position: relative;
+  @include media-breakpoint-between(md, lg) {
+    padding-top: 20px;
+  }
   > .card-title {
     position: absolute;
     background: #fff;
     top: -12px;
     left: 0;
     margin: 0;
-    padding: 0;
-    padding-left: $card-spacer-x;
+    padding: 0 $card-spacer-x;
     font-size: 16px;
     line-height: 16px;
     font-weight: 700;
+  }
+  .card-body {
+    font-size: 14px;
+    overflow-y: auto;
+    height: auto;
+    min-height: 5rem;
+    max-height: 20rem;
+    .filter-link {
+      .btn {
+        text-align: left;
+        padding: 0.375rem 1rem;
+        font-size: 0.75rem;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+    }
+    .btn-check {
+      &:checked {
+        color: $white;
+      }
+    }
   }
 }
 
