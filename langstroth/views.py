@@ -34,21 +34,27 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
-        availability = (cache.get("_%s" % cache_key)
-                        or nagios.get_availability(then, now, service_group))
-        cache.set(cache_key, availability)
-        cache.set("_%s" % cache_key, availability, 600)
-    except Exception:
+        availability = cache.get("_%s" % cache_key)
+        if not availability:
+            availability = nagios.get_availability(then, now, service_group)
+            cache.set("_%s" % cache_key, availability, 600)
+            # Save the backup
+            cache.set(cache_key, availability)
+    except Exception as ex:
+        LOG.error("Problem getting availability info", exc_info=ex)
+        # Use the backup
         availability = cache.get(cache_key)
 
     LOG.debug("Availability: " + str(availability))
 
     try:
-        status = (cache.get('nagios_status_%s' % service_group)
-                  or nagios.get_status(service_group))
-        cache.set('nagios_status_%s' % service_group, status, 600)
-    except Exception:
+        # Refresh every minute, and don't keep a backup
         status = cache.get('nagios_status_%s' % service_group)
+        if not status:
+            status = nagios.get_status(service_group)
+            cache.set('nagios_status_%s' % service_group, status, 60)
+    except Exception as ex:
+        LOG.error("Problem getting status info", exc_info=ex)
 
     LOG.debug("Status: " + str(status))
 
