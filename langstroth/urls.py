@@ -51,8 +51,11 @@ urlpatterns = [
     re_path(r'^favicon\.ico$',
             RedirectView.as_view(url='/static/img/favicon.ico')),
 
+    # Timezone detection
     path('tz_detect/', include('tz_detect.urls')),
 
+    # Health checks
+    path('healthcheck/', include('health_check.urls')),
 ]
 
 if settings.USE_OIDC:

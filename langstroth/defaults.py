@@ -250,7 +250,21 @@ INSTALLED_APPS = [
     'django_filters',
     'compressor',
     'tz_detect',
+    'health_check',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.migrations',
 ]
+
+HEALTH_CHECK = {
+    "SUBSETS": {
+        "startup-probe": ["MigrationsHealthCheck",
+                          "DatabaseBackend",
+                          "Cache backend: default"],
+        "liveness-probe": ["Cache backend: default"],
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
