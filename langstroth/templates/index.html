@@ -119,6 +119,9 @@
         </div>
         <div class="panel-body">
           <p>Periodic testing of launching new instances, networking and metadata access.</p>
+          {% if site_hosts|length == 0 %}
+          <p>No instance launch data available</p>
+          {% else %}
           <table class="table">
             <thead>
               <tr>
@@ -146,6 +149,7 @@
               {% endfor %}
             {% endfor %}
             </tbody>
+            {% if site_hosts|length > 1 %}
             <tfoot>
               <tr>
                 <td>All Zones</td>
@@ -155,6 +159,8 @@
               </tr>
             </tfoot>
           </table>
+          {% endif %}
+          {% endif %}
         </div>
       </div>
     </div>
