@@ -138,6 +138,7 @@ def parse_status(html, service_group):
         table = h.xpath(tr.css_to_xpath('table.status'))[i]
         break
     hosts = {}
+    current_host = None
     if table is not None:
         for row in table.getchildren():
             children = row.getchildren()
@@ -151,7 +152,9 @@ def parse_status(html, service_group):
 
             hostname = children[0].xpath(tr.css_to_xpath('a'))
             if len(hostname) > 1:
-                LOG.warning("Too many links found.")
+                LOG.warning("Too many host(?) links in nagios status row")
+                LOG.info(f"Row html:\n{children[0]}")
+                continue
             elif len(hostname) == 1:
                 current_host = parse_hostlink(hostname[0])
                 hosts[current_host['hostname']] = current_host
@@ -161,7 +164,12 @@ def parse_status(html, service_group):
             except ValueError:
                 pass
             else:
-                current_host['services'].append(service)
+                if current_host:
+                    current_host['services'].append(service)
+                else:
+                    LOG.warning("Can't ascribe service info to a host")
+                    LOG.info(f"Row html:\n{children[0]}")
+
     context = {"hosts": hosts}
     return context
 

@@ -43,7 +43,9 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
             # Save the backup
             cache.set(cache_key, availability)
     except Exception as ex:
-        LOG.error("Problem getting availability info", exc_info=ex)
+        # Could be a Memcached outage, a Nagios outage, a networking
+        # outage, fragility in the scraping code, or ...
+        LOG.warning("Problem getting availability info", exc_info=ex)
         # Use the backup
         availability = cache.get(cache_key)
 
@@ -56,12 +58,13 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
             status = get_status(service_group)
             cache.set('nagios_status_%s' % service_group, status, 60)
     except Exception as ex:
-        LOG.error("Problem getting status info", exc_info=ex)
-        status = {'hosts': {}}
+        # See above ...
+        LOG.warning("Problem getting status info", exc_info=ex)
+        status = None
 
     LOG.debug("Status: " + str(status))
 
-    if availability:
+    if availability and status and status['hosts']:
         context['%s_average' % service_group_type] = availability['average']
         for host in status['hosts'].values():
             for service in host['services']:

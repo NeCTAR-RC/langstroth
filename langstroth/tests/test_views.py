@@ -85,7 +85,7 @@ class TestViews(TestCase):
         request = self.rf.get("/", {'start': '2024-05-17',
                                     'end': '2024-06-17'})
         response = views.index(request)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(503, response.status_code)
         range = "2024-06-17_2024-05-17"
         mock_cache.get.assert_has_calls([
             call(f'_nagios_availability_f5-endpoints_{range}'),
@@ -100,7 +100,7 @@ class TestViews(TestCase):
         mock_cache.set.assert_not_called()
         mock_get_status.assert_called()
         mock_get_availability.assert_called()
-        mock_log.error.assert_called()
+        mock_log.warning.assert_called()
 
     @patch('langstroth.views.get_availability')
     @patch('langstroth.views.get_status')
