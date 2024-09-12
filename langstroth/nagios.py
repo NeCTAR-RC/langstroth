@@ -67,7 +67,9 @@ def parse_percent_string(s):
 def parse_service_availability(service):
     host, service, ok, warn, unknown, crit, undet = service.getchildren()
     nagios_service_name = ''.join([t for t in service.itertext()])
-    ok_value = parse_percent_string(ok.text) + parse_percent_string(warn.text)
+    ok_value = (parse_percent_string(ok.text)
+                + parse_percent_string(warn.text)
+                + parse_percent_string(unknown.text))
     critical_value = parse_percent_string(crit.text)
     return {'name': nagios_service_name,
             'ok': ok_value,
