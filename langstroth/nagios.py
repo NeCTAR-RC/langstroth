@@ -92,7 +92,8 @@ def parse_availability(html, service_group):
             if 'colspan' in row.getchildren()[0].attrib:
                 title, ok, warn, unknown, crit, undet = row.getchildren()
                 ok_value = (parse_percent_string(ok.text)
-                            + parse_percent_string(warn.text))
+                            + parse_percent_string(warn.text)
+                            + parse_percent_string(unknown.text))
                 critical_value = parse_percent_string(crit.text)
                 average = {'name': 'Average',
                            'ok': ok_value,
