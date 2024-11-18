@@ -23,11 +23,11 @@ class TestViews(TestCase):
         self.availability_f5 = nagios.parse_availability(
             _load_html("availability_f5"), settings.NAGIOS_SERVICE_GROUP)
         self.availability_tempest = nagios.parse_availability(
-            _load_html("availability_tempest"), 'tempest_compute_site')
+            _load_html("availability_tempest"), 'tempest_compute')
         self.status_f5 = nagios.parse_status(
             _load_html("status_f5"), settings.NAGIOS_SERVICE_GROUP)
         self.status_tempest = nagios.parse_status(
-            _load_html("status_tempest"), 'tempest_compute_site')
+            _load_html("status_tempest"), 'tempest_compute')
         self.rf = RequestFactory()
 
     @patch('langstroth.views.get_availability')
@@ -50,8 +50,8 @@ class TestViews(TestCase):
         mock_cache.get.assert_has_calls([
             call(f'_nagios_availability_f5-endpoints_{range}'),
             call('nagios_status_f5-endpoints'),
-            call(f'_nagios_availability_tempest_compute_site_{range}'),
-            call('nagios_status_tempest_compute_site')
+            call(f'_nagios_availability_tempest_compute_{range}'),
+            call('nagios_status_tempest_compute')
         ], any_order=True)
         self.assertEqual(4, mock_cache.get.call_count)
 
@@ -60,9 +60,9 @@ class TestViews(TestCase):
                  self.availability_f5, 600),
             call(f'nagios_availability_f5-endpoints_{range}',
                  self.availability_f5),
-            call(f'_nagios_availability_tempest_compute_site_{range}',
+            call(f'_nagios_availability_tempest_compute_{range}',
                  self.availability_tempest, 600),
-            call(f'nagios_availability_tempest_compute_site_{range}',
+            call(f'nagios_availability_tempest_compute_{range}',
                  self.availability_tempest),
         ], any_order=True)
         self.assertEqual(6, mock_cache.set.call_count)
@@ -91,9 +91,9 @@ class TestViews(TestCase):
             call(f'_nagios_availability_f5-endpoints_{range}'),
             call(f'nagios_availability_f5-endpoints_{range}'),
             call('nagios_status_f5-endpoints'),
-            call(f'_nagios_availability_tempest_compute_site_{range}'),
-            call(f'nagios_availability_tempest_compute_site_{range}'),
-            call('nagios_status_tempest_compute_site')
+            call(f'_nagios_availability_tempest_compute_{range}'),
+            call(f'nagios_availability_tempest_compute_{range}'),
+            call('nagios_status_tempest_compute')
         ], any_order=True)
         self.assertEqual(6, mock_cache.get.call_count)
 
@@ -120,8 +120,8 @@ class TestViews(TestCase):
         mock_cache.get.assert_has_calls([
             call(f'_nagios_availability_f5-endpoints_{range}'),
             call('nagios_status_f5-endpoints'),
-            call(f'_nagios_availability_tempest_compute_site_{range}'),
-            call('nagios_status_tempest_compute_site')
+            call(f'_nagios_availability_tempest_compute_{range}'),
+            call('nagios_status_tempest_compute')
         ], any_order=True)
         self.assertEqual(4, mock_cache.get.call_count)
 

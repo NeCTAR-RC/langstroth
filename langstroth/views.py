@@ -157,7 +157,7 @@ def index(request):
 
     context, error = _get_hosts(context, end_date, start_date)
     context, error = _get_hosts(context, end_date, start_date,
-                                service_group='tempest_compute_site',
+                                service_group='tempest_compute',
                                 service_group_type='site')
 
     _add_outages(context)
