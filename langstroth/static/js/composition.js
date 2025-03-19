@@ -122,7 +122,7 @@ function stringToColour(str) {
   var colour = '#';
   for (var j = 0; j < 3; j++) {
     var value = (hash >> (j * 8)) & 0xFF;
-    colour += ('00' + value.toString(16)).substring(-2);
+    colour += value.toString(16).padStart(2, '0');
   }
   return colour;
 }
@@ -160,7 +160,7 @@ function setSource(az) {
     new_path.selectAll('text').remove();
 
     new_path
-      .filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
+      .filter(function(d) { return d.endAngle - d.startAngle > 0.05; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -174,7 +174,7 @@ function setSource(az) {
       .duration(400)
       .style("opacity", 1);
 
-    new_path.filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
+    new_path.filter(function(d) { return d.endAngle - d.startAngle > 0.05; })
       .append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
@@ -226,7 +226,7 @@ function setSource(az) {
       tooltip.style("display", "none");
     });
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > 0.1; })
+    g.filter(function(d) { return d.endAngle - d.startAngle > 0.05; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -239,7 +239,7 @@ function setSource(az) {
       .duration(400)
       .style("opacity", 1);
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > 0.1; }).append("svg:text")
+    g.filter(function(d) { return d.endAngle - d.startAngle > 0.05; }).append("svg:text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
