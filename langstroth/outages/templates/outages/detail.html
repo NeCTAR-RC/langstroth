@@ -101,7 +101,7 @@
               <span class="outage-emoji outage-status-{{ update.status }}-emoji"></span>
               <span class="outage-status">{{ update.status_display }}</span>
               <p>
-                <strong>{{ update.content }}</strong><br />
+                <strong>{{ update.content|linebreaks|urlize }}</strong><br />
                 Update posted
                 {% if request.user.is_staff %}
                 by {{ update.created_by.username }}
