@@ -228,10 +228,12 @@ def parse_status(html, service_group):
 
             hostname = children[0].xpath(tr.css_to_xpath('a'))
             if len(hostname) > 1:
-                LOG.warning("Too many host(?) links in nagios status row")
-                LOG.info(f"Row html:\n{children[0]}")
+                # This can happen if a host had active checks disabled for
+                # example and nagios adds a '?' link next to the hostname
+                LOG.warning("More than one `a href` in host row from nagios")
+                LOG.info(f"Row html:\n{lxml.etree.tostring(children[0])}")
                 continue
-            elif len(hostname) == 1:
+            elif len(hostname) > 0:
                 current_host = parse_hostlink(hostname[0])
                 hosts[current_host['hostname']] = current_host
 
