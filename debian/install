@@ -1,3 +1,0 @@
-langstroth/wsgi.py usr/share/langstroth
-debian/langstroth.apache.conf usr/share/langstroth
-langstroth/settings_example.py usr/share/langstroth
