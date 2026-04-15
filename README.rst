@@ -71,7 +71,7 @@ To update the XCode command line tools after a Mavericks upgrade run::
 And then run::
 
   STATIC_DEPS=true sudo pip install lxml
-    
+
 Eclipse Tools
 -------------
 

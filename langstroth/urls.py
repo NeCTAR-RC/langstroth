@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.urls import re_path
 from django.views.generic.base import RedirectView
+from health_check.views import HealthCheckView
 from mozilla_django_oidc import views as oidc_views
 from rest_framework import routers
 
@@ -52,7 +53,24 @@ urlpatterns = [
     # Timezone detection
     path('tz_detect/', include('tz_detect.urls')),
     # Health checks
-    path('healthcheck/', include('health_check.urls')),
+    path(
+        'healthcheck/startup-probe/',
+        HealthCheckView.as_view(
+            checks=[
+                'health_check.Cache',
+                'health_check.Database',
+                'health_check.Storage',
+            ]
+        ),
+    ),
+    path(
+        'healthcheck/liveness-probe/',
+        HealthCheckView.as_view(
+            checks=[
+                'health_check.Cache',
+            ]
+        ),
+    ),
 ]
 
 if settings.USE_OIDC:

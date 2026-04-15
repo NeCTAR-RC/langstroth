@@ -246,10 +246,6 @@ INSTALLED_APPS = [
     'compressor',
     'tz_detect',
     'health_check',
-    'health_check.db',
-    'health_check.cache',
-    'health_check.storage',
-    'health_check.contrib.migrations',
 ]
 
 HEALTH_CHECK = {
