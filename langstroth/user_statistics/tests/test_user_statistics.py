@@ -4,15 +4,16 @@ from langstroth.user_statistics.services import user_statistics
 
 
 GRAPHITE_OUTPUT = [
-    {"target": "Cumulative",
-     "datapoints": [
-         [None, 1324130400],
-         [0.0, 1324216800],
-         [0.0, 1324303200],
-         [2.0, 1325512800],
-         [3.0, 1325599200],
-         [None, 1413208800]
-     ]
+    {
+        "target": "Cumulative",
+        "datapoints": [
+            [None, 1324130400],
+            [0.0, 1324216800],
+            [0.0, 1324303200],
+            [2.0, 1325512800],
+            [3.0, 1325599200],
+            [None, 1413208800],
+        ],
     },
     {
         "target": "Frequency",
@@ -22,9 +23,9 @@ GRAPHITE_OUTPUT = [
             [0.0, 1324303200],
             [2.0, 1325512800],
             [None, 1325599200],
-            [None, 1413208800]
-        ]
-    }
+            [None, 1413208800],
+        ],
+    },
 ]
 
 
@@ -40,15 +41,15 @@ def test_find_daily_accumulated_users(mock_get):
                 [0.0, 1324303200],
                 [2.0, 1325512800],
                 [3.0, 1325599200],
-            ]
+            ],
         },
         {
             "target": "Frequency",
             "datapoints": [
                 [0.0, 1324303200],
                 [2.0, 1325512800],
-            ]
-        }
+            ],
+        },
     ]
 
     actual_accumulated_users = user_statistics.find_daily_accumulated_users()

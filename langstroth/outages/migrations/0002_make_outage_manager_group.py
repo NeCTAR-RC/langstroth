@@ -18,11 +18,8 @@ def revert_migration(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('outages', '0001_initial'),
     ]
 
-    operations = [
-        migrations.RunPython(apply_migration, revert_migration)
-    ]
+    operations = [migrations.RunPython(apply_migration, revert_migration)]

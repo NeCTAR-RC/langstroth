@@ -41,14 +41,17 @@ def test_target_derivitave():
 
 def test_target_smartSummarise():
     target = graphite.Target("test.az.something")
-    assert str(target.smartSummarize('1d')) \
+    assert (
+        str(target.smartSummarize('1d'))
         == 'smartSummarize(test.az.something, "1d", "avg")'
+    )
 
-    assert str(target.smartSummarize('1d', 'sum')) \
+    assert (
+        str(target.smartSummarize('1d', 'sum'))
         == 'smartSummarize(test.az.something, "1d", "sum")'
+    )
 
-    assert str(target.smartSummarize(None)) \
-        == 'test.az.something'
+    assert str(target.smartSummarize(None)) == 'test.az.something'
 
     # Test chaining
     assert isinstance(target, graphite.Target)
@@ -56,14 +59,17 @@ def test_target_smartSummarise():
 
 def test_target_summarise():
     target = graphite.Target("test.az.something")
-    assert str(target.summarize('1d')) \
+    assert (
+        str(target.summarize('1d'))
         == 'summarize(test.az.something, "1d", "avg")'
+    )
 
-    assert str(target.summarize('1d', 'sum')) \
+    assert (
+        str(target.summarize('1d', 'sum'))
         == 'summarize(test.az.something, "1d", "sum")'
+    )
 
-    assert str(target.summarize(None)) \
-        == 'test.az.something'
+    assert str(target.summarize(None)) == 'test.az.something'
 
     # Test chaining
     assert isinstance(target, graphite.Target)
@@ -73,7 +79,8 @@ def test_target_summarise():
 def test_get(mock_get):
     response = graphite.get(from_date='-1year')
     mock_get.assert_called_with(
-        'http://graphite.dev.rc.nectar.org.au/render/?format=json&from=-1year')
+        'http://graphite.dev.rc.nectar.org.au/render/?format=json&from=-1year'
+    )
     assert response == mock_get()
 
 
@@ -85,34 +92,48 @@ def test_get_target(mock_get):
         'http://graphite.dev.rc.nectar.org.au/render/'
         '?format=json'
         '&target=alias%28test.az.something%2C+%22foo%22%29'
-        '&from=-1year')
+        '&from=-1year'
+    )
     assert response == mock_get()
 
 
 @mock.patch('langstroth.graphite.requests.get')
 def test_get_targets(mock_get):
-    targets = [graphite.Target("test.az.something").alias("foo"),
-               graphite.Target("test.az.something_else").alias("bar")]
+    targets = [
+        graphite.Target("test.az.something").alias("foo"),
+        graphite.Target("test.az.something_else").alias("bar"),
+    ]
     response = graphite.get(from_date='-1year', targets=targets)
     mock_get.assert_called_with(
         'http://graphite.dev.rc.nectar.org.au/render/'
         '?format=json'
         '&target=alias%28test.az.something%2C+%22foo%22%29'
         '&target=alias%28test.az.something_else%2C+%22bar%22%29'
-        '&from=-1year')
+        '&from=-1year'
+    )
     assert response == mock_get()
 
 
 def test_fill_null_datapoints():
-    data = [{"datapoints": [
-        [None, 1324130400],
-        [1.0, 1324216800],
-        [3.0, 1325599200],
-        [None, 1413208800]]}]
+    data = [
+        {
+            "datapoints": [
+                [None, 1324130400],
+                [1.0, 1324216800],
+                [3.0, 1325599200],
+                [None, 1413208800],
+            ]
+        }
+    ]
     result = graphite.fill_null_datapoints(data)
 
-    assert result == [{"datapoints": [
-        [0.0, 1324130400],
-        [1.0, 1324216800],
-        [3.0, 1325599200],
-        [3.0, 1413208800]]}]
+    assert result == [
+        {
+            "datapoints": [
+                [0.0, 1324130400],
+                [1.0, 1324216800],
+                [3.0, 1325599200],
+                [3.0, 1413208800],
+            ]
+        }
+    ]

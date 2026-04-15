@@ -23,23 +23,28 @@ LOG = logging.getLogger(__name__)
 
 
 def round_to_day(datetime_object):
-    return datetime.datetime(datetime_object.year,
-                             datetime_object.month,
-                             datetime_object.day)
+    return datetime.datetime(
+        datetime_object.year, datetime_object.month, datetime_object.day
+    )
 
 
-def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
-               service_group_type='api'):
-
-    cache_key = 'nagios_availability_%s_%s_%s' % (service_group,
-                                                  now.date(), then.date())
+def _get_hosts(
+    context,
+    now,
+    then,
+    service_group=settings.NAGIOS_SERVICE_GROUP,
+    service_group_type='api',
+):
+    cache_key = (
+        f'nagios_availability_{service_group}_{now.date()}_{then.date()}'
+    )
     try:
         # Only refresh every 10 min, and keep a backup in case of
         # nagios error.
-        availability = cache.get("_%s" % cache_key)
+        availability = cache.get(f"_{cache_key}")
         if not availability:
             availability = get_availability(then, now, service_group)
-            cache.set("_%s" % cache_key, availability, 600)
+            cache.set(f"_{cache_key}", availability, 600)
             # Save the backup
             cache.set(cache_key, availability)
     except Exception as ex:
@@ -53,10 +58,10 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
 
     try:
         # Refresh every minute, and don't keep a backup
-        status = cache.get('nagios_status_%s' % service_group)
+        status = cache.get(f'nagios_status_{service_group}')
         if not status:
             status = get_status(service_group)
-            cache.set('nagios_status_%s' % service_group, status, 60)
+            cache.set(f'nagios_status_{service_group}', status, 60)
     except Exception as ex:
         # See above ...
         LOG.warning("Problem getting status info", exc_info=ex)
@@ -65,24 +70,29 @@ def _get_hosts(context, now, then, service_group=settings.NAGIOS_SERVICE_GROUP,
     LOG.debug("Status: " + str(status))
 
     if availability and status and status['hosts']:
-        context['%s_average' % service_group_type] = availability['average']
+        context[f'{service_group_type}_average'] = availability['average']
         for host in status['hosts'].values():
             for service in host['services']:
                 name = service['name']
                 try:
                     service['availability'] = availability['services'][name]
                 except KeyError:
-                    LOG.warn("Nagios inconsistency: no availability info "
-                             "for service '" + name + "'")
+                    LOG.warn(
+                        "Nagios inconsistency: no availability info "
+                        "for service '" + name + "'"
+                    )
                     service['availability'] = {
-                        'name': name, 'ok': 0.0, 'critical': 0.0}
+                        'name': name,
+                        'ok': 0.0,
+                        'critical': 0.0,
+                    }
 
     if status:
-        context['%s_hosts' % service_group_type] = sorted(
-            status['hosts'].values(),
-            key=itemgetter('hostname'))
+        context[f'{service_group_type}_hosts'] = sorted(
+            status['hosts'].values(), key=itemgetter('hostname')
+        )
     else:
-        context['%s_hosts' % service_group_type] = []
+        context[f'{service_group_type}_hosts'] = []
 
     error = False
     if not status or not availability:
@@ -131,8 +141,10 @@ def index(request):
                 period = res.group('period')
                 args = {period: value}
                 start_date = datetime.datetime.now() - relativedelta(**args)
-                report_range = "Over the last %d %s%s" % (
-                    value, period.rstrip('s'), pluralize(value))
+                period_str = period.rstrip('s')
+                report_range = (
+                    f"Over the last {value} {period_str}{pluralize(value)}"
+                )
             except Exception:
                 pass
         else:
@@ -149,16 +161,21 @@ def index(request):
     end_date = round_to_day(end_date)
 
     if not report_range:
-        report_range = "%s to %s" % (start_date.strftime('%d %b %Y'),
-                                     now or end_date.strftime('%d %b %Y'))
+        report_range = "{} to {}".format(
+            start_date.strftime('%d %b %Y'),
+            now or end_date.strftime('%d %b %Y'),
+        )
 
-    context = {"title": "Research Cloud Status",
-               "tagline": report_range}
+    context = {"title": "Research Cloud Status", "tagline": report_range}
 
     context, error = _get_hosts(context, end_date, start_date)
-    context, error = _get_hosts(context, end_date, start_date,
-                                service_group='tempest_compute',
-                                service_group_type='site')
+    context, error = _get_hosts(
+        context,
+        end_date,
+        start_date,
+        service_group='tempest_compute',
+        service_group_type='site',
+    )
 
     _add_outages(context)
 
@@ -171,9 +188,9 @@ def index(request):
                     critical += 1
                 elif service['status'] == 'Warning':
                     warning += 1
-    context['overall_status'] = ('Critical' if critical > 0
-                                 else 'Warning' if warning > 0
-                                 else 'OK')
+    context['overall_status'] = (
+        'Critical' if critical > 0 else 'Warning' if warning > 0 else 'OK'
+    )
 
     if error:
         return render(request, "index.html", context, status=503)
@@ -184,14 +201,16 @@ def index(request):
 def growth(request):
     context = {
         "title": "Infrastructure Usage",
-        "tagline": "Over the last 6 months."}
+        "tagline": "Over the last 6 months.",
+    }
     return render(request, "growth.html", context)
 
 
 def faults(request):
     context = {
         "title": "Instance Faults",
-        "tagline": "Over the last 6 months."}
+        "tagline": "Over the last 6 months.",
+    }
     return render(request, "faults.html", context)
 
 
@@ -199,22 +218,26 @@ def composition(request, name):
     title = None
     if name == 'domain':
         title = 'Composition by domain'
-        desc = ("This graph shows a break down of usage by the number of "
-                "VCPUs allocated, grouped by the domain of the user who "
-                "launched a VM.  As a result this graph isn't a true "
-                "representation of the number of VCPU's being used by an "
-                "institution, since many allocations have collaborators from "
-                "different institutions.")
+        desc = (
+            "This graph shows a break down of usage by the number of "
+            "VCPUs allocated, grouped by the domain of the user who "
+            "launched a VM.  As a result this graph isn't a true "
+            "representation of the number of VCPU's being used by an "
+            "institution, since many allocations have collaborators from "
+            "different institutions."
+        )
     elif name == 'allocation_home':
         title = 'Composition by allocation home'
-        desc = ("This graph shows a break down of usage by the number of "
-                "VCPUs allocated, grouped by the allocation home. This value "
-                "could be national, none or the specified home institution. "
-                "The value of none might be for certain internal projects, or "
-                "project trials."
-                "In some cases, a project might be categorised as national, "
-                "but does not necessarily meet the requrements, so these "
-                "figures may not be accurate")
+        desc = (
+            "This graph shows a break down of usage by the number of "
+            "VCPUs allocated, grouped by the allocation home. This value "
+            "could be national, none or the specified home institution. "
+            "The value of none might be for certain internal projects, or "
+            "project trials."
+            "In some cases, a project might be categorised as national, "
+            "but does not necessarily meet the requrements, so these "
+            "figures may not be accurate"
+        )
 
     if title:
         context = {
@@ -232,8 +255,10 @@ def total_instance_count(request):
     q_until = request.GET.get('until', None)
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in settings.INST_TARGETS]
+    targets = [
+        graphite.Target(target).summarize(q_summarise).alias(alias)
+        for alias, target in settings.INST_TARGETS
+    ]
 
     req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
@@ -245,8 +270,10 @@ def total_used_cores(request):
     q_until = request.GET.get('until', None)
     q_summarise = request.GET.get('summarise', None)
 
-    targets = [graphite.Target(target).summarize(q_summarise).alias(alias)
-               for alias, target in settings.CORES_TARGETS]
+    targets = [
+        graphite.Target(target).summarize(q_summarise).alias(alias)
+        for alias, target in settings.CORES_TARGETS
+    ]
 
     req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
     data = graphite.fill_null_datapoints(req.json(), q_summarise)
@@ -265,10 +292,14 @@ def composition_cores(request, name):
     targets = []
 
     if q_az in settings.COMPOSITION_QUERY:
-        targets.extend([graphite.Target(target % name)
-                        for target in settings.COMPOSITION_QUERY[q_az]])
+        targets.extend(
+            [
+                graphite.Target(target % name)
+                for target in settings.COMPOSITION_QUERY[q_az]
+            ]
+        )
     else:
-        targets.append(graphite.Target("az.%s.%s.*.used_vcpus" % (q_az, name)))
+        targets.append(graphite.Target(f"az.{q_az}.{name}.*.used_vcpus"))
     req = graphite.get(from_date=q_from, targets=targets)
     cleaned = defaultdict(dict)
     for item in req.json():
@@ -285,5 +316,6 @@ def composition_cores(request, name):
             data['value'] = count
     cleaned = list(cleaned.values())
     sorted(cleaned, key=lambda x: x['value'])
-    return HttpResponse(dumps(cleaned),
-                        content_type=req.headers['Content-Type'])
+    return HttpResponse(
+        dumps(cleaned), content_type=req.headers['Content-Type']
+    )

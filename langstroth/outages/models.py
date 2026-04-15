@@ -43,13 +43,13 @@ FIXED = 'F'
 RESOLVED = 'R'
 COMPLETED = 'C'
 STATUS_CHOICES = [
-    (STARTED, 'Started'),              # scheduled
+    (STARTED, 'Started'),  # scheduled
     (INVESTIGATING, 'Investigating'),  # unscheduled
-    (IDENTIFIED, 'Identified'),        # unscheduled
-    (PROGRESSING, 'Progressing'),      # unscheduled or scheduled
-    (FIXED, 'Fixed'),                  # unscheduled
-    (RESOLVED, 'Resolved'),            # unscheduled
-    (COMPLETED, 'Completed'),          # scheduled
+    (IDENTIFIED, 'Identified'),  # unscheduled
+    (PROGRESSING, 'Progressing'),  # unscheduled or scheduled
+    (FIXED, 'Fixed'),  # unscheduled
+    (RESOLVED, 'Resolved'),  # unscheduled
+    (COMPLETED, 'Completed'),  # scheduled
 ]
 
 # Outage Severity
@@ -79,8 +79,9 @@ def _severity_display(severity):
 
 class OutageManager(models.Manager):
     def current_outages(self):
-        query = self.filter(deleted=False, cancelled=False) \
-                    .prefetch_related('updates')
+        query = self.filter(deleted=False, cancelled=False).prefetch_related(
+            'updates'
+        )
         return [o for o in query if o.is_current]
 
 
@@ -94,15 +95,20 @@ class Outage(models.Model):
     deleted = models.BooleanField(blank=True, default=False)
     scheduled_start = models.DateTimeField(blank=True, null=True)
     scheduled_end = models.DateTimeField(blank=True, null=True)
-    scheduled_severity = models.IntegerField(choices=SEVERITY_CHOICES,
-                                             blank=True, null=True)
+    scheduled_severity = models.IntegerField(
+        choices=SEVERITY_CHOICES, blank=True, null=True
+    )
     modification_time = models.DateTimeField(auto_now=True, editable=False)
-    created_by = models.ForeignKey(User, editable=False,
-                                   on_delete=models.PROTECT,
-                                   related_name='+')
-    modified_by = models.ForeignKey(User, editable=False, null=True,
-                                    on_delete=models.PROTECT,
-                                    related_name='+')
+    created_by = models.ForeignKey(
+        User, editable=False, on_delete=models.PROTECT, related_name='+'
+    )
+    modified_by = models.ForeignKey(
+        User,
+        editable=False,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+    )
 
     class Meta:
         ordering = ['-modification_time']
@@ -125,12 +131,13 @@ class Outage(models.Model):
     @property
     def is_current(self):
         now = timezone.now()
-        return ((self.start and not self.end)
-                or (self.scheduled
-                    and self.scheduled_start
-                    and self.scheduled_end
-                    and self.scheduled_start < now
-                    and self.scheduled_end > now))
+        return (self.start and not self.end) or (
+            self.scheduled
+            and self.scheduled_start
+            and self.scheduled_end
+            and self.scheduled_start < now
+            and self.scheduled_end > now
+        )
 
     @property
     def start(self):
@@ -140,21 +147,33 @@ class Outage(models.Model):
     @property
     def end(self):
         last = self.latest_update
-        return last.time if last and last.status in {RESOLVED, COMPLETED} \
+        return (
+            last.time
+            if last and last.status in {RESOLVED, COMPLETED}
             else None
+        )
 
     @property
     def scheduled_display(self):
-        return "cancelled" if self.cancelled \
-            else "scheduled" if self.scheduled else "unscheduled"
+        return (
+            "cancelled"
+            if self.cancelled
+            else "scheduled"
+            if self.scheduled
+            else "unscheduled"
+        )
 
     @property
     def status_display(self):
         last = self.latest_update
         if self.scheduled:
-            return "Scheduled" if not last \
-                else "Completed" if last.status in {RESOLVED, COMPLETED} \
+            return (
+                "Scheduled"
+                if not last
+                else "Completed"
+                if last.status in {RESOLVED, COMPLETED}
                 else "In progress"
+            )
         else:
             return last.status_display if last else "Unknown"
 
@@ -167,8 +186,9 @@ class Outage(models.Model):
     @property
     def severity(self):
         last = self.latest_update
-        return last.severity if last \
-            else self.scheduled_severity or SIGNIFICANT
+        return (
+            last.severity if last else self.scheduled_severity or SIGNIFICANT
+        )
 
     def __str__(self):
         return f"Outage({self.title})"
@@ -177,14 +197,19 @@ class Outage(models.Model):
 class OutageUpdate(models.Model):
     time = models.DateTimeField()
     modification_time = models.DateTimeField(auto_now=True, editable=False)
-    created_by = models.ForeignKey(User, editable=False,
-                                   on_delete=models.PROTECT,
-                                   related_name='+')
-    modified_by = models.ForeignKey(User, editable=False, null=True,
-                                    on_delete=models.PROTECT,
-                                    related_name='+')
-    outage = models.ForeignKey(Outage, on_delete=models.CASCADE,
-                               related_name="updates")
+    created_by = models.ForeignKey(
+        User, editable=False, on_delete=models.PROTECT, related_name='+'
+    )
+    modified_by = models.ForeignKey(
+        User,
+        editable=False,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+    )
+    outage = models.ForeignKey(
+        Outage, on_delete=models.CASCADE, related_name="updates"
+    )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     severity = models.IntegerField(choices=SEVERITY_CHOICES)
     content = models.TextField()

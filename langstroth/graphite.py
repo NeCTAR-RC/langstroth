@@ -31,9 +31,11 @@ def filter_null_datapoints(response_data):
 
     for data_series in response_data:
         data_points = data_series['datapoints']
-        data_series['datapoints'] = [datapoint
-                                     for datapoint in data_points
-                                     if datapoint[VALUE_INDEX] is not None]
+        data_series['datapoints'] = [
+            datapoint
+            for datapoint in data_points
+            if datapoint[VALUE_INDEX] is not None
+        ]
     return response_data
 
 
@@ -72,41 +74,46 @@ def fill_null_datapoints(response_data, summarise=None):
     """
     # Use the longest series as the template.  NVD3 requires that all
     # the datasets have the same data points.
-    tmpl = sorted([(len(data['datapoints']), data['datapoints'])
-                   for data in response_data],
-                  key=itemgetter(0))[-1][1]
+    tmpl = sorted(
+        [
+            (len(data['datapoints']), data['datapoints'])
+            for data in response_data
+        ],
+        key=itemgetter(0),
+    )[-1][1]
     tmpl = [[None, t] for v, t in tmpl]
     for data_series in response_data:
         data_points = data_series['datapoints']
-        data_series['datapoints'] = list(_fill_nulls(data_points,
-                                                     template=tmpl,
-                                                     summarise=summarise))
+        data_series['datapoints'] = list(
+            _fill_nulls(data_points, template=tmpl, summarise=summarise)
+        )
 
     return response_data
 
 
-class Target(object):
-
+class Target:
     def __init__(self, target):
         self._target = target
 
     def smartSummarize(self, step, aggregation='avg'):
         if step and aggregation:
-            return self.__class__('smartSummarize(%s, "%s", "%s")'
-                                  % (self._target, step, aggregation))
+            return self.__class__(
+                f'smartSummarize({self._target}, "{step}", "{aggregation}")'
+            )
         return self
 
     def summarize(self, step, aggregation='avg'):
         if step and aggregation:
-            return self.__class__('summarize(%s, "%s", "%s")'
-                                  % (self._target, step, aggregation))
+            return self.__class__(
+                f'summarize({self._target}, "{step}", "{aggregation}")'
+            )
         return self
 
     def derivative(self):
-        return self.__class__('derivative(%s)' % (self._target))
+        return self.__class__(f'derivative({self._target})')
 
     def alias(self, name):
-        return self.__class__('alias(%s, "%s")' % (self._target, name))
+        return self.__class__(f'alias({self._target}, "{name}")')
 
     def __str__(self):
         return self._target

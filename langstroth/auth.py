@@ -4,7 +4,8 @@ import unicodedata
 from django.shortcuts import redirect
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 
-from .outages import admin as outage_admin
+from langstroth.outages import admin as outage_admin
+
 
 logger = logging.getLogger(__name__)
 
@@ -15,16 +16,16 @@ STAFF_ROLES = ADMIN_ROLES + ['/staff']
 
 
 class NoDjangoAdminForEndUserMiddleware:
-
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-
         if request.path.startswith("/admin/"):
-            if request.user.is_authenticated \
-               and not request.user.is_staff \
-               and not request.user.is_superuser:
+            if (
+                request.user.is_authenticated
+                and not request.user.is_staff
+                and not request.user.is_superuser
+            ):
                 return redirect("/")  # Get outa here!
 
         response = self.get_response(request)
@@ -33,7 +34,6 @@ class NoDjangoAdminForEndUserMiddleware:
 
 
 class NectarAuthBackend(OIDCAuthenticationBackend):
-
     def create_user(self, claims):
         email = claims.get('email')
         username = self.get_username(claims)
@@ -46,12 +46,17 @@ class NectarAuthBackend(OIDCAuthenticationBackend):
             # username/sub mismatch
             logger.error(
                 f"Login failed for {username}: "
-                f"Sub value {sub} did not match existing value {existing.sub}")
+                f"Sub value {sub} did not match existing value {existing.sub}"
+            )
             return
 
         user = self.UserModel.objects.create_user(
-            username, email=email, sub=sub,
-            first_name=first_name, last_name=last_name)
+            username,
+            email=email,
+            sub=sub,
+            first_name=first_name,
+            last_name=last_name,
+        )
 
         self._assign_user_roles(user, claims)
         return user
@@ -92,8 +97,9 @@ class NectarAuthBackend(OIDCAuthenticationBackend):
 
         users = self.UserModel.objects.filter(sub__iexact=sub)
         if not users:
-            users = self.UserModel.objects.filter(
-                email__iexact=email).filter(sub__isnull=True)
+            users = self.UserModel.objects.filter(email__iexact=email).filter(
+                sub__isnull=True
+            )
         return users
 
 

@@ -236,10 +236,10 @@ ul.list-bullet {
   color: $dark !important;
 }
 
-.btn-check:checked + .btn-outline-secondary, 
-.btn-check:active + .btn-outline-secondary, 
-.btn-outline-secondary:active, 
-.btn-outline-secondary.active, 
+.btn-check:checked + .btn-outline-secondary,
+.btn-check:active + .btn-outline-secondary,
+.btn-outline-secondary:active,
+.btn-outline-secondary.active,
 .btn-outline-secondary.dropdown-toggle.show {
   color: $white !important;
 }

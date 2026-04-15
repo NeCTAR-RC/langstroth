@@ -39,7 +39,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 // Window ready event
 window.onload = function() {
   // if(window.location.hash) { scrollToId(window.location.hash) };
-  
+
   if(document.getElementById('filter-form')) {
     submitFilterFormOnChange('filter-form');
   }

@@ -23,7 +23,7 @@ NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 
 GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
 
-DEBUG_LOG = path_merge(__file__, "../logs/debug.log") # NOQA
+DEBUG_LOG = path_merge(__file__, "../logs/debug.log")  # NOQA
 
 if not path.exists(path.dirname(DEBUG_LOG)):
     os.mkdir(path.dirname(DEBUG_LOG))
@@ -35,6 +35,6 @@ LOGGING['handlers']['file'] = {  # NOQA
     'filename': DEBUG_LOG,
 }
 
-ALLOWED_HOSTS += ['testserver'] # NOQA
+ALLOWED_HOSTS += ['testserver']  # NOQA
 
 WHITENOISE_AUTOREFRESH = False

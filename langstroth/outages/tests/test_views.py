@@ -6,18 +6,23 @@ from langstroth.outages import models
 
 
 class ViewTests(test.TestCase):
-
     @classmethod
     def setUpTestData(cls):
         cls.user = auth_models.User.objects.create(
-            username="test", email="test@test.com",
-            is_superuser=True)
+            username="test", email="test@test.com", is_superuser=True
+        )
         cls.outage1 = models.Outage.objects.create(
-            scheduled=True, title="one", description="Outage one",
-            created_by=cls.user)
+            scheduled=True,
+            title="one",
+            description="Outage one",
+            created_by=cls.user,
+        )
         cls.outage2 = models.Outage.objects.create(
-            scheduled=False, title="one", description="Outage one",
-            created_by=cls.user)
+            scheduled=False,
+            title="one",
+            description="Outage one",
+            created_by=cls.user,
+        )
 
     def test_list(self):
         response = self.client.get(reverse('outages:list'))

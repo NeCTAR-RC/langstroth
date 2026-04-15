@@ -19,14 +19,14 @@ PASSWORD = '12345'
 
 @tag('selenium')
 class OutageTestEmpty(SeleniumTestBase):
-    """Unauthenticated tests when there are no outages.
-    """
+    """Unauthenticated tests when there are no outages."""
 
     def test_outages(self):
         self.driver.get(f'{self.live_server_url}/outages')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
-            self.driver.title)
+            self.driver.title,
+        )
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.CLASS_NAME, "card-body")
 
@@ -37,18 +37,17 @@ class OutageTestEmpty(SeleniumTestBase):
 
 @tag('selenium')
 class OutageTestPopulated(SeleniumTestBase):
-    """Unauthenticated tests when there is an active outage.
-    """
+    """Unauthenticated tests when there is an active outage."""
 
     def setUp(self):
         self.user = auth_models.User(
-            username='testuser', password=make_password(PASSWORD))
+            username='testuser', password=make_password(PASSWORD)
+        )
         self.user.save()
 
         self.outage = models.Outage(
-            title="Testing",
-            description="one two three",
-            created_by=self.user)
+            title="Testing", description="one two three", created_by=self.user
+        )
         self.outage.save()
         self.update = models.OutageUpdate(
             outage=self.outage,
@@ -56,25 +55,30 @@ class OutageTestPopulated(SeleniumTestBase):
             severity=models.SEVERE,
             status=models.INVESTIGATING,
             content="four five six",
-            created_by=self.user)
+            created_by=self.user,
+        )
         self.update.save()
 
     def test_home(self):
         self.driver.get(f'{self.live_server_url}/')
         self.assertEqual(
             "Compute Cloud Dashboard - Research Cloud Status",
-            self.driver.title)
+            self.driver.title,
+        )
 
         banner = self.driver.find_element(By.ID, "status-banner")
         link = banner.find_element(By.TAG_NAME, "a")
-        self.assertEqual(f"{self.live_server_url}/outages/{self.outage.id}/",
-                         link.get_attribute("href"))
+        self.assertEqual(
+            f"{self.live_server_url}/outages/{self.outage.id}/",
+            link.get_attribute("href"),
+        )
 
     def test_outages(self):
         self.driver.get(f'{self.live_server_url}/outages')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
-            self.driver.title)
+            self.driver.title,
+        )
         card = self.driver.find_element(By.CLASS_NAME, "card-body")
         summary = card.find_element(By.TAG_NAME, "p")
         self.assertTrue(summary.text.startswith("Status: Investigating"))
@@ -84,8 +88,9 @@ class OutageTestPopulated(SeleniumTestBase):
 
     def test_outage_0(self):
         self.driver.get(f'{self.live_server_url}/outages/{self.outage.id}')
-        self.assertEqual("Compute Cloud Dashboard - Announcement Details",
-                         self.driver.title)
+        self.assertEqual(
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         outage = self.driver.find_element(By.ID, f"outage-{self.outage.id}")
         h5 = outage.find_element(By.TAG_NAME, "h5")
@@ -102,23 +107,28 @@ class OutageTestPopulated(SeleniumTestBase):
 
 @tag('selenium')
 class OutageWorkflowTests(SeleniumTestBase):
-    """Tests to exercise outage lifecycles.
-    """
+    """Tests to exercise outage lifecycles."""
 
     def setUp(self):
         self.user = auth_models.User(
-            username='testuser', password=make_password(PASSWORD))
+            username='testuser', password=make_password(PASSWORD)
+        )
         self.user.save()
         self.admin = auth_models.User(
-            username='testadmin', password=make_password(PASSWORD),
-            is_staff=True, is_superuser=True)
+            username='testadmin',
+            password=make_password(PASSWORD),
+            is_staff=True,
+            is_superuser=True,
+        )
         self.admin.save()
 
     def assertStrMatches(self, needle, haystack, count=1):
         real_count = haystack.count(needle)
-        self.assertEqual(count, real_count,
-                         f"{needle} matches {real_count} times "
-                         f"instead of {count}")
+        self.assertEqual(
+            count,
+            real_count,
+            f"{needle} matches {real_count} times instead of {count}",
+        )
 
     def test_admin_scheduled_lifecycle(self):
         # Login as admin
@@ -137,29 +147,35 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "scheduled").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Scheduled Announcement",
-            self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         title = form.find_element(By.XPATH, '//input[@name="title"]')
         title.send_keys("The world is ending")
         description = form.find_element(
-            By.XPATH, '//textarea[@name="description"]')
+            By.XPATH, '//textarea[@name="description"]'
+        )
         description.send_keys(
             "The world will be suspended at the end of 2030, and will "
             "resume at the beginning of 2031. "
-            "Gods and demigods should back up their worshippers.")
+            "Gods and demigods should back up their worshippers."
+        )
         scheduled_severity = form.find_element(
-            By.XPATH, '//select[@name="scheduled_severity"]')
+            By.XPATH, '//select[@name="scheduled_severity"]'
+        )
         scheduled_severity.send_keys("severe")
         scheduled_start = form.find_element(
-            By.XPATH, '//input[@id="id_scheduled_start"]')
+            By.XPATH, '//input[@id="id_scheduled_start"]'
+        )
         scheduled_start.send_keys("2031-01-01 00:00:00")
         scheduled_end = form.find_element(
-            By.XPATH, '//input[@id="id_scheduled_end"]')
+            By.XPATH, '//input[@id="id_scheduled_end"]'
+        )
         scheduled_end.send_keys("2031-12-31 23:59:59")
         form.find_element(By.XPATH, '//button[text()="Create"]').click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Scheduled start:", details, count=1)
@@ -180,25 +196,27 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "start").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-            self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
-        self.assertEqual(["---------", "Minimal", "Significant", "Severe"],
-                         [o.text for o in Select(severity).options])
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
+        self.assertEqual(
+            ["---------", "Minimal", "Significant", "Severe"],
+            [o.text for o in Select(severity).options],
+        )
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Started",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Started"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual("Started", Select(status).first_selected_option.text)
+        self.assertEqual(["Started"], [o.text for o in Select(status).options])
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Scheduled outage started.", content.text)
-        form.find_element(By.XPATH,
-                          '//button[text()="Start the Outage"]').click()
+        form.find_element(
+            By.XPATH, '//button[text()="Start the Outage"]'
+        ).click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-            self.driver.title)
+            self.driver.title,
+        )
         details = self.driver.page_source
         self.assertStrMatches("in the future", details, count=1)
 
@@ -207,11 +225,12 @@ class OutageWorkflowTests(SeleniumTestBase):
         time = form.find_element(By.XPATH, '//input[@id="id_time"]')
         time.clear()
         time.send_keys("2020-01-01 00:00:00")
-        form.find_element(By.XPATH,
-                          '//button[text()="Start the Outage"]').click()
+        form.find_element(
+            By.XPATH, '//button[text()="Start the Outage"]'
+        ).click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Scheduled start:", details, count=1)
@@ -232,23 +251,26 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "update").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-        self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Progressing",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Started", "Progressing", "Completed"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual(
+            "Progressing", Select(status).first_selected_option.text
+        )
+        self.assertEqual(
+            ["Started", "Progressing", "Completed"],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Things are happening")
         form.find_element(By.XPATH, '//button[text()="Add Update"]').click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Scheduled start:", details, count=1)
@@ -269,24 +291,28 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "end").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-        self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Completed",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Started", "Progressing", "Completed"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual(
+            "Completed", Select(status).first_selected_option.text
+        )
+        self.assertEqual(
+            ["Started", "Progressing", "Completed"],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Scheduled outage completed.", content.text)
-        form.find_element(By.XPATH,
-                          '//button[text()="End the Outage"]').click()
+        form.find_element(
+            By.XPATH, '//button[text()="End the Outage"]'
+        ).click()
 
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Scheduled start:", details, count=1)
@@ -320,30 +346,37 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "unscheduled").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Unscheduled Announcement",
-            self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         title = form.find_element(By.XPATH, '//input[@name="title"]')
         title.send_keys("The sun is going nova")
         description = form.find_element(
-            By.XPATH, '//textarea[@name="description"]')
+            By.XPATH, '//textarea[@name="description"]'
+        )
         description.send_keys(
-            "Look out of the window.  It is really bright out there.")
+            "Look out of the window.  It is really bright out there."
+        )
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Minimal",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual(
+            "Minimal", Select(severity).first_selected_option.text
+        )
         severity.send_keys("severe")
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Investigating",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Investigating", "Identified"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual(
+            "Investigating", Select(status).first_selected_option.text
+        )
+        self.assertEqual(
+            ["Investigating", "Identified"],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Outage started", content.text)
         content.send_keys("Opening the curtains")
         form.find_element(By.XPATH, '//button[text()="Create"]').click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Outage start:", details, count=1)
@@ -362,24 +395,32 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "update").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-        self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Identified",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Investigating", "Identified", "Progressing",
-                          "Fixed", "Resolved"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual(
+            "Identified", Select(status).first_selected_option.text
+        )
+        self.assertEqual(
+            [
+                "Investigating",
+                "Identified",
+                "Progressing",
+                "Fixed",
+                "Resolved",
+            ],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Calling the Sun hotline.")
         form.find_element(By.XPATH, '//button[text()="Add Update"]').click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Outage start:", details, count=1)
@@ -398,25 +439,32 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "end").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-        self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Resolved",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Investigating", "Identified", "Progressing",
-                          "Fixed", "Resolved"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual("Resolved", Select(status).first_selected_option.text)
+        self.assertEqual(
+            [
+                "Investigating",
+                "Identified",
+                "Progressing",
+                "Fixed",
+                "Resolved",
+            ],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("Unscheduled outage resolved.", content.text)
-        form.find_element(By.XPATH,
-                          '//button[text()="End the Outage"]').click()
+        form.find_element(
+            By.XPATH, '//button[text()="End the Outage"]'
+        ).click()
 
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Outage start:", details, count=1)
@@ -435,25 +483,33 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, 'reopen').click()
         self.assertEqual(
             "Compute Cloud Dashboard - Outage Announcement Update",
-            self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         severity = form.find_element(By.XPATH, '//select[@name="severity"]')
-        self.assertEqual("Severe",
-                         Select(severity).first_selected_option.text)
+        self.assertEqual("Severe", Select(severity).first_selected_option.text)
         status = form.find_element(By.XPATH, '//select[@name="status"]')
-        self.assertEqual("Progressing",
-                         Select(status).first_selected_option.text)
-        self.assertEqual(["Investigating", "Identified", "Progressing",
-                          "Fixed", "Resolved"],
-                         [o.text for o in Select(status).options])
+        self.assertEqual(
+            "Progressing", Select(status).first_selected_option.text
+        )
+        self.assertEqual(
+            [
+                "Investigating",
+                "Identified",
+                "Progressing",
+                "Fixed",
+                "Resolved",
+            ],
+            [o.text for o in Select(status).options],
+        )
         content = form.find_element(By.XPATH, '//textarea[@name="content"]')
         self.assertEqual("", content.text)
         content.send_keys("Ooops.  That should have been Oracle.")
         form.find_element(By.XPATH, '//button[text()="Add Update"]').click()
 
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("Outage start:", details, count=1)
@@ -485,40 +541,46 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.driver.find_element(By.ID, "scheduled").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Scheduled Announcement",
-            self.driver.title)
+            self.driver.title,
+        )
         form = self.driver.find_element(By.TAG_NAME, "form")
         title = form.find_element(By.XPATH, '//input[@name="title"]')
         title.send_keys("April 1st is cancelled this year")
         description = form.find_element(
-            By.XPATH, '//textarea[@name="description"]')
-        description.send_keys(
-            "Courtesy of the humor police.")
+            By.XPATH, '//textarea[@name="description"]'
+        )
+        description.send_keys("Courtesy of the humor police.")
         scheduled_severity = form.find_element(
-            By.XPATH, '//select[@name="scheduled_severity"]')
+            By.XPATH, '//select[@name="scheduled_severity"]'
+        )
         scheduled_severity.send_keys("severe")
         scheduled_start_div = form.find_element(
-            By.XPATH, '//input[@id="id_scheduled_start"]')
+            By.XPATH, '//input[@id="id_scheduled_start"]'
+        )
         scheduled_start_div.send_keys("2040/04/01 00:00:00")
         scheduled_end_div = form.find_element(
-            By.XPATH, '//input[@id="id_scheduled_end"]')
+            By.XPATH, '//input[@id="id_scheduled_end"]'
+        )
         scheduled_end_div.send_keys("2040/04/01 23:59:59")
         form.find_element(By.XPATH, '//button[text()="Create"]').click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Announcement Details",
-            self.driver.title)
+            "Compute Cloud Dashboard - Announcement Details", self.driver.title
+        )
 
         # Cancel
         self.driver.find_element(By.ID, "cancel").click()
         self.assertEqual(
-            "Compute Cloud Dashboard - Confirm Cancellation",
-            self.driver.title)
+            "Compute Cloud Dashboard - Confirm Cancellation", self.driver.title
+        )
         self.driver.find_element(By.XPATH, '//button[text()="Yes"]').click()
 
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
-            self.driver.title)
+            self.driver.title,
+        )
 
         details = self.driver.page_source
         self.assertStrMatches("cancelled Outage", details, count=1)
-        self.assertStrMatches("April 1st is cancelled this year",
-                              details, count=1)
+        self.assertStrMatches(
+            "April 1st is cancelled this year", details, count=1
+        )

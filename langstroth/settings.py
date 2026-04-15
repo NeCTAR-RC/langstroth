@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright 20014-2014 NeCTAR
 #
@@ -32,4 +31,4 @@ CUSTOM_SETTINGS_PATH = "/etc/langstroth/settings.py"
 if os.path.exists(CUSTOM_SETTINGS_PATH):
     exec(open(CUSTOM_SETTINGS_PATH, "rb").read())
 else:
-    LOG.warn("Missing custom settings file: %s. " % CUSTOM_SETTINGS_PATH)
+    LOG.warn(f"Missing custom settings file: {CUSTOM_SETTINGS_PATH}. ")

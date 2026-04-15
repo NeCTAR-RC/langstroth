@@ -9,53 +9,55 @@ import requests
 
 LOG = logging.getLogger(__name__)
 
-SERVICE_NAMES = {'http_cinder-api': 'Volume',
-                 'http_aodh-api': 'Alarming',
-                 'http_dashboard': 'Dashboard',
-                 'http_accounts': 'Accounts',
-                 'http_ceilometer-api': 'Ceilometer',
-                 'http_murano-api': 'Application Catalog',
-                 'http_glance-registry': 'Image Registry',
-                 'http_keystone-pub': 'Identity',
-                 'http_neutron-api': 'Network',
-                 'http_swift-api': 'Object Store',
-                 'http_ec2': 'EC2',
-                 'http_nova-api': 'Compute',
-                 'http_nova-api-metadata': 'Instance Metadata',
-                 'http_heat-api': 'Orchestration',
-                 'http_gnocchi-api': 'Metric',
-                 'http_glance-api': 'Image',
-                 'http_designate-api': 'DNS',
-                 'http_magnum-api': 'Container Infra',
-                 'http_manila-api': 'Shared Filesystem',
-                 'http_trove-api': 'Database',
-                 'http_blazar-api': 'Reservation',
-                 'http_octavia-api': 'Load Balancer',
-                 'http_barbican-api': 'Key Manager',
-                 'https_registry': 'Container Registry',
-                 'https_bumblebee': 'Virtual Desktop',
-                 'https_jupyterhub': 'Jupyter Notebook',
-                 'https_binderhub': 'BinderHub',
-                 'https_keycloak': 'Single Sign-on',
-                 'tempest_ardc-mel-1_compute': 'ardc-mel-1',
-                 'tempest_adelaide_compute': 'adelaide',
-                 'tempest_ardc-syd-1_compute': 'ardc-syd-1',
-                 'tempest_auckland_compute': 'auckland',
-                 'tempest_intersect-01_compute': 'intersect-01',
-                 'tempest_intersect-02_compute': 'intersect-02',
-                 'tempest_melbourne-np_compute': 'melbourne-np',
-                 'tempest_melbourne-qh2_compute': 'melbourne-qh2',
-                 'tempest_monash-01_compute': 'monash-01',
-                 'tempest_monash-02_compute': 'monash-02',
-                 'tempest_pawsey_compute': 'pawsey',
-                 'tempest_qld_compute': 'QRIScloud',
-                 'tempest_sa_compute': 'sa',
-                 'tempest_swinburne-01_compute': 'swinburne',
-                 'tempest_tasmania_compute': 'tasmania',
-                 'tempest_coreservices_compute': 'Core Services',
-                 'tempest_melbourne_compute': 'QH2-Test',
-                 'tempest_lani_compute': 'Lani',
-                 'tempest_luna_compute': 'Luna'}
+SERVICE_NAMES = {
+    'http_cinder-api': 'Volume',
+    'http_aodh-api': 'Alarming',
+    'http_dashboard': 'Dashboard',
+    'http_accounts': 'Accounts',
+    'http_ceilometer-api': 'Ceilometer',
+    'http_murano-api': 'Application Catalog',
+    'http_glance-registry': 'Image Registry',
+    'http_keystone-pub': 'Identity',
+    'http_neutron-api': 'Network',
+    'http_swift-api': 'Object Store',
+    'http_ec2': 'EC2',
+    'http_nova-api': 'Compute',
+    'http_nova-api-metadata': 'Instance Metadata',
+    'http_heat-api': 'Orchestration',
+    'http_gnocchi-api': 'Metric',
+    'http_glance-api': 'Image',
+    'http_designate-api': 'DNS',
+    'http_magnum-api': 'Container Infra',
+    'http_manila-api': 'Shared Filesystem',
+    'http_trove-api': 'Database',
+    'http_blazar-api': 'Reservation',
+    'http_octavia-api': 'Load Balancer',
+    'http_barbican-api': 'Key Manager',
+    'https_registry': 'Container Registry',
+    'https_bumblebee': 'Virtual Desktop',
+    'https_jupyterhub': 'Jupyter Notebook',
+    'https_binderhub': 'BinderHub',
+    'https_keycloak': 'Single Sign-on',
+    'tempest_ardc-mel-1_compute': 'ardc-mel-1',
+    'tempest_adelaide_compute': 'adelaide',
+    'tempest_ardc-syd-1_compute': 'ardc-syd-1',
+    'tempest_auckland_compute': 'auckland',
+    'tempest_intersect-01_compute': 'intersect-01',
+    'tempest_intersect-02_compute': 'intersect-02',
+    'tempest_melbourne-np_compute': 'melbourne-np',
+    'tempest_melbourne-qh2_compute': 'melbourne-qh2',
+    'tempest_monash-01_compute': 'monash-01',
+    'tempest_monash-02_compute': 'monash-02',
+    'tempest_pawsey_compute': 'pawsey',
+    'tempest_qld_compute': 'QRIScloud',
+    'tempest_sa_compute': 'sa',
+    'tempest_swinburne-01_compute': 'swinburne',
+    'tempest_tasmania_compute': 'tasmania',
+    'tempest_coreservices_compute': 'Core Services',
+    'tempest_melbourne_compute': 'QH2-Test',
+    'tempest_lani_compute': 'Lani',
+    'tempest_luna_compute': 'Luna',
+}
 
 
 def parse_percent_string(s):
@@ -72,13 +74,17 @@ def parse_percent_string(s):
 def parse_service_availability(service):
     host, service, ok, warn, unknown, crit, undet = service.getchildren()
     nagios_service_name = ''.join([t for t in service.itertext()])
-    ok_value = (parse_percent_string(ok.text)
-                + parse_percent_string(warn.text)
-                + parse_percent_string(unknown.text))
+    ok_value = (
+        parse_percent_string(ok.text)
+        + parse_percent_string(warn.text)
+        + parse_percent_string(unknown.text)
+    )
     critical_value = parse_percent_string(crit.text)
-    return {'name': nagios_service_name,
-            'ok': ok_value,
-            'critical': critical_value}
+    return {
+        'name': nagios_service_name,
+        'ok': ok_value,
+        'critical': critical_value,
+    }
 
 
 def parse_availability(html, service_group):
@@ -98,26 +104,27 @@ def parse_availability(html, service_group):
         for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
             if 'colspan' in row.getchildren()[0].attrib:
                 title, ok, warn, unknown, crit, undet = row.getchildren()
-                ok_value = (parse_percent_string(ok.text)
-                            + parse_percent_string(warn.text)
-                            + parse_percent_string(unknown.text))
+                ok_value = (
+                    parse_percent_string(ok.text)
+                    + parse_percent_string(warn.text)
+                    + parse_percent_string(unknown.text)
+                )
                 critical_value = parse_percent_string(crit.text)
-                average = {'name': 'Average',
-                           'ok': ok_value,
-                           'critical': critical_value}
+                average = {
+                    'name': 'Average',
+                    'ok': ok_value,
+                    'critical': critical_value,
+                }
                 continue
             service = parse_service_availability(row)
             services[service['name']] = service
 
-    context = {
-        'services': services,
-        'average': average}
+    context = {'services': services, 'average': average}
     return context
 
 
 def parse_hostlink(hostlink):
-    return {'hostname': hostlink.text,
-            'services': []}
+    return {'hostname': hostlink.text, 'services': []}
 
 
 def parse_service(service_columns):
@@ -131,7 +138,8 @@ def parse_service(service_columns):
         'display_name': service_name,
         'status': service_columns[1].text,
         'last_checked': service_columns[2].text,
-        'duration': service_columns[3].text}
+        'duration': service_columns[3].text,
+    }
 
 
 def parse_status(html, service_group):
@@ -186,12 +194,14 @@ def gm_timestamp(datetime_object):
     return calendar.timegm(datetime_object.utctimetuple())
 
 
-def get_availability(start_date, end_date,
-                     service_group=settings.NAGIOS_SERVICE_GROUP):
+def get_availability(
+    start_date, end_date, service_group=settings.NAGIOS_SERVICE_GROUP
+):
     query = settings.AVAILABILITY_QUERY_TEMPLATE % (
         gm_timestamp(start_date),
         gm_timestamp(end_date),
-        service_group)
+        service_group,
+    )
     url = settings.NAGIOS_URL + query
     resp = requests.get(url, auth=settings.NAGIOS_AUTH)
     return parse_availability(resp.text, service_group)

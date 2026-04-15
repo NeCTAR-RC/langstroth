@@ -13,18 +13,18 @@ from langstroth.outages import models
 
 # Expected state transitions for each Outage status code
 STATUS_TRANSITIONS = {
-    True: {   # Scheduled outage transitions
+    True: {  # Scheduled outage transitions
         models.STARTED: models.PROGRESSING,
         models.PROGRESSING: models.PROGRESSING,
-        models.COMPLETED: models.PROGRESSING   # reopen
+        models.COMPLETED: models.PROGRESSING,  # reopen
     },
-    False: {   # Unscheduled outage transitions
+    False: {  # Unscheduled outage transitions
         models.INVESTIGATING: models.IDENTIFIED,
         models.IDENTIFIED: models.PROGRESSING,
         models.PROGRESSING: models.FIXED,
         models.FIXED: models.RESOLVED,
-        models.RESOLVED: models.PROGRESSING    # reopen
-    }
+        models.RESOLVED: models.PROGRESSING,  # reopen
+    },
 }
 
 
@@ -32,12 +32,9 @@ def index_page(request):
     f = filters.OutageFilters(
         request.GET,
         is_staff=request.user.is_staff,
-        queryset=models.Outage.objects.filter(deleted=False))
-    context = {
-        "title": "Service Announcements",
-        "tagline": "",
-        "filter": f
-    }
+        queryset=models.Outage.objects.filter(deleted=False),
+    )
+    context = {"title": "Service Announcements", "tagline": "", "filter": f}
     return shortcuts.render(request, "outages/list.html", context)
 
 
@@ -50,9 +47,9 @@ class BaseDetailView(DetailView):
         return context
 
 
-class BaseCreateView(mixins.UserPassesTestMixin,
-                     mixins.AccessMixin,
-                     CreateView):
+class BaseCreateView(
+    mixins.UserPassesTestMixin, mixins.AccessMixin, CreateView
+):
     title = ""
 
     def get_context_data(self, **kwargs):
@@ -82,8 +79,7 @@ class BaseOutageCreateView(BaseCreateView):
 
 
 class CreateScheduledView(BaseOutageCreateView):
-    """Create a scheduled outage.
-    """
+    """Create a scheduled outage."""
 
     form_class = forms.ScheduledOutageForm
     template_name = "outages/scheduled.html"
@@ -92,8 +88,7 @@ class CreateScheduledView(BaseOutageCreateView):
 
 
 class CreateUnscheduledView(BaseOutageCreateView):
-    """Create an unscheduled outage.
-    """
+    """Create an unscheduled outage."""
 
     form_class = forms.UnscheduledOutageForm
     template_name = "outages/unscheduled.html"
@@ -131,8 +126,7 @@ class BaseUpdateCreateView(BaseCreateView):
 
 
 class UpdateOutageView(BaseUpdateCreateView):
-    """Create an outage update.
-    """
+    """Create an outage update."""
 
     template_name = "outages/add_update.html"
 
@@ -147,7 +141,7 @@ class UpdateOutageView(BaseUpdateCreateView):
             "outage": outage,
             "time": timezone.now(),
             "status": transitions[latest.status],
-            "severity": latest.severity
+            "severity": latest.severity,
         }
 
     def check_state(self):
@@ -157,8 +151,7 @@ class UpdateOutageView(BaseUpdateCreateView):
 
 
 class StartOutageView(BaseUpdateCreateView):
-    """Start a scheduled or unsheduled outage.
-    """
+    """Start a scheduled or unsheduled outage."""
 
     template_name = "outages/start.html"
 
@@ -180,14 +173,18 @@ class StartOutageView(BaseUpdateCreateView):
             "outage": outage,
             # For the (first) start of a scheduled outage, we will
             # use the scheduled start time
-            "time": (outage.scheduled_start
-                     if (outage.scheduled and not outage.start)
-                     else timezone.now()),
-            "content": ("Scheduled outage started."
-                        if outage.scheduled else ""),
-            "status": (models.STARTED if outage.scheduled
-                       else models.INVESTIGATING),
-            "severity": outage.scheduled_severity
+            "time": (
+                outage.scheduled_start
+                if (outage.scheduled and not outage.start)
+                else timezone.now()
+            ),
+            "content": (
+                "Scheduled outage started." if outage.scheduled else ""
+            ),
+            "status": (
+                models.STARTED if outage.scheduled else models.INVESTIGATING
+            ),
+            "severity": outage.scheduled_severity,
         }
 
     def check_state(self):
@@ -197,8 +194,7 @@ class StartOutageView(BaseUpdateCreateView):
 
 
 class EndOutageView(BaseUpdateCreateView):
-    """End an outage that is in progress.
-    """
+    """End an outage that is in progress."""
 
     template_name = "outages/end.html"
     title = "Outage Announcement Update"
@@ -211,12 +207,15 @@ class EndOutageView(BaseUpdateCreateView):
         return {
             "outage": outage,
             "time": timezone.now(),
-            "content": ("Scheduled outage completed."
-                        if outage.scheduled
-                        else "Unscheduled outage resolved."),
-            "status": (models.COMPLETED if outage.scheduled
-                       else models.RESOLVED),
-            "severity": outage.latest_update.severity
+            "content": (
+                "Scheduled outage completed."
+                if outage.scheduled
+                else "Unscheduled outage resolved."
+            ),
+            "status": (
+                models.COMPLETED if outage.scheduled else models.RESOLVED
+            ),
+            "severity": outage.latest_update.severity,
         }
 
     def check_state(self):
@@ -226,11 +225,10 @@ class EndOutageView(BaseUpdateCreateView):
             raise BadRequest(f"Outage {self.pk} in wrong state to end.")
 
 
-class CancelOutageView(mixins.UserPassesTestMixin,
-                       mixins.AccessMixin,
-                       BaseDetailView):
-    """Cancel a previously scheduled outage.
-    """
+class CancelOutageView(
+    mixins.UserPassesTestMixin, mixins.AccessMixin, BaseDetailView
+):
+    """Cancel a previously scheduled outage."""
 
     queryset = models.Outage.objects.filter(deleted=False)
     template_name = "outages/cancel.html"

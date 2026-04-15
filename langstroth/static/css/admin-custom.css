@@ -73,7 +73,7 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
     height: 1.1875rem;
 }
 
-#nav-sidebar .current-app .section:link, 
+#nav-sidebar .current-app .section:link,
 #nav-sidebar .current-app .section:visited {
     color: #111;
 }
@@ -98,9 +98,9 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
     color: #000 !important;
 }
 
-.button, input[type=submit], 
-input[type=button], 
-.submit-row input, 
+.button, input[type=submit],
+input[type=button],
+.submit-row input,
 a.button {
     background: #e6e6e6;
     color: #111;
@@ -109,28 +109,28 @@ a.button {
     letter-spacing: 1px;
 }
 
-.button:active, 
-input[type=submit]:active, 
-input[type=button]:active, 
-.button:focus, 
-input[type=submit]:focus, 
-input[type=button]:focus, 
-.button:hover, 
-input[type=submit]:hover, 
+.button:active,
+input[type=submit]:active,
+input[type=button]:active,
+.button:focus,
+input[type=submit]:focus,
+input[type=button]:focus,
+.button:hover,
+input[type=submit]:hover,
 input[type=button]:hover {
     background: #ddd;
 }
 
-.button.default, 
-input[type=submit].default, 
+.button.default,
+input[type=submit].default,
 .submit-row input.default {
     background: #67ce00;
     color: #000;
     font-weight: 600;
 }
 
-.button.default:active, input[type=submit].default:active, 
-.button.default:focus, input[type=submit].default:focus, 
+.button.default:active, input[type=submit].default:active,
+.button.default:focus, input[type=submit].default:focus,
 .button.default:hover, input[type=submit].default:hover {
     background: #4e9b00;
     color: #000;

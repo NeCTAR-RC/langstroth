@@ -10,14 +10,16 @@ VALID_RANGE = 7
 
 
 class SeleniumTestBase(StaticLiveServerTestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.driver = Firefox(
-            service=Service(GeckoDriverManager(
-                cache_manager=DriverCacheManager(
-                    valid_range=VALID_RANGE)).install()))
+            service=Service(
+                GeckoDriverManager(
+                    cache_manager=DriverCacheManager(valid_range=VALID_RANGE)
+                ).install()
+            )
+        )
 
     @classmethod
     def tearDownClass(cls):

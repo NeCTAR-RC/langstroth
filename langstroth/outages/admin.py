@@ -12,8 +12,8 @@ class UpdateInline(admin.TabularInline):
 
 @admin.register(models.Outage)
 class OutageAdmin(admin.ModelAdmin):
-    list_display = ('summary', )
-    inlines = (UpdateInline, )
+    list_display = ('summary',)
+    inlines = (UpdateInline,)
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 
     @admin.display(description='summary')

@@ -74,9 +74,7 @@ DATABASES = {
 }
 
 STORAGES = {
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage'
-    },
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
@@ -92,22 +90,22 @@ NAGIOS_AUTH = ("", "")
 # their availability.
 NAGIOS_SERVICE_GROUP = 'f5-endpoints'
 
-AVAILABILITY_QUERY_TEMPLATE = "avail.cgi" \
-    "?t1=%s" \
-    "&t2=%s" \
-    "&show_log_entries=" \
-    "&servicegroup=%s" \
-    "&assumeinitialstates=yes" \
-    "&assumestateretention=yes" \
-    "&assumestatesduringnotrunning=yes" \
-    "&includesoftstates=yes" \
-    "&initialassumedhoststate=3" \
-    "&initialassumedservicestate=6" \
-    "&timeperiod=[+Current+time+range+]" \
+AVAILABILITY_QUERY_TEMPLATE = (
+    "avail.cgi"
+    "?t1=%s"
+    "&t2=%s"
+    "&show_log_entries="
+    "&servicegroup=%s"
+    "&assumeinitialstates=yes"
+    "&assumestateretention=yes"
+    "&assumestatesduringnotrunning=yes"
+    "&includesoftstates=yes"
+    "&initialassumedhoststate=3"
+    "&initialassumedservicestate=6"
+    "&timeperiod=[+Current+time+range+]"
     "&backtrack=4"
-STATUS_QUERY_TEMPLATE = "status.cgi" \
-    "?servicegroup=%s" \
-    "&style=detail"
+)
+STATUS_QUERY_TEMPLATE = "status.cgi?servicegroup=%s&style=detail"
 
 # The URL to the graphite web interface
 GRAPHITE_URL = "http://graphite.test"
@@ -193,9 +191,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
+COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ofok2r^p3*m8cocztx&y7n@48(lbwij*najjyoxzxrflx@#qeh'
@@ -211,7 +207,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'langstroth.auth.NoDjangoAdminForEndUserMiddleware',
     'tz_detect.middleware.TimezoneMiddleware',
-
 ]
 
 ROOT_URLCONF = 'langstroth.urls'
@@ -259,9 +254,11 @@ INSTALLED_APPS = [
 
 HEALTH_CHECK = {
     "SUBSETS": {
-        "startup-probe": ["MigrationsHealthCheck",
-                          "DatabaseBackend",
-                          "Cache backend: default"],
+        "startup-probe": [
+            "MigrationsHealthCheck",
+            "DatabaseBackend",
+            "Cache backend: default",
+        ],
         "liveness-probe": ["Cache backend: default"],
     },
 }
@@ -292,20 +289,16 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
+        'simple': {'format': '%(levelname)s %(message)s'},
     },
     'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
+        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
         },
         'console': {
             'level': 'DEBUG',
@@ -324,5 +317,5 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'WARN',
         },
-    }
+    },
 }

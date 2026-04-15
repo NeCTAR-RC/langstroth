@@ -16,17 +16,20 @@ You probably want a source install so run ::
 First run
 ---------
 
-For initial demonstration purposes navigate into the top-level Langstroth directory and execute::
+For initial demonstration purposes navigate into the top-level Langstroth
+directory and execute::
 
   ./manage.py syncdb
   ./manage.py syncdb --database allocations_db
   ./manage.py runserver
 
-For production purposes the allocations table (allocations_db) will already exist.
+For production purposes the allocations table (allocations_db) will already
+exist.
 The settings file will need to be adjusted to reference this database
 and the reference data file.
 
-Once these adjustments have been made execute the scripts to load the reference data::
+Once these adjustments have been made execute the scripts to load the reference
+data::
 
   ./manage.py syncdb
   ./manage.py syncdb --database allocations_db
@@ -83,6 +86,7 @@ needs to be installed as follows:
 Command Line Tools
 ------------------
 
-Python tools required for testing via the command line are installed as follows::
+Python tools required for testing via the command line are installed as
+follows::
 
   sudo pip install tox

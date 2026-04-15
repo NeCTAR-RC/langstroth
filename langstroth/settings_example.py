@@ -1,4 +1,3 @@
-
 SITE_DOMAIN = "status.rc.nectar.edu.au"
 
 DEBUG = False
@@ -15,11 +14,13 @@ DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/lib/langstroth/langstroth.db'},
+        'NAME': '/var/lib/langstroth/langstroth.db',
+    },
     # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
     'allocations_db': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/lib/langstroth/nectar_allocations.db'}
+        'NAME': '/var/lib/langstroth/nectar_allocations.db',
+    },
 }
 
 CACHES = {
@@ -97,15 +98,13 @@ LOGGING = {
         },
     },
     'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
+        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
         },
         'file': {
             'class': 'logging.FileHandler',
@@ -123,5 +122,5 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'INFO',
         },
-    }
+    },
 }

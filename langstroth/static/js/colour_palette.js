@@ -11,7 +11,7 @@ function ColourPalette() {
                  '#c26200', '#00fa9a', '#8b4513', '#00ffff', '#556b2f',
                  '#ffa07a', '#7cfc00', '#7f007f', '#9acd32', '#ee82ee',
                  '#ff1493', '#d8bfd8'];
- 
+
   // d3.schemeCategory20
   this.basePalette = this.fill(colours, 22);
   this.paletteStack = [this.basePalette];

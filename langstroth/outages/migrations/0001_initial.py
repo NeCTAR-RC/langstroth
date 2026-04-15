@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -17,33 +16,127 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Outage',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('title', models.CharField(max_length=255)),
                 ('description', models.TextField()),
                 ('scheduled', models.BooleanField(blank=True, default=False)),
                 ('cancelled', models.BooleanField(blank=True, default=False)),
                 ('deleted', models.BooleanField(blank=True, default=False)),
-                ('scheduled_start', models.DateTimeField(blank=True, null=True)),
+                (
+                    'scheduled_start',
+                    models.DateTimeField(blank=True, null=True),
+                ),
                 ('scheduled_end', models.DateTimeField(blank=True, null=True)),
-                ('scheduled_severity', models.IntegerField(blank=True, choices=[(1, 'Minimal'), (2, 'Significant'), (3, 'Severe')], null=True)),
+                (
+                    'scheduled_severity',
+                    models.IntegerField(
+                        blank=True,
+                        choices=[
+                            (1, 'Minimal'),
+                            (2, 'Significant'),
+                            (3, 'Severe'),
+                        ],
+                        null=True,
+                    ),
+                ),
                 ('modification_time', models.DateTimeField(auto_now_add=True)),
-                ('created_by', models.ForeignKey(editable=False, on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL)),
+                (
+                    'created_by',
+                    models.ForeignKey(
+                        editable=False,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='+',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'modified_by',
+                    models.ForeignKey(
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='+',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='OutageUpdate',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('time', models.DateTimeField()),
                 ('modification_time', models.DateTimeField(auto_now_add=True)),
-                ('status', models.CharField(choices=[('S', 'Started'), ('IN', 'Investigating'), ('ID', 'Identified'), ('P', 'Progressing'), ('F', 'Fixed'), ('R', 'Resolved'), ('C', 'Completed')], max_length=2)),
-                ('severity', models.IntegerField(choices=[(1, 'Minimal'), (2, 'Significant'), (3, 'Severe')])),
+                (
+                    'status',
+                    models.CharField(
+                        choices=[
+                            ('S', 'Started'),
+                            ('IN', 'Investigating'),
+                            ('ID', 'Identified'),
+                            ('P', 'Progressing'),
+                            ('F', 'Fixed'),
+                            ('R', 'Resolved'),
+                            ('C', 'Completed'),
+                        ],
+                        max_length=2,
+                    ),
+                ),
+                (
+                    'severity',
+                    models.IntegerField(
+                        choices=[
+                            (1, 'Minimal'),
+                            (2, 'Significant'),
+                            (3, 'Severe'),
+                        ]
+                    ),
+                ),
                 ('content', models.TextField()),
                 ('deleted', models.BooleanField(blank=True, default=False)),
-                ('created_by', models.ForeignKey(editable=False, on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('outage', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='updates', to='outages.outage')),
+                (
+                    'created_by',
+                    models.ForeignKey(
+                        editable=False,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='+',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'modified_by',
+                    models.ForeignKey(
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='+',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'outage',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='updates',
+                        to='outages.outage',
+                    ),
+                ),
             ],
             options={
                 'ordering': ['time'],
