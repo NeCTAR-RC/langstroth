@@ -30,9 +30,6 @@ LOG = logging.getLogger(__name__)
 #     COMPLETED.
 #   In either case a specific outage may deviate; e.g. skip states, repeat
 #     states or return to earlier states.
-#
-# Records that are marked as deleted will not be shown by user interfaces
-# or returned by the APIs.
 
 # Outage Status
 STARTED = 'S'
@@ -79,9 +76,7 @@ def _severity_display(severity):
 
 class OutageManager(models.Manager):
     def current_outages(self):
-        query = self.filter(deleted=False, cancelled=False).prefetch_related(
-            'updates'
-        )
+        query = self.filter(cancelled=False).prefetch_related('updates')
         return [o for o in query if o.is_current]
 
 
@@ -92,7 +87,6 @@ class Outage(models.Model):
     description = models.TextField()
     scheduled = models.BooleanField(blank=True, default=False)
     cancelled = models.BooleanField(blank=True, default=False)
-    deleted = models.BooleanField(blank=True, default=False)
     scheduled_start = models.DateTimeField(blank=True, null=True)
     scheduled_end = models.DateTimeField(blank=True, null=True)
     scheduled_severity = models.IntegerField(
@@ -118,15 +112,15 @@ class Outage(models.Model):
 
     @property
     def visible_updates(self):
-        return list(self.updates.get_queryset().exclude(deleted=True))
+        return list(self.updates.get_queryset())
 
     @property
     def first_update(self):
-        return self.updates.get_queryset().exclude(deleted=True).first()
+        return self.updates.get_queryset().first()
 
     @property
     def latest_update(self):
-        return self.updates.get_queryset().exclude(deleted=True).last()
+        return self.updates.get_queryset().last()
 
     @property
     def is_current(self):
@@ -213,7 +207,6 @@ class OutageUpdate(models.Model):
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     severity = models.IntegerField(choices=SEVERITY_CHOICES)
     content = models.TextField()
-    deleted = models.BooleanField(blank=True, default=False)
 
     class Meta:
         ordering = ['time', 'pk']

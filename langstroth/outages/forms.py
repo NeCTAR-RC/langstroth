@@ -41,7 +41,6 @@ class UnscheduledOutageForm(forms.ModelForm):
     class Meta:
         model = models.Outage
         exclude = [
-            'deleted',
             'cancelled',
             'scheduled',
             'scheduled_start',
@@ -92,7 +91,7 @@ class ScheduledOutageForm(forms.ModelForm):
 
     class Meta:
         model = models.Outage
-        exclude = ['deleted', 'cancelled']
+        exclude = ['cancelled']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

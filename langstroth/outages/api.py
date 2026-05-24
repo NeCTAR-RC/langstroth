@@ -22,7 +22,7 @@ class OutageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Outage
-        exclude = ('created_by', 'modified_by', 'modification_time', 'deleted')
+        exclude = ('created_by', 'modified_by', 'modification_time')
 
     updates = OutageUpdateSerializer(many=True, read_only=True)
 
@@ -48,6 +48,4 @@ class OutageViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [rest_filters.DjangoFilterBackend]
 
     def get_queryset(self):
-        return models.Outage.objects.filter(deleted=False).prefetch_related(
-            'updates'
-        )
+        return models.Outage.objects.prefetch_related('updates')

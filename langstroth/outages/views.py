@@ -32,7 +32,7 @@ def index_page(request):
     f = filters.OutageFilters(
         request.GET,
         is_staff=request.user.is_staff,
-        queryset=models.Outage.objects.filter(deleted=False),
+        queryset=models.Outage.objects.all(),
     )
     context = {"title": "Service Announcements", "tagline": "", "filter": f}
     return shortcuts.render(request, "outages/list.html", context)
@@ -62,7 +62,7 @@ class BaseCreateView(
 
 
 class OutageDetailView(BaseDetailView):
-    queryset = models.Outage.objects.filter(deleted=False)
+    queryset = models.Outage.objects.all()
     template_name = "outages/detail.html"
     title = "Announcement Details"
 
@@ -114,7 +114,7 @@ class BaseUpdateCreateView(BaseCreateView):
         return super().post(request, **kwargs)
 
     def get_outage(self):
-        return models.Outage.objects.exclude(deleted=True).get(pk=self.pk)
+        return models.Outage.objects.get(pk=self.pk)
 
     def form_valid(self, form):
         form.instance.outage = self.get_outage()
@@ -230,7 +230,7 @@ class CancelOutageView(
 ):
     """Cancel a previously scheduled outage."""
 
-    queryset = models.Outage.objects.filter(deleted=False)
+    queryset = models.Outage.objects.all()
     template_name = "outages/cancel.html"
     title = "Confirm Cancellation"
 

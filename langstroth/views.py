@@ -107,7 +107,7 @@ class SimpleActivityFilter(filters.ActivityFilterMixin):
 
 def _add_outages(context):
     filter = SimpleActivityFilter()
-    queryset = models.Outage.objects.filter(deleted=False)
+    queryset = models.Outage.objects.all()
 
     context['active'] = filter.filter(queryset, "active")
     context['completed'] = filter.filter(queryset, "completed")[:3]
