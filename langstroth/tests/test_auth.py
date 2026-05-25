@@ -152,6 +152,23 @@ class NectarAuthBackendTests(TestCase):
         )
         self.assertIn(user, result)
 
+    def test_demotion_removes_outage_manager_membership(self):
+        # Promote then demote: the group membership must follow the role.
+        user = auth_models.User.objects.create_user(
+            'demo',
+            email='demo@test.com',
+            sub='55555555-5555-5555-5555-555555555555',
+        )
+        backend = auth.NectarAuthBackend()
+        backend.update_user(user, self._claims(roles=['/staff']))
+        managers = Group.objects.get(name='outage_managers')
+        self.assertIn(user, managers.user_set.all())
+
+        backend.update_user(user, self._claims(roles=[]))
+        self.assertNotIn(user, managers.user_set.all())
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+
     def test_filter_users_fallback_to_email(self):
         # Existing user with no `sub` — backend should find by email
         user = auth_models.User.objects.create_user('u', email='u@test.com')

@@ -79,14 +79,18 @@ class NectarAuthBackend(OIDCAuthenticationBackend):
         roles = claims.get(ROLE_CLAIM, [])
         user.is_staff = any(i in STAFF_ROLES for i in roles)
         user.is_superuser = any(i in ADMIN_ROLES for i in roles)
+        # Mirror the staff bit into outage_managers group membership on
+        # every login -- demotion in the IdP must revoke local group
+        # perms, not just the is_staff flag.
+        user.save()
+        outage_managers = outage_admin.get_outage_manager_group()
         if user.is_staff or user.is_superuser:
-            outage_managers = outage_admin.get_outage_manager_group()
             outage_managers.user_set.add(user)
             # The permissions for the outage managers group will determine
             # what staff can do to objects via the admin interface.
             # Superusers can do anything ...
-
-        user.save()
+        else:
+            outage_managers.user_set.remove(user)
 
     def filter_users_by_claims(self, claims):
         """Return all users matching the specified sub."""
