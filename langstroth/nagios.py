@@ -72,8 +72,13 @@ def parse_percent_string(s):
 
 
 def parse_service_availability(service):
-    host, service, ok, warn, unknown, crit, undet = service.getchildren()
-    nagios_service_name = ''.join([t for t in service.itertext()])
+    children = list(service)
+    if len(children) < 7:
+        raise ValueError(
+            f"Expected 7 cells in availability row, got {len(children)}"
+        )
+    host, service_cell, ok, warn, unknown, crit, undet = children[:7]
+    nagios_service_name = ''.join([t for t in service_cell.itertext()])
     ok_value = (
         parse_percent_string(ok.text)
         + parse_percent_string(warn.text)
@@ -102,22 +107,36 @@ def parse_availability(html, service_group):
     average = {}
     if table is not None:
         for row in table.xpath(tr.css_to_xpath("tr.dataOdd, tr.dataEven")):
-            if 'colspan' in row.getchildren()[0].attrib:
-                title, ok, warn, unknown, crit, undet = row.getchildren()
-                ok_value = (
-                    parse_percent_string(ok.text)
-                    + parse_percent_string(warn.text)
-                    + parse_percent_string(unknown.text)
-                )
-                critical_value = parse_percent_string(crit.text)
-                average = {
-                    'name': 'Average',
-                    'ok': ok_value,
-                    'critical': critical_value,
-                }
+            try:
+                children = list(row)
+                if not children:
+                    continue
+                if 'colspan' in children[0].attrib:
+                    if len(children) < 6:
+                        LOG.warning(
+                            "Skipping average row with %d cells; expected 6",
+                            len(children),
+                        )
+                        continue
+                    title, ok, warn, unknown, crit, undet = children[:6]
+                    ok_value = (
+                        parse_percent_string(ok.text)
+                        + parse_percent_string(warn.text)
+                        + parse_percent_string(unknown.text)
+                    )
+                    critical_value = parse_percent_string(crit.text)
+                    average = {
+                        'name': 'Average',
+                        'ok': ok_value,
+                        'critical': critical_value,
+                    }
+                    continue
+                service = parse_service_availability(row)
+                services[service['name']] = service
+            except (ValueError, IndexError, AttributeError) as ex:
+                # One malformed row must not lose the whole table.
+                LOG.warning("Skipping malformed Nagios row: %s", ex)
                 continue
-            service = parse_service_availability(row)
-            services[service['name']] = service
 
     context = {'services': services, 'average': average}
     return context
