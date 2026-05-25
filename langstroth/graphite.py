@@ -72,6 +72,8 @@ def fill_null_datapoints(response_data, summarise=None):
     values with either 0.0 or the previous real value that existed.
 
     """
+    if not response_data:
+        return response_data
     # Use the longest series as the template.  NVD3 requires that all
     # the datasets have the same data points.
     tmpl = sorted(

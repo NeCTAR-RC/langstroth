@@ -12,6 +12,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.defaultfilters import pluralize
+import requests
 
 from langstroth import graphite
 from langstroth.nagios import get_availability
@@ -250,6 +251,21 @@ def composition(request, name):
         raise Http404
 
 
+def _graphite_unavailable():
+    return HttpResponse(dumps([]), content_type='application/json', status=503)
+
+
+def _graphite_json(req):
+    """Pull JSON from a Graphite response or raise to the caller.
+
+    Graphite returns text/html with a stack trace on error; raise so the
+    caller can surface a 503 instead of leaking the trace into the JSON
+    deserialiser.
+    """
+    req.raise_for_status()
+    return req.json()
+
+
 def total_instance_count(request):
     q_from = request.GET.get('from', "-6months")
     q_until = request.GET.get('until', None)
@@ -260,9 +276,17 @@ def total_instance_count(request):
         for alias, target in settings.INST_TARGETS
     ]
 
-    req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
-    data = graphite.fill_null_datapoints(req.json(), q_summarise)
-    return HttpResponse(dumps(data), req.headers['content-type'])
+    try:
+        req = graphite.get(
+            from_date=q_from, until_date=q_until, targets=targets
+        )
+        data = graphite.fill_null_datapoints(_graphite_json(req), q_summarise)
+    except (requests.RequestException, ValueError, IndexError) as ex:
+        LOG.warning(
+            "Problem fetching instance count from Graphite", exc_info=ex
+        )
+        return _graphite_unavailable()
+    return HttpResponse(dumps(data), content_type='application/json')
 
 
 def total_used_cores(request):
@@ -275,9 +299,15 @@ def total_used_cores(request):
         for alias, target in settings.CORES_TARGETS
     ]
 
-    req = graphite.get(from_date=q_from, until_date=q_until, targets=targets)
-    data = graphite.fill_null_datapoints(req.json(), q_summarise)
-    return HttpResponse(dumps(data), req.headers['content-type'])
+    try:
+        req = graphite.get(
+            from_date=q_from, until_date=q_until, targets=targets
+        )
+        data = graphite.fill_null_datapoints(_graphite_json(req), q_summarise)
+    except (requests.RequestException, ValueError, IndexError) as ex:
+        LOG.warning("Problem fetching used cores from Graphite", exc_info=ex)
+        return _graphite_unavailable()
+    return HttpResponse(dumps(data), content_type='application/json')
 
 
 def choose_first(datapoints):
@@ -300,9 +330,14 @@ def composition_cores(request, name):
         )
     else:
         targets.append(graphite.Target(f"az.{q_az}.{name}.*.used_vcpus"))
-    req = graphite.get(from_date=q_from, targets=targets)
+    try:
+        req = graphite.get(from_date=q_from, targets=targets)
+        items = _graphite_json(req)
+    except (requests.RequestException, ValueError) as ex:
+        LOG.warning("Problem fetching composition from Graphite", exc_info=ex)
+        return _graphite_unavailable()
     cleaned = defaultdict(dict)
-    for item in req.json():
+    for item in items:
         item_name = '.'.join(item['target'].split('.')[-2].split('_'))
         data = cleaned[item_name]
         data['target'] = item_name
@@ -316,6 +351,4 @@ def composition_cores(request, name):
             data['value'] = count
     cleaned = list(cleaned.values())
     sorted(cleaned, key=lambda x: x['value'])
-    return HttpResponse(
-        dumps(cleaned), content_type=req.headers['Content-Type']
-    )
+    return HttpResponse(dumps(cleaned), content_type='application/json')
