@@ -18,6 +18,9 @@
 
 import logging
 import os
+import stat
+
+from django.core.exceptions import ImproperlyConfigured
 
 from langstroth.defaults import *  # NOQA
 
@@ -29,6 +32,19 @@ LOG = logging.getLogger(__name__)
 
 CUSTOM_SETTINGS_PATH = "/etc/langstroth/settings.py"
 if os.path.exists(CUSTOM_SETTINGS_PATH):
-    exec(open(CUSTOM_SETTINGS_PATH, "rb").read())
+    # Refuse to load if the override file is writable by group or other.
+    # exec() of an attacker-writable file is arbitrary code execution.
+    st = os.stat(CUSTOM_SETTINGS_PATH)
+    if st.st_mode & (stat.S_IWGRP | stat.S_IWOTH):
+        raise ImproperlyConfigured(
+            f"Refusing to load {CUSTOM_SETTINGS_PATH}: file is writable "
+            "by group or other. Restrict to owner-only writes (chmod 600 "
+            "or 644)."
+        )
+    with open(CUSTOM_SETTINGS_PATH, "rb") as f:
+        source = f.read()
+    # compile() with the real path gives tracebacks that point at the
+    # override file instead of "<string>".
+    exec(compile(source, CUSTOM_SETTINGS_PATH, "exec"))
 else:
-    LOG.warn(f"Missing custom settings file: {CUSTOM_SETTINGS_PATH}. ")
+    LOG.warning(f"Missing custom settings file: {CUSTOM_SETTINGS_PATH}. ")
