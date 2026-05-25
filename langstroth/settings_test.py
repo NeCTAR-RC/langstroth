@@ -10,6 +10,8 @@ DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 DEBUG = True
 
+SECRET_KEY = 'secret'
+
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {

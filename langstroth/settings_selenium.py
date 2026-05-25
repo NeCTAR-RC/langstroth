@@ -7,6 +7,8 @@ from os import path
 
 DEBUG = True
 
+SECRET_KEY = 'secret'
+
 COMPRESS_ENABLED = False
 
 COMPRESS_PRECOMPILERS = []

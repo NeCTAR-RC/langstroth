@@ -19,7 +19,7 @@
 import logging
 import os
 
-from .defaults import *  # NOQA
+from langstroth.defaults import *  # NOQA
 
 
 # Fixes "No handlers could be found for logger"

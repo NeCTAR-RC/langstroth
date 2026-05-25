@@ -193,9 +193,6 @@ STATICFILES_FINDERS = (
 
 COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'ofok2r^p3*m8cocztx&y7n@48(lbwij*najjyoxzxrflx@#qeh'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
