@@ -254,6 +254,50 @@ def composition(request, name):
         raise Http404
 
 
+# Allowed Graphite time-window expressions for the from= / until= /
+# summarise= query parameters. Restricting these prevents callers from
+# slipping arbitrary Graphite functions into the metric target string
+# (which is built by f-string interpolation in graphite.Target).
+_GRAPHITE_RELATIVE_RE = re.compile(
+    r'^-?\d+(?:s|seconds?|min|minutes?|h|hours?|d|days?|w|weeks?|mon|months?|y|years?)$'
+)
+_GRAPHITE_ABSOLUTE_RE = re.compile(r'^\d{8}$')  # yyyymmdd
+_GRAPHITE_SUMMARISE_RE = re.compile(
+    r'^\d+(?:s|seconds?|min|minutes?|h|hours?|d|days?|w|weeks?|mon|months?|y|years?)$'
+)
+
+
+def _safe_graphite_window(value, default=None):
+    """Return value if it is a recognised relative-or-absolute Graphite
+    time expression; else default. Rejects anything that could break out
+    of a Graphite function-call string."""
+    if value is None:
+        return default
+    if _GRAPHITE_RELATIVE_RE.match(value) or _GRAPHITE_ABSOLUTE_RE.match(
+        value
+    ):
+        return value
+    return default
+
+
+def _safe_graphite_summarise(value):
+    if value is None:
+        return None
+    if _GRAPHITE_SUMMARISE_RE.match(value):
+        return value
+    return None
+
+
+def _safe_graphite_token(value, default='all'):
+    """Allow only alphanumeric / underscore / dash so the value cannot
+    close a Graphite function-call string or inject extra expressions."""
+    if value is None:
+        return default
+    if re.match(r'^[A-Za-z0-9_-]+$', value):
+        return value
+    return default
+
+
 def _graphite_unavailable():
     return HttpResponse(dumps([]), content_type='application/json', status=503)
 
@@ -270,9 +314,9 @@ def _graphite_json(req):
 
 
 def total_instance_count(request):
-    q_from = request.GET.get('from', "-6months")
-    q_until = request.GET.get('until', None)
-    q_summarise = request.GET.get('summarise', None)
+    q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
+    q_until = _safe_graphite_window(request.GET.get('until'))
+    q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
 
     targets = [
         graphite.Target(target).summarize(q_summarise).alias(alias)
@@ -293,9 +337,9 @@ def total_instance_count(request):
 
 
 def total_used_cores(request):
-    q_from = request.GET.get('from', "-6months")
-    q_until = request.GET.get('until', None)
-    q_summarise = request.GET.get('summarise', None)
+    q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
+    q_until = _safe_graphite_window(request.GET.get('until'))
+    q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
 
     targets = [
         graphite.Target(target).summarize(q_summarise).alias(alias)
@@ -320,8 +364,8 @@ def choose_first(datapoints):
 
 
 def composition_cores(request, name):
-    q_from = request.GET.get('from', "-60minutes")
-    q_az = request.GET.get('az', "all")
+    q_from = _safe_graphite_window(request.GET.get('from'), "-60minutes")
+    q_az = _safe_graphite_token(request.GET.get('az'), "all")
     targets = []
 
     if q_az in settings.COMPOSITION_QUERY:
