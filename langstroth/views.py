@@ -12,6 +12,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.defaultfilters import pluralize
+from django.utils import timezone
 import requests
 
 from langstroth import graphite
@@ -24,9 +25,7 @@ LOG = logging.getLogger(__name__)
 
 
 def round_to_day(datetime_object):
-    return datetime.datetime(
-        datetime_object.year, datetime_object.month, datetime_object.day
-    )
+    return datetime_object.replace(hour=0, minute=0, second=0, microsecond=0)
 
 
 def _get_hosts(
@@ -126,12 +125,14 @@ def index(request):
     report_range = None
     if end:
         try:
-            end_date = datetime.datetime.strptime(end, "%Y-%m-%d")
+            end_date = timezone.make_aware(
+                datetime.datetime.strptime(end, "%Y-%m-%d")
+            )
         except ValueError:
             pass
 
     if not end_date:
-        end_date = datetime.datetime.now()
+        end_date = timezone.now()
         now = 'Now'
 
     if start:
@@ -141,7 +142,7 @@ def index(request):
                 value = int(res.group('value'))
                 period = res.group('period')
                 args = {period: value}
-                start_date = datetime.datetime.now() - relativedelta(**args)
+                start_date = timezone.now() - relativedelta(**args)
                 period_str = period.rstrip('s')
                 report_range = (
                     f"Over the last {value} {period_str}{pluralize(value)}"
@@ -150,12 +151,14 @@ def index(request):
                 pass
         else:
             try:
-                start_date = datetime.datetime.strptime(start, "%Y-%m-%d")
+                start_date = timezone.make_aware(
+                    datetime.datetime.strptime(start, "%Y-%m-%d")
+                )
             except ValueError:
                 pass
 
     if not start_date:
-        start_date = datetime.datetime.now() - relativedelta(months=1)
+        start_date = timezone.now() - relativedelta(months=1)
         report_range = "Over the last 1 month"
 
     start_date = round_to_day(start_date)
