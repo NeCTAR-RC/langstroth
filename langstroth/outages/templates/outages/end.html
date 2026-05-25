@@ -45,9 +45,7 @@
           </div>
         </fieldset>
         <button type="submit" class="btn btn-danger">End the Outage</button>
-        {% if 'outages' in request.META.HTTP_REFERER %}
-          <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-link">Back to announcement</a>
-        {% endif %}
+        <a href="{% url 'outages:detail' outage.id %}" class="btn btn-link">Back to announcement</a>
       </form>
     </div>
   </div>
