@@ -1,5 +1,6 @@
 from django.contrib.auth import mixins
 from django.core.exceptions import BadRequest
+from django.db import transaction
 from django import shortcuts
 from django.urls import reverse
 from django.utils import timezone
@@ -176,18 +177,19 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
     def form_valid(self, form):
         outage = self.get_outage()
         now = timezone.now()
-        outage.end = now
-        outage.modified_by = self.request.user
-        outage.save()
-        content = form.cleaned_data.get('content')
-        if content:
-            models.OutageUpdate.objects.create(
-                outage=outage,
-                time=now,
-                status=models.RESOLVED,
-                content=content,
-                created_by=self.request.user,
-            )
+        with transaction.atomic():
+            outage.end = now
+            outage.modified_by = self.request.user
+            outage.save()
+            content = form.cleaned_data.get('content')
+            if content:
+                models.OutageUpdate.objects.create(
+                    outage=outage,
+                    time=now,
+                    status=models.RESOLVED,
+                    content=content,
+                    created_by=self.request.user,
+                )
         return super().form_valid(form)
 
     def check_state(self):

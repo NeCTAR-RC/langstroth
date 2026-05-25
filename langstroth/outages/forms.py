@@ -1,6 +1,7 @@
 from datetime import timedelta, timezone as dt_timezone
 
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+from django.db import transaction
 from django import forms
 from django.utils import timezone
 
@@ -116,21 +117,26 @@ class OutageForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
-        outage = super().save(commit=commit)
         cleaned = self.cleaned_data
-        if (
-            commit
-            and self._is_starting_now(outage.start)
-            and cleaned.get('status')
-            and cleaned.get('content')
-        ):
-            models.OutageUpdate.objects.create(
-                outage=outage,
-                time=timezone.now(),
-                status=cleaned['status'],
-                content=cleaned['content'],
-                created_by=outage.created_by,
-            )
+        # When creating a starting-now outage, the initial OutageUpdate
+        # and the Outage row must persist together: otherwise a failure
+        # creating the update leaves a started outage with no update
+        # and `status_display` lies.
+        with transaction.atomic():
+            outage = super().save(commit=commit)
+            if (
+                commit
+                and self._is_starting_now(outage.start)
+                and cleaned.get('status')
+                and cleaned.get('content')
+            ):
+                models.OutageUpdate.objects.create(
+                    outage=outage,
+                    time=timezone.now(),
+                    status=cleaned['status'],
+                    content=cleaned['content'],
+                    created_by=outage.created_by,
+                )
         return outage
 
 
