@@ -12,6 +12,9 @@ DEBUG = True
 
 SECRET_KEY = 'secret'
 
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
+
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {

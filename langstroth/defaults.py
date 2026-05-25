@@ -12,7 +12,9 @@ DEFAULT_DATABASE_NAME = '../langstroth.db'
 
 NAGIOS_PASSWORD = ""
 
-DEBUG = True
+# Safe default for production. Developer setups and the test settings
+# (settings_test.py / settings_selenium.py) flip this on explicitly.
+DEBUG = False
 
 COMPRESS_ENABLED = not DEBUG
 COMPRESS_OFFLINE = not DEBUG
