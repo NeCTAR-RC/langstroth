@@ -203,12 +203,12 @@ def get_availability(
         service_group,
     )
     url = settings.NAGIOS_URL + query
-    resp = requests.get(url, auth=settings.NAGIOS_AUTH)
+    resp = requests.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
     return parse_availability(resp.text, service_group)
 
 
 def get_status(service_group=settings.NAGIOS_SERVICE_GROUP):
     query = settings.STATUS_QUERY_TEMPLATE % service_group
     url = settings.NAGIOS_URL + query
-    resp = requests.get(url, auth=settings.NAGIOS_AUTH)
+    resp = requests.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
     return parse_status(resp.text, service_group)

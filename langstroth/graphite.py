@@ -141,4 +141,4 @@ def get(from_date=None, until_date=None, targets=[]):
     if until_date:
         arguments.append(('until', until_date))
 
-    return requests.get(GRAPHITE + "?" + urlencode(arguments))
+    return requests.get(GRAPHITE + "?" + urlencode(arguments), timeout=(5, 30))

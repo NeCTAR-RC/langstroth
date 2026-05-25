@@ -72,7 +72,8 @@ class GraphiteGetTests(TestCase):
     def test_get(self, mock_get):
         response = graphite.get(from_date='-1year')
         mock_get.assert_called_with(
-            'http://graphite.dev.rc.nectar.org.au/render/?format=json&from=-1year'
+            'http://graphite.dev.rc.nectar.org.au/render/?format=json&from=-1year',
+            timeout=(5, 30),
         )
         self.assertEqual(mock_get(), response)
 
@@ -81,7 +82,8 @@ class GraphiteGetTests(TestCase):
         graphite.get(from_date='-1year', until_date='now')
         mock_get.assert_called_with(
             'http://graphite.dev.rc.nectar.org.au/render/'
-            '?format=json&from=-1year&until=now'
+            '?format=json&from=-1year&until=now',
+            timeout=(5, 30),
         )
 
     @mock.patch('langstroth.graphite.requests.get')
@@ -92,7 +94,8 @@ class GraphiteGetTests(TestCase):
             'http://graphite.dev.rc.nectar.org.au/render/'
             '?format=json'
             '&target=alias%28test.az.something%2C+%22foo%22%29'
-            '&from=-1year'
+            '&from=-1year',
+            timeout=(5, 30),
         )
 
     @mock.patch('langstroth.graphite.requests.get')
@@ -107,7 +110,8 @@ class GraphiteGetTests(TestCase):
             '?format=json'
             '&target=alias%28test.az.something%2C+%22foo%22%29'
             '&target=alias%28test.az.something_else%2C+%22bar%22%29'
-            '&from=-1year'
+            '&from=-1year',
+            timeout=(5, 30),
         )
 
 
