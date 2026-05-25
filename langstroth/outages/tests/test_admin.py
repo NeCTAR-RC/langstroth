@@ -3,10 +3,23 @@ from unittest import mock
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.models import Group
 from django.test import TestCase
+from django.utils import timezone
 
 from langstroth import models as auth_models
 from langstroth.outages import admin
 from langstroth.outages import models
+
+
+def _make_outage(user, **overrides):
+    defaults = {
+        "title": "t",
+        "description": "d",
+        "start": timezone.now(),
+        "severity": models.SIGNIFICANT,
+        "created_by": user,
+    }
+    defaults.update(overrides)
+    return models.Outage.objects.create(**defaults)
 
 
 class OutageAdminTests(TestCase):
@@ -30,39 +43,36 @@ class OutageAdminTests(TestCase):
 
     def test_save_model_new(self):
         request = mock.Mock(user=self.user)
-        outage = models.Outage(title="t", description="d")
+        outage = models.Outage(
+            title="t",
+            description="d",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
+        )
         form = mock.Mock(has_changed=mock.Mock(return_value=False))
         self.outage_admin.save_model(request, outage, form, change=False)
         self.assertEqual(self.user, outage.created_by)
 
     def test_save_model_change_with_modification(self):
-        outage = models.Outage.objects.create(
-            title="t", description="d", created_by=self.user
-        )
+        outage = _make_outage(self.user)
         request = mock.Mock(user=self.other)
         form = mock.Mock(has_changed=mock.Mock(return_value=True))
         self.outage_admin.save_model(request, outage, form, change=True)
         self.assertEqual(self.other, outage.modified_by)
 
     def test_save_model_change_without_modification(self):
-        outage = models.Outage.objects.create(
-            title="t", description="d", created_by=self.user
-        )
+        outage = _make_outage(self.user)
         request = mock.Mock(user=self.other)
         form = mock.Mock(has_changed=mock.Mock(return_value=False))
         self.outage_admin.save_model(request, outage, form, change=True)
-        # Untouched
         self.assertIsNone(outage.modified_by)
 
     def test_save_formset_new_update(self):
-        outage = models.Outage.objects.create(
-            title="t", description="d", created_by=self.user
-        )
+        outage = _make_outage(self.user)
         new_sub = mock.Mock()
         new_sub.instance = models.OutageUpdate(
             outage=outage,
             status=models.INVESTIGATING,
-            severity=models.SEVERE,
             content="x",
         )
         new_sub.instance.id = None
@@ -72,7 +82,6 @@ class OutageAdminTests(TestCase):
             outage=outage,
             time=outage.modification_time,
             status=models.INVESTIGATING,
-            severity=models.SEVERE,
             content="y",
             created_by=self.user,
         )

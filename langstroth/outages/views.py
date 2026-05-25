@@ -4,28 +4,11 @@ from django import shortcuts
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
 from langstroth.outages import filters
 from langstroth.outages import forms
 from langstroth.outages import models
-
-
-# Expected state transitions for each Outage status code
-STATUS_TRANSITIONS = {
-    True: {  # Scheduled outage transitions
-        models.STARTED: models.PROGRESSING,
-        models.PROGRESSING: models.PROGRESSING,
-        models.COMPLETED: models.PROGRESSING,  # reopen
-    },
-    False: {  # Unscheduled outage transitions
-        models.INVESTIGATING: models.IDENTIFIED,
-        models.IDENTIFIED: models.PROGRESSING,
-        models.PROGRESSING: models.FIXED,
-        models.FIXED: models.RESOLVED,
-        models.RESOLVED: models.PROGRESSING,  # reopen
-    },
-}
 
 
 def index_page(request):
@@ -67,8 +50,17 @@ class OutageDetailView(BaseDetailView):
     title = "Announcement Details"
 
 
-class BaseOutageCreateView(BaseCreateView):
+class OutageCreateView(BaseCreateView):
+    """Create an outage announcement.
+
+    Whether the outage is "scheduled" or "unscheduled" is decided from
+    the submitted start time -- there is no separate workflow.
+    """
+
     model = models.Outage
+    form_class = forms.OutageForm
+    template_name = "outages/create.html"
+    title = "Create Outage Announcement"
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -76,24 +68,6 @@ class BaseOutageCreateView(BaseCreateView):
 
     def get_success_url(self):
         return reverse('outages:detail', args=[self.object.id])
-
-
-class CreateScheduledView(BaseOutageCreateView):
-    """Create a scheduled outage."""
-
-    form_class = forms.ScheduledOutageForm
-    template_name = "outages/scheduled.html"
-    title = "Create Scheduled Announcement"
-    initial = {'scheduled': True}
-
-
-class CreateUnscheduledView(BaseOutageCreateView):
-    """Create an unscheduled outage."""
-
-    form_class = forms.UnscheduledOutageForm
-    template_name = "outages/unscheduled.html"
-    title = "Create Unscheduled Announcement"
-    initial = {'scheduled': False}
 
 
 class BaseUpdateCreateView(BaseCreateView):
@@ -126,7 +100,7 @@ class BaseUpdateCreateView(BaseCreateView):
 
 
 class UpdateOutageView(BaseUpdateCreateView):
-    """Create an outage update."""
+    """Add an update to an outage that is in progress."""
 
     template_name = "outages/add_update.html"
 
@@ -136,99 +110,103 @@ class UpdateOutageView(BaseUpdateCreateView):
     def get_initial(self):
         outage = self.get_outage()
         latest = outage.latest_update
-        transitions = STATUS_TRANSITIONS[outage.scheduled]
+        if latest is None:
+            next_status = models.INVESTIGATING
+        else:
+            # Stay on the current status if there's no defined
+            # progression (e.g. FIXED -- the operator should end the
+            # outage rather than pick another update status).
+            next_status = models.STATUS_TRANSITIONS.get(
+                latest.status, latest.status
+            )
         return {
             "outage": outage,
             "time": timezone.now(),
-            "status": transitions[latest.status],
-            "severity": latest.severity,
+            "status": next_status,
         }
+
+    def form_valid(self, form):
+        outage = self.get_outage()
+        # If the operator is reopening a resolved outage, clear `end`.
+        if (
+            form.cleaned_data.get('status') == models.PROGRESSING
+            and outage.end
+        ):
+            outage.end = None
+            outage.save()
+        return super().form_valid(form)
 
     def check_state(self):
         outage = self.get_outage()
-        if not outage.start:
+        if outage.cancelled or outage.start > timezone.now():
             raise BadRequest(f"Outage {self.pk} in wrong state for update.")
 
 
-class StartOutageView(BaseUpdateCreateView):
-    """Start a scheduled or unsheduled outage."""
-
-    template_name = "outages/start.html"
-
-    def get_success_url(self):
-        return reverse('outages:detail', args=[self.pk])
-
-    def get_form_class(self):
-        outage = self.get_outage()
-        if not outage.start:
-            # This allows the operator to adjust the start time
-            # when starting an outage (for the first time)
-            return forms.OutageStartForm
-        else:
-            return forms.OutageUpdateForm
-
-    def get_initial(self):
-        outage = self.get_outage()
-        return {
-            "outage": outage,
-            # For the (first) start of a scheduled outage, we will
-            # use the scheduled start time
-            "time": (
-                outage.scheduled_start
-                if (outage.scheduled and not outage.start)
-                else timezone.now()
-            ),
-            "content": (
-                "Scheduled outage started." if outage.scheduled else ""
-            ),
-            "status": (
-                models.STARTED if outage.scheduled else models.INVESTIGATING
-            ),
-            "severity": outage.scheduled_severity,
-        }
-
-    def check_state(self):
-        outage = self.get_outage()
-        if outage.cancelled or outage.start:
-            raise BadRequest(f"Outage {self.pk} in wrong state to start.")
-
-
-class EndOutageView(BaseUpdateCreateView):
-    """End an outage that is in progress."""
+class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
+    """End an in-progress outage by stamping `outage.end`."""
 
     template_name = "outages/end.html"
-    title = "Outage Announcement Update"
+    form_class = forms.OutageEndForm
+    title = "End Outage Announcement"
+
+    def setup(self, request, *args, **kwargs):
+        self.pk = kwargs.pop('pk')
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        self.check_state()
+        return super().get(request, **kwargs)
+
+    def post(self, request, **kwargs):
+        self.check_state()
+        return super().post(request, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        context['outage'] = self.get_outage()
+        return context
 
     def get_success_url(self):
         return reverse('outages:detail', args=[self.pk])
 
-    def get_initial(self):
+    def get_outage(self):
+        return models.Outage.objects.get(pk=self.pk)
+
+    def form_valid(self, form):
         outage = self.get_outage()
-        return {
-            "outage": outage,
-            "time": timezone.now(),
-            "content": (
-                "Scheduled outage completed."
-                if outage.scheduled
-                else "Unscheduled outage resolved."
-            ),
-            "status": (
-                models.COMPLETED if outage.scheduled else models.RESOLVED
-            ),
-            "severity": outage.latest_update.severity,
-        }
+        now = timezone.now()
+        outage.end = now
+        outage.modified_by = self.request.user
+        outage.save()
+        content = form.cleaned_data.get('content')
+        if content:
+            models.OutageUpdate.objects.create(
+                outage=outage,
+                time=now,
+                status=models.RESOLVED,
+                content=content,
+                created_by=self.request.user,
+            )
+        return super().form_valid(form)
 
     def check_state(self):
         outage = self.get_outage()
-        last = outage.latest_update
-        if not last or last.status in {models.RESOLVED, models.COMPLETED}:
+        if (
+            outage.cancelled
+            or outage.end is not None
+            or outage.start > timezone.now()
+        ):
             raise BadRequest(f"Outage {self.pk} in wrong state to end.")
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class CancelOutageView(
     mixins.UserPassesTestMixin, mixins.AccessMixin, BaseDetailView
 ):
-    """Cancel a previously scheduled outage."""
+    """Cancel an outage that has not yet started."""
 
     queryset = models.Outage.objects.all()
     template_name = "outages/cancel.html"
@@ -241,12 +219,13 @@ class CancelOutageView(
     def post(self, request, **kwargs):
         outage = self._check_state()
         outage.cancelled = True
+        outage.modified_by = self.request.user
         outage.save()
         return shortcuts.redirect(reverse('outages:list'))
 
     def _check_state(self):
         outage = self.get_object()
-        if outage.cancelled or outage.start or not outage.scheduled:
+        if outage.cancelled or outage.start <= timezone.now():
             raise BadRequest("Outage is in wrong state to cancel.")
         return outage
 

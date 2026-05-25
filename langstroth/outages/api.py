@@ -9,16 +9,13 @@ from langstroth.outages import models
 class OutageUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OutageUpdate
-        fields = ('content', 'time', 'status', 'severity')
+        fields = ('content', 'time', 'status')
 
 
 class OutageSerializer(serializers.ModelSerializer):
-    severity = serializers.ReadOnlyField()
     severity_display = serializers.ReadOnlyField()
     scheduled_display = serializers.ReadOnlyField()
     status_display = serializers.ReadOnlyField()
-    start = serializers.ReadOnlyField()
-    end = serializers.ReadOnlyField()
 
     class Meta:
         model = models.Outage
@@ -36,9 +33,10 @@ class OutageFilter(rest_filters.FilterSet, filters.ActivityFilterMixin):
         fields = {
             'scheduled': ['exact'],
             'cancelled': ['exact'],
-            'scheduled_start': ['exact', 'lt', 'lte', 'gte', 'gt', 'date'],
-            'scheduled_end': ['exact', 'lt', 'lte', 'gte', 'gt', 'date'],
-            'scheduled_severity': ['exact', 'in'],
+            'start': ['exact', 'lt', 'lte', 'gte', 'gt', 'date'],
+            'end': ['exact', 'lt', 'lte', 'gte', 'gt', 'date'],
+            'planned_end': ['exact', 'lt', 'lte', 'gte', 'gt', 'date'],
+            'severity': ['exact', 'in'],
         }
 
 

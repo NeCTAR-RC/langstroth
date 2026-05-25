@@ -15,17 +15,16 @@
       <h1 class="pb-4">Service Announcement</h1>
       {% if request.user.is_staff %}
         <div class="ms-auto btn-bar">
-          {% if outage.end %}
-            <a href="{% url 'outages:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
-          {% elif outage.start %}
+          {% if outage.is_current %}
             <a href="{% url 'outages:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
+          {% elif outage.end %}
+            <a href="{% url 'outages:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
           {% endif %}
-          {% if outage.scheduled and not outage.cancelled and not outage.start %}
-            <a href="{% url 'outages:start' outage.id %}" class="btn btn-outline-primary btn-sm" id="start"><i class="fa fa-play"></i> Start</a>
+          {% if outage.is_upcoming %}
             <a href="{% url 'outages:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
           {% endif %}
           <a href="/admin/outages/outage/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
-          {% if outage.start and not outage.end %}
+          {% if outage.is_current %}
             <a href="{% url 'outages:end' outage.id %}" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
           {% endif %}
         </div>
@@ -41,26 +40,17 @@
             <strong>Announcement created by:</strong> {{ outage.created_by.username }}
           </li>
           {% endif %}
-          {% if outage.scheduled %}
           <li>
-             <strong>Scheduled start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }},
-            <strong>Scheduled end:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }}{% if outage.cancelled %},
-            <strong>Cancelled</strong>
-            {% endif %}
-          </li>
-          {% endif %}
-          {% if outage.start %}
-          <li>
-            <strong>Outage start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }},
+            <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}{% if outage.is_upcoming %} (scheduled){% endif %},
             {% if outage.end %}
-            <strong>Outage end:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
-            {% else %}
+            <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
+            {% elif outage.planned_end %}
+            <strong>Planned end:</strong> {{ outage.planned_end|date:"D, j M Y g:ia (T)" }}
+            {% elif outage.is_current %}
             <strong>Outage is ongoing</strong>
             {% endif %}
+            {% if outage.cancelled %}, <strong>Cancelled</strong>{% endif %}
           </li>
-          {% endif %}
-          <!-- <li><strong>Affected Zones:</strong></li>
-          <li><strong>Affected Services:</strong></li> -->
         </ul>
         {{ outage.description|linebreaks|urlize }}
       </div>

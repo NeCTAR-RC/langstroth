@@ -1,3 +1,4 @@
+from datetime import timedelta
 import logging
 
 from django.db import models
@@ -8,45 +9,34 @@ from langstroth.models import User
 
 LOG = logging.getLogger(__name__)
 
-# Informally, there are two outage workflows.
+# An Outage represents a planned or unplanned service interruption.
 #
-# For a scheduled outage
-#   An Outage is created with scheduled = True and the scheduled start
-#     and end date.  Initially there is no OutageUpdate
-#   When the outage starts, a STARTED OutageUpdate is added.
-#   As the outage continues, OutageUpdates may be added.
-#   Finally a COMPLETED OutageUpdates
+# `start` and `end` are real timestamps. The outage is in progress when
+# `start <= now`, `end is None`, and `cancelled is False`.
 #
-# For an unscheduled outage
-#   An Outage is created with scheduled = False.
-#   An initial OutageUpdate created immediately.
-#   As the outage continues, additional OutageUpdates may be added.
-#   Finally a RESOLVED OutageUpdate is added.
+# `scheduled` is a historical label only -- set on first save based on
+# whether `start > now + SCHEDULED_THRESHOLD`. It is never recomputed,
+# so the planned-vs-unplanned distinction is preserved after the outage
+# begins.
 #
-# The state sequence is flexible:
-#   A typical sequence for an unscheduled outage will be INVESTIGATING,
-#     IDENTIFIED, PROGRESSING, FIXED, RESOLVED
-#   A typical sequence for a scheduled outage will be STARTED, PROGRESSING,
-#     COMPLETED.
-#   In either case a specific outage may deviate; e.g. skip states, repeat
-#     states or return to earlier states.
+# OutageUpdates are operator-authored progress notes. Their `status`
+# field tracks investigation phase (INVESTIGATING -> IDENTIFIED ->
+# PROGRESSING -> FIXED -> RESOLVED). The outage itself is ended by an
+# explicit action that sets `end`; a RESOLVED update may accompany this
+# but is not what marks the outage as ended.
 
 # Outage Status
-STARTED = 'S'
 INVESTIGATING = 'IN'
 IDENTIFIED = 'ID'
 PROGRESSING = 'P'
 FIXED = 'F'
 RESOLVED = 'R'
-COMPLETED = 'C'
 STATUS_CHOICES = [
-    (STARTED, 'Started'),  # scheduled
-    (INVESTIGATING, 'Investigating'),  # unscheduled
-    (IDENTIFIED, 'Identified'),  # unscheduled
-    (PROGRESSING, 'Progressing'),  # unscheduled or scheduled
-    (FIXED, 'Fixed'),  # unscheduled
-    (RESOLVED, 'Resolved'),  # unscheduled
-    (COMPLETED, 'Completed'),  # scheduled
+    (INVESTIGATING, 'Investigating'),
+    (IDENTIFIED, 'Identified'),
+    (PROGRESSING, 'Progressing'),
+    (FIXED, 'Fixed'),
+    (RESOLVED, 'Resolved'),
 ]
 
 # Outage Severity
@@ -59,25 +49,43 @@ SEVERITY_CHOICES = [
     (SEVERE, 'Severe'),
 ]
 
+# An outage is labelled "scheduled" if its start is more than this far
+# in the future at creation time.
+SCHEDULED_THRESHOLD = timedelta(hours=1)
+
+# Default next status for each current status. Used to pre-fill the
+# status field on a new OutageUpdate. RESOLVED -> PROGRESSING enables
+# the "reopen" flow (which also clears outage.end in the view).
+# FIXED is the terminal investigation status: operators end the outage
+# via the End action (which creates a RESOLVED update); they don't
+# select RESOLVED from the update form.
+STATUS_TRANSITIONS = {
+    INVESTIGATING: IDENTIFIED,
+    IDENTIFIED: PROGRESSING,
+    PROGRESSING: FIXED,
+    RESOLVED: PROGRESSING,
+}
+
 
 def _status_display(status):
     if status is None:
         return "Unknown"
-    else:
-        return [s[1] for s in STATUS_CHOICES if s[0] == status][0]
+    return [s[1] for s in STATUS_CHOICES if s[0] == status][0]
 
 
 def _severity_display(severity):
     if severity is None:
         return "Unknown"
-    else:
-        return [s[1] for s in SEVERITY_CHOICES if s[0] == severity][0]
+    return [s[1] for s in SEVERITY_CHOICES if s[0] == severity][0]
 
 
 class OutageManager(models.Manager):
     def current_outages(self):
-        query = self.filter(cancelled=False).prefetch_related('updates')
-        return [o for o in query if o.is_current]
+        return self.filter(
+            cancelled=False,
+            start__lte=timezone.now(),
+            end__isnull=True,
+        ).prefetch_related('updates')
 
 
 class Outage(models.Model):
@@ -85,13 +93,17 @@ class Outage(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField()
-    scheduled = models.BooleanField(blank=True, default=False)
-    cancelled = models.BooleanField(blank=True, default=False)
-    scheduled_start = models.DateTimeField(blank=True, null=True)
-    scheduled_end = models.DateTimeField(blank=True, null=True)
-    scheduled_severity = models.IntegerField(
-        choices=SEVERITY_CHOICES, blank=True, null=True
+    start = models.DateTimeField()
+    # `planned_end` is informational (the announced end of a scheduled
+    # window); `end` is the actual end of the outage, set by the End
+    # action. Status display keys off `end`, not `planned_end`.
+    planned_end = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
+    severity = models.IntegerField(
+        choices=SEVERITY_CHOICES, default=SIGNIFICANT
     )
+    scheduled = models.BooleanField(blank=True, default=False, editable=False)
+    cancelled = models.BooleanField(blank=True, default=False)
     modification_time = models.DateTimeField(auto_now=True, editable=False)
     created_by = models.ForeignKey(
         User, editable=False, on_delete=models.PROTECT, related_name='+'
@@ -106,6 +118,12 @@ class Outage(models.Model):
 
     class Meta:
         ordering = ['-modification_time']
+
+    def save(self, *args, **kwargs):
+        # `scheduled` is a historical label fixed at creation time.
+        if self._state.adding and self.start is not None:
+            self.scheduled = self.start > timezone.now() + SCHEDULED_THRESHOLD
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("outages:detail", kwargs={'pk': self.pk})
@@ -124,65 +142,36 @@ class Outage(models.Model):
 
     @property
     def is_current(self):
-        now = timezone.now()
-        return (self.start and not self.end) or (
-            self.scheduled
-            and self.scheduled_start
-            and self.scheduled_end
-            and self.scheduled_start < now
-            and self.scheduled_end > now
-        )
-
-    @property
-    def start(self):
-        first = self.first_update
-        return first.time if first else None
-
-    @property
-    def end(self):
-        last = self.latest_update
         return (
-            last.time
-            if last and last.status in {RESOLVED, COMPLETED}
-            else None
+            self.start <= timezone.now()
+            and self.end is None
+            and not self.cancelled
         )
+
+    @property
+    def is_upcoming(self):
+        return self.start > timezone.now() and not self.cancelled
 
     @property
     def scheduled_display(self):
-        return (
-            "cancelled"
-            if self.cancelled
-            else "scheduled"
-            if self.scheduled
-            else "unscheduled"
-        )
+        if self.cancelled:
+            return "cancelled"
+        return "scheduled" if self.scheduled else "unscheduled"
 
     @property
     def status_display(self):
+        if self.cancelled:
+            return "Cancelled"
+        if self.end:
+            return "Completed"
+        if self.start > timezone.now():
+            return "Scheduled"
         last = self.latest_update
-        if self.scheduled:
-            return (
-                "Scheduled"
-                if not last
-                else "Completed"
-                if last.status in {RESOLVED, COMPLETED}
-                else "In progress"
-            )
-        else:
-            return last.status_display if last else "Unknown"
+        return last.status_display if last else "In progress"
 
     @property
     def severity_display(self):
-        last = self.latest_update
-        severity = last.severity if last else self.scheduled_severity
-        return _severity_display(severity)
-
-    @property
-    def severity(self):
-        last = self.latest_update
-        return (
-            last.severity if last else self.scheduled_severity or SIGNIFICANT
-        )
+        return _severity_display(self.severity)
 
     def __str__(self):
         return f"Outage({self.title})"
@@ -205,7 +194,6 @@ class OutageUpdate(models.Model):
         Outage, on_delete=models.CASCADE, related_name="updates"
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
-    severity = models.IntegerField(choices=SEVERITY_CHOICES)
     content = models.TextField()
 
     class Meta:
@@ -218,7 +206,3 @@ class OutageUpdate(models.Model):
     @property
     def status_display(self):
         return _status_display(self.status)
-
-    @property
-    def severity_display(self):
-        return _severity_display(self.severity)

@@ -9,30 +9,34 @@ from langstroth import models as auth_models
 from langstroth.outages import models
 
 
+def _make_outage(user, **overrides):
+    defaults = {
+        "title": "t",
+        "description": "d",
+        "start": timezone.now() + timedelta(hours=2),
+        "severity": models.SIGNIFICANT,
+        "created_by": user,
+    }
+    defaults.update(overrides)
+    return models.Outage.objects.create(**defaults)
+
+
 class ListAndDetailTests(test.TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = auth_models.User.objects.create(
             username="test", email="test@test.com", is_superuser=True
         )
-        cls.outage1 = models.Outage.objects.create(
-            scheduled=True,
-            title="one",
-            description="Outage one",
-            created_by=cls.user,
-        )
-        cls.outage2 = models.Outage.objects.create(
-            scheduled=False,
-            title="two",
-            description="Outage two",
-            created_by=cls.user,
+        cls.outage1 = _make_outage(cls.user, title="one")
+        cls.outage2 = _make_outage(
+            cls.user, title="two", start=timezone.now() - timedelta(hours=1)
         )
 
     def test_list(self):
         response = self.client.get(reverse('outages:list'))
         self.assertEqual(response.status_code, 200)
 
-    def test_list_staff_sees_extra_activity_choices(self):
+    def test_list_staff(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse('outages:list'))
         self.assertEqual(response.status_code, 200)
@@ -46,69 +50,65 @@ class CreateOutageTests(test.TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.staff = auth_models.User.objects.create(
-            username="staff",
-            email="staff@test.com",
-            is_staff=True,
+            username="staff", email="staff@test.com", is_staff=True
         )
         cls.enduser = auth_models.User.objects.create(
             username="end", email="end@test.com"
         )
 
-    def test_create_scheduled_get_requires_staff(self):
+    def test_get_requires_staff(self):
         self.client.force_login(self.enduser)
-        response = self.client.get(reverse('outages:create_scheduled'))
+        response = self.client.get(reverse('outages:create'))
         self.assertEqual(response.status_code, 403)
 
-    def test_create_scheduled_get(self):
+    def test_get(self):
         self.client.force_login(self.staff)
-        response = self.client.get(reverse('outages:create_scheduled'))
+        response = self.client.get(reverse('outages:create'))
         self.assertEqual(response.status_code, 200)
 
-    def test_create_unscheduled_get(self):
-        self.client.force_login(self.staff)
-        response = self.client.get(reverse('outages:create_unscheduled'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_create_scheduled_post(self):
+    def test_post_future_start(self):
         self.client.force_login(self.staff)
         future = timezone.now() + timedelta(days=1)
-        later = future + timedelta(hours=2)
+        planned_end = future + timedelta(hours=2)
         response = self.client.post(
-            reverse('outages:create_scheduled'),
+            reverse('outages:create'),
             data={
                 "title": "Maintenance",
                 "description": "Routine",
-                "scheduled": True,
-                "scheduled_start": future.strftime("%Y-%m-%dT%H:%M:%S"),
-                "scheduled_end": later.strftime("%Y-%m-%dT%H:%M:%S"),
-                "scheduled_severity": models.SIGNIFICANT,
+                "start": future.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SIGNIFICANT,
+                "planned_end": planned_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": "",
+                "content": "",
             },
         )
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(
-            models.Outage.objects.filter(title="Maintenance").exists()
-        )
+        outage = models.Outage.objects.get(title="Maintenance")
+        self.assertTrue(outage.scheduled)
+        self.assertEqual(0, outage.updates.count())
 
-    def test_create_unscheduled_post(self):
+    def test_post_now_start_with_update(self):
         self.client.force_login(self.staff)
         now = timezone.now()
         response = self.client.post(
-            reverse('outages:create_unscheduled'),
+            reverse('outages:create'),
             data={
                 "title": "Broken",
                 "description": "Down",
-                "time": now.strftime("%Y-%m-%dT%H:%M:%S"),
+                "start": now.strftime("%Y-%m-%dT%H:%M:%S"),
                 "severity": models.SEVERE,
+                "planned_end": "",
                 "status": models.INVESTIGATING,
-                "content": "starting",
+                "content": "Outage detected",
             },
         )
         self.assertEqual(response.status_code, 302)
         outage = models.Outage.objects.get(title="Broken")
+        self.assertFalse(outage.scheduled)
         self.assertEqual(1, outage.updates.count())
 
 
-class OutageUpdateFlowTests(test.TestCase):
+class UpdateAndEndFlowTests(test.TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.staff = auth_models.User.objects.create(
@@ -117,127 +117,130 @@ class OutageUpdateFlowTests(test.TestCase):
 
     def setUp(self):
         self.client.force_login(self.staff)
-        self.scheduled = models.Outage.objects.create(
-            scheduled=True,
-            title="sched",
-            description="d",
-            scheduled_start=timezone.now() + timedelta(hours=1),
-            scheduled_end=timezone.now() + timedelta(hours=3),
-            scheduled_severity=models.SIGNIFICANT,
-            created_by=self.staff,
-        )
-        self.unscheduled = models.Outage.objects.create(
-            scheduled=False,
-            title="unsched",
-            description="d",
-            created_by=self.staff,
+        # An in-progress outage (start in the past, no end).
+        self.outage = _make_outage(
+            self.staff, start=timezone.now() - timedelta(hours=1)
         )
 
-    def _start(self, outage, time=None, status=None):
-        models.OutageUpdate.objects.create(
-            outage=outage,
-            time=time or timezone.now(),
-            status=status
-            or (models.STARTED if outage.scheduled else models.INVESTIGATING),
-            severity=models.SIGNIFICANT,
-            content="started",
+    def _add_update(self, status=models.INVESTIGATING):
+        return models.OutageUpdate.objects.create(
+            outage=self.outage,
+            time=timezone.now(),
+            status=status,
+            content="x",
             created_by=self.staff,
         )
-
-    def test_start_get_scheduled(self):
-        response = self.client.get(
-            reverse('outages:start', args=[self.scheduled.id])
-        )
-        self.assertEqual(response.status_code, 200)
-
-    def test_start_get_unscheduled(self):
-        response = self.client.get(
-            reverse('outages:start', args=[self.unscheduled.id])
-        )
-        self.assertEqual(response.status_code, 200)
 
     def _assert_bad_request(self, response):
-        """Project's handler400 renders error.html with a 200 — so we
-        match on the template rather than the status code."""
         self.assertTemplateUsed(response, "error.html")
 
-    def test_start_blocked_if_already_started(self):
-        self._start(self.scheduled)
-        response = self.client.get(
-            reverse('outages:start', args=[self.scheduled.id])
-        )
-        self._assert_bad_request(response)
-
-    def test_start_blocked_if_cancelled(self):
-        self.scheduled.cancelled = True
-        self.scheduled.save()
-        response = self.client.get(
-            reverse('outages:start', args=[self.scheduled.id])
-        )
-        self._assert_bad_request(response)
-
-    def test_start_post(self):
-        # Use a past time so the OutageStartForm clean() accepts it
-        past = timezone.now() - timedelta(minutes=1)
-        response = self.client.post(
-            reverse('outages:start', args=[self.unscheduled.id]),
-            data={
-                "time": past.strftime("%Y-%m-%dT%H:%M:%S"),
-                "status": models.INVESTIGATING,
-                "severity": models.SIGNIFICANT,
-                "content": "started",
-            },
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(1, self.unscheduled.updates.count())
-
     def test_add_update_get(self):
-        self._start(self.unscheduled)
         response = self.client.get(
-            reverse('outages:add_update', args=[self.unscheduled.id])
+            reverse('outages:add_update', args=[self.outage.id])
         )
         self.assertEqual(response.status_code, 200)
 
     def test_add_update_blocked_when_not_started(self):
+        future = _make_outage(
+            self.staff, start=timezone.now() + timedelta(hours=2)
+        )
         response = self.client.get(
-            reverse('outages:add_update', args=[self.unscheduled.id])
+            reverse('outages:add_update', args=[future.id])
         )
         self._assert_bad_request(response)
+
+    def test_add_update_blocked_when_cancelled(self):
+        future = _make_outage(
+            self.staff, start=timezone.now() + timedelta(hours=2)
+        )
+        future.cancelled = True
+        future.save()
+        response = self.client.get(
+            reverse('outages:add_update', args=[future.id])
+        )
+        self._assert_bad_request(response)
+
+    def test_add_update_post(self):
+        response = self.client.post(
+            reverse('outages:add_update', args=[self.outage.id]),
+            data={
+                "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": models.INVESTIGATING,
+                "content": "looking into it",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(1, self.outage.updates.count())
+
+    def test_reopen_clears_end(self):
+        # Mark the outage as ended.
+        self.outage.end = timezone.now()
+        self.outage.save()
+        self._add_update(status=models.RESOLVED)
+
+        response = self.client.post(
+            reverse('outages:add_update', args=[self.outage.id]),
+            data={
+                "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": models.PROGRESSING,
+                "content": "back open",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.outage.refresh_from_db()
+        self.assertIsNone(self.outage.end)
 
     def test_end_get(self):
-        self._start(self.unscheduled)
         response = self.client.get(
-            reverse('outages:end', args=[self.unscheduled.id])
+            reverse('outages:end', args=[self.outage.id])
         )
         self.assertEqual(response.status_code, 200)
-
-    def test_end_blocked_when_not_started(self):
-        response = self.client.get(
-            reverse('outages:end', args=[self.unscheduled.id])
-        )
-        self._assert_bad_request(response)
 
     def test_end_blocked_when_already_ended(self):
-        self._start(self.unscheduled)
-        models.OutageUpdate.objects.create(
-            outage=self.unscheduled,
-            time=timezone.now(),
-            status=models.RESOLVED,
-            severity=models.SIGNIFICANT,
-            content="done",
-            created_by=self.staff,
-        )
+        self.outage.end = timezone.now()
+        self.outage.save()
         response = self.client.get(
-            reverse('outages:end', args=[self.unscheduled.id])
+            reverse('outages:end', args=[self.outage.id])
         )
         self._assert_bad_request(response)
 
-    def test_end_for_scheduled(self):
-        self._start(self.scheduled)
-        response = self.client.get(
-            reverse('outages:end', args=[self.scheduled.id])
+    def test_end_blocked_when_not_started(self):
+        future = _make_outage(
+            self.staff, start=timezone.now() + timedelta(hours=2)
         )
-        self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse('outages:end', args=[future.id]))
+        self._assert_bad_request(response)
+
+    def test_end_blocked_when_cancelled(self):
+        self.outage.cancelled = True
+        self.outage.save()
+        response = self.client.get(
+            reverse('outages:end', args=[self.outage.id])
+        )
+        self._assert_bad_request(response)
+
+    def test_end_post_sets_end_field(self):
+        response = self.client.post(
+            reverse('outages:end', args=[self.outage.id]),
+            data={"content": ""},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.outage.refresh_from_db()
+        self.assertIsNotNone(self.outage.end)
+        self.assertEqual(0, self.outage.updates.count())
+
+    def test_end_post_with_final_note_creates_resolved_update(self):
+        response = self.client.post(
+            reverse('outages:end', args=[self.outage.id]),
+            data={"content": "all clear"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.outage.refresh_from_db()
+        self.assertIsNotNone(self.outage.end)
+        self.assertEqual(1, self.outage.updates.count())
+        update = self.outage.updates.first()
+        self.assertEqual(models.RESOLVED, update.status)
+        self.assertEqual("all clear", update.content)
 
 
 class CancelOutageTests(test.TestCase):
@@ -249,68 +252,65 @@ class CancelOutageTests(test.TestCase):
 
     def setUp(self):
         self.client.force_login(self.staff)
-        self.outage = models.Outage.objects.create(
-            scheduled=True,
-            title="sched",
-            description="d",
-            scheduled_start=timezone.now() + timedelta(hours=1),
-            scheduled_end=timezone.now() + timedelta(hours=3),
-            scheduled_severity=models.SIGNIFICANT,
-            created_by=self.staff,
+        self.future = _make_outage(
+            self.staff, start=timezone.now() + timedelta(hours=2)
         )
 
     def test_cancel_get(self):
         response = self.client.get(
-            reverse('outages:cancel', args=[self.outage.id])
+            reverse('outages:cancel', args=[self.future.id])
         )
         self.assertEqual(response.status_code, 200)
 
     def test_cancel_post(self):
         response = self.client.post(
-            reverse('outages:cancel', args=[self.outage.id])
+            reverse('outages:cancel', args=[self.future.id])
         )
         self.assertEqual(response.status_code, 302)
-        self.outage.refresh_from_db()
-        self.assertTrue(self.outage.cancelled)
+        self.future.refresh_from_db()
+        self.assertTrue(self.future.cancelled)
 
-    def test_cancel_blocked_when_unscheduled(self):
-        unscheduled = models.Outage.objects.create(
-            scheduled=False,
-            title="unsched",
-            description="d",
-            created_by=self.staff,
+    def test_cancel_blocked_once_started(self):
+        started = _make_outage(
+            self.staff, start=timezone.now() - timedelta(minutes=1)
         )
         response = self.client.get(
-            reverse('outages:cancel', args=[unscheduled.id])
+            reverse('outages:cancel', args=[started.id])
         )
         self.assertTemplateUsed(response, "error.html")
 
     def test_cancel_blocked_when_already_cancelled(self):
-        self.outage.cancelled = True
-        self.outage.save()
+        self.future.cancelled = True
+        self.future.save()
         response = self.client.get(
-            reverse('outages:cancel', args=[self.outage.id])
+            reverse('outages:cancel', args=[self.future.id])
         )
         self.assertTemplateUsed(response, "error.html")
 
 
 @freeze_time("2024-01-15 12:00:00")
 class FilterTests(test.TestCase):
-    """Drive the `OutageFilters` form via the list page."""
-
     @classmethod
     def setUpTestData(cls):
         cls.staff = auth_models.User.objects.create(
             username="staff", email="staff@test.com", is_staff=True
         )
-        models.Outage.objects.create(
-            scheduled=True,
+        # Three outages to exercise activity choices.
+        cls.upcoming = _make_outage(
+            cls.staff,
             title="future",
-            description="d",
-            scheduled_start=timezone.now() + timedelta(days=1),
-            scheduled_end=timezone.now() + timedelta(days=2),
-            scheduled_severity=models.SIGNIFICANT,
-            created_by=cls.staff,
+            start=timezone.now() + timedelta(days=1),
+        )
+        cls.active = _make_outage(
+            cls.staff,
+            title="now",
+            start=timezone.now() - timedelta(hours=1),
+        )
+        cls.completed = _make_outage(
+            cls.staff,
+            title="done",
+            start=timezone.now() - timedelta(days=1),
+            end=timezone.now() - timedelta(hours=2),
         )
 
     def test_filter_time_window_1m(self):
@@ -340,5 +340,17 @@ class FilterTests(test.TestCase):
     def test_filter_activity_upcoming(self):
         response = self.client.get(
             reverse('outages:list'), {'activity': 'upcoming'}
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_filter_activity_active(self):
+        response = self.client.get(
+            reverse('outages:list'), {'activity': 'active'}
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_filter_activity_completed(self):
+        response = self.client.get(
+            reverse('outages:list'), {'activity': 'completed'}
         )
         self.assertEqual(response.status_code, 200)

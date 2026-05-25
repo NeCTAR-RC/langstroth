@@ -7,12 +7,11 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
       <li class="breadcrumb-item"><a href="{% url 'outages:list' %}">Announcements</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Create Scheduled</li>
+      <li class="breadcrumb-item active" aria-current="page">Create</li>
     </ol>
   </nav>
-  <h1 class="pb-4">Create a Scheduled Outage Announcement</h1>
-  <p>Unsure how to create the outage? Instructions are found <a target="_blank" href="https://wiki.rc.nectar.org.au/wiki/Service_Announcements#:~:text=of%20an%20announcement.-,Creating%20and%20managing%20an%20Unscheduled%20Outage,-%5Bedit%5D">in the Nectar Wiki</a>.</p>
-
+  <h1 class="pb-4">Create an Outage Announcement</h1>
+  <p>Unsure how to create the outage? Instructions are found <a target="_blank" href="https://wiki.rc.nectar.org.au/wiki/Service_Announcements">in the Nectar Wiki</a>.</p>
 </div>
 {% endblock %}
 
@@ -22,7 +21,7 @@
     <div class="card-body">
       <form action="" method="post">
         {% csrf_token %}
-        {{ form.scheduled.as_hidden }}
+        {{ form.tz_offset }}
         <fieldset>
           <div class="mb-3">
             <div class="form-label">Title</div>
@@ -45,8 +44,8 @@
           <div class="row mb-3">
             <div class="form-label">Severity</div>
             <div class="col-md-6 col-lg-4">
-              {{ form.scheduled_severity }}
-              {% for error in form.scheduled_severity.errors %}
+              {{ form.severity }}
+              {% for error in form.severity.errors %}
               <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
@@ -57,19 +56,45 @@
             </div>
           </div>
           <div class="row mb-3">
-            <div class="form-label">Scheduled start date & time</div>
+            <div class="form-label">Start date &amp; time</div>
             <div class="col-md-6 col-lg-4">
-              {{ form.scheduled_start }}
-              {% for error in form.scheduled_start.errors %}
+              {{ form.start }}
+              {% for error in form.start.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+            <div class="form-text">
+              Outages whose start is more than an hour in the future are recorded as <em>scheduled</em>; everything else as <em>unscheduled</em>.
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="form-label">Planned end date &amp; time</div>
+            <div class="col-md-6 col-lg-4">
+              {{ form.planned_end }}
+              {% for error in form.planned_end.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+            <div class="form-text">Required for scheduled outages; optional otherwise. Informational only &mdash; the actual end is stamped when an operator ends the outage.</div>
+          </div>
+        </fieldset>
+        <fieldset class="mt-4">
+          <legend class="h5">Initial update</legend>
+          <p class="form-text">Required when the outage is starting now (start &le; now + 1 hour). Leave blank for future-scheduled outages.</p>
+          <div class="row mb-3">
+            <div class="form-label">Status</div>
+            <div class="col-md-6 col-lg-4">
+              {{ form.status }}
+              {% for error in form.status.errors %}
               <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="form-label">Schedule end date & time</div>
-            <div class="col-md-6 col-lg-4">
-              {{ form.scheduled_end }}
-              {% for error in form.scheduled_end.errors %}
+          <div class="mb-3">
+            <div class="form-label">Initial update message</div>
+            <div>
+              {{ form.content }}
+              {% for error in form.content.errors %}
               <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
@@ -86,4 +111,16 @@
 {% endblock %}
 {% block extra_script %}
 {{ form.media }}
+<script>
+  // Populate the tz_offset hidden field with the operator's UTC offset
+  // (in minutes east) so the server can interpret the naive datetime
+  // values correctly regardless of which timezone Django happens to
+  // have activated for the request.
+  (function () {
+    const input = document.getElementById('id_tz_offset');
+    if (input) {
+      input.value = -new Date().getTimezoneOffset();
+    }
+  })();
+</script>
 {% endblock %}

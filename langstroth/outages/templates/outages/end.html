@@ -25,47 +25,23 @@
 <div class="container mb-4">
   <div class="card">
     <div class="card-body">
-      <h2>Final update</h2>
+      <h2>End this outage</h2>
       <hr />
+      <p>Ending the outage stamps the end time as now. You may optionally add a final resolved-status update.</p>
       <form action="" method="post">
         {% csrf_token %}
-        {{ form.outage }}
         <fieldset>
           <div class="mb-3">
-            <div class="form-label">Status</div>
-            <div>
-              {{ form.status }}
-              {% for error in form.status.errors %}
-                <span class="text-danger">{{ error }}</span>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="mb-3">
-            <div class="form-label">End date & time</div>
-            <div>
-              {{ form.time }}
-              {% for error in form.time.errors %}
-                <span class="text-danger">{{ error }}</span>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="mb-3">
-            <div class="form-label">Severity</div>
-            <div>
-              {{ form.severity }}
-              {% for error in form.severity.errors %}
-                <span class="text-danger">{{ error }}</span>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="mb-3">
-            <div class="form-label">Message</div>
+            <div class="form-label">{{ form.content.label }}</div>
             <div>
               {{ form.content }}
               {% for error in form.content.errors %}
                 <span class="text-danger">{{ error }}</span>
               {% endfor %}
             </div>
+            {% if form.content.help_text %}
+              <div class="form-text">{{ form.content.help_text }}</div>
+            {% endif %}
           </div>
         </fieldset>
         <button type="submit" class="btn btn-danger">End the Outage</button>

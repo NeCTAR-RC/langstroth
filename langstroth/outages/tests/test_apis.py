@@ -19,23 +19,26 @@ class OutageSimpleTestCase(test.APITestCase):
             username="test", email="test@test.com", is_superuser=True
         )
 
+        # Outage starting now (unscheduled) with no updates.
         self.one = models.Outage.objects.create(
-            scheduled=False,
             title="one",
             description="Outage one",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
             created_by=self.user,
         )
 
+        # Outage with one investigating update.
         self.two = models.Outage.objects.create(
-            scheduled=False,
             title="two",
             description="Outage two",
+            start=timezone.now(),
+            severity=models.SEVERE,
             created_by=self.user,
         )
         models.OutageUpdate.objects.create(
             outage=self.two,
             status=models.INVESTIGATING,
-            severity=models.SEVERE,
             content="update one",
             time=timezone.now(),
             created_by=self.user,
@@ -49,14 +52,12 @@ class OutageSimpleTestCase(test.APITestCase):
                 'title': "one",
                 'description': "Outage one",
                 'end': None,
+                'planned_end': None,
                 'id': self.one.id,
-                'scheduled_start': None,
-                'scheduled_end': None,
-                'scheduled_severity': None,
                 'severity': models.SIGNIFICANT,
-                'severity_display': 'Unknown',
-                'start': None,
-                'status_display': 'Unknown',
+                'severity_display': 'Significant',
+                'start': '2012-01-14T14:32:24Z',
+                'status_display': 'In progress',
                 'updates': [],
             },
             {
@@ -66,10 +67,8 @@ class OutageSimpleTestCase(test.APITestCase):
                 'title': "two",
                 'description': "Outage two",
                 'end': None,
+                'planned_end': None,
                 'id': self.two.id,
-                'scheduled_start': None,
-                'scheduled_end': None,
-                'scheduled_severity': None,
                 'severity': models.SEVERE,
                 'severity_display': 'Severe',
                 'start': '2012-01-14T14:32:24Z',
@@ -77,7 +76,6 @@ class OutageSimpleTestCase(test.APITestCase):
                 'updates': [
                     {
                         'content': 'update one',
-                        'severity': models.SEVERE,
                         'status': models.INVESTIGATING,
                         'time': '2012-01-14T14:32:24Z',
                     }
@@ -109,149 +107,86 @@ class OutageSimpleTestCase(test.APITestCase):
 
     def test_get_all(self):
         self.maxDiff = 1000
-        # Get all with no filtering
         response = self.client.get("/api/v1/outages/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual(len(data), 2)
         self.assertEqual(data, self.expected)
 
-    def test_get_filtered(self):
-        # Just a simple filter based on a plain field
+    def test_get_filtered_cancelled(self):
         response = self.client.get("/api/v1/outages/?cancelled=true")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual(len(data), 0)
 
+    def test_get_filtered_severity(self):
+        response = self.client.get(
+            f"/api/v1/outages/?severity={models.SEVERE}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]['id'], self.two.id)
+
 
 class OutageFilterTestCase(test.APITestCase):
+    """Activity filter behaviour after the refactor.
+
+    Only active / completed / upcoming remain.
+    """
+
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-
-        self.times = [
-            timezone.now() + timedelta(days=i) for i in range(-3, 4, 2)
-        ]
-
         self.user = auth_models.User.objects.create(
             username="test", email="test@test.com", is_superuser=True
         )
-        self.user.save()
 
-        self.past = models.Outage.objects.create(
-            scheduled=True,
-            title="past",
-            description="Outage one",
-            scheduled_start=self.times[0],
-            scheduled_end=self.times[1],
-            scheduled_severity=models.SEVERE,
-            created_by=self.user,
-        )
-        self.past.save()
+        now = timezone.now()
 
-        self.current = models.Outage.objects.create(
-            scheduled=True,
-            title="past",
-            description="Outage two",
-            scheduled_start=self.times[1],
-            scheduled_end=self.times[2],
-            scheduled_severity=models.SEVERE,
-            created_by=self.user,
-        )
-        self.current.save()
-
-        self.future = models.Outage.objects.create(
-            scheduled=True,
-            title="future",
-            description="Outage three",
-            scheduled_start=self.times[2],
-            scheduled_end=self.times[3],
-            created_by=self.user,
-        )
-        self.future.save()
-
-    def test_get_upcoming(self):
-        self._check_activity("upcoming", [self.future])
-
-    def test_get_overdue(self):
-        self._check_activity("overdue", [self.current])
-
-    def test_get_missed(self):
-        self._check_activity("missed", [self.past])
-
-    def test_get_active_and_completed(self):
-        # Initially, no updates => nothing started, nothing completed
-        self._check_activity("completed", [])
-        self._check_activity("active", [])
-        self._check_activity("overrunning", [])
-
-        # Start the "current" outage
-        models.OutageUpdate.objects.create(
-            outage=self.current,
-            time=self.times[1],
-            modification_time=self.times[1],
-            created_by=self.user,
+        # Active: started, no end.
+        self.active = models.Outage.objects.create(
+            title="active",
+            description="d",
+            start=now - timedelta(hours=1),
             severity=models.SEVERE,
-            status=models.STARTED,
-            content="yadda",
-        )
-
-        self._check_activity("completed", [])
-        self._check_activity("active", [self.current])
-        self._check_activity("overrunning", [])
-
-        # Complete the "current" outage
-        later = self.times[1] + timedelta(hours=1)
-        models.OutageUpdate.objects.create(
-            outage=self.current,
-            time=later,
-            modification_time=later,
             created_by=self.user,
-            severity=models.SEVERE,
-            status=models.COMPLETED,
-            content="yadda",
         )
 
-        self._check_activity("completed", [self.current])
-        self._check_activity("active", [])
-        self._check_activity("overrunning", [])
-
-        # Start the "past" outage
-        models.OutageUpdate.objects.create(
-            outage=self.past,
-            time=self.times[0],
-            modification_time=self.times[0],
+        # Completed: end set.
+        self.completed = models.Outage.objects.create(
+            title="completed",
+            description="d",
+            start=now - timedelta(days=1),
+            end=now - timedelta(hours=2),
+            severity=models.SEVERE,
             created_by=self.user,
-            severity=models.SEVERE,
-            status=models.STARTED,
-            content="yadda",
         )
 
-        self._check_activity("completed", [self.current])
-        self._check_activity("active", [self.past])
-        self._check_activity("overrunning", [self.past])
-
-        # Complete the "past" outage
-        later = self.times[0] + timedelta(hours=1)
-        models.OutageUpdate.objects.create(
-            outage=self.past,
-            time=later,
-            modification_time=later,
+        # Upcoming: future start.
+        self.upcoming = models.Outage.objects.create(
+            title="upcoming",
+            description="d",
+            start=now + timedelta(days=1),
+            severity=models.SEVERE,
             created_by=self.user,
-            severity=models.SEVERE,
-            status=models.COMPLETED,
-            content="yadda",
         )
 
-        self._check_activity("completed", [self.past, self.current])
-        self._check_activity("active", [])
-        self._check_activity("overrunning", [])
+    def test_filter_active(self):
+        self._check_activity("active", {self.active.id})
 
-    def _check_activity(self, activity, expected):
-        """Run an activity filter and check what outage ids it returns."""
+    def test_filter_completed(self):
+        self._check_activity("completed", {self.completed.id})
 
+    def test_filter_upcoming(self):
+        self._check_activity("upcoming", {self.upcoming.id})
+
+    def test_filter_unknown_returns_all(self):
+        self._check_activity(
+            "all", {self.active.id, self.completed.id, self.upcoming.id}
+        )
+
+    def _check_activity(self, activity, expected_ids):
         response = self.client.get(f"/api/v1/outages/?activity={activity}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
-        self.assertEqual(len(data), len(expected))
-        for i in range(0, len(expected)):
-            self.assertEqual(data[i]['id'], expected[i].id)
+        self.assertEqual({d['id'] for d in data}, expected_ids)

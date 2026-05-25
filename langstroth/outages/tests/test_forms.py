@@ -5,192 +5,210 @@ from django.utils import timezone
 from freezegun import freeze_time
 
 from langstroth import models as auth_models
+from langstroth.outages import forms
 from langstroth.outages import models
-from langstroth.outages import views  # noqa: F401  break import cycle
-from langstroth.outages import forms  # noqa: H306  break import cycle
 
 
-class UnscheduledOutageFormTests(TestCase):
+class OutageFormTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = auth_models.User.objects.create(
             username="test", email="test@test.com", is_superuser=True
         )
 
-    def test_valid_form_saves_outage_and_initial_update(self):
-        now = timezone.now()
-        form = forms.UnscheduledOutageForm(
-            data={
-                "title": "Broken",
-                "description": "It's down",
-                "time": now.strftime("%Y-%m-%dT%H:%M:%S"),
-                "severity": models.SEVERE,
-                "status": models.INVESTIGATING,
-                "content": "Investigating now",
-            },
-        )
-        self.assertTrue(form.is_valid(), form.errors)
-        # ModelForm.save needs created_by set on the instance first.
-        form.instance.created_by = self.user
-        outage = form.save()
-        self.assertEqual("Broken", outage.title)
-        self.assertEqual(1, outage.updates.count())
-        update = outage.updates.first()
-        self.assertEqual(models.INVESTIGATING, update.status)
-        self.assertEqual(models.SEVERE, update.severity)
-
-    def test_form_widget_classes_assigned(self):
-        form = forms.UnscheduledOutageForm()
-        # Select widgets get 'form-select', the rest get 'form-control'
-        self.assertIn(
-            'form-select', form.fields['severity'].widget.attrs['class']
-        )
-        self.assertIn(
-            'form-control', form.fields['title'].widget.attrs['class']
-        )
-
-
-class ScheduledOutageFormTests(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = auth_models.User.objects.create(
-            username="test", email="test@test.com", is_superuser=True
-        )
-
-    def _base_data(self, **overrides):
-        future = timezone.now() + timedelta(days=1)
-        later = future + timedelta(hours=2)
+    def _data(self, **overrides):
+        start = timezone.now() + timedelta(days=1)
+        planned_end = start + timedelta(hours=2)
         data = {
             "title": "Maintenance",
             "description": "Routine work",
-            "scheduled": True,
-            "scheduled_start": future.strftime("%Y-%m-%dT%H:%M:%S"),
-            "scheduled_end": later.strftime("%Y-%m-%dT%H:%M:%S"),
-            "scheduled_severity": models.SIGNIFICANT,
+            "start": start.strftime("%Y-%m-%dT%H:%M:%S"),
+            "severity": models.SIGNIFICANT,
+            "planned_end": planned_end.strftime("%Y-%m-%dT%H:%M:%S"),
+            "status": "",
+            "content": "",
+            "tz_offset": "",
         }
         data.update(overrides)
         return data
 
-    def test_valid(self):
-        form = forms.ScheduledOutageForm(data=self._base_data())
+    def test_future_start_no_initial_update(self):
+        form = forms.OutageForm(data=self._data())
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertEqual(0, outage.updates.count())
+        self.assertTrue(outage.scheduled)
+
+    def test_now_start_requires_status_and_content(self):
+        start = timezone.now()
+        form = forms.OutageForm(
+            data=self._data(start=start.strftime("%Y-%m-%dT%H:%M:%S"))
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('status', form.errors)
+        self.assertIn('content', form.errors)
+
+    def test_now_start_with_initial_update(self):
+        start = timezone.now()
+        form = forms.OutageForm(
+            data=self._data(
+                start=start.strftime("%Y-%m-%dT%H:%M:%S"),
+                status=models.INVESTIGATING,
+                content="Outage detected",
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertEqual(1, outage.updates.count())
+        update = outage.updates.first()
+        self.assertEqual(models.INVESTIGATING, update.status)
+        self.assertEqual("Outage detected", update.content)
+        self.assertFalse(outage.scheduled)
+
+    def test_past_start_treated_as_starting_now(self):
+        # A "starting now" outage with a slightly past start still
+        # requires the initial update fields.
+        start = timezone.now() - timedelta(minutes=5)
+        form = forms.OutageForm(
+            data=self._data(start=start.strftime("%Y-%m-%dT%H:%M:%S"))
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('status', form.errors)
+
+    def test_scheduled_outage_requires_planned_end(self):
+        # A scheduled outage (start > now + 1h) must specify a planned
+        # end. Without it, the form should be invalid.
+        scheduled_start = timezone.now() + timedelta(hours=4)
+        form = forms.OutageForm(
+            data=self._data(
+                start=scheduled_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                planned_end="",
+            )
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('planned_end', form.errors)
+
+    def test_starting_now_outage_does_not_require_planned_end(self):
+        # An unscheduled / starting-now outage doesn't need a planned
+        # end -- end is stamped when the operator ends it.
+        start = timezone.now()
+        form = forms.OutageForm(
+            data=self._data(
+                start=start.strftime("%Y-%m-%dT%H:%M:%S"),
+                planned_end="",
+                status=models.INVESTIGATING,
+                content="starting",
+            )
+        )
         self.assertTrue(form.is_valid(), form.errors)
 
+    def test_planned_end_must_be_after_start(self):
+        start = timezone.now() + timedelta(days=1)
+        planned_end = start - timedelta(hours=1)
+        form = forms.OutageForm(
+            data=self._data(
+                start=start.strftime("%Y-%m-%dT%H:%M:%S"),
+                planned_end=planned_end.strftime("%Y-%m-%dT%H:%M:%S"),
+            )
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('planned_end', form.errors)
+
+    def test_tz_offset_reinterprets_naive_datetime(self):
+        # Regression: operator in AEST (UTC+10) typing "14:40" should
+        # have it stored as 04:40 UTC, not 14:40 UTC. Without the
+        # tz_offset hidden field, Django parses naive datetime against
+        # the currently-active timezone (UTC by default), silently
+        # shifting the saved time by the operator's UTC offset.
+        local_now = timezone.now() + timedelta(hours=10)  # AEST-ish local
+        local_naive_str = local_now.replace(tzinfo=None).strftime(
+            "%Y-%m-%dT%H:%M:%S"
+        )
+        form = forms.OutageForm(
+            data=self._data(
+                start=local_naive_str,
+                tz_offset=600,  # AEST = UTC+10 = 600 min east
+                status=models.INVESTIGATING,
+                content="starting",
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        # After reinterpretation, the stored UTC time should match the
+        # current server UTC time (within seconds).
+        diff = abs((outage.start - timezone.now()).total_seconds())
+        self.assertLess(diff, 5, f"start {outage.start} != now")
+        self.assertTrue(outage.is_current)
+
+    def test_no_tz_offset_falls_back_to_active_timezone(self):
+        # If the browser didn't supply tz_offset (e.g. JS disabled),
+        # the form falls back to Django's normal parsing -- the value
+        # is treated as being in the request's active timezone.
+        start = timezone.now() + timedelta(hours=2)
+        form = forms.OutageForm(
+            data=self._data(
+                start=start.strftime("%Y-%m-%dT%H:%M:%S"),
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertEqual(start.replace(microsecond=0), outage.start)
+        self.assertTrue(outage.is_upcoming)
+
+    def test_future_start_with_planned_end_is_not_completed(self):
+        # Regression: filling in planned_end on creation must NOT mark
+        # the outage as completed -- planned_end is informational, end
+        # is the actual end of the outage.
+        start = timezone.now() + timedelta(days=1)
+        planned_end = start + timedelta(hours=2)
+        form = forms.OutageForm(
+            data=self._data(
+                start=start.strftime("%Y-%m-%dT%H:%M:%S"),
+                planned_end=planned_end.strftime("%Y-%m-%dT%H:%M:%S"),
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertIsNone(outage.end)
+        self.assertEqual(
+            planned_end.replace(microsecond=0), outage.planned_end
+        )
+        self.assertEqual("Scheduled", outage.status_display)
+
+    def test_scheduled_label_set_on_creation_and_frozen(self):
+        # Start more than 1 hour in the future -> scheduled=True.
+        start = timezone.now() + timedelta(hours=4)
+        form = forms.OutageForm(
+            data=self._data(start=start.strftime("%Y-%m-%dT%H:%M:%S"))
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertTrue(outage.scheduled)
+
+        # Subsequent save does NOT recompute scheduled even if start
+        # is now in the past.
+        outage.start = timezone.now() - timedelta(hours=1)
+        outage.save()
+        outage.refresh_from_db()
+        self.assertTrue(outage.scheduled)
+
     def test_widget_classes(self):
-        form = forms.ScheduledOutageForm()
+        form = forms.OutageForm()
         self.assertIn(
-            'form-control',
-            form.fields['scheduled_start'].widget.attrs['class'],
+            'form-control', form.fields['title'].widget.attrs['class']
+        )
+        self.assertIn(
+            'form-select', form.fields['severity'].widget.attrs['class']
         )
 
-    def test_missing_start_when_scheduled(self):
-        form = forms.ScheduledOutageForm(
-            data=self._base_data(scheduled_start='')
-        )
-        self.assertFalse(form.is_valid())
-        self.assertIn('scheduled_start', form.errors)
 
-    def test_missing_end_when_scheduled(self):
-        form = forms.ScheduledOutageForm(
-            data=self._base_data(scheduled_end='')
-        )
-        self.assertFalse(form.is_valid())
-        self.assertIn('scheduled_end', form.errors)
-
-    def test_start_after_end(self):
-        future = timezone.now() + timedelta(days=2)
-        earlier = timezone.now() + timedelta(days=1)
-        form = forms.ScheduledOutageForm(
-            data=self._base_data(
-                scheduled_start=future.strftime("%Y-%m-%dT%H:%M:%S"),
-                scheduled_end=earlier.strftime("%Y-%m-%dT%H:%M:%S"),
-            )
-        )
-        self.assertFalse(form.is_valid())
-        self.assertIn('scheduled_end', form.errors)
-
-    def test_start_in_past(self):
-        past = timezone.now() - timedelta(days=1)
-        future = timezone.now() + timedelta(days=1)
-        form = forms.ScheduledOutageForm(
-            data=self._base_data(
-                scheduled_start=past.strftime("%Y-%m-%dT%H:%M:%S"),
-                scheduled_end=future.strftime("%Y-%m-%dT%H:%M:%S"),
-            )
-        )
-        self.assertFalse(form.is_valid())
-        self.assertIn('scheduled_start', form.errors)
-
-    def test_missing_severity(self):
-        form = forms.ScheduledOutageForm(
-            data=self._base_data(scheduled_severity='')
-        )
-        self.assertFalse(form.is_valid())
-        self.assertIn('scheduled_severity', form.errors)
-
-    def test_unscheduled_rejects_scheduled_fields(self):
-        future = timezone.now() + timedelta(days=1)
-        later = future + timedelta(hours=2)
-        form = forms.ScheduledOutageForm(
-            data={
-                "title": "Maintenance",
-                "description": "Routine work",
-                "scheduled": False,
-                "scheduled_start": future.strftime("%Y-%m-%dT%H:%M:%S"),
-                "scheduled_end": later.strftime("%Y-%m-%dT%H:%M:%S"),
-                "scheduled_severity": models.SIGNIFICANT,
-            }
-        )
-        self.assertFalse(form.is_valid())
-
-
-class BaseOutageUpdateFormTests(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = auth_models.User.objects.create(
-            username="test", email="test@test.com", is_superuser=True
-        )
-
-    def _make_outage(self, scheduled=False):
-        return models.Outage.objects.create(
-            scheduled=scheduled,
-            title="t",
-            description="d",
-            created_by=self.user,
-        )
-
-    def test_choices_no_update_unscheduled(self):
-        outage = self._make_outage(scheduled=False)
-        form = forms.BaseOutageUpdateForm(initial={'outage': outage})
-        choices = list(form.fields['status'].choices)
-        codes = [c[0] for c in choices]
-        self.assertIn(models.INVESTIGATING, codes)
-        self.assertIn(models.IDENTIFIED, codes)
-        self.assertNotIn(models.STARTED, codes)
-
-    def test_choices_no_update_scheduled(self):
-        outage = self._make_outage(scheduled=True)
-        form = forms.BaseOutageUpdateForm(initial={'outage': outage})
-        choices = list(form.fields['status'].choices)
-        codes = [c[0] for c in choices]
-        self.assertEqual([models.STARTED], codes)
-
-    def test_choices_with_latest_update(self):
-        outage = self._make_outage(scheduled=False)
-        models.OutageUpdate.objects.create(
-            outage=outage,
-            time=timezone.now(),
-            status=models.INVESTIGATING,
-            severity=models.SEVERE,
-            content="x",
-            created_by=self.user,
-        )
-        form = forms.BaseOutageUpdateForm(initial={'outage': outage})
-        codes = [c[0] for c in form.fields['status'].choices]
-        # Includes the transition source keys
-        self.assertIn(models.INVESTIGATING, codes)
-
-
-class OutageStartFormTests(TestCase):
+class OutageUpdateFormTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = auth_models.User.objects.create(
@@ -199,39 +217,79 @@ class OutageStartFormTests(TestCase):
 
     def _make_outage(self):
         return models.Outage.objects.create(
-            scheduled=False,
             title="t",
             description="d",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
             created_by=self.user,
         )
 
-    @freeze_time("2024-01-01 12:00:00")
-    def test_rejects_future_time(self):
+    def test_choices_no_updates(self):
         outage = self._make_outage()
-        future = timezone.now() + timedelta(hours=1)
-        form = forms.OutageStartForm(
-            initial={'outage': outage},
-            data={
-                "time": future.strftime("%Y-%m-%dT%H:%M:%S"),
-                "status": models.INVESTIGATING,
-                "severity": models.SEVERE,
-                "content": "starting",
-            },
+        form = forms.OutageUpdateForm(initial={'outage': outage})
+        codes = [c[0] for c in form.fields['status'].choices]
+        self.assertEqual({models.INVESTIGATING, models.IDENTIFIED}, set(codes))
+
+    def test_choices_with_latest_update_excludes_resolved(self):
+        # RESOLVED is reachable only via the End action, so the update
+        # form must not offer it as a choice.
+        outage = self._make_outage()
+        models.OutageUpdate.objects.create(
+            outage=outage,
+            time=timezone.now(),
+            status=models.INVESTIGATING,
+            content="x",
+            created_by=self.user,
         )
-        self.assertFalse(form.is_valid())
-        self.assertIn('time', form.errors)
+        form = forms.OutageUpdateForm(initial={'outage': outage})
+        codes = {c[0] for c in form.fields['status'].choices if c[0]}
+        self.assertEqual(
+            {
+                models.INVESTIGATING,
+                models.IDENTIFIED,
+                models.PROGRESSING,
+                models.FIXED,
+            },
+            codes,
+        )
+        self.assertNotIn(models.RESOLVED, codes)
+
+
+class OutageEndFormTests(TestCase):
+    def test_empty_is_valid(self):
+        form = forms.OutageEndForm(data={'content': ''})
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_with_content_is_valid(self):
+        form = forms.OutageEndForm(data={'content': 'all clear'})
+        self.assertTrue(form.is_valid(), form.errors)
+
+
+class FrozenScheduledLabelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="t", email="t@t.com", is_superuser=True
+        )
 
     @freeze_time("2024-01-01 12:00:00")
-    def test_accepts_past_time(self):
-        outage = self._make_outage()
-        past = timezone.now() - timedelta(hours=1)
-        form = forms.OutageStartForm(
-            initial={'outage': outage},
-            data={
-                "time": past.strftime("%Y-%m-%dT%H:%M:%S"),
-                "status": models.INVESTIGATING,
-                "severity": models.SEVERE,
-                "content": "starting",
-            },
+    def test_scheduled_true_when_start_far_in_future(self):
+        outage = models.Outage.objects.create(
+            title="t",
+            description="d",
+            start=timezone.now() + timedelta(hours=2),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
         )
-        self.assertTrue(form.is_valid(), form.errors)
+        self.assertTrue(outage.scheduled)
+
+    @freeze_time("2024-01-01 12:00:00")
+    def test_scheduled_false_when_start_within_threshold(self):
+        outage = models.Outage.objects.create(
+            title="t",
+            description="d",
+            start=timezone.now() + timedelta(minutes=30),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+        self.assertFalse(outage.scheduled)

@@ -5,7 +5,7 @@
   </div>
   <div class="announcement-details ps-4">
     <h5 class="text-uppercase">
-      {% if outage.status_display == "Resolved" %}(Resolved)&nbsp;{% elif outage.status_display == "Completed" %}(Completed)&nbsp;{% endif %}
+      {% if outage.end %}(Completed)&nbsp;{% endif %}
       {{ outage.scheduled_display }} Outage
     </h5>
     <h4>
@@ -13,15 +13,11 @@
     </h4>
     <p>
       <strong>Status:</strong> {{ outage.status_display }}
-      {% if outage.start %}
-      <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
-      {% elif outage.scheduled and outage.scheduled_start %}
-      <strong>Start:</strong> {{ outage.scheduled_start|date:"D, j M Y g:ia (T)" }} (scheduled)
-      {% endif %}
+      <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}{% if outage.is_upcoming %} (scheduled){% endif %}
       {% if outage.end %}
       <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
-      {% elif outage.scheduled and outage.scheduled_end%}
-      <strong>End:</strong> {{ outage.scheduled_end|date:"D, j M Y g:ia (T)" }} (scheduled).
+      {% elif outage.planned_end %}
+      <strong>Planned end:</strong> {{ outage.planned_end|date:"D, j M Y g:ia (T)" }}
       {% endif %}
     </p>
     <a href="{{ outage.get_absolute_url }}" class="card-link"><span class="card-link-btn">View announcement</span></a>

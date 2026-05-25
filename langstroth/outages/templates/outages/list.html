@@ -13,8 +13,7 @@
     <h1 class="pb-4">Service Announcements</h1>
     {% if request.user.is_staff %}
       <div class="ms-auto btn-bar">
-        <a href="{% url 'outages:create_scheduled' %}" id="scheduled" class="btn btn-outline-primary btn-sm">Create scheduled outage</a>
-        <a href="{% url 'outages:create_unscheduled' %}" id="unscheduled" class="btn btn-outline-primary btn-sm">Create unscheduled outage</a>
+        <a href="{% url 'outages:create' %}" id="create" class="btn btn-outline-primary btn-sm">Create outage</a>
       </div>
     {% endif %}
   </div>

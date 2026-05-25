@@ -1,10 +1,10 @@
+from datetime import timedelta, timezone as dt_timezone
+
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
-from django.core.exceptions import ValidationError
 from django import forms
 from django.utils import timezone
 
 from langstroth.outages import models
-from langstroth.outages import views
 
 
 PICKER_OPTS = {
@@ -16,193 +16,168 @@ PICKER_OPTS = {
 }
 
 
-class UnscheduledOutageForm(forms.ModelForm):
-    # These added fields are for the first OutageUpdate
-    time = forms.DateTimeField(
+def _apply_bootstrap_classes(form):
+    for field in form.fields.values():
+        if (
+            hasattr(field.widget, 'input_type')
+            and field.widget.input_type == 'select'
+        ):
+            field.widget.attrs['class'] = (
+                'form-select ' + field.widget.attrs.get('class', '')
+            )
+        else:
+            field.widget.attrs['class'] = (
+                'form-control ' + field.widget.attrs.get('class', '')
+            )
+
+
+class OutageForm(forms.ModelForm):
+    start = forms.DateTimeField(
         required=True,
-        initial=timezone.now,
         widget=DateTimePickerInput(options=PICKER_OPTS),
     )
-    severity = forms.TypedChoiceField(
-        required=True, choices=models.SEVERITY_CHOICES, coerce=int
+    planned_end = forms.DateTimeField(
+        required=False,
+        widget=DateTimePickerInput(range_from='start', options=PICKER_OPTS),
     )
+    # Fields for an optional initial OutageUpdate.  Required only when
+    # `start <= now + threshold` -- i.e. the outage is starting now (or
+    # has already started).
     status = forms.ChoiceField(
-        required=True,
-        choices=(
+        required=False,
+        choices=[('', '---')]
+        + [
             choice
             for choice in models.STATUS_CHOICES
-            if choice[0] in [models.INVESTIGATING, models.IDENTIFIED]
-        ),
+            if choice[0] in (models.INVESTIGATING, models.IDENTIFIED)
+        ],
     )
     content = forms.CharField(
-        required=True, initial="Outage started", widget=forms.Textarea
-    )
-
-    class Meta:
-        model = models.Outage
-        exclude = [
-            'cancelled',
-            'scheduled',
-            'scheduled_start',
-            'scheduled_end',
-            'scheduled_severity',
-        ]
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        for field in self.fields.values():
-            if (
-                hasattr(field.widget, 'input_type')
-                and field.widget.input_type == 'select'
-            ):
-                field.widget.attrs['class'] = (
-                    'form-select ' + field.widget.attrs.get('class', '')
-                )
-            else:
-                field.widget.attrs['class'] = (
-                    'form-control ' + field.widget.attrs.get('class', '')
-                )
-
-    def save(self):
-        outage = super().save()
-        cleaned_data = super().clean()
-        update = models.OutageUpdate(
-            outage=outage,
-            time=cleaned_data['time'],
-            content=cleaned_data['content'],
-            severity=cleaned_data['severity'],
-            status=cleaned_data['status'],
-            created_by=outage.created_by,
-        )
-        update.save()
-        return outage
-
-
-class ScheduledOutageForm(forms.ModelForm):
-    scheduled_start = forms.DateTimeField(
-        required=False, widget=DateTimePickerInput(options=PICKER_OPTS)
-    )
-    scheduled_end = forms.DateTimeField(
         required=False,
-        widget=DateTimePickerInput(
-            range_from="scheduled_start", options=PICKER_OPTS
-        ),
+        widget=forms.Textarea,
     )
+    # Captured client-side: minutes east of UTC for the user's browser
+    # at submission time. Used to reinterpret the naive datetime-local
+    # values as the operator's timezone, independent of which timezone
+    # Django happens to have activated for the request.
+    tz_offset = forms.IntegerField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = models.Outage
-        exclude = ['cancelled']
+        fields = ['title', 'description', 'start', 'planned_end', 'severity']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        for field in self.fields.values():
-            if (
-                hasattr(field.widget, 'input_type')
-                and field.widget.input_type == 'select'
-            ):
-                field.widget.attrs['class'] = (
-                    'form-select ' + field.widget.attrs.get('class', '')
-                )
-            else:
-                field.widget.attrs['class'] = (
-                    'form-control ' + field.widget.attrs.get('class', '')
-                )
+        _apply_bootstrap_classes(self)
+
+    def _is_starting_now(self, start):
+        return start <= timezone.now() + models.SCHEDULED_THRESHOLD
 
     def clean(self):
         cleaned_data = super().clean()
-        scheduled = cleaned_data.get("scheduled")
-        start = cleaned_data.get("scheduled_start")
-        end = cleaned_data.get("scheduled_end")
-        severity = cleaned_data.get("scheduled_severity")
-        if scheduled:
-            if not start:
+        # Reinterpret datetime fields in the operator's timezone if the
+        # browser supplied its offset. Django's form field parses
+        # naive strings against whatever timezone is active for the
+        # request, which is unreliable on the first POST (tz_detect
+        # cookies aren't read yet) and silently shifts the saved time
+        # by the operator's UTC offset.
+        offset_min = cleaned_data.get('tz_offset')
+        if offset_min is not None:
+            user_tz = dt_timezone(timedelta(minutes=offset_min))
+            for field in ('start', 'planned_end'):
+                dt = cleaned_data.get(field)
+                if dt is not None:
+                    cleaned_data[field] = dt.replace(tzinfo=None).replace(
+                        tzinfo=user_tz
+                    )
+                    setattr(self.instance, field, cleaned_data[field])
+        start = cleaned_data.get('start')
+        planned_end = cleaned_data.get('planned_end')
+
+        if start and planned_end and planned_end <= start:
+            self.add_error('planned_end', 'Planned end must be after start.')
+
+        if start and not self._is_starting_now(start) and not planned_end:
+            self.add_error(
+                'planned_end',
+                'Planned end is required for scheduled outages.',
+            )
+
+        if start and self._is_starting_now(start):
+            if not cleaned_data.get('status'):
                 self.add_error(
-                    "scheduled_start",
-                    "Scheduled start date & time is required",
+                    'status',
+                    'Status is required when the outage is starting now.',
                 )
-            if not end:
+            if not cleaned_data.get('content'):
                 self.add_error(
-                    "scheduled_end", "Scheduled end date & time is required"
+                    'content',
+                    'An initial update message is required when the '
+                    'outage is starting now.',
                 )
-            if start and end and start >= end:
-                self.add_error(
-                    "scheduled_end", "Scheduled start must be before end!"
-                )
-            if start and start < timezone.now():
-                self.add_error(
-                    "scheduled_start",
-                    "A newly scheduled outage cannot start in the "
-                    "past. Consider making this an unscheduled "
-                    "outage instead.",
-                )
-            if not severity:
-                self.add_error(
-                    "scheduled_severity", "Scheduled severity is required"
-                )
-        else:
-            if start or end or severity:
-                raise ValidationError("start, end or severity not None")
+        return cleaned_data
+
+    def save(self, commit=True):
+        outage = super().save(commit=commit)
+        cleaned = self.cleaned_data
+        if (
+            commit
+            and self._is_starting_now(outage.start)
+            and cleaned.get('status')
+            and cleaned.get('content')
+        ):
+            models.OutageUpdate.objects.create(
+                outage=outage,
+                time=timezone.now(),
+                status=cleaned['status'],
+                content=cleaned['content'],
+                created_by=outage.created_by,
+            )
+        return outage
 
 
-class BaseOutageUpdateForm(forms.ModelForm):
+class OutageUpdateForm(forms.ModelForm):
+    time = forms.DateTimeField(disabled=True)
+
     class Meta:
         model = models.OutageUpdate
         exclude = ['outage']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        _apply_bootstrap_classes(self)
 
-        for field in self.fields.values():
-            if (
-                hasattr(field.widget, 'input_type')
-                and field.widget.input_type == 'select'
-            ):
-                field.widget.attrs['class'] = (
-                    'form-select ' + field.widget.attrs.get('class', '')
-                )
-            else:
-                field.widget.attrs['class'] = (
-                    'form-control ' + field.widget.attrs.get('class', '')
-                )
-
-        # Filter the choices for the 'status' field.  This is intended to
-        # avoid non-sensical transitions but still to give operators
-        # plenty of flexibility.
-
+        # RESOLVED is never selectable on an update -- the End action
+        # is what marks an outage as resolved (and creates the
+        # RESOLVED update itself). Before the first update only
+        # investigation-phase statuses make sense.
         outage = self.initial['outage']
-        latest = outage.latest_update
-        if latest:
-            allowed_choices = views.STATUS_TRANSITIONS[outage.scheduled].keys()
-        elif outage.scheduled:
-            allowed_choices = [models.STARTED]
+        if outage.latest_update is None:
+            allowed = {models.INVESTIGATING, models.IDENTIFIED}
         else:
-            allowed_choices = [models.INVESTIGATING, models.IDENTIFIED]
-        self.fields['status'].choices = (
+            allowed = {
+                models.INVESTIGATING,
+                models.IDENTIFIED,
+                models.PROGRESSING,
+                models.FIXED,
+            }
+        self.fields['status'].choices = [
             choice
             for choice in self.fields['status'].choices
-            if choice[0] in allowed_choices
-        )
+            if choice[0] in allowed
+        ]
 
 
-class OutageUpdateForm(BaseOutageUpdateForm):
-    time = forms.DateTimeField(disabled=True)
+class OutageEndForm(forms.Form):
+    content = forms.CharField(
+        required=False,
+        widget=forms.Textarea,
+        label='Final update (optional)',
+        help_text=(
+            "If provided, this becomes a RESOLVED update on the outage."
+        ),
+    )
 
-
-class OutageStartForm(OutageUpdateForm):
-    time = forms.DateTimeField(required=True, widget=DateTimePickerInput())
-
-    def clean(self):
-        cleaned_data = super().clean()
-        time = cleaned_data.get("time")
-        # A start update 'time' in the future is not allowed because we show
-        # them in 'time' order, and because the of the logic for determining
-        # the current outage state and severity depends on that ordering.
-        if time and time > timezone.now():
-            self.add_error(
-                "time",
-                "Outage start date & time is in the future! "
-                "If this is a scheduled outage and you need "
-                "to start it ahead of its scheduled start, "
-                "you should set this field to the actual outage "
-                "start time.",
-            )
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        _apply_bootstrap_classes(self)
