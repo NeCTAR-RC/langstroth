@@ -9,11 +9,23 @@ def handler500(request):
         "error.html",
         {
             "title": "ERROR: Internal Server Error",
-            "message": "An unhandled error has occured.  \
-                   Our staff have been emailed.",
+            "message": (
+                "An unhandled error has occurred. Our staff have been "
+                "notified."
+            ),
         },
+        status=500,
     )
 
 
+@requires_csrf_token
 def handler400(request, exception):
-    return handler500(request)
+    return render(
+        request,
+        "error.html",
+        {
+            "title": "ERROR: Bad Request",
+            "message": "The request could not be understood by the server.",
+        },
+        status=400,
+    )
