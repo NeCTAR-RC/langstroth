@@ -8,10 +8,8 @@ from langstroth.outages import models
 
 
 PICKER_OPTS = {
-    'showTodayButton': False,
-    'sideBySide': True,
-    'useCurrent': False,
-    'defaultDate': False,
+    'showTodayButton': True,
+    'showClear': True,
     'format': 'MM/DD/YYYY HH:mm',
 }
 
