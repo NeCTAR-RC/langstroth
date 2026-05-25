@@ -78,7 +78,7 @@
             <div class="form-text">Required for scheduled outages; optional otherwise. Informational only &mdash; the actual end is stamped when an operator ends the outage.</div>
           </div>
         </fieldset>
-        <fieldset class="mt-4">
+        <fieldset id="initial-update-fieldset" class="mt-4" hidden>
           <legend class="h5">Initial update</legend>
           <p class="form-text">Required when the outage is starting now (start &le; now + 1 hour). Leave blank for future-scheduled outages.</p>
           <div class="row mb-3">
@@ -120,6 +120,32 @@
     const input = document.getElementById('id_tz_offset');
     if (input) {
       input.value = -new Date().getTimezoneOffset();
+    }
+
+    // Hide the initial-update fieldset when the start is more than an
+    // hour out (scheduled outage) -- mirrors SCHEDULED_THRESHOLD in
+    // outages/models.py and the server-side validation in OutageForm.
+    const startInput = document.getElementById('id_start');
+    const initialUpdate = document.getElementById('initial-update-fieldset');
+    if (startInput && initialUpdate) {
+      const SCHEDULED_THRESHOLD_MS = 60 * 60 * 1000;
+      const toggleInitialUpdate = () => {
+        const value = startInput.value;
+        if (!value) {
+          initialUpdate.hidden = true;
+          return;
+        }
+        const start = new Date(value);
+        if (Number.isNaN(start.getTime())) {
+          initialUpdate.hidden = true;
+          return;
+        }
+        initialUpdate.hidden =
+          start.getTime() > Date.now() + SCHEDULED_THRESHOLD_MS;
+      };
+      startInput.addEventListener('change', toggleInitialUpdate);
+      startInput.addEventListener('input', toggleInitialUpdate);
+      toggleInitialUpdate();
     }
   })();
 </script>
