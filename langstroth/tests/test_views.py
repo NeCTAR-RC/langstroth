@@ -12,6 +12,89 @@ from langstroth import views
 DIR = os.path.abspath(os.path.dirname(__file__))
 
 
+class SimpleViewTests(TestCase):
+    def setUp(self):
+        self.rf = RequestFactory()
+
+    def test_growth(self):
+        response = views.growth(self.rf.get("/growth/"))
+        self.assertEqual(200, response.status_code)
+
+    @patch('langstroth.views.render')
+    def test_faults(self, mock_render):
+        # The faults.html template isn't present in the repo, so mock
+        # render to keep this a unit test of the view function itself.
+        views.faults(self.rf.get("/faults/"))
+        args = mock_render.mock_calls[0].args
+        self.assertEqual("faults.html", args[1])
+
+    def test_choose_first_skips_falsy(self):
+        # (value, time) tuples — falsy values get skipped
+        result = list(views.choose_first([(0, 1), (None, 2), (3, 3)]))
+        self.assertEqual([3], result)
+
+
+class IndexDateParsingTests(TestCase):
+    def setUp(self):
+        self.rf = RequestFactory()
+
+    @patch('langstroth.views.get_availability')
+    @patch('langstroth.views.get_status')
+    @patch('langstroth.views.cache')
+    @patch('langstroth.views.render')
+    def test_invalid_end_date_falls_back_to_now(
+        self, mock_render, mock_cache, mock_get_status, mock_get_avail
+    ):
+        mock_cache.get.return_value = None
+        mock_get_avail.return_value = None
+        mock_get_status.return_value = None
+        views.index(self.rf.get("/", {'end': 'not-a-date'}))
+        # render still called — i.e. the ValueError was swallowed
+        self.assertTrue(mock_render.called)
+
+    @patch('langstroth.views.get_availability')
+    @patch('langstroth.views.get_status')
+    @patch('langstroth.views.cache')
+    @patch('langstroth.views.render')
+    def test_invalid_start_date(
+        self, mock_render, mock_cache, mock_get_status, mock_get_avail
+    ):
+        mock_cache.get.return_value = None
+        mock_get_avail.return_value = None
+        mock_get_status.return_value = None
+        views.index(self.rf.get("/", {'start': 'not-a-date'}))
+        self.assertTrue(mock_render.called)
+
+    @patch('langstroth.views.get_availability')
+    @patch('langstroth.views.get_status')
+    @patch('langstroth.views.cache')
+    @patch('langstroth.views.render')
+    def test_relative_start(
+        self, mock_render, mock_cache, mock_get_status, mock_get_avail
+    ):
+        mock_cache.get.return_value = None
+        mock_get_avail.return_value = None
+        mock_get_status.return_value = None
+        views.index(self.rf.get("/", {'start': '-3months'}))
+        # The relative-date branch sets a tagline like "Over the last 3 months"
+        args = mock_render.mock_calls[0].args
+        self.assertIn("3 month", args[2]['tagline'])
+
+    @patch('langstroth.views.get_availability')
+    @patch('langstroth.views.get_status')
+    @patch('langstroth.views.cache')
+    @patch('langstroth.views.render')
+    def test_relative_start_invalid_swallowed(
+        self, mock_render, mock_cache, mock_get_status, mock_get_avail
+    ):
+        mock_cache.get.return_value = None
+        mock_get_avail.return_value = None
+        mock_get_status.return_value = None
+        # Doesn't match the regex inside the try, exception swallowed
+        views.index(self.rf.get("/", {'start': '-garbage'}))
+        self.assertTrue(mock_render.called)
+
+
 def _load_html(name):
     return open(os.path.join(DIR, f"test_{name}.html"), 'rb').read()
 

@@ -1,4 +1,6 @@
+import datetime
 import os
+from unittest import mock
 
 from django.conf import settings
 from django.test import TestCase
@@ -227,3 +229,53 @@ class TestStatus(TestCase):
                 }
             },
         )
+
+
+class TestParsingFallbacks(TestCase):
+    def test_parse_availability_no_matching_group(self):
+        html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
+        result = nagios.parse_availability(html, 'nonexistent_group')
+        self.assertEqual({'services': {}, 'average': {}}, result)
+
+    def test_parse_status_no_matching_group(self):
+        html = open(os.path.join(DIR, 'test_status.html')).read()
+        result = nagios.parse_status(html, 'nonexistent_group')
+        self.assertEqual({'hosts': {}}, result)
+
+
+from django.test import override_settings  # noqa: E402
+
+
+class TestRequestCallers(TestCase):
+    def test_gm_timestamp(self):
+        # Naive UTC datetime
+        ts = nagios.gm_timestamp(datetime.datetime(2024, 1, 1, 0, 0, 0))
+        self.assertEqual(1704067200, ts)
+
+    @override_settings(
+        AVAILABILITY_QUERY_TEMPLATE="?t1=%s&t2=%s&group=%s",
+        STATUS_QUERY_TEMPLATE="?group=%s",
+    )
+    @mock.patch('langstroth.nagios.requests.get')
+    def test_get_availability(self, mock_get):
+        html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
+        mock_get.return_value = mock.Mock(text=html)
+        result = nagios.get_availability(
+            datetime.datetime(2024, 1, 1),
+            datetime.datetime(2024, 1, 2),
+            service_group=settings.NAGIOS_SERVICE_GROUP,
+        )
+        self.assertIn('services', result)
+        mock_get.assert_called_once()
+
+    @override_settings(
+        AVAILABILITY_QUERY_TEMPLATE="?t1=%s&t2=%s&group=%s",
+        STATUS_QUERY_TEMPLATE="?group=%s",
+    )
+    @mock.patch('langstroth.nagios.requests.get')
+    def test_get_status(self, mock_get):
+        html = open(os.path.join(DIR, 'test_status.html')).read()
+        mock_get.return_value = mock.Mock(text=html)
+        result = nagios.get_status(service_group=settings.NAGIOS_SERVICE_GROUP)
+        self.assertIn('hosts', result)
+        mock_get.assert_called_once()

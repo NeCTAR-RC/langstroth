@@ -1,0 +1,17 @@
+[run]
+branch = False
+omit =
+    langstroth/settings.py
+    langstroth/settings_example.py
+    langstroth/settings_selenium.py
+    langstroth/wsgi.py
+    langstroth/*/tests/*
+    langstroth/tests/*
+    langstroth/*/migrations/*
+    langstroth/migrations/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if __name__ == .__main__.:
