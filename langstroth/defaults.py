@@ -195,6 +195,25 @@ STATICFILES_FINDERS = (
 
 COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 
+# Cookie / transport security. These defaults are safe in production
+# (DEBUG=False) and are auto-relaxed for local dev (DEBUG=True) so a
+# developer running over plain HTTP can still log in.
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = not DEBUG
+# Trust X-Forwarded-Proto from the front proxy. Only safe because the
+# deployment terminates TLS at a known proxy that strips this header
+# from external traffic; if you change deployment topology, revisit
+# along with gunicorn's --forwarded-allow-ips.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

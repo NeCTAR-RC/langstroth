@@ -15,6 +15,13 @@ SECRET_KEY = 'secret'
 COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
 
+# Relax production-only transport-security defaults so the test client
+# can talk to the dev server over plain HTTP.
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 DATABASES = {
     # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {

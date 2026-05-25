@@ -9,6 +9,13 @@ DEBUG = True
 
 SECRET_KEY = 'secret'
 
+# Relax production-only transport-security defaults so selenium drives
+# the dev server over plain HTTP.
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 COMPRESS_ENABLED = False
 
 COMPRESS_PRECOMPILERS = []
