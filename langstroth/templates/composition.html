@@ -6,8 +6,8 @@
 {% block page-header %}
   <div id="page-header" class="container my-5">
     <ul class="nav nav-pills justify-content-end">
-      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'domain' %}" href="/composition/domain/">Domain</a></li>
-      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'allocation_home' %}" href="/composition/allocation_home/">Allocation Home</a></li>
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'domain' %}" href="{% url 'composition' name='domain' %}">Domain</a></li>
+      <li role="presentaion" class="nav-item"><a class="nav-link {% active request 'allocation_home' %}" href="{% url 'composition' name='allocation_home' %}">Allocation Home</a></li>
     </ul>
 
     <h1>{{ title }}</h1>
