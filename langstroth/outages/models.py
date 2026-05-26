@@ -67,16 +67,22 @@ STATUS_TRANSITIONS = {
 }
 
 
+_STATUS_DISPLAYS = dict(STATUS_CHOICES)
+_SEVERITY_DISPLAYS = dict(SEVERITY_CHOICES)
+
+
 def _status_display(status):
+    # Tolerate an unknown code (e.g. legacy row not normalised by migration
+    # 0006, or a new status added since): the list view shouldn't crash.
     if status is None:
         return "Unknown"
-    return [s[1] for s in STATUS_CHOICES if s[0] == status][0]
+    return _STATUS_DISPLAYS.get(status, "Unknown")
 
 
 def _severity_display(severity):
     if severity is None:
         return "Unknown"
-    return [s[1] for s in SEVERITY_CHOICES if s[0] == severity][0]
+    return _SEVERITY_DISPLAYS.get(severity, "Unknown")
 
 
 class OutageManager(models.Manager):
