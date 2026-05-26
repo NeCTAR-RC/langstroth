@@ -3,6 +3,7 @@ import os
 from unittest import mock
 
 from django.conf import settings
+from django.test import override_settings
 from django.test import TestCase
 
 from langstroth import nagios
@@ -241,9 +242,6 @@ class TestParsingFallbacks(TestCase):
         html = open(os.path.join(DIR, 'test_status.html')).read()
         result = nagios.parse_status(html, 'nonexistent_group')
         self.assertEqual({'hosts': {}}, result)
-
-
-from django.test import override_settings  # noqa: E402
 
 
 class TestRequestCallers(TestCase):
