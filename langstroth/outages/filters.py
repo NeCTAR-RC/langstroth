@@ -136,6 +136,9 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
         return queryset
 
     def filter_start_ordering(self, queryset, name, value):
+        # "Default" keeps Outage.Meta.ordering (-modification_time) so
+        # the list surfaces recently-updated outages first. Only the
+        # explicit 'reverse' choice overrides it.
         if value == 'reverse':
-            return queryset.order_by('-pk')
-        return queryset.order_by('pk')
+            return queryset.order_by('modification_time')
+        return queryset
