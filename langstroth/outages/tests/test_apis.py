@@ -110,14 +110,14 @@ class OutageSimpleTestCase(test.APITestCase):
         response = self.client.get("/api/v1/outages/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
-        self.assertEqual(len(data), 2)
-        self.assertEqual(data, self.expected)
+        self.assertEqual(data['count'], 2)
+        self.assertEqual(data['results'], self.expected)
 
     def test_get_filtered_cancelled(self):
         response = self.client.get("/api/v1/outages/?cancelled=true")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
-        self.assertEqual(len(data), 0)
+        self.assertEqual(data['count'], 0)
 
     def test_get_filtered_severity(self):
         response = self.client.get(
@@ -125,8 +125,8 @@ class OutageSimpleTestCase(test.APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
-        self.assertEqual(len(data), 1)
-        self.assertEqual(data[0]['id'], self.two.id)
+        self.assertEqual(data['count'], 1)
+        self.assertEqual(data['results'][0]['id'], self.two.id)
 
 
 class OutageFilterTestCase(test.APITestCase):
@@ -189,4 +189,4 @@ class OutageFilterTestCase(test.APITestCase):
         response = self.client.get(f"/api/v1/outages/?activity={activity}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
-        self.assertEqual({d['id'] for d in data}, expected_ids)
+        self.assertEqual({d['id'] for d in data['results']}, expected_ids)

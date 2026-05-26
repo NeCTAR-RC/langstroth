@@ -1,9 +1,17 @@
 from django_filters import rest_framework as rest_filters
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import permissions
 from rest_framework import serializers
 from rest_framework import viewsets
 
 from langstroth.outages import filters
 from langstroth.outages import models
+
+
+class OutagePagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 200
 
 
 class OutageUpdateSerializer(serializers.ModelSerializer):
@@ -58,6 +66,10 @@ class OutageViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OutageSerializer
     filterset_class = OutageFilter
     filter_backends = [rest_filters.DjangoFilterBackend]
+    # Public status-page data. Set permission_classes explicitly so the
+    # endpoint isn't subject to a future change in the DRF default.
+    permission_classes = [permissions.AllowAny]
+    pagination_class = OutagePagination
 
     def get_queryset(self):
         return models.Outage.objects.prefetch_related('updates')
