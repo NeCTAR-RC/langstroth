@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.defaultfilters import pluralize
 from django.utils import timezone
+import lxml.etree
 import requests
 
 from langstroth import graphite
@@ -46,15 +47,26 @@ def _get_hosts(
     # slightly different report window than the user requested -- a
     # reasonable trade for not going dark when Nagios is down.
     backup_key = f'nagios_availability_backup_{service_group}'
+    # Narrow except: Nagios down (RequestException), template/page
+    # layout drift (Value/Index/Attribute/KeyError, LxmlError). A bare
+    # `except Exception` here masks programming errors and silently
+    # serves stale cache forever.
+    _SCRAPE_ERRORS = (
+        requests.RequestException,
+        ValueError,
+        IndexError,
+        AttributeError,
+        KeyError,
+        lxml.etree.LxmlError,
+    )
+
     try:
         availability = cache.get(primary_key)
         if not availability:
             availability = get_availability(then, now, service_group)
             cache.set(primary_key, availability, 600)
             cache.set(backup_key, availability, 24 * 3600)
-    except Exception as ex:
-        # Could be a Memcached outage, a Nagios outage, a networking
-        # outage, fragility in the scraping code, or ...
+    except _SCRAPE_ERRORS as ex:
         LOG.warning("Problem getting availability info", exc_info=ex)
         availability = cache.get(backup_key)
 
@@ -66,8 +78,7 @@ def _get_hosts(
         if not status:
             status = get_status(service_group)
             cache.set(f'nagios_status_{service_group}', status, 60)
-    except Exception as ex:
-        # See above ...
+    except _SCRAPE_ERRORS as ex:
         LOG.warning("Problem getting status info", exc_info=ex)
         status = None
 

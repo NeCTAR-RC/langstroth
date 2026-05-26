@@ -5,6 +5,7 @@ from unittest.mock import patch
 from django.conf import settings
 from django.test import RequestFactory
 from django.test import TestCase
+import requests
 
 from langstroth import nagios
 from langstroth import views
@@ -186,8 +187,15 @@ class TestViews(TestCase):
         with simulated nagios failures.
         """
 
-        mock_get_availability.side_effect = Exception("Nagios error")
-        mock_get_status.side_effect = Exception("Nagios error")
+        # Use a realistic exception type that the view's narrowed
+        # except clause is expected to handle (Nagios reachable but the
+        # request fails / times out).
+        mock_get_availability.side_effect = requests.ConnectionError(
+            "Nagios unreachable"
+        )
+        mock_get_status.side_effect = requests.ConnectionError(
+            "Nagios unreachable"
+        )
         mock_cache.get.side_effect = [
             None,
             self.availability_f5,
