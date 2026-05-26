@@ -48,3 +48,11 @@ if os.path.exists(CUSTOM_SETTINGS_PATH):
     exec(compile(source, CUSTOM_SETTINGS_PATH, "exec"))
 else:
     LOG.warning(f"Missing custom settings file: {CUSTOM_SETTINGS_PATH}. ")
+
+# When OIDC is enabled, drop the local-password ModelBackend so SSO is
+# the only authentication path -- otherwise any pre-existing local
+# superuser (e.g. created by `manage.py createsuperuser`) can bypass
+# SSO and any MFA enforced upstream of it. Evaluated here, after the
+# override file has had a chance to flip USE_OIDC.
+if USE_OIDC:  # noqa: F405
+    AUTHENTICATION_BACKENDS = ['langstroth.auth.NectarAuthBackend']
