@@ -35,24 +35,28 @@ def _get_hosts(
     service_group=settings.NAGIOS_SERVICE_GROUP,
     service_group_type='api',
 ):
-    cache_key = (
+    # Per-window primary cache key: scoped to the requested window so
+    # different report ranges don't collide. Short TTL because Nagios
+    # data ages quickly.
+    primary_key = (
         f'nagios_availability_{service_group}_{now.date()}_{then.date()}'
     )
+    # Stable backup key: NO date in the key, long TTL. Purpose is to
+    # serve *something* if Nagios is unreachable. May be from a
+    # slightly different report window than the user requested -- a
+    # reasonable trade for not going dark when Nagios is down.
+    backup_key = f'nagios_availability_backup_{service_group}'
     try:
-        # Only refresh every 10 min, and keep a backup in case of
-        # nagios error.
-        availability = cache.get(f"_{cache_key}")
+        availability = cache.get(primary_key)
         if not availability:
             availability = get_availability(then, now, service_group)
-            cache.set(f"_{cache_key}", availability, 600)
-            # Save the backup
-            cache.set(cache_key, availability)
+            cache.set(primary_key, availability, 600)
+            cache.set(backup_key, availability, 24 * 3600)
     except Exception as ex:
         # Could be a Memcached outage, a Nagios outage, a networking
         # outage, fragility in the scraping code, or ...
         LOG.warning("Problem getting availability info", exc_info=ex)
-        # Use the backup
-        availability = cache.get(cache_key)
+        availability = cache.get(backup_key)
 
     LOG.debug("Availability: " + str(availability))
 

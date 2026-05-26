@@ -139,9 +139,9 @@ class TestViews(TestCase):
         range = "2024-06-17_2024-05-17"
         mock_cache.get.assert_has_calls(
             [
-                call(f'_nagios_availability_f5-endpoints_{range}'),
+                call(f'nagios_availability_f5-endpoints_{range}'),
                 call('nagios_status_f5-endpoints'),
-                call(f'_nagios_availability_tempest_compute_{range}'),
+                call(f'nagios_availability_tempest_compute_{range}'),
                 call('nagios_status_tempest_compute'),
             ],
             any_order=True,
@@ -151,22 +151,24 @@ class TestViews(TestCase):
         mock_cache.set.assert_has_calls(
             [
                 call(
-                    f'_nagios_availability_f5-endpoints_{range}',
-                    self.availability_f5,
-                    600,
-                ),
-                call(
                     f'nagios_availability_f5-endpoints_{range}',
                     self.availability_f5,
+                    600,
                 ),
                 call(
-                    f'_nagios_availability_tempest_compute_{range}',
-                    self.availability_tempest,
-                    600,
+                    'nagios_availability_backup_f5-endpoints',
+                    self.availability_f5,
+                    24 * 3600,
                 ),
                 call(
                     f'nagios_availability_tempest_compute_{range}',
                     self.availability_tempest,
+                    600,
+                ),
+                call(
+                    'nagios_availability_backup_tempest_compute',
+                    self.availability_tempest,
+                    24 * 3600,
                 ),
             ],
             any_order=True,
@@ -202,11 +204,11 @@ class TestViews(TestCase):
         range = "2024-06-17_2024-05-17"
         mock_cache.get.assert_has_calls(
             [
-                call(f'_nagios_availability_f5-endpoints_{range}'),
                 call(f'nagios_availability_f5-endpoints_{range}'),
+                call('nagios_availability_backup_f5-endpoints'),
                 call('nagios_status_f5-endpoints'),
-                call(f'_nagios_availability_tempest_compute_{range}'),
                 call(f'nagios_availability_tempest_compute_{range}'),
+                call('nagios_availability_backup_tempest_compute'),
                 call('nagios_status_tempest_compute'),
             ],
             any_order=True,
@@ -240,9 +242,9 @@ class TestViews(TestCase):
         range = "2024-06-17_2024-05-17"
         mock_cache.get.assert_has_calls(
             [
-                call(f'_nagios_availability_f5-endpoints_{range}'),
+                call(f'nagios_availability_f5-endpoints_{range}'),
                 call('nagios_status_f5-endpoints'),
-                call(f'_nagios_availability_tempest_compute_{range}'),
+                call(f'nagios_availability_tempest_compute_{range}'),
                 call('nagios_status_tempest_compute'),
             ],
             any_order=True,
