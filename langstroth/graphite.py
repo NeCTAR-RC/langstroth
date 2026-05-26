@@ -5,7 +5,15 @@ from urllib.parse import urlencode
 from django.conf import settings
 
 
-GRAPHITE = settings.GRAPHITE_URL + "/render/"
+def _graphite_url():
+    """Resolve GRAPHITE_URL on each call rather than at module import.
+
+    The previous module-level GRAPHITE constant was bound the first
+    time graphite.py was imported, so @override_settings(GRAPHITE_URL=
+    ...) in tests had no effect.
+    """
+    return settings.GRAPHITE_URL + "/render/"
+
 
 # Addressing the history components
 # within a 2-member data-point array.
@@ -130,11 +138,13 @@ class Target:
         return not self.__eq__(other)
 
 
-def get(from_date=None, until_date=None, targets=[]):
+def get(from_date=None, until_date=None, targets=None):
     """Get some metrics from graphite.  Return a requests.models.Response
     object.
 
     """
+    if targets is None:
+        targets = ()
     arguments = [('format', 'json')]
     arguments.extend([('target', str(target)) for target in targets])
 
@@ -143,4 +153,6 @@ def get(from_date=None, until_date=None, targets=[]):
     if until_date:
         arguments.append(('until', until_date))
 
-    return requests.get(GRAPHITE + "?" + urlencode(arguments), timeout=(5, 30))
+    return requests.get(
+        _graphite_url() + "?" + urlencode(arguments), timeout=(5, 30)
+    )
