@@ -1,6 +1,8 @@
 from operator import itemgetter
 import requests
+from requests.adapters import HTTPAdapter
 from urllib.parse import urlencode
+from urllib3.util.retry import Retry
 
 from django.conf import settings
 
@@ -13,6 +15,26 @@ def _graphite_url():
     ...) in tests had no effect.
     """
     return settings.GRAPHITE_URL + "/render/"
+
+
+def _build_session():
+    """Reusable session with a retry-on-5xx adapter -- avoids fresh
+    TCP/TLS handshakes per call and tolerates transient 5xx hiccups."""
+    session = requests.Session()
+    retry = Retry(
+        total=2,
+        backoff_factor=0.3,
+        status_forcelist=(500, 502, 503, 504),
+        allowed_methods=("GET",),
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
+
+_SESSION = _build_session()
 
 
 # Addressing the history components
@@ -153,6 +175,6 @@ def get(from_date=None, until_date=None, targets=None):
     if until_date:
         arguments.append(('until', until_date))
 
-    return requests.get(
+    return _SESSION.get(
         _graphite_url() + "?" + urlencode(arguments), timeout=(5, 30)
     )

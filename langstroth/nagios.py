@@ -4,9 +4,36 @@ import cssselect
 from django.conf import settings
 import lxml.etree
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 
 LOG = logging.getLogger(__name__)
+
+
+def _build_session():
+    """Reusable session with a retry-on-5xx adapter.
+
+    Sharing a Session keeps the TCP/TLS connection alive across calls
+    instead of opening a fresh socket every time. The retry adapter
+    handles transient 5xx / connection errors without blowing through
+    the request-level timeout.
+    """
+    session = requests.Session()
+    retry = Retry(
+        total=2,
+        backoff_factor=0.3,
+        status_forcelist=(500, 502, 503, 504),
+        allowed_methods=("GET",),
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
+
+_SESSION = _build_session()
 
 SERVICE_NAMES = {
     'http_cinder-api': 'Volume',
@@ -245,12 +272,12 @@ def get_availability(
         service_group,
     )
     url = settings.NAGIOS_URL + query
-    resp = requests.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
+    resp = _SESSION.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
     return parse_availability(resp.text, service_group)
 
 
 def get_status(service_group=settings.NAGIOS_SERVICE_GROUP):
     query = settings.STATUS_QUERY_TEMPLATE % service_group
     url = settings.NAGIOS_URL + query
-    resp = requests.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
+    resp = _SESSION.get(url, auth=settings.NAGIOS_AUTH, timeout=(5, 30))
     return parse_status(resp.text, service_group)

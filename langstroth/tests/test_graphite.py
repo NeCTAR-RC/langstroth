@@ -68,7 +68,7 @@ class TargetTests(TestCase):
 
 
 class GraphiteGetTests(TestCase):
-    @mock.patch('langstroth.graphite.requests.get')
+    @mock.patch('langstroth.graphite._SESSION.get')
     def test_get(self, mock_get):
         response = graphite.get(from_date='-1year')
         mock_get.assert_called_with(
@@ -77,7 +77,7 @@ class GraphiteGetTests(TestCase):
         )
         self.assertEqual(mock_get(), response)
 
-    @mock.patch('langstroth.graphite.requests.get')
+    @mock.patch('langstroth.graphite._SESSION.get')
     def test_get_with_until(self, mock_get):
         graphite.get(from_date='-1year', until_date='now')
         mock_get.assert_called_with(
@@ -86,7 +86,7 @@ class GraphiteGetTests(TestCase):
             timeout=(5, 30),
         )
 
-    @mock.patch('langstroth.graphite.requests.get')
+    @mock.patch('langstroth.graphite._SESSION.get')
     def test_get_target(self, mock_get):
         target = graphite.Target("test.az.something").alias("foo")
         graphite.get(from_date='-1year', targets=[target])
@@ -98,7 +98,7 @@ class GraphiteGetTests(TestCase):
             timeout=(5, 30),
         )
 
-    @mock.patch('langstroth.graphite.requests.get')
+    @mock.patch('langstroth.graphite._SESSION.get')
     def test_get_targets(self, mock_get):
         targets = [
             graphite.Target("test.az.something").alias("foo"),

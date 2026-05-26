@@ -29,7 +29,7 @@ GRAPHITE_OUTPUT = [
 ]
 
 
-@mock.patch('langstroth.graphite.requests.get')
+@mock.patch('langstroth.graphite._SESSION.get')
 def test_find_daily_accumulated_users(mock_get):
     mock_get.return_value.json.return_value = GRAPHITE_OUTPUT
 

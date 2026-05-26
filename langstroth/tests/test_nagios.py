@@ -273,7 +273,7 @@ class TestRequestCallers(TestCase):
         AVAILABILITY_QUERY_TEMPLATE="?t1=%s&t2=%s&group=%s",
         STATUS_QUERY_TEMPLATE="?group=%s",
     )
-    @mock.patch('langstroth.nagios.requests.get')
+    @mock.patch('langstroth.nagios._SESSION.get')
     def test_get_availability(self, mock_get):
         html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
         mock_get.return_value = mock.Mock(text=html)
@@ -289,7 +289,7 @@ class TestRequestCallers(TestCase):
         AVAILABILITY_QUERY_TEMPLATE="?t1=%s&t2=%s&group=%s",
         STATUS_QUERY_TEMPLATE="?group=%s",
     )
-    @mock.patch('langstroth.nagios.requests.get')
+    @mock.patch('langstroth.nagios._SESSION.get')
     def test_get_status(self, mock_get):
         html = open(os.path.join(DIR, 'test_status.html')).read()
         mock_get.return_value = mock.Mock(text=html)
