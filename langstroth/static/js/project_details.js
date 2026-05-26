@@ -16,17 +16,6 @@ var headings = {
   "modified_time" : "Modified time"
 };
 
-var toolTip = d3.select("body")
-      .append("div")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .style("background-color", "rgba(255,255,255,0.75)")
-      .style("padding", "2px 4px 2px 4px")
-      .style("border-radius", "3px")
-      .text("a simple tooltip");
-
-
 //==== HTML Table For Project Details.
 // Populated on page load. Dynamic update after page load is not supported.
 
@@ -116,61 +105,8 @@ function tabulateQuotas(pageAreaSelector, projectSummary) {
   });
 }
 
-//==== Pie Chart for Quotas.
-
-// Pie chart constants.
-
-var PIE_CHART_WIDTH = 92;
-var PIE_CHART_HEIGHT = 92;
-var PIE_CHART_RADIUS = Math.min(PIE_CHART_WIDTH, PIE_CHART_HEIGHT) / 2;
-var PIE_CHART_INNER_RADIUS = PIE_CHART_RADIUS*0.0;
-
-function graphQuota(pageAreaSelector, quotaKey, usage) {
-
-  var color = d3.scale.ordinal()
-  // Color for used quota then unused quota.
-        .domain("0", "1")
-        .range(["#006ccf", "#f2f2f2"]);
-
-  var pie = d3.layout.pie();
-
-  var arc = d3.svg.arc()
-        .outerRadius(PIE_CHART_RADIUS)
-        .innerRadius(PIE_CHART_INNER_RADIUS)
-        .startAngle(function(d) { return 2*Math.PI - d.startAngle; })
-        .endAngle(function(d) { return 2*Math.PI - d.endAngle; });
-
-  var svg = d3.select(pageAreaSelector).append("svg")
-        .attr("width", PIE_CHART_WIDTH)
-        .attr("height", PIE_CHART_HEIGHT)
-        .append("g")
-        .attr("transform", "translate(" + PIE_CHART_WIDTH / 2 + "," + PIE_CHART_HEIGHT / 2 + ")");
-
-  var g = svg.selectAll(".arc")
-        .data(pie(usage))
-        .enter().append("g")
-        .attr("class", "arc");
-
-  g.append("path")
-    .attr("d", arc)
-    .style("fill", function(d, i) {
-      return color(i);
-    });
-}
-
 //==== Project Allocation: Assembling the Pieces.
 // Table and 2 pie charts.
-
-function getQuota(projectSummary, resource) {
-  for (var q in projectSummary.quotas) {
-    quota = projectSummary.quotas[q];
-    if (quota.resource == "compute.instances") {
-      return quota.quota;
-    } else {
-      return "Unknown";
-    }
-  }
-}
 
 function projectDetails() {
   var suffix = forcodeSeries == "" ? "" : "-" + forcodeSeries;
