@@ -206,7 +206,19 @@ class OutageUpdate(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.outage.save()
+        # Bubble activity onto the parent outage so list views ordered
+        # by -modification_time surface recent updates. Use a queryset
+        # update rather than self.outage.save() to:
+        #   * set modified_by (the cascade left it unchanged, so the
+        #     parent kept lying about who last touched it),
+        #   * bypass auto_now so modification_time matches the update's
+        #     own time stamp,
+        #   * avoid retriggering Outage.save() side effects.
+        actor = self.modified_by or self.created_by
+        Outage.objects.filter(pk=self.outage_id).update(
+            modification_time=timezone.now(),
+            modified_by=actor,
+        )
 
     @property
     def status_display(self):
