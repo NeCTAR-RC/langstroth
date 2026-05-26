@@ -1,6 +1,7 @@
 # Django settings for langstroth project.
 from os import path
 import sys
+from urllib.parse import urlsplit
 
 # Define this in the actual setting file
 # AND in the domain field of the sites database table.
@@ -231,20 +232,70 @@ MIDDLEWARE = [
 # etc.) and bootstrap-datepicker injects inline styles, so we allow
 # 'unsafe-inline' here. Tighten further by extracting inline blocks
 # into static files and adopting nonces.
-CONTENT_SECURITY_POLICY = {
-    'DIRECTIVES': {
-        'default-src': ("'self'",),
-        'script-src': ("'self'", "'unsafe-inline'"),
-        'style-src': ("'self'", "'unsafe-inline'"),
-        'img-src': ("'self'", 'data:', 'https:'),
-        'font-src': ("'self'", 'data:'),
-        'connect-src': ("'self'",),
-        'frame-ancestors': ("'none'",),
-        'base-uri': ("'self'",),
-        'form-action': ("'self'",),
-        'object-src': ("'none'",),
-    },
-}
+#
+# bootstrap_datepicker_plus's default widget media references
+# moment.js, eonasdan-bootstrap-datetimepicker, bootstrap-icons and
+# its own widget JS/CSS from cdn.jsdelivr.net, and bootstrap-icons
+# loads its webfont from the same host -- so jsdelivr is allowed in
+# script-/style-/font-src. Vendoring those assets locally would let
+# us drop the CDN allowance.
+#
+# static/scss/main.scss @imports the Figtree family from Google
+# Fonts: that stylesheet is fetched from fonts.googleapis.com and
+# the .woff2 files it references come from fonts.gstatic.com, so
+# both hosts are allowed.
+#
+# /allocations/ fetches data straight from ALLOCATION_API_URL in
+# the browser (see static/js/allocations_pie.js, project_details.js),
+# so its origin needs to be in connect-src. settings.py re-runs
+# _build_csp() after the override file has had a chance to change
+# ALLOCATION_API_URL -- otherwise prod would only allow the
+# placeholder value baked into defaults.
+CDN_JSDELIVR = 'https://cdn.jsdelivr.net'
+GOOGLE_FONTS_CSS = 'https://fonts.googleapis.com'
+GOOGLE_FONTS_FILES = 'https://fonts.gstatic.com'
+
+
+def _origin(url):
+    """Return ``scheme://host[:port]`` for a URL, or None if it has none."""
+    parts = urlsplit(url)
+    if not parts.scheme or not parts.netloc:
+        return None
+    return f"{parts.scheme}://{parts.netloc}"
+
+
+def build_csp(allocation_api_url):
+    connect_src = ["'self'"]
+    allocation_origin = _origin(allocation_api_url)
+    if allocation_origin and allocation_origin not in connect_src:
+        connect_src.append(allocation_origin)
+    return {
+        'DIRECTIVES': {
+            'default-src': ("'self'",),
+            'script-src': ("'self'", "'unsafe-inline'", CDN_JSDELIVR),
+            'style-src': (
+                "'self'",
+                "'unsafe-inline'",
+                CDN_JSDELIVR,
+                GOOGLE_FONTS_CSS,
+            ),
+            'img-src': ("'self'", 'data:', 'https:'),
+            'font-src': (
+                "'self'",
+                'data:',
+                CDN_JSDELIVR,
+                GOOGLE_FONTS_FILES,
+            ),
+            'connect-src': tuple(connect_src),
+            'frame-ancestors': ("'none'",),
+            'base-uri': ("'self'",),
+            'form-action': ("'self'",),
+            'object-src': ("'none'",),
+        },
+    }
+
+
+CONTENT_SECURITY_POLICY = build_csp(ALLOCATION_API_URL)
 
 ROOT_URLCONF = 'langstroth.urls'
 

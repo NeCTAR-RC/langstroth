@@ -23,6 +23,7 @@ import stat
 from django.core.exceptions import ImproperlyConfigured
 
 from langstroth.defaults import *  # NOQA
+from langstroth.defaults import build_csp
 
 
 # Fixes "No handlers could be found for logger"
@@ -56,3 +57,8 @@ else:
 # override file has had a chance to flip USE_OIDC.
 if USE_OIDC:  # noqa: F405
     AUTHENTICATION_BACKENDS = ['langstroth.auth.NectarAuthBackend']
+
+# Rebuild the CSP now that the override file has had a chance to set
+# the real ALLOCATION_API_URL -- /allocations/ fetches that origin
+# directly from the browser, so it has to appear in connect-src.
+CONTENT_SECURITY_POLICY = build_csp(ALLOCATION_API_URL)  # noqa: F405
