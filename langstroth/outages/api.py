@@ -15,15 +15,34 @@ class OutagePagination(PageNumberPagination):
 
 
 class OutageUpdateSerializer(serializers.ModelSerializer):
+    # Backwards-compat: severity moved off OutageUpdate onto Outage in the
+    # workflow-unification refactor. Expose the parent outage's severity
+    # under the old name so existing clients (python-langstrothclient)
+    # keep working.
+    severity = serializers.IntegerField(
+        source='outage.severity', read_only=True
+    )
+
     class Meta:
         model = models.OutageUpdate
-        fields = ('content', 'time', 'status')
+        fields = ('content', 'time', 'status', 'severity')
 
 
 class OutageSerializer(serializers.ModelSerializer):
     severity_display = serializers.ReadOnlyField()
     scheduled_display = serializers.ReadOnlyField()
     status_display = serializers.ReadOnlyField()
+    # Backwards-compat aliases for the pre-refactor field names. The
+    # underlying fields (`start`, `planned_end`, `severity`) are also
+    # exposed; these aliases exist so older clients that read the old
+    # names continue to work.
+    scheduled_start = serializers.DateTimeField(source='start', read_only=True)
+    scheduled_end = serializers.DateTimeField(
+        source='planned_end', read_only=True
+    )
+    scheduled_severity = serializers.IntegerField(
+        source='severity', read_only=True
+    )
     updates = OutageUpdateSerializer(many=True, read_only=True)
 
     class Meta:
@@ -40,6 +59,9 @@ class OutageSerializer(serializers.ModelSerializer):
             'severity_display',
             'scheduled',
             'scheduled_display',
+            'scheduled_start',
+            'scheduled_end',
+            'scheduled_severity',
             'status_display',
             'cancelled',
             'updates',

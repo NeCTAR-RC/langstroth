@@ -56,6 +56,9 @@ class OutageSimpleTestCase(test.APITestCase):
                 'id': self.one.id,
                 'severity': models.SIGNIFICANT,
                 'severity_display': 'Significant',
+                'scheduled_start': '2012-01-14T14:32:24Z',
+                'scheduled_end': None,
+                'scheduled_severity': models.SIGNIFICANT,
                 'start': '2012-01-14T14:32:24Z',
                 'status_display': 'In progress',
                 'updates': [],
@@ -71,12 +74,16 @@ class OutageSimpleTestCase(test.APITestCase):
                 'id': self.two.id,
                 'severity': models.SEVERE,
                 'severity_display': 'Severe',
+                'scheduled_start': '2012-01-14T14:32:24Z',
+                'scheduled_end': None,
+                'scheduled_severity': models.SEVERE,
                 'start': '2012-01-14T14:32:24Z',
                 'status_display': 'Investigating',
                 'updates': [
                     {
                         'content': 'update one',
                         'status': models.INVESTIGATING,
+                        'severity': models.SEVERE,
                         'time': '2012-01-14T14:32:24Z',
                     }
                 ],
