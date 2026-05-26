@@ -27,13 +27,13 @@ urlpatterns = [
     re_path(
         r'^composition/(?P<name>\w+)/cores$',
         views.composition_cores,
-        name='composition',
+        name='composition-cores',
     ),
     # Redirect from old url
     re_path(
         r'^domain/$',
-        RedirectView.as_view(url='/composition/domain', permanent=True),
-        name='composition',
+        RedirectView.as_view(url='/composition/domain/', permanent=True),
+        name='composition-domain-redirect',
     ),
     # Usage Visualisations
     re_path(r'^growth/infrastructure/$', views.growth, name='growth'),
