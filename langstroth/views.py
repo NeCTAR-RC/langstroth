@@ -349,10 +349,13 @@ def total_used_cores(request):
     return HttpResponse(dumps(data), content_type='application/json')
 
 
-def choose_first(datapoints):
-    for value, time in datapoints:
+def first_truthy_value(datapoints):
+    """Return the first truthy value in a sequence of (value, time)
+    tuples, or 0 if none are found."""
+    for value, _time in datapoints:
         if value:
-            yield value
+            return value
+    return 0
 
 
 def composition_cores(request, name):
@@ -380,10 +383,7 @@ def composition_cores(request, name):
         item_name = '.'.join(item['target'].split('.')[-2].split('_'))
         data = cleaned[item_name]
         data['target'] = item_name
-        try:
-            count = next(choose_first(item['datapoints']))
-        except Exception:
-            count = 0
+        count = first_truthy_value(item['datapoints'])
         if data.get('value'):
             data['value'] += count
         else:

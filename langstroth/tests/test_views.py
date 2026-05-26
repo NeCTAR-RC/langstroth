@@ -20,10 +20,19 @@ class SimpleViewTests(TestCase):
         response = views.growth(self.rf.get("/growth/"))
         self.assertEqual(200, response.status_code)
 
-    def test_choose_first_skips_falsy(self):
-        # (value, time) tuples — falsy values get skipped
-        result = list(views.choose_first([(0, 1), (None, 2), (3, 3)]))
-        self.assertEqual([3], result)
+    def test_first_truthy_value_skips_falsy(self):
+        # (value, time) tuples — first truthy wins.
+        self.assertEqual(
+            3, views.first_truthy_value([(0, 1), (None, 2), (3, 3), (4, 4)])
+        )
+
+    def test_first_truthy_value_all_falsy_returns_zero(self):
+        self.assertEqual(
+            0, views.first_truthy_value([(0, 1), (None, 2), (0.0, 3)])
+        )
+
+    def test_first_truthy_value_empty(self):
+        self.assertEqual(0, views.first_truthy_value([]))
 
 
 class IndexDateParsingTests(TestCase):
