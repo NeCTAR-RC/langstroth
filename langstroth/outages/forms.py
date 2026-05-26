@@ -1,4 +1,4 @@
-from datetime import timedelta, timezone as dt_timezone
+import zoneinfo
 
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django.db import transaction
@@ -55,11 +55,16 @@ class OutageForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea,
     )
-    # Captured client-side: minutes east of UTC for the user's browser
-    # at submission time. Used to reinterpret the naive datetime-local
-    # values as the operator's timezone, independent of which timezone
-    # Django happens to have activated for the request.
-    tz_offset = forms.IntegerField(required=False, widget=forms.HiddenInput())
+    # Captured client-side via Intl.DateTimeFormat().resolvedOptions()
+    # .timeZone -- the operator's IANA timezone name (e.g.
+    # "Australia/Melbourne"). Resolved server-side at the *start
+    # instant* via zoneinfo, so an outage scheduled across a DST
+    # boundary picks up the offset in force at the outage time, not
+    # the offset in force at submission time. CharField with explicit
+    # max_length: legal IANA names are well under 64 chars.
+    tz_name = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
 
     class Meta:
         model = models.Outage
@@ -75,14 +80,26 @@ class OutageForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         # Reinterpret datetime fields in the operator's timezone if the
-        # browser supplied its offset. Django's form field parses
+        # browser supplied its IANA name. Django's form field parses
         # naive strings against whatever timezone is active for the
         # request, which is unreliable on the first POST (tz_detect
         # cookies aren't read yet) and silently shifts the saved time
         # by the operator's UTC offset.
-        offset_min = cleaned_data.get('tz_offset')
-        if offset_min is not None:
-            user_tz = dt_timezone(timedelta(minutes=offset_min))
+        #
+        # Resolve via zoneinfo so the *offset at the start instant* is
+        # used -- an outage scheduled across a DST boundary picks up
+        # the correct offset for the outage time, not the offset in
+        # force at submission time.
+        tz_name = cleaned_data.get('tz_name')
+        if tz_name:
+            try:
+                user_tz = zoneinfo.ZoneInfo(tz_name)
+            except zoneinfo.ZoneInfoNotFoundError:
+                self.add_error(
+                    None,
+                    f"Unknown browser timezone: {tz_name}",
+                )
+                return cleaned_data
             for field in ('start', 'planned_end'):
                 dt = cleaned_data.get(field)
                 if dt is not None:

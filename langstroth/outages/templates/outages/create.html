@@ -21,7 +21,7 @@
     <div class="card-body">
       <form action="" method="post">
         {% csrf_token %}
-        {{ form.tz_offset }}
+        {{ form.tz_name }}
         <fieldset>
           <div class="mb-3">
             <div class="form-label">Title</div>
@@ -110,14 +110,21 @@
 {% block extra_script %}
 {{ form.media }}
 <script>
-  // Populate the tz_offset hidden field with the operator's UTC offset
-  // (in minutes east) so the server can interpret the naive datetime
-  // values correctly regardless of which timezone Django happens to
-  // have activated for the request.
+  // Populate the tz_name hidden field with the operator's IANA
+  // timezone name (e.g. "Australia/Melbourne") so the server can
+  // interpret the naive datetime values correctly regardless of
+  // which timezone Django happens to have activated for the request.
+  // Sending the IANA name (vs a fixed offset) lets the server pick up
+  // DST transitions that happen between submission and outage start.
   (function () {
-    const input = document.getElementById('id_tz_offset');
+    const input = document.getElementById('id_tz_name');
     if (input) {
-      input.value = -new Date().getTimezoneOffset();
+      try {
+        input.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch (e) {
+        // Older browsers without Intl: server falls back to Django's
+        // active timezone, same as if JS is disabled.
+      }
     }
 
     // Hide the initial-update fieldset when the start is more than an
