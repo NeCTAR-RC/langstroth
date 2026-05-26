@@ -126,16 +126,24 @@ class UpdateOutageView(BaseUpdateCreateView):
         }
 
     def form_valid(self, form):
-        outage = self.get_outage()
-        # If the operator is reopening a resolved outage, clear `end`.
-        if (
-            form.cleaned_data.get('status') == models.PROGRESSING
-            and outage.end
-        ):
-            outage.end = None
-            outage.modified_by = self.request.user
-            outage.save()
-        return super().form_valid(form)
+        # Lock the outage row for the duration of the write so two
+        # operators racing to update / reopen don't end up clobbering
+        # each other's modified_by / end state.
+        with transaction.atomic():
+            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
+            if outage.cancelled or outage.start > timezone.now():
+                raise BadRequest(
+                    f"Outage {self.pk} in wrong state for update."
+                )
+            # If the operator is reopening a resolved outage, clear `end`.
+            if (
+                form.cleaned_data.get('status') == models.PROGRESSING
+                and outage.end
+            ):
+                outage.end = None
+                outage.modified_by = self.request.user
+                outage.save()
+            return super().form_valid(form)
 
     def check_state(self):
         outage = self.get_outage()
@@ -175,9 +183,17 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
         return models.Outage.objects.get(pk=self.pk)
 
     def form_valid(self, form):
-        outage = self.get_outage()
         now = timezone.now()
+        # Lock the outage row so the state check and end-stamping are
+        # atomic against a concurrent end/cancel/update.
         with transaction.atomic():
+            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
+            if (
+                outage.cancelled
+                or outage.end is not None
+                or outage.start > now
+            ):
+                raise BadRequest(f"Outage {self.pk} in wrong state to end.")
             outage.end = now
             outage.modified_by = self.request.user
             outage.save()
@@ -219,10 +235,17 @@ class CancelOutageView(
         return super().get(request, **kwargs)
 
     def post(self, request, **kwargs):
-        outage = self._check_state()
-        outage.cancelled = True
-        outage.modified_by = self.request.user
-        outage.save()
+        # Lock the row so the state check and cancellation can't race
+        # against a concurrent end/update.
+        with transaction.atomic():
+            outage = models.Outage.objects.select_for_update().get(
+                pk=kwargs['pk']
+            )
+            if outage.cancelled or outage.start <= timezone.now():
+                raise BadRequest("Outage is in wrong state to cancel.")
+            outage.cancelled = True
+            outage.modified_by = self.request.user
+            outage.save()
         return shortcuts.redirect(reverse('outages:list'))
 
     def _check_state(self):
