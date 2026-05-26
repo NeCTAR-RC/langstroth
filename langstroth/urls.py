@@ -75,11 +75,13 @@ urlpatterns = [
 
 if settings.USE_OIDC:
     urlpatterns += [
-        # Admin Interface
+        # Admin Interface. Override admin's built-in login view so that
+        # /admin/login/ initiates an OIDC flow instead of showing the
+        # username+password form.
         path(
             'admin/login/',
             oidc_views.OIDCAuthenticationRequestView.as_view(),
-            name='login',
+            name='admin-login',
         ),
         path('admin/', admin.site.urls),
         # OIDC auth
