@@ -285,17 +285,6 @@ INSTALLED_APPS = [
     'health_check',
 ]
 
-HEALTH_CHECK = {
-    "SUBSETS": {
-        "startup-probe": [
-            "MigrationsHealthCheck",
-            "DatabaseBackend",
-            "Cache backend: default",
-        ],
-        "liveness-probe": ["Cache backend: default"],
-    },
-}
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTHENTICATION_BACKENDS = [
