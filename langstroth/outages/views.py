@@ -13,9 +13,12 @@ from langstroth.outages import models
 
 
 def index_page(request):
+    # `status_display` reads `latest_update`, which iterates
+    # self.updates.all() -- prefetch keeps it O(1) queries per page
+    # instead of O(n).
     f = filters.OutageFilters(
         request.GET,
-        queryset=models.Outage.objects.all(),
+        queryset=models.Outage.objects.prefetch_related('updates'),
     )
     context = {"title": "Service Announcements", "tagline": "", "filter": f}
     return shortcuts.render(request, "outages/list.html", context)

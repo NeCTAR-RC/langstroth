@@ -45,6 +45,32 @@ class ListAndDetailTests(test.TestCase):
         response = self.client.get(self.outage1.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
+    def test_list_query_count_bounded(self):
+        # Prefetch on the list view means status_display / latest_update
+        # do not issue per-row queries. Add another outage with several
+        # updates, then assert the query count is independent of how
+        # many updates exist -- an N+1 regression would scale with
+        # outage_count * update_count.
+        outage = _make_outage(
+            self.user,
+            title="busy",
+            start=timezone.now() - timedelta(hours=2),
+        )
+        for i in range(5):
+            models.OutageUpdate.objects.create(
+                outage=outage,
+                time=timezone.now() - timedelta(minutes=10 - i),
+                status=models.INVESTIGATING,
+                content=f"update {i}",
+                created_by=self.user,
+            )
+        # 2x COUNT(*) (from the filterset) + 1 list + 1 prefetched
+        # updates = 4. If this number drifts upward without an
+        # explanation, an N+1 has probably been reintroduced.
+        with self.assertNumQueries(4):
+            response = self.client.get(reverse('outages:list'))
+        self.assertEqual(response.status_code, 200)
+
 
 class CreateOutageTests(test.TestCase):
     @classmethod
