@@ -59,31 +59,37 @@ Breadcrumbs.prototype.navigate = function(adjustPage) {
   var self = this;
   var breadcrumb = d3.select("#chart-navigator-1").select('.breadcrumb');
   breadcrumb.selectAll('li').remove();
-  breadcrumb.selectAll('li')
+  var items = breadcrumb.selectAll('li')
     .data(self.breadCrumbs)
     .enter()
     .append("li")
     .attr("class", function(d, i) {
           return i == self.breadCrumbs.length - 1 ? "breadcrumb-item active" : "breadcrumb-item";
-    })
-    .html(function(d, i) {
-      var forCode = d;
-      var markup = forCode == '*' ?
-          '<i class="fas fa-home"></i>'
-            : '<span style="text-transform: capitalize">' +
-            self.title(forCode, i) +
-            '</span>';
-      if (i < self.breadCrumbs.length - 1) {
-        markup = '<a href="#">' + markup + '</a>';
-      }
-      return markup;
-    })
-    .on("click", function(d, i) {
-      if (self.breadCrumbs.length > 1 && i < self.breadCrumbs.length - 1) {
-        self.breadCrumbs = self.breadCrumbs.slice(0, i + 1);
-        if (adjustPage) {
-            adjustPage(self.route(), i);
-        }
-      }
     });
+
+  // Build the inner DOM with .append/.text instead of .html so the
+  // FOR title (which comes from the allocations REST API) cannot inject
+  // markup if the upstream payload ever contains HTML.
+  items.each(function(d, i) {
+    var li = d3.select(this);
+    var wrapper = i < self.breadCrumbs.length - 1
+      ? li.append("a").attr("href", "#")
+      : li;
+    if (d == '*') {
+      wrapper.append("i").attr("class", "fas fa-home");
+    } else {
+      wrapper.append("span")
+        .attr("style", "text-transform: capitalize")
+        .text(self.title(d, i));
+    }
+  });
+
+  items.on("click", function(d, i) {
+    if (self.breadCrumbs.length > 1 && i < self.breadCrumbs.length - 1) {
+      self.breadCrumbs = self.breadCrumbs.slice(0, i + 1);
+      if (adjustPage) {
+          adjustPage(self.route(), i);
+      }
+    }
+  });
 };
