@@ -19,12 +19,17 @@
 {% endblock %}
 
 {% block extra_script %}
+  {{ allocation_url|json_script:"allocation-url" }}
+  {{ forcode_series|json_script:"forcode-series" }}
+  {{ allocation_request_id|json_script:"allocation-id" }}
+  {{ title|json_script:"project-name" }}
   <script>
-    // Global vars
-    var allocationURL = '{{ allocation_url }}';
-    var forcodeSeries = '{{ forcode_series }}';
-    var allocationId = '{{ allocation_request_id }}';
-    var projectName = '{{ title }}';
+    // Global vars, JSON-decoded so embedded quotes / HTML in the source
+    // values can never break out of the JS string context.
+    var allocationURL = JSON.parse(document.getElementById('allocation-url').textContent);
+    var forcodeSeries = JSON.parse(document.getElementById('forcode-series').textContent);
+    var allocationId = JSON.parse(document.getElementById('allocation-id').textContent);
+    var projectName = JSON.parse(document.getElementById('project-name').textContent);
   </script>
   <script src='{% static "js/d3.v4.min.js" %}'></script>
   <script src='{% static "js/breadcrumbs.js" %}'></script>

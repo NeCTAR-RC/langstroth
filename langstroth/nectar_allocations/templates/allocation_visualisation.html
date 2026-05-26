@@ -47,10 +47,13 @@
 {% endblock %}
 
 {% block extra_script %}
+  {{ allocation_url|json_script:"allocation-url" }}
+  {{ forcode_series|json_script:"forcode-series" }}
   <script>
-    // Global vars
-    var allocationURL = '{{ allocation_url }}';
-    var forcodeSeries = '{{ forcode_series }}';
+    // Global vars, JSON-decoded so embedded quotes / HTML in the source
+    // values can never break out of the JS string context.
+    var allocationURL = JSON.parse(document.getElementById('allocation-url').textContent);
+    var forcodeSeries = JSON.parse(document.getElementById('forcode-series').textContent);
   </script>
   <script src='{% static "js/d3.v4.min.js" %}'></script>
   <script src='{% static "js/breadcrumbs.js" %}'></script>
