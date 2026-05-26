@@ -82,7 +82,7 @@
                     <tr>
                       <td>{{ service.display_name }}</td>
                       <td class="text-center">
-                        <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}" />
+                        <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}"></i>
                       </td>
                       <td class="status-bg-ok text-center" title="Service OK">
                         {{ service.availability.ok|floatformat:"2" }}%
@@ -132,7 +132,7 @@
                       <tr>
                         <td>{{ service.display_name }}</td>
                         <td class="text-center">
-                          <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}" />
+                          <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}"></i>
                         </td>
                         <td class="status-bg-ok text-center" title="{{ service.display_name }} boot success">
                           {{ service.availability.ok|floatformat:"2" }}%
