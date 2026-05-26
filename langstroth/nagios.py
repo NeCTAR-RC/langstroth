@@ -175,15 +175,14 @@ def parse_status(html, service_group):
     hosts = {}
     current_host = None
     if table is not None:
-        for row in table.getchildren():
-            children = row.getchildren()
+        for row in list(table):
+            children = list(row)
             # Skip empty rows
             if not len(children) > 1:
                 continue
             # Skip header row
             if children[0].tag == 'th':
                 continue
-            children = row.getchildren()
 
             hostname = children[0].xpath(tr.css_to_xpath('a'))
             if len(hostname) > 1:
