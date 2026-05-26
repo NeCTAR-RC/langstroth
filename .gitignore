@@ -37,6 +37,11 @@
 ehthumbs.db
 Thumbs.db
 
+# Editor backup files #
+######################
+*~
+*.swp
+
 # Project #
 ######################
 lxml.output
