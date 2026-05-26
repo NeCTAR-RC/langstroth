@@ -12,6 +12,11 @@ DEBUG = True
 
 SECRET_KEY = 'secret'
 
+# mozilla_django_oidc reads these at backend init even when USE_OIDC=False,
+# so they need to be set for tests that instantiate NectarAuthBackend.
+OIDC_RP_CLIENT_ID = 'test'
+OIDC_RP_CLIENT_SECRET = 'test'
+
 COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
 

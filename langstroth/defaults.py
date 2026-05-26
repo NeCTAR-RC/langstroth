@@ -25,30 +25,27 @@ USE_OIDC = False
 
 # OpenID Connect Auth settings.
 #
-# If USE_OIDC is set to True in the settings file, you also need to
-# provide appropriate values for the OIDC_SERVER_URL, OIDC_RP_CLIENT_ID
-# and OIDC_RP_CLIENT_SECRET in the settings file.  Refer to the README file
-# for more information on what they should be.
-#
-# If USE_OIDC is False (the default) then the dummy values are just enough to
-# allow the mozilla_django_oidc app to initialize.
+# When USE_OIDC=True, the override file (/etc/langstroth/settings.py)
+# must supply OIDC_RP_CLIENT_ID and OIDC_RP_CLIENT_SECRET, and override
+# OIDC_SERVER_URL (which the endpoints below derive from). See
+# settings_example.py.
 
 OIDC_SERVER_URL = 'dummy-id'
 
-OIDC_RP_CLIENT_ID = 'dummy-url'
+# OIDC_RP_CLIENT_ID = '<set in /etc/langstroth/settings.py>'
+# OIDC_RP_CLIENT_SECRET = '<set in /etc/langstroth/settings.py>'
+
 OIDC_RP_SIGN_ALGO = 'RS256'
 
 # OIDC_RP_SCOPES should include a scope that serves the ``roles`` claim
 # in the ID token, with an array of user's roles.
 OIDC_RP_SCOPES = 'openid email'
 
-# OpenID Connect settings
+# OpenID Connect endpoints (derived from OIDC_SERVER_URL).
 OIDC_OP_AUTHORIZATION_ENDPOINT = f'{OIDC_SERVER_URL}/auth'
 OIDC_OP_TOKEN_ENDPOINT = f'{OIDC_SERVER_URL}/token'
 OIDC_OP_USER_ENDPOINT = f'{OIDC_SERVER_URL}/userinfo'
 OIDC_OP_JWKS_ENDPOINT = f'{OIDC_SERVER_URL}/certs'
-
-OIDC_RP_CLIENT_SECRET = 'secret'
 
 OIDC_USERNAME_ALGO = 'langstroth.auth.generate_username'
 
