@@ -38,8 +38,8 @@ urlpatterns = [
     # Usage Visualisations
     re_path(r'^growth/infrastructure/$', views.growth, name='growth'),
     re_path(r'^growth/users/', include('langstroth.user_statistics.urls')),
-    re_path(r'^growth/instance_count$', views.total_instance_count),
-    re_path(r'^growth/used_cores$', views.total_used_cores),
+    re_path(r'^growth/instance_count/$', views.total_instance_count),
+    re_path(r'^growth/used_cores/$', views.total_used_cores),
     # Allocations Browser
     re_path(r'^allocations/', include('langstroth.nectar_allocations.urls')),
     # Outages
