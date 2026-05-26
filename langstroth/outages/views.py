@@ -15,7 +15,6 @@ from langstroth.outages import models
 def index_page(request):
     f = filters.OutageFilters(
         request.GET,
-        is_staff=request.user.is_staff,
         queryset=models.Outage.objects.all(),
     )
     context = {"title": "Service Announcements", "tagline": "", "filter": f}

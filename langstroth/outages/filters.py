@@ -118,10 +118,6 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
         model = models.Outage
         fields = []
 
-    def __init__(self, *args, **kwargs):
-        kwargs.pop('is_staff', False)
-        super().__init__(*args, **kwargs)
-
     def _range_filter(self, queryset, days):
         date_time = timezone.now() - datetime.timedelta(days=days)
         return queryset.filter(
