@@ -143,6 +143,98 @@ class OutageFormTests(TestCase):
         self.assertLess(diff, 5, f"start {outage.start} != now")
         self.assertTrue(outage.is_current)
 
+    def test_tz_offset_negative_offset_west_of_utc(self):
+        # Operator in PST (UTC-8) typing a local datetime should store
+        # the UTC equivalent. Use a future start so the form doesn't
+        # require an initial update.
+        local_future = timezone.now() + timedelta(hours=4)  # +4h UTC
+        # Same wall-clock seen by a PST operator: 12h earlier than AEST
+        # in mid-winter, so the equivalent local datetime is +4h - 8h.
+        local_naive_str = (
+            (local_future - timedelta(hours=8))
+            .replace(tzinfo=None)
+            .strftime("%Y-%m-%dT%H:%M:%S")
+        )
+        form = forms.OutageForm(
+            data=self._data(
+                start=local_naive_str,
+                planned_end=(
+                    local_future + timedelta(hours=1) - timedelta(hours=8)
+                )
+                .replace(tzinfo=None)
+                .strftime("%Y-%m-%dT%H:%M:%S"),
+                tz_offset=-480,  # PST = UTC-8 = -480 min east
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        # Stored UTC time should match the original future intent.
+        diff = abs((outage.start - local_future).total_seconds())
+        self.assertLess(diff, 5, f"start {outage.start} != {local_future}")
+
+    def test_tz_offset_zero_treated_as_utc(self):
+        # tz_offset == 0 (the operator submitting from a UTC locale) is
+        # not None and must be honoured rather than skipped. Regression
+        # for `if offset_min is not None` -- a `if offset_min:` truthy
+        # check would silently skip the reinterpretation.
+        local_future = timezone.now() + timedelta(hours=3)
+        naive_str = local_future.replace(tzinfo=None).strftime(
+            "%Y-%m-%dT%H:%M:%S"
+        )
+        form = forms.OutageForm(
+            data=self._data(
+                start=naive_str,
+                planned_end=(local_future + timedelta(hours=1))
+                .replace(tzinfo=None)
+                .strftime("%Y-%m-%dT%H:%M:%S"),
+                tz_offset=0,
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        diff = abs((outage.start - local_future).total_seconds())
+        self.assertLess(diff, 5)
+
+    def test_tz_offset_uses_submission_time_not_start_time(self):
+        # Known limitation: tz_offset is captured by JS at submit time
+        # via -new Date().getTimezoneOffset(), so it's the offset
+        # currently in force at the operator's locale -- not the offset
+        # that will be in force at the outage start time. An outage
+        # scheduled across a DST boundary therefore drifts by 1h.
+        #
+        # This test documents the current behaviour. When the offset
+        # source is switched to an IANA timezone name resolved at the
+        # start instant, update this test to assert the correct
+        # cross-boundary behaviour.
+        #
+        # Simulate: operator in AEDT (UTC+11, summer DST) at submission
+        # time scheduling an outage 4 months out, after Australia exits
+        # DST. The correct stored start would use AEST (UTC+10), but
+        # the form will use the submitted +11h offset for both.
+        winter_local = timezone.now() + timedelta(days=120)
+        winter_naive_str = winter_local.replace(tzinfo=None).strftime(
+            "%Y-%m-%dT%H:%M:%S"
+        )
+        form = forms.OutageForm(
+            data=self._data(
+                start=winter_naive_str,
+                planned_end=(winter_local + timedelta(hours=2))
+                .replace(tzinfo=None)
+                .strftime("%Y-%m-%dT%H:%M:%S"),
+                tz_offset=660,  # AEDT = UTC+11
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        # With the AEDT offset applied at the AEST instant, the stored
+        # start is one hour earlier than the operator intended.
+        expected_utc = winter_local - timedelta(hours=11)
+        diff = abs((outage.start - expected_utc).total_seconds())
+        self.assertLess(diff, 5)
+
     def test_no_tz_offset_falls_back_to_active_timezone(self):
         # If the browser didn't supply tz_offset (e.g. JS disabled),
         # the form falls back to Django's normal parsing -- the value
