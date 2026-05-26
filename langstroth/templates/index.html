@@ -85,10 +85,10 @@
                         <i title="Service is {{service.status}}" class="status-icon icon-{{service.status|lower}}"></i>
                       </td>
                       <td class="status-bg-ok text-center" title="Service OK">
-                        {{ service.availability.ok|floatformat:"2" }}%
+                        {% if service.availability.ok is None %}n/a{% else %}{{ service.availability.ok|floatformat:"2" }}%{% endif %}
                       </td>
                       <td class="status-bg-critical text-center" title="Service Critical">
-                        {{ service.availability.critical|floatformat:"2" }}%
+                        {% if service.availability.critical is None %}n/a{% else %}{{ service.availability.critical|floatformat:"2" }}%{% endif %}
                       </td>
                     </tr>
                   {% endfor %}
@@ -98,8 +98,8 @@
                   <tr>
                     <td>All Services</td>
                     <td></td>
-                    <td class="status-bg-ok text-center" title="Service OK">{{ api_average.ok|floatformat:"2" }}%</td>
-                    <td class="status-bg-critical text-center" title="Service Critical">{{ api_average.critical|floatformat:"2" }}%</td>
+                    <td class="status-bg-ok text-center" title="Service OK">{% if api_average.ok is None %}n/a{% else %}{{ api_average.ok|floatformat:"2" }}%{% endif %}</td>
+                    <td class="status-bg-critical text-center" title="Service Critical">{% if api_average.critical is None %}n/a{% else %}{{ api_average.critical|floatformat:"2" }}%{% endif %}</td>
                   </tr>
                 </tfoot>
               </table>
@@ -135,10 +135,10 @@
                           <i title="{% if service.status|lower == 'ok' %}Boot success{% elif service.status|lower == 'warning' %}Out of capacity failure{% elif service.status|lower == 'critical' %}Boot failure{% endif %}" class="status-icon icon-{{service.status|lower}}"></i>
                         </td>
                         <td class="status-bg-ok text-center" title="{{ service.display_name }} boot success">
-                          {{ service.availability.ok|floatformat:"2" }}%
+                          {% if service.availability.ok is None %}n/a{% else %}{{ service.availability.ok|floatformat:"2" }}%{% endif %}
                         </td>
                         <td class="status-bg-critical text-center" title="{{ service.display_name }} boot failure">
-                          {{ service.availability.critical|floatformat:"2" }}%
+                          {% if service.availability.critical is None %}n/a{% else %}{{ service.availability.critical|floatformat:"2" }}%{% endif %}
                         </td>
                       </tr>
                     {% endfor %}
@@ -149,8 +149,8 @@
                       <tr>
                         <td>All Zones</td>
                         <td></td>
-                        <td class="status-bg-ok text-center" title="Boot success">{{ site_average.ok|floatformat:"2" }}%</td>
-                        <td class="status-bg-critical text-center" title="Boot failure">{{ site_average.critical|floatformat:"2" }}%</td>
+                        <td class="status-bg-ok text-center" title="Boot success">{% if site_average.ok is None %}n/a{% else %}{{ site_average.ok|floatformat:"2" }}%{% endif %}</td>
+                        <td class="status-bg-critical text-center" title="Boot failure">{% if site_average.critical is None %}n/a{% else %}{{ site_average.critical|floatformat:"2" }}%{% endif %}</td>
                       </tr>
                     </tfoot>
                   {% endif %}

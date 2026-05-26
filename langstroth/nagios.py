@@ -61,14 +61,25 @@ SERVICE_NAMES = {
 
 
 def parse_percent_string(s):
-    """Convert Nagios string value like '99.998% (99.998%)' into a float"""
+    """Convert a Nagios percentage string like '99.998% (99.998%)' into
+    a float. Returns None when the value cannot be parsed (e.g. 'N/A',
+    None), so callers can distinguish "no data" from "actually zero"."""
+    if s is None:
+        return None
     s = s.split(' ')[0]
     s = s.split('%')[0]
     try:
-        s = float(s)
-    except Exception:
-        s = 0.0
-    return s
+        return float(s)
+    except (ValueError, TypeError):
+        return None
+
+
+def _sum_if_all_known(values):
+    """Sum a list of floats. Returns None if any element is None --
+    a missing component invalidates the aggregate."""
+    if any(v is None for v in values):
+        return None
+    return sum(values)
 
 
 def parse_service_availability(service):
@@ -79,10 +90,12 @@ def parse_service_availability(service):
         )
     host, service_cell, ok, warn, unknown, crit, undet = children[:7]
     nagios_service_name = ''.join([t for t in service_cell.itertext()])
-    ok_value = (
-        parse_percent_string(ok.text)
-        + parse_percent_string(warn.text)
-        + parse_percent_string(unknown.text)
+    ok_value = _sum_if_all_known(
+        [
+            parse_percent_string(ok.text),
+            parse_percent_string(warn.text),
+            parse_percent_string(unknown.text),
+        ]
     )
     critical_value = parse_percent_string(crit.text)
     return {
@@ -119,10 +132,12 @@ def parse_availability(html, service_group):
                         )
                         continue
                     title, ok, warn, unknown, crit, undet = children[:6]
-                    ok_value = (
-                        parse_percent_string(ok.text)
-                        + parse_percent_string(warn.text)
-                        + parse_percent_string(unknown.text)
+                    ok_value = _sum_if_all_known(
+                        [
+                            parse_percent_string(ok.text),
+                            parse_percent_string(warn.text),
+                            parse_percent_string(unknown.text),
+                        ]
                     )
                     critical_value = parse_percent_string(crit.text)
                     average = {

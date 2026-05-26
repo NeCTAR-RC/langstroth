@@ -81,10 +81,13 @@ def _get_hosts(
                         "Nagios inconsistency: no availability info "
                         "for service '" + name + "'"
                     )
+                    # No data -- template renders "n/a" rather than 0.00%
+                    # which would falsely imply we measured the service
+                    # and got zero.
                     service['availability'] = {
                         'name': name,
-                        'ok': 0.0,
-                        'critical': 0.0,
+                        'ok': None,
+                        'critical': None,
                     }
 
     if status:

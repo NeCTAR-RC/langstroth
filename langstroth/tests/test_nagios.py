@@ -18,10 +18,12 @@ class TestNagios(TestCase):
         result = nagios.parse_percent_string(value)
         self.assertEqual(result, 1.123)
 
-    def test_parse_percent_string_invalid(self):
-        value = 'bad_value'
-        result = nagios.parse_percent_string(value)
-        self.assertEqual(result, 0.0)
+    def test_parse_percent_string_invalid_returns_none(self):
+        # Unparseable input (e.g. Nagios "N/A") returns None so callers
+        # can distinguish "no data" from "actually zero".
+        self.assertIsNone(nagios.parse_percent_string('bad_value'))
+        self.assertIsNone(nagios.parse_percent_string('N/A'))
+        self.assertIsNone(nagios.parse_percent_string(None))
 
 
 class TestAvailability(TestCase):
