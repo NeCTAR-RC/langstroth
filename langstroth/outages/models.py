@@ -130,15 +130,20 @@ class Outage(models.Model):
 
     @property
     def visible_updates(self):
-        return list(self.updates.get_queryset())
+        # Iterate self.updates.all() so prefetch_related('updates') is
+        # honoured. Calling get_queryset()/.first()/.last() issues fresh
+        # SQL even when the parent was prefetched.
+        return list(self.updates.all())
 
     @property
     def first_update(self):
-        return self.updates.get_queryset().first()
+        updates = self.visible_updates
+        return updates[0] if updates else None
 
     @property
     def latest_update(self):
-        return self.updates.get_queryset().last()
+        updates = self.visible_updates
+        return updates[-1] if updates else None
 
     @property
     def is_current(self):
