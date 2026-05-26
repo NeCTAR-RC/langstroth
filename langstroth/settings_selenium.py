@@ -25,15 +25,11 @@ COMPRESS_ENABLED = False
 
 COMPRESS_PRECOMPILERS = []
 
-if DEBUG:
-    COMPRESS_DEBUG_TOGGLE = 'whatever'
-
 # Password strings populated by an edited version of the install_uat.sh script.
 NAGIOS_URL = "http://localhost:8000/static/avail.html"
 NAGIOS_AUTH = ("user", "password")
 AVAILABILITY_QUERY_TEMPLATE = ""
 STATUS_QUERY_TEMPLATE = ""
-NAGIOS_STATUS_URL = "http://localhost:8000/static/status.html"
 
 GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
 
