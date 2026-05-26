@@ -248,9 +248,26 @@ class TestParsingFallbacks(TestCase):
 
 class TestRequestCallers(TestCase):
     def test_gm_timestamp(self):
-        # Naive UTC datetime
-        ts = nagios.gm_timestamp(datetime.datetime(2024, 1, 1, 0, 0, 0))
+        # tz-aware UTC datetime
+        ts = nagios.gm_timestamp(
+            datetime.datetime(
+                2024, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc
+            )
+        )
         self.assertEqual(1704067200, ts)
+
+    def test_gm_timestamp_aware_non_utc(self):
+        # Aware datetime in a non-UTC offset returns the correct UTC
+        # epoch (the offset is honoured, not stripped).
+        plus_ten = datetime.timezone(datetime.timedelta(hours=10))
+        ts = nagios.gm_timestamp(
+            datetime.datetime(2024, 1, 1, 10, 0, 0, tzinfo=plus_ten)
+        )
+        self.assertEqual(1704067200, ts)
+
+    def test_gm_timestamp_rejects_naive(self):
+        with self.assertRaises(TypeError):
+            nagios.gm_timestamp(datetime.datetime(2024, 1, 1, 0, 0, 0))
 
     @override_settings(
         AVAILABILITY_QUERY_TEMPLATE="?t1=%s&t2=%s&group=%s",
@@ -261,8 +278,8 @@ class TestRequestCallers(TestCase):
         html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
         mock_get.return_value = mock.Mock(text=html)
         result = nagios.get_availability(
-            datetime.datetime(2024, 1, 1),
-            datetime.datetime(2024, 1, 2),
+            datetime.datetime(2024, 1, 1, tzinfo=datetime.timezone.utc),
+            datetime.datetime(2024, 1, 2, tzinfo=datetime.timezone.utc),
             service_group=settings.NAGIOS_SERVICE_GROUP,
         )
         self.assertIn('services', result)

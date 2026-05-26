@@ -1,4 +1,3 @@
-import calendar
 import logging
 
 import cssselect
@@ -224,7 +223,17 @@ def parse_status(html, service_group):
 
 
 def gm_timestamp(datetime_object):
-    return calendar.timegm(datetime_object.utctimetuple())
+    """Return the UTC epoch seconds for a tz-aware datetime.
+
+    Naive datetimes are rejected: the old `calendar.timegm(
+    dt.utctimetuple())` form silently treated naive inputs as UTC,
+    which produced wrong values for any caller in a non-UTC timezone.
+    """
+    if datetime_object.tzinfo is None:
+        raise TypeError(
+            "gm_timestamp requires a tz-aware datetime; got naive datetime"
+        )
+    return int(datetime_object.timestamp())
 
 
 def get_availability(
