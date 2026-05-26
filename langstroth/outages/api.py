@@ -16,12 +16,26 @@ class OutageSerializer(serializers.ModelSerializer):
     severity_display = serializers.ReadOnlyField()
     scheduled_display = serializers.ReadOnlyField()
     status_display = serializers.ReadOnlyField()
+    updates = OutageUpdateSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Outage
-        exclude = ('created_by', 'modified_by', 'modification_time')
-
-    updates = OutageUpdateSerializer(many=True, read_only=True)
+        # Public fields only -- new model fields don't leak by default.
+        fields = (
+            'id',
+            'title',
+            'description',
+            'start',
+            'planned_end',
+            'end',
+            'severity',
+            'severity_display',
+            'scheduled',
+            'scheduled_display',
+            'status_display',
+            'cancelled',
+            'updates',
+        )
 
 
 class OutageFilter(rest_filters.FilterSet, filters.ActivityFilterMixin):
