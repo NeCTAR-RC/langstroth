@@ -15,4 +15,5 @@ django-bootstrap-datepicker-plus~=6.0.0
 whitenoise
 django-tz-detect>=0.5.0
 django-health-check
+django-csp
 pyyaml

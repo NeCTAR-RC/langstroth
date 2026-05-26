@@ -220,9 +220,31 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
     'langstroth.auth.NoDjangoAdminForEndUserMiddleware',
     'tz_detect.middleware.TimezoneMiddleware',
 ]
+
+# Content Security Policy. The site has inline scripts in several
+# templates (allocation_visualisation.html, index.html starfield,
+# create.html tz-offset, footer.html mailchimp + date.getFullYear,
+# etc.) and bootstrap-datepicker injects inline styles, so we allow
+# 'unsafe-inline' here. Tighten further by extracting inline blocks
+# into static files and adopting nonces.
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'default-src': ("'self'",),
+        'script-src': ("'self'", "'unsafe-inline'"),
+        'style-src': ("'self'", "'unsafe-inline'"),
+        'img-src': ("'self'", 'data:', 'https:'),
+        'font-src': ("'self'", 'data:'),
+        'connect-src': ("'self'",),
+        'frame-ancestors': ("'none'",),
+        'base-uri': ("'self'",),
+        'form-action': ("'self'",),
+        'object-src': ("'none'",),
+    },
+}
 
 ROOT_URLCONF = 'langstroth.urls'
 
