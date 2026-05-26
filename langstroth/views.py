@@ -77,7 +77,7 @@ def _get_hosts(
                 try:
                     service['availability'] = availability['services'][name]
                 except KeyError:
-                    LOG.warn(
+                    LOG.warning(
                         "Nagios inconsistency: no availability info "
                         "for service '" + name + "'"
                     )
