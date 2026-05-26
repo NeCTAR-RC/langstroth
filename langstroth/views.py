@@ -210,14 +210,6 @@ def growth(request):
     return render(request, "growth.html", context)
 
 
-def faults(request):
-    context = {
-        "title": "Instance Faults",
-        "tagline": "Over the last 6 months.",
-    }
-    return render(request, "faults.html", context)
-
-
 def composition(request, name):
     title = None
     if name == 'domain':

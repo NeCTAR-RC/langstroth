@@ -20,14 +20,6 @@ class SimpleViewTests(TestCase):
         response = views.growth(self.rf.get("/growth/"))
         self.assertEqual(200, response.status_code)
 
-    @patch('langstroth.views.render')
-    def test_faults(self, mock_render):
-        # The faults.html template isn't present in the repo, so mock
-        # render to keep this a unit test of the view function itself.
-        views.faults(self.rf.get("/faults/"))
-        args = mock_render.mock_calls[0].args
-        self.assertEqual("faults.html", args[1])
-
     def test_choose_first_skips_falsy(self):
         # (value, time) tuples — falsy values get skipped
         result = list(views.choose_first([(0, 1), (None, 2), (3, 3)]))
