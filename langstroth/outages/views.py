@@ -133,6 +133,7 @@ class UpdateOutageView(BaseUpdateCreateView):
             and outage.end
         ):
             outage.end = None
+            outage.modified_by = self.request.user
             outage.save()
         return super().form_valid(form)
 
