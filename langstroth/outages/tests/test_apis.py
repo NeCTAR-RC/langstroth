@@ -190,3 +190,96 @@ class OutageFilterTestCase(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = json.loads(response.content)
         self.assertEqual({d['id'] for d in data['results']}, expected_ids)
+
+
+class OutageFilterLookupTestCase(test.APITestCase):
+    """Exercise the `start`/`end`/`planned_end`/`severity` lookup filters
+    declared in OutageFilter.Meta.fields (lt/lte/gte/gt/date/in)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="filter-test",
+            email="filter@test.com",
+            is_superuser=True,
+        )
+        cls.now = timezone.now().replace(microsecond=0)
+        # past: started a week ago, ended two days ago, severe.
+        cls.past = models.Outage.objects.create(
+            title="past",
+            description="d",
+            start=cls.now - timedelta(days=7),
+            end=cls.now - timedelta(days=2),
+            severity=models.SEVERE,
+            created_by=cls.user,
+        )
+        # active: started yesterday, no end, significant.
+        cls.active = models.Outage.objects.create(
+            title="active",
+            description="d",
+            start=cls.now - timedelta(days=1),
+            severity=models.SIGNIFICANT,
+            created_by=cls.user,
+        )
+        # future: starts tomorrow, planned 2h window, minimal.
+        cls.future = models.Outage.objects.create(
+            title="future",
+            description="d",
+            start=cls.now + timedelta(days=1),
+            planned_end=cls.now + timedelta(days=1, hours=2),
+            severity=models.MINIMAL,
+            created_by=cls.user,
+        )
+
+    @staticmethod
+    def _z(dt):
+        # iso8601 with a literal 'Z' tz suffix -- avoids the '+' in
+        # `+00:00` being URL-decoded to a space in query strings.
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def _ids(self, query):
+        response = self.client.get(f"/api/v1/outages/?{query}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = json.loads(response.content)
+        return {d['id'] for d in data['results']}
+
+    def test_start_gte(self):
+        cutoff = self._z(self.now - timedelta(hours=2))
+        self.assertEqual({self.future.id}, self._ids(f"start__gte={cutoff}"))
+
+    def test_start_lt(self):
+        cutoff = self._z(self.now)
+        self.assertEqual(
+            {self.past.id, self.active.id}, self._ids(f"start__lt={cutoff}")
+        )
+
+    def test_start_date(self):
+        # start__date filters by the calendar date component only.
+        day = (self.now - timedelta(days=1)).date().isoformat()
+        self.assertEqual({self.active.id}, self._ids(f"start__date={day}"))
+
+    def test_end_lt(self):
+        cutoff = self._z(self.now)
+        self.assertEqual({self.past.id}, self._ids(f"end__lt={cutoff}"))
+
+    def test_end_gte_excludes_null(self):
+        # gte on end excludes rows with end IS NULL (active + future).
+        cutoff = self._z(self.now - timedelta(days=30))
+        self.assertEqual({self.past.id}, self._ids(f"end__gte={cutoff}"))
+
+    def test_planned_end_gt(self):
+        cutoff = self._z(self.now)
+        self.assertEqual(
+            {self.future.id}, self._ids(f"planned_end__gt={cutoff}")
+        )
+
+    def test_severity_exact(self):
+        self.assertEqual(
+            {self.past.id}, self._ids(f"severity={models.SEVERE}")
+        )
+
+    def test_severity_in(self):
+        self.assertEqual(
+            {self.past.id, self.future.id},
+            self._ids(f"severity__in={models.SEVERE},{models.MINIMAL}"),
+        )
