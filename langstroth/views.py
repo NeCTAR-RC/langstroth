@@ -229,9 +229,9 @@ def composition(request, name):
             "VCPUs allocated, grouped by the allocation home. This value "
             "could be national, none or the specified home institution. "
             "The value of none might be for certain internal projects, or "
-            "project trials."
+            "project trials. "
             "In some cases, a project might be categorised as national, "
-            "but does not necessarily meet the requrements, so these "
+            "but does not necessarily meet the requirements, so these "
             "figures may not be accurate"
         )
 
