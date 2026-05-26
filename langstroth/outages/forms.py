@@ -154,9 +154,16 @@ class OutageUpdateForm(forms.ModelForm):
         # RESOLVED is never selectable on an update -- the End action
         # is what marks an outage as resolved (and creates the
         # RESOLVED update itself). Before the first update only
-        # investigation-phase statuses make sense.
+        # investigation-phase statuses make sense. Reopening an ended
+        # outage is the only legal action on it via this form, so when
+        # outage.end is set restrict the choice to PROGRESSING --
+        # otherwise an operator could submit FIXED on a previously
+        # resolved outage and leave end set with a non-resolved final
+        # update.
         outage = self.initial['outage']
-        if outage.latest_update is None:
+        if outage.end is not None:
+            allowed = {models.PROGRESSING}
+        elif outage.latest_update is None:
             allowed = {models.INVESTIGATING, models.IDENTIFIED}
         else:
             allowed = {

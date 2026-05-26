@@ -254,6 +254,23 @@ class OutageUpdateFormTests(TestCase):
         )
         self.assertNotIn(models.RESOLVED, codes)
 
+    def test_choices_when_ended_only_progressing(self):
+        # When outage.end is set the form is only reachable via the
+        # reopen flow, which must transition through PROGRESSING.
+        outage = self._make_outage()
+        models.OutageUpdate.objects.create(
+            outage=outage,
+            time=timezone.now(),
+            status=models.RESOLVED,
+            content="x",
+            created_by=self.user,
+        )
+        outage.end = timezone.now()
+        outage.save()
+        form = forms.OutageUpdateForm(initial={'outage': outage})
+        codes = {c[0] for c in form.fields['status'].choices if c[0]}
+        self.assertEqual({models.PROGRESSING}, codes)
+
 
 class OutageEndFormTests(TestCase):
     def test_empty_is_valid(self):
