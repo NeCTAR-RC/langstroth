@@ -73,7 +73,12 @@
                             {% if user.is_staff and user.is_superuser %}
                             <li><a class="dropdown-item" href="/admin/">Admin</a></li>
                             {% endif %}
-                            <li><a href="/admin/logout/" class="dropdown-item">Log out</a></li>
+                            <li>
+                                <form method="post" action="/admin/logout/" class="m-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">Log out</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                     {% else %}
