@@ -292,7 +292,7 @@ class TestViews(TestCase):
         # (These values haven't been validated ...)
         self.assertEqual(25, len(context['api_hosts']))
         self.assertEqual(1, len(context['site_hosts']))
-        self.assertEqual(9, len(context['site_hosts'][0]['services']))
+        self.assertEqual(10, len(context['site_hosts'][0]['services']))
         self.assertEqual(
             {'name': 'Average', 'ok': 99.897, 'critical': 0.103},
             context['api_average'],
