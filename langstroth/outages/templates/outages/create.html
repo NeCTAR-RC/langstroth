@@ -130,28 +130,37 @@
     // Hide the initial-update fieldset when the start is more than an
     // hour out (scheduled outage) -- mirrors SCHEDULED_THRESHOLD in
     // outages/models.py and the server-side validation in OutageForm.
-    const startInput = document.getElementById('id_start');
-    const initialUpdate = document.getElementById('initial-update-fieldset');
-    if (startInput && initialUpdate) {
-      const SCHEDULED_THRESHOLD_MS = 60 * 60 * 1000;
-      const toggleInitialUpdate = () => {
-        const value = startInput.value;
-        if (!value) {
-          initialUpdate.hidden = true;
-          return;
-        }
-        const start = new Date(value);
-        if (Number.isNaN(start.getTime())) {
-          initialUpdate.hidden = true;
-          return;
-        }
-        initialUpdate.hidden =
-          start.getTime() > Date.now() + SCHEDULED_THRESHOLD_MS;
-      };
-      startInput.addEventListener('change', toggleInitialUpdate);
-      startInput.addEventListener('input', toggleInitialUpdate);
-      toggleInitialUpdate();
-    }
+    //
+    // The datepicker writes to the input via jQuery .val(), which
+    // doesn't fire native change/input events, so we hook the picker's
+    // dp.change event via the dbdpEvents_<name> registry the widget
+    // reads during init.
+    const SCHEDULED_THRESHOLD_MS = 60 * 60 * 1000;
+    const toggleInitialUpdate = (m) => {
+      const el = document.getElementById('initial-update-fieldset');
+      if (!el) return;
+      if (!m) {
+        el.hidden = true;
+        return;
+      }
+      el.hidden = m.valueOf() > Date.now() + SCHEDULED_THRESHOLD_MS;
+    };
+    window.dbdpEvents_start = window.dbdpEvents_start || {};
+    window.dbdpEvents_start['dp.change'] = (e) => toggleInitialUpdate(e.date || null);
+
+    // The widget fires its initial dp.change before binding handlers,
+    // so we miss it when the form is re-rendered with a populated
+    // start value. Re-check from the visible input once the widget
+    // has finished initializing (its setTimeout runs before ours
+    // because form.media is rendered above this script).
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const startInput = document.getElementById('id_start');
+        if (!startInput || !startInput.value || !window.moment) return;
+        const m = window.moment(startInput.value, 'MM/DD/YYYY HH:mm', true);
+        if (m.isValid()) toggleInitialUpdate(m);
+      });
+    });
   })();
 </script>
 {% endblock %}
