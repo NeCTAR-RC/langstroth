@@ -353,6 +353,8 @@ WSGI_APPLICATION = 'langstroth.wsgi.application'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+REST_FRAMEWORK = {'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S%z"}
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
