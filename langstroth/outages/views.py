@@ -1,6 +1,11 @@
+from datetime import timedelta
+
+from icalendar import Calendar, Event
+
 from django.contrib.auth import mixins
 from django.core.exceptions import BadRequest
 from django.db import transaction
+from django.http import HttpResponse
 from django import shortcuts
 from django.urls import reverse
 from django.utils import timezone
@@ -10,6 +15,64 @@ from django.views.generic.edit import CreateView, FormView
 from langstroth.outages import filters
 from langstroth.outages import forms
 from langstroth.outages import models
+
+
+def outage_calendar(request):
+    cal = Calendar()
+    cal.add('prodid', '-//ARDC Nectar Research Cloud//Status//EN')
+    cal.add('version', '2.0')
+    cal.add('x-wr-calname', 'ARDC Nectar Research Cloud Status')
+    cal.add(
+        'x-wr-caldesc',
+        'Service announcements for the ARDC Nectar Research Cloud',
+    )
+
+    # Only include the last 1 year of events
+    cutoff = timezone.now() - timedelta(days=365)
+    outages = (
+        models.Outage.objects.filter(start__gte=cutoff)
+        .prefetch_related('updates')
+        .order_by('-start')
+    )
+
+    for outage in outages:
+        event = Event()
+        event.add('uid', f'outage-{outage.pk}@rc.nectar.org.au')
+        event.add('summary', outage.title)
+        event.add('dtstart', outage.start)
+        event.add('dtstamp', outage.modification_time)
+        event.add('last-modified', outage.modification_time)
+
+        dtend = outage.end or outage.planned_end
+        if dtend:
+            event.add('dtend', dtend)
+
+        if outage.cancelled:
+            event.add('status', 'CANCELLED')
+        else:
+            event.add('status', 'CONFIRMED')
+
+        description = outage.description
+        for update in outage.visible_updates:
+            dt_str = update.time.strftime('%Y-%m-%d %H:%M UTC')
+            description += (
+                f'\n\n[{dt_str}] {update.status_display}: {update.content}'
+            )
+        event.add('description', description)
+        event.add(
+            'url',
+            request.build_absolute_uri(outage.get_absolute_url()),
+        )
+        cal.add_component(event)
+
+    response = HttpResponse(
+        cal.to_ical(),
+        content_type='text/calendar; charset=utf-8',
+    )
+    response['Content-Disposition'] = (
+        'attachment; filename="nectar-status.ics"'
+    )
+    return response
 
 
 def index_page(request):

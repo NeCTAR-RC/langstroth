@@ -17,3 +17,4 @@ django-tz-detect>=0.5.0
 django-health-check
 django-csp
 pyyaml
+icalendar
