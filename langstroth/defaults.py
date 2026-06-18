@@ -223,7 +223,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware',
     'langstroth.auth.NoDjangoAdminForEndUserMiddleware',
-    'tz_detect.middleware.TimezoneMiddleware',
+    # Replaces tz_detect.middleware.TimezoneMiddleware, which activates a
+    # pytz zone -- broken under Django 5+ (see langstroth/middleware.py).
+    'langstroth.middleware.TimezoneMiddleware',
 ]
 
 # Content Security Policy. The site has inline scripts in several
