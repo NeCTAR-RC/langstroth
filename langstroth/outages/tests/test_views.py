@@ -4,6 +4,7 @@ from django import test
 from django.urls import reverse
 from django.utils import timezone
 from freezegun import freeze_time
+from icalendar import Calendar
 
 from langstroth import models as auth_models
 from langstroth.outages import models
@@ -380,3 +381,119 @@ class FilterTests(test.TestCase):
             reverse('outages:list'), {'activity': 'completed'}
         )
         self.assertEqual(response.status_code, 200)
+
+
+class CalendarTests(test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="cal", email="cal@test.com", is_superuser=True
+        )
+        cls.scheduled = _make_outage(
+            cls.user,
+            title="Scheduled maintenance",
+            description="Planned work",
+            start=timezone.now() + timedelta(days=1),
+            planned_end=timezone.now() + timedelta(days=1, hours=2),
+        )
+        cls.completed = _make_outage(
+            cls.user,
+            title="Resolved outage",
+            description="It broke",
+            start=timezone.now() - timedelta(days=1),
+            end=timezone.now() - timedelta(hours=20),
+        )
+        models.OutageUpdate.objects.create(
+            outage=cls.completed,
+            time=timezone.now() - timedelta(hours=22),
+            status=models.INVESTIGATING,
+            content="Looking into it",
+            created_by=cls.user,
+        )
+
+    def _get_calendar(self):
+        response = self.client.get(reverse('outages:calendar'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response['Content-Type'], 'text/calendar; charset=utf-8'
+        )
+        return Calendar.from_ical(response.content)
+
+    def test_calendar_is_public(self):
+        # No authentication required.
+        response = self.client.get(reverse('outages:calendar'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_calendar_lists_all_outages(self):
+        cal = self._get_calendar()
+        events = [c for c in cal.walk('VEVENT')]
+        self.assertEqual(len(events), 2)
+        summaries = {str(e['summary']) for e in events}
+        self.assertEqual(
+            summaries, {"Scheduled maintenance", "Resolved outage"}
+        )
+
+    def test_event_uids_are_stable(self):
+        cal = self._get_calendar()
+        uids = {str(e['uid']) for e in cal.walk('VEVENT')}
+        self.assertIn(f'outage-{self.scheduled.pk}@rc.nectar.org.au', uids)
+        self.assertIn(f'outage-{self.completed.pk}@rc.nectar.org.au', uids)
+
+    def _event_by_title(self, cal, title):
+        for event in cal.walk('VEVENT'):
+            if str(event['summary']) == title:
+                return event
+        self.fail(f"no event titled {title!r}")
+
+    def test_scheduled_uses_planned_end_for_dtend(self):
+        cal = self._get_calendar()
+        event = self._event_by_title(cal, "Scheduled maintenance")
+        # iCalendar DATE-TIME has second resolution, so compare without
+        # the microseconds carried on the model's DateTimeField.
+        self.assertEqual(
+            event.decoded('dtend'),
+            self.scheduled.planned_end.replace(microsecond=0),
+        )
+        self.assertEqual(str(event['status']), 'CONFIRMED')
+
+    def test_completed_uses_end_for_dtend(self):
+        cal = self._get_calendar()
+        event = self._event_by_title(cal, "Resolved outage")
+        self.assertEqual(
+            event.decoded('dtend'),
+            self.completed.end.replace(microsecond=0),
+        )
+
+    def test_description_includes_updates(self):
+        cal = self._get_calendar()
+        event = self._event_by_title(cal, "Resolved outage")
+        description = str(event['description'])
+        self.assertIn("It broke", description)
+        self.assertIn("Looking into it", description)
+
+    def test_cancelled_outage_marked_cancelled(self):
+        self.scheduled.cancelled = True
+        self.scheduled.save()
+        cal = self._get_calendar()
+        event = self._event_by_title(cal, "Scheduled maintenance")
+        self.assertEqual(str(event['status']), 'CANCELLED')
+
+    def test_event_url_is_absolute(self):
+        cal = self._get_calendar()
+        event = self._event_by_title(cal, "Scheduled maintenance")
+        self.assertIn(self.scheduled.get_absolute_url(), str(event['url']))
+
+    def test_outages_older_than_12_months_excluded(self):
+        # Started just over a year ago: outside the feed window.
+        _make_outage(
+            self.user,
+            title="Ancient history",
+            start=timezone.now() - timedelta(days=366),
+            end=timezone.now() - timedelta(days=366) + timedelta(hours=1),
+        )
+        cal = self._get_calendar()
+        summaries = {str(e['summary']) for e in cal.walk('VEVENT')}
+        self.assertNotIn("Ancient history", summaries)
+        # The recent outages are still present.
+        self.assertIn("Scheduled maintenance", summaries)
+        self.assertIn("Resolved outage", summaries)
