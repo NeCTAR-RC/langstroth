@@ -84,6 +84,13 @@ STATIC_URL = '/static/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '<change_me>'
 
+# Report unhandled exceptions and ERROR level log messages to a
+# GlitchTip (or Sentry) instance. Reporting is disabled when no DSN
+# is set. CSP violation reports are also sent to the same project
+# via its security endpoint (the CSP report-uri directive).
+# SENTRY_DSN = 'https://<key>@glitchtip.example.com/1'
+# SENTRY_ENVIRONMENT = 'production'
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

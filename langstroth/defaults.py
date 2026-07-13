@@ -3,6 +3,8 @@ from os import path
 import sys
 from urllib.parse import urlsplit
 
+from langstroth import sentry
+
 # Define this in the actual setting file
 # AND in the domain field of the sites database table.
 # It's used by a consistency check to ensure that siteemap.xml
@@ -266,35 +268,40 @@ def _origin(url):
     return f"{parts.scheme}://{parts.netloc}"
 
 
-def build_csp(allocation_api_url):
+def build_csp(allocation_api_url, sentry_dsn=None, sentry_environment=None):
     connect_src = ["'self'"]
     allocation_origin = _origin(allocation_api_url)
     if allocation_origin and allocation_origin not in connect_src:
         connect_src.append(allocation_origin)
-    return {
-        'DIRECTIVES': {
-            'default-src': ("'self'",),
-            'script-src': ("'self'", "'unsafe-inline'", CDN_JSDELIVR),
-            'style-src': (
-                "'self'",
-                "'unsafe-inline'",
-                CDN_JSDELIVR,
-                GOOGLE_FONTS_CSS,
-            ),
-            'img-src': ("'self'", 'data:', 'https:'),
-            'font-src': (
-                "'self'",
-                'data:',
-                CDN_JSDELIVR,
-                GOOGLE_FONTS_FILES,
-            ),
-            'connect-src': tuple(connect_src),
-            'frame-ancestors': ("'none'",),
-            'base-uri': ("'self'",),
-            'form-action': ("'self'",),
-            'object-src': ("'none'",),
-        },
+    directives = {
+        'default-src': ("'self'",),
+        'script-src': ("'self'", "'unsafe-inline'", CDN_JSDELIVR),
+        'style-src': (
+            "'self'",
+            "'unsafe-inline'",
+            CDN_JSDELIVR,
+            GOOGLE_FONTS_CSS,
+        ),
+        'img-src': ("'self'", 'data:', 'https:'),
+        'font-src': (
+            "'self'",
+            'data:',
+            CDN_JSDELIVR,
+            GOOGLE_FONTS_FILES,
+        ),
+        'connect-src': tuple(connect_src),
+        'frame-ancestors': ("'none'",),
+        'base-uri': ("'self'",),
+        'form-action': ("'self'",),
+        'object-src': ("'none'",),
     }
+    # When Sentry error reporting is configured, send CSP violation
+    # reports to the same GlitchTip/Sentry project via its security
+    # endpoint.
+    report_uri = sentry.security_endpoint(sentry_dsn, sentry_environment)
+    if report_uri:
+        directives['report-uri'] = (report_uri,)
+    return {'DIRECTIVES': directives}
 
 
 CONTENT_SECURITY_POLICY = build_csp(ALLOCATION_API_URL)
@@ -356,6 +363,17 @@ WSGI_APPLICATION = 'langstroth.wsgi.application'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 REST_FRAMEWORK = {'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S%z"}
+
+# GlitchTip/Sentry compatible DSN. When set (in the override file or
+# via the SENTRY_DSN environment variable), unhandled exceptions and
+# ERROR level log messages are reported. See langstroth/sentry.py;
+# settings.py calls sentry.setup() after the override file has been
+# applied.
+SENTRY_DSN = None
+
+# Environment name reported with each Sentry event, e.g. production
+# or testing.
+SENTRY_ENVIRONMENT = None
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

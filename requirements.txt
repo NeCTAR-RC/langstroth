@@ -18,3 +18,4 @@ django-health-check
 django-csp
 pyyaml
 icalendar
+sentry-sdk
