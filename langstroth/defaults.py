@@ -255,9 +255,27 @@ MIDDLEWARE = [
 # _build_csp() after the override file has had a chance to change
 # ALLOCATION_API_URL -- otherwise prod would only allow the
 # placeholder value baked into defaults.
+#
+# base.html loads the ARDC footer web-component loader script
+# straight from ardc.edu.au, so that origin needs to be in
+# script-src -- and the loader itself fetches its component
+# manifest from ardc.edu.au/wp-json/... via the Fetch API, so it
+# also needs to be in connect-src.
+#
+# The ARDC footer's sign-up form embeds a Cloudflare Turnstile
+# challenge: it loads api.js from challenges.cloudflare.com
+# (script-src), renders the widget in an iframe from the same
+# origin (frame-src), and posts verification requests back to it
+# (connect-src).
+#
+# The footer component also loads its own Figtree webfont files
+# (.woff2) straight from ardc.edu.au, so that origin needs to be
+# in font-src too.
 CDN_JSDELIVR = 'https://cdn.jsdelivr.net'
 GOOGLE_FONTS_CSS = 'https://fonts.googleapis.com'
 GOOGLE_FONTS_FILES = 'https://fonts.gstatic.com'
+ARDC_WEBSITE = 'https://ardc.edu.au'
+CLOUDFLARE_TURNSTILE = 'https://challenges.cloudflare.com'
 
 
 def _origin(url):
@@ -269,13 +287,19 @@ def _origin(url):
 
 
 def build_csp(allocation_api_url, sentry_dsn=None, sentry_environment=None):
-    connect_src = ["'self'"]
+    connect_src = ["'self'", ARDC_WEBSITE, CLOUDFLARE_TURNSTILE]
     allocation_origin = _origin(allocation_api_url)
     if allocation_origin and allocation_origin not in connect_src:
         connect_src.append(allocation_origin)
     directives = {
         'default-src': ("'self'",),
-        'script-src': ("'self'", "'unsafe-inline'", CDN_JSDELIVR),
+        'script-src': (
+            "'self'",
+            "'unsafe-inline'",
+            CDN_JSDELIVR,
+            ARDC_WEBSITE,
+            CLOUDFLARE_TURNSTILE,
+        ),
         'style-src': (
             "'self'",
             "'unsafe-inline'",
@@ -288,8 +312,10 @@ def build_csp(allocation_api_url, sentry_dsn=None, sentry_environment=None):
             'data:',
             CDN_JSDELIVR,
             GOOGLE_FONTS_FILES,
+            ARDC_WEBSITE,
         ),
         'connect-src': tuple(connect_src),
+        'frame-src': (CLOUDFLARE_TURNSTILE,),
         'frame-ancestors': ("'none'",),
         'base-uri': ("'self'",),
         'form-action': ("'self'",),

@@ -158,42 +158,6 @@ span.disabled {
   }
 }
 
-/*
- * Footer
- */
- .footer {
-  padding: 24px 0;
-  .footer-text {
-    a {
-      &:hover,
-      &:focus {
-        color: $ardc-pink;
-        text-decoration: underline;
-      }
-    }
-    ul {
-      list-style: none;
-    }
-  }
-  h4 {
-    text-transform:  uppercase;
-    &:after {
-      content: "";
-      background: #fff;
-      height: 2px;
-      display: block;
-      margin-top: 10px;
-      max-width: 50px;
-    }
-  }
-  .footer-links {
-    a {
-      color: #fff;
-      text-decoration: none;
-    }
-  }
-}
-
 .page-header {
   padding-bottom: 0;
   margin: 0;
