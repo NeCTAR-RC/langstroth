@@ -112,6 +112,24 @@ STATUS_QUERY_TEMPLATE = "status.cgi?servicegroup=%s&style=detail"
 # The URL to the graphite web interface
 GRAPHITE_URL = "http://graphite.test"
 
+# Which time-series backend serves the growth/composition/user
+# statistics pages: 'graphite' (legacy) or 'victoriametrics'.
+# Switching is a settings change so cutover and rollback need no
+# code deployment.
+METRICS_BACKEND = 'graphite'
+
+# The URL to the VictoriaMetrics server (Prometheus-compatible API).
+VICTORIAMETRICS_URL = "http://victoriametrics.test"
+
+# VictoriaMetrics replacements for the Graphite target lists
+# (INST_TARGETS/CORES_TARGETS/COMPOSITION_QUERY in the production
+# settings): chart alias -> the availability zones summed into it.
+INST_SERIES = []  # [(alias, [az, ...]), ...]
+CORES_SERIES = []  # [(alias, [az, ...]), ...]
+
+# Composition tab key -> availability zones (None means all).
+COMPOSITION_AZ_GROUPS = {'all': None}
+
 ALLOCATION_API_URL = "http://allocations.test/rest_api/"
 
 # This determines which FoR code series will be requested from the

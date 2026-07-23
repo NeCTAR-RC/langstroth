@@ -17,6 +17,7 @@ import lxml.etree
 import requests
 
 from langstroth import graphite
+from langstroth import metrics
 from langstroth.nagios import get_availability
 from langstroth.nagios import get_status
 from langstroth.outages import filters
@@ -323,10 +324,43 @@ def _graphite_json(req):
     return req.json()
 
 
+def _metrics_unavailable():
+    return HttpResponse(dumps([]), content_type='application/json', status=503)
+
+
+def _growth_from_victoriametrics(metric, series, q_from, q_until, q_summarise):
+    """Growth chart data from VictoriaMetrics in the same JSON shape
+    (including null-fill behaviour) as the Graphite path."""
+    try:
+        data = metrics.aggregate_series(
+            metric,
+            series,
+            from_date=q_from,
+            until_date=q_until,
+            summarise=q_summarise,
+        )
+        data = graphite.fill_null_datapoints(data, q_summarise)
+    except (requests.RequestException, ValueError, IndexError) as ex:
+        LOG.warning(
+            "Problem fetching %s from VictoriaMetrics", metric, exc_info=ex
+        )
+        return _metrics_unavailable()
+    return HttpResponse(dumps(data), content_type='application/json')
+
+
 def total_instance_count(request):
     q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
     q_until = _safe_graphite_window(request.GET.get('until'))
     q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
+
+    if settings.METRICS_BACKEND == 'victoriametrics':
+        return _growth_from_victoriametrics(
+            'nectar_total_instances',
+            settings.INST_SERIES,
+            q_from,
+            q_until,
+            q_summarise,
+        )
 
     targets = [
         graphite.Target(target).summarize(q_summarise).alias(alias)
@@ -350,6 +384,15 @@ def total_used_cores(request):
     q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
     q_until = _safe_graphite_window(request.GET.get('until'))
     q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
+
+    if settings.METRICS_BACKEND == 'victoriametrics':
+        return _growth_from_victoriametrics(
+            'nectar_used_vcpus',
+            settings.CORES_SERIES,
+            q_from,
+            q_until,
+            q_summarise,
+        )
 
     targets = [
         graphite.Target(target).summarize(q_summarise).alias(alias)
@@ -379,6 +422,22 @@ def first_truthy_value(datapoints):
 def composition_cores(request, name):
     q_from = _safe_graphite_window(request.GET.get('from'), "-60minutes")
     q_az = _safe_graphite_token(request.GET.get('az'), "all")
+
+    if settings.METRICS_BACKEND == 'victoriametrics':
+        if q_az in settings.COMPOSITION_AZ_GROUPS:
+            azs = settings.COMPOSITION_AZ_GROUPS[q_az]
+        else:
+            azs = [q_az]
+        try:
+            cleaned = metrics.composition_values(name, azs)
+        except (requests.RequestException, ValueError) as ex:
+            LOG.warning(
+                "Problem fetching composition from VictoriaMetrics",
+                exc_info=ex,
+            )
+            return _metrics_unavailable()
+        return HttpResponse(dumps(cleaned), content_type='application/json')
+
     targets = []
 
     if q_az in settings.COMPOSITION_QUERY:
