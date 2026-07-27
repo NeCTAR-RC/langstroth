@@ -4,6 +4,7 @@ from icalendar import Calendar, Event
 
 from django.contrib.auth import mixins
 from django.core.exceptions import BadRequest
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponse
 from django import shortcuts
@@ -85,7 +86,23 @@ def index_page(request):
         request.GET,
         queryset=models.Announcement.objects.prefetch_related('updates'),
     )
-    context = {"title": "Service Announcements", "tagline": "", "filter": f}
+    paginator = Paginator(f.qs, 20)
+    # get_page() absorbs invalid and out-of-range page numbers. The
+    # auto-submitting filter form carries no `page` input, so changing
+    # a filter naturally resets to page 1.
+    page_obj = paginator.get_page(request.GET.get('page'))
+    context = {
+        "title": "Service Announcements",
+        "tagline": "",
+        "filter": f,
+        "page_obj": page_obj,
+        # Computed here because the template can't pass arguments;
+        # yields page numbers with Paginator.ELLIPSIS gaps, matching
+        # the theme's numeric page-button styling.
+        "elided_page_range": paginator.get_elided_page_range(
+            page_obj.number, on_each_side=2, on_ends=1
+        ),
+    }
     return shortcuts.render(request, "announcements/list.html", context)
 
 

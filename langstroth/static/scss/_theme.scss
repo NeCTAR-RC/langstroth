@@ -673,6 +673,11 @@ section.banner {
         color: $black !important;
       }
     }
+    &.disabled {
+      > .page-link {
+        color: $gray-500;
+      }
+    }
   }
 }
 

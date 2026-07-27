@@ -65,10 +65,11 @@ class ListAndDetailTests(test.TestCase):
                 content=f"update {i}",
                 created_by=self.user,
             )
-        # 2x COUNT(*) (from the filterset) + 1 list + 1 prefetched
-        # updates = 4. If this number drifts upward without an
-        # explanation, an N+1 has probably been reintroduced.
-        with self.assertNumQueries(4):
+        # 1 COUNT(*) (Paginator.count, cached) + 1 page-slice SELECT +
+        # 1 prefetched updates = 3. If this number drifts upward
+        # without an explanation, an N+1 has probably been
+        # reintroduced.
+        with self.assertNumQueries(3):
             response = self.client.get(reverse('announcements:list'))
         self.assertEqual(response.status_code, 200)
 
@@ -795,3 +796,69 @@ class ListCategoryFilterTests(test.TestCase):
         self.assertEqual({"an outage"}, self._titles({'category': 'outage'}))
         self.assertEqual({"a notice"}, self._titles({'category': 'notice'}))
         self.assertEqual({"some news"}, self._titles({'category': 'news'}))
+
+
+class ListPaginationTests(test.TestCase):
+    PAGE_SIZE = 20
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="pager", email="pager@test.com"
+        )
+        for i in range(cls.PAGE_SIZE + 1):
+            _make_outage(cls.user, title=f"outage {i:02d}")
+
+    def _get(self, params=None):
+        return self.client.get(reverse('announcements:list'), params or {})
+
+    def test_first_page_holds_page_size_items(self):
+        response = self._get()
+        page = response.context['page_obj']
+        self.assertEqual(self.PAGE_SIZE, len(page.object_list))
+        self.assertTrue(page.has_next())
+        self.assertContains(
+            response,
+            f"Showing 1&ndash;{self.PAGE_SIZE} of "
+            f"{self.PAGE_SIZE + 1} announcements.",
+        )
+
+    def test_second_page_holds_remainder(self):
+        response = self._get({'page': '2'})
+        page = response.context['page_obj']
+        self.assertEqual(1, len(page.object_list))
+        self.assertFalse(page.has_next())
+
+    def test_numeric_page_buttons(self):
+        # The ARDC theme styles page links as fixed 35px squares, so
+        # the controls are numeric buttons plus chevrons -- never
+        # longer labels like "Previous".
+        response = self._get()
+        self.assertContains(
+            response,
+            '<li class="page-item active" aria-current="page">'
+            '<span class="page-link">1</span></li>',
+            html=True,
+        )
+        self.assertContains(response, 'href="?page=2"')
+        self.assertContains(response, "&laquo;")
+        self.assertContains(response, "&raquo;")
+        self.assertNotContains(response, ">Previous<")
+
+    def test_out_of_range_page_falls_back_to_last(self):
+        response = self._get({'page': '999'})
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(2, response.context['page_obj'].number)
+
+    def test_invalid_page_falls_back_to_first(self):
+        response = self._get({'page': 'bogus'})
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(1, response.context['page_obj'].number)
+
+    def test_pagination_links_preserve_filters(self):
+        response = self._get({'activity': 'upcoming'})
+        self.assertContains(response, "activity=upcoming&amp;page=2")
+
+    def test_empty_state(self):
+        response = self._get({'time_window': '1m', 'activity': 'completed'})
+        self.assertContains(response, "No announcements match these filters.")

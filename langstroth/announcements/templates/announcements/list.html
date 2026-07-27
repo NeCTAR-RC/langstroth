@@ -54,25 +54,51 @@
             <label for="time_window_id">Time Window</label>
             {{ filter.form.time_window }}
           </div>
-          <!-- <div class="col">
-            <label for="ordering_id">Ordering</label>
-            {{ filter.form.ordering }}
-          </div> -->
         </div>
       </div>
     </div>
   </form>
-  <p class="text-center text-muted">Showing {{ filter.qs.count }} service announcements.</p>
-  {% if filter.qs.count > 0 %}
-    <ul class="list-unstyled">
-      {% for outage in filter.qs %}
-        <div class="card my-4">
-          <div class="card-body">
-            {% include "announcements/announcement_summary.html" %}
-          </div>
-        </div>
-      {% endfor %}
-    </ul>
+  <p class="text-center text-muted">
+    {% if page_obj.paginator.count %}
+      Showing {{ page_obj.start_index }}&ndash;{{ page_obj.end_index }} of {{ page_obj.paginator.count }} announcement{{ page_obj.paginator.count|pluralize }}.
+    {% else %}
+      No announcements match these filters.
+    {% endif %}
+  </p>
+  {% for outage in page_obj %}
+    <div class="card my-4">
+      <div class="card-body">
+        {% include "announcements/announcement_summary.html" %}
+      </div>
+    </div>
+  {% endfor %}
+  {% if page_obj.paginator.num_pages > 1 %}
+    {# Numeric page buttons: the ARDC theme styles .page-link as #}
+    {# fixed 35x35px squares (see .pagination in _theme.scss), so #}
+    {# the buttons must hold at most a couple of characters. #}
+    <nav aria-label="Announcement pages">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.previous_page_number %}" aria-label="Previous">&laquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link" aria-hidden="true">&laquo;</span></li>
+        {% endif %}
+        {% for num in elided_page_range %}
+          {% if num == page_obj.paginator.ELLIPSIS %}
+            <li class="page-item disabled"><span class="page-link">{{ num }}</span></li>
+          {% elif num == page_obj.number %}
+            <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="{% querystring page=num %}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.next_page_number %}" aria-label="Next">&raquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link" aria-hidden="true">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </nav>
   {% endif %}
 </div>
 {% endblock %}
