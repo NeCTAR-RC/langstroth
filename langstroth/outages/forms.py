@@ -39,7 +39,7 @@ class OutageForm(forms.ModelForm):
         required=False,
         widget=DateTimePickerInput(range_from='start', options=PICKER_OPTS),
     )
-    # Fields for an optional initial OutageUpdate.  Required only when
+    # Fields for an optional initial AnnouncementUpdate.  Required only when
     # `start <= now + threshold` -- i.e. the outage is starting now (or
     # has already started).
     status = forms.ChoiceField(
@@ -67,7 +67,7 @@ class OutageForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.Outage
+        model = models.Announcement
         fields = ['title', 'description', 'start', 'planned_end', 'severity']
 
     def __init__(self, **kwargs):
@@ -135,8 +135,9 @@ class OutageForm(forms.ModelForm):
 
     def save(self, commit=True):
         cleaned = self.cleaned_data
-        # When creating a starting-now outage, the initial OutageUpdate
-        # and the Outage row must persist together: otherwise a failure
+        # When creating a starting-now outage, the initial
+        # AnnouncementUpdate and the Announcement row must persist
+        # together: otherwise a failure
         # creating the update leaves a started outage with no update
         # and `status_display` lies.
         with transaction.atomic():
@@ -147,7 +148,7 @@ class OutageForm(forms.ModelForm):
                 and cleaned.get('status')
                 and cleaned.get('content')
             ):
-                models.OutageUpdate.objects.create(
+                models.AnnouncementUpdate.objects.create(
                     outage=outage,
                     time=timezone.now(),
                     status=cleaned['status'],
@@ -161,7 +162,7 @@ class OutageUpdateForm(forms.ModelForm):
     time = forms.DateTimeField(disabled=True)
 
     class Meta:
-        model = models.OutageUpdate
+        model = models.AnnouncementUpdate
         exclude = ['outage']
 
     def __init__(self, **kwargs):

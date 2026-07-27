@@ -9,8 +9,9 @@ from langstroth.outages import models
 
 
 class OutageUpdateCascadeTests(TestCase):
-    """Covers the post-save cascade in OutageUpdate.save() that bubbles
-    `modification_time` and `modified_by` onto the parent Outage so the
+    """Covers the post-save cascade in AnnouncementUpdate.save() that
+    bubbles `modification_time` and `modified_by` onto the parent
+    Announcement so the
     list view (ordered by `-modification_time`) surfaces recent activity
     and correctly attributes the last action.
     """
@@ -25,7 +26,7 @@ class OutageUpdateCascadeTests(TestCase):
         )
 
     def _outage(self):
-        return models.Outage.objects.create(
+        return models.Announcement.objects.create(
             title="o",
             description="d",
             start=timezone.now() - timedelta(hours=1),
@@ -39,7 +40,7 @@ class OutageUpdateCascadeTests(TestCase):
         before = outage.modification_time
         # Sleep briefly so the new auto_now timestamp is strictly later.
         time.sleep(0.01)
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -55,7 +56,7 @@ class OutageUpdateCascadeTests(TestCase):
         # added the latest update.
         outage = self._outage()
         self.assertEqual(self.author, outage.modified_by)
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -69,7 +70,7 @@ class OutageUpdateCascadeTests(TestCase):
         # If the update is itself edited, the cascade prefers
         # modified_by over created_by as the actor.
         outage = self._outage()
-        update = models.OutageUpdate.objects.create(
+        update = models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -84,14 +85,14 @@ class OutageUpdateCascadeTests(TestCase):
         self.assertEqual(self.updater, outage.modified_by)
 
     def test_cascade_does_not_recompute_scheduled(self):
-        # Outage.save() recomputes the `scheduled` flag only on adding;
+        # Announcement.save() recomputes the `scheduled` flag only on adding;
         # the cascade must not trigger a recompute (which would flip
         # the label for any outage whose start has since drifted into
         # the past).
         outage = self._outage()
         outage.scheduled = True
         outage.save(update_fields=['scheduled'])
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,

@@ -101,7 +101,7 @@ class CustomBooleanFilter(django_filters.BooleanFilter):
         )
 
 
-class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
+class AnnouncementFilters(django_filters.FilterSet, ActivityFilterMixin):
     activity = ActivityFilter(label='Activity')
     time_window = TimeWindowFilter(label='Time window')
     ordering = OrderingFilter(label='Time ordering')
@@ -115,7 +115,7 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
     )
 
     class Meta:
-        model = models.Outage
+        model = models.Announcement
         fields = []
 
     def _range_filter(self, queryset, days):
@@ -136,7 +136,7 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
         return queryset
 
     def filter_start_ordering(self, queryset, name, value):
-        # "Default" keeps Outage.Meta.ordering (-modification_time) so
+        # "Default" keeps Announcement.Meta.ordering (-modification_time) so
         # the list surfaces recently-updated outages first. Only the
         # explicit 'reverse' choice overrides it.
         if value == 'reverse':

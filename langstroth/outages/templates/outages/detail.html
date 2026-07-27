@@ -23,7 +23,7 @@
           {% if outage.is_upcoming %}
             <a href="{% url 'outages:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
           {% endif %}
-          <a href="/admin/outages/outage/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
+          <a href="/admin/outages/announcement/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
           {% if outage.is_current %}
             <a href="{% url 'outages:end' outage.id %}" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
           {% endif %}

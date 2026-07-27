@@ -19,7 +19,7 @@ def _make_outage(user, **overrides):
         "created_by": user,
     }
     defaults.update(overrides)
-    return models.Outage.objects.create(**defaults)
+    return models.Announcement.objects.create(**defaults)
 
 
 class ListAndDetailTests(test.TestCase):
@@ -58,7 +58,7 @@ class ListAndDetailTests(test.TestCase):
             start=timezone.now() - timedelta(hours=2),
         )
         for i in range(5):
-            models.OutageUpdate.objects.create(
+            models.AnnouncementUpdate.objects.create(
                 outage=outage,
                 time=timezone.now() - timedelta(minutes=10 - i),
                 status=models.INVESTIGATING,
@@ -110,7 +110,7 @@ class CreateOutageTests(test.TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-        outage = models.Outage.objects.get(title="Maintenance")
+        outage = models.Announcement.objects.get(title="Maintenance")
         self.assertTrue(outage.scheduled)
         self.assertEqual(0, outage.updates.count())
 
@@ -130,7 +130,7 @@ class CreateOutageTests(test.TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-        outage = models.Outage.objects.get(title="Broken")
+        outage = models.Announcement.objects.get(title="Broken")
         self.assertFalse(outage.scheduled)
         self.assertEqual(1, outage.updates.count())
 
@@ -150,7 +150,7 @@ class UpdateAndEndFlowTests(test.TestCase):
         )
 
     def _add_update(self, status=models.INVESTIGATING):
-        return models.OutageUpdate.objects.create(
+        return models.AnnouncementUpdate.objects.create(
             outage=self.outage,
             time=timezone.now(),
             status=status,
@@ -403,7 +403,7 @@ class CalendarTests(test.TestCase):
             start=timezone.now() - timedelta(days=1),
             end=timezone.now() - timedelta(hours=20),
         )
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=cls.completed,
             time=timezone.now() - timedelta(hours=22),
             status=models.INVESTIGATING,

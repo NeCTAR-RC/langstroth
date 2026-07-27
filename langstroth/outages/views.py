@@ -30,7 +30,7 @@ def outage_calendar(request):
     # Only include the last 1 year of events
     cutoff = timezone.now() - timedelta(days=365)
     outages = (
-        models.Outage.objects.filter(start__gte=cutoff)
+        models.Announcement.objects.filter(start__gte=cutoff)
         .prefetch_related('updates')
         .order_by('-start')
     )
@@ -79,15 +79,19 @@ def index_page(request):
     # `status_display` reads `latest_update`, which iterates
     # self.updates.all() -- prefetch keeps it O(1) queries per page
     # instead of O(n).
-    f = filters.OutageFilters(
+    f = filters.AnnouncementFilters(
         request.GET,
-        queryset=models.Outage.objects.prefetch_related('updates'),
+        queryset=models.Announcement.objects.prefetch_related('updates'),
     )
     context = {"title": "Service Announcements", "tagline": "", "filter": f}
     return shortcuts.render(request, "outages/list.html", context)
 
 
 class BaseDetailView(DetailView):
+    # DetailView derives the default context name from the model class
+    # name; keep the templates' `outage` variable across the
+    # Outage -> Announcement rename.
+    context_object_name = "outage"
     title = ""
 
     def get_context_data(self, **kwargs):
@@ -111,7 +115,7 @@ class BaseCreateView(
 
 
 class OutageDetailView(BaseDetailView):
-    queryset = models.Outage.objects.all()
+    queryset = models.Announcement.objects.all()
     template_name = "outages/detail.html"
     title = "Announcement Details"
 
@@ -123,7 +127,7 @@ class OutageCreateView(BaseCreateView):
     the submitted start time -- there is no separate workflow.
     """
 
-    model = models.Outage
+    model = models.Announcement
     form_class = forms.OutageForm
     template_name = "outages/create.html"
     title = "Create Outage Announcement"
@@ -137,7 +141,7 @@ class OutageCreateView(BaseCreateView):
 
 
 class BaseUpdateCreateView(BaseCreateView):
-    model = models.OutageUpdate
+    model = models.AnnouncementUpdate
     form_class = forms.OutageUpdateForm
     title = "Outage Announcement Update"
 
@@ -154,7 +158,7 @@ class BaseUpdateCreateView(BaseCreateView):
         return super().post(request, **kwargs)
 
     def get_outage(self):
-        return models.Outage.objects.get(pk=self.pk)
+        return models.Announcement.objects.get(pk=self.pk)
 
     def form_valid(self, form):
         form.instance.outage = self.get_outage()
@@ -196,7 +200,9 @@ class UpdateOutageView(BaseUpdateCreateView):
         # operators racing to update / reopen don't end up clobbering
         # each other's modified_by / end state.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
+            outage = models.Announcement.objects.select_for_update().get(
+                pk=self.pk
+            )
             if outage.cancelled or outage.start > timezone.now():
                 raise BadRequest(
                     f"Outage {self.pk} in wrong state for update."
@@ -246,14 +252,16 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
         return reverse('outages:detail', args=[self.pk])
 
     def get_outage(self):
-        return models.Outage.objects.get(pk=self.pk)
+        return models.Announcement.objects.get(pk=self.pk)
 
     def form_valid(self, form):
         now = timezone.now()
         # Lock the outage row so the state check and end-stamping are
         # atomic against a concurrent end/cancel/update.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
+            outage = models.Announcement.objects.select_for_update().get(
+                pk=self.pk
+            )
             if (
                 outage.cancelled
                 or outage.end is not None
@@ -265,7 +273,7 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
             outage.save()
             content = form.cleaned_data.get('content')
             if content:
-                models.OutageUpdate.objects.create(
+                models.AnnouncementUpdate.objects.create(
                     outage=outage,
                     time=now,
                     status=models.RESOLVED,
@@ -292,7 +300,7 @@ class CancelOutageView(
 ):
     """Cancel an outage that has not yet started."""
 
-    queryset = models.Outage.objects.all()
+    queryset = models.Announcement.objects.all()
     template_name = "outages/cancel.html"
     title = "Confirm Cancellation"
 
@@ -304,7 +312,7 @@ class CancelOutageView(
         # Lock the row so the state check and cancellation can't race
         # against a concurrent end/update.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(
+            outage = models.Announcement.objects.select_for_update().get(
                 pk=kwargs['pk']
             )
             if outage.cancelled or outage.start <= timezone.now():

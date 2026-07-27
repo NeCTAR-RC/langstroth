@@ -15,16 +15,17 @@ class OutagePagination(PageNumberPagination):
 
 
 class OutageUpdateSerializer(serializers.ModelSerializer):
-    # Backwards-compat: severity moved off OutageUpdate onto Outage in the
-    # workflow-unification refactor. Expose the parent outage's severity
-    # under the old name so existing clients (python-langstrothclient)
-    # keep working.
+    # Backwards-compat: severity moved off the update model onto the
+    # parent (now AnnouncementUpdate/Announcement) in the
+    # workflow-unification refactor. Expose the parent's severity under
+    # the old name so existing clients (python-langstrothclient) keep
+    # working.
     severity = serializers.IntegerField(
         source='outage.severity', read_only=True
     )
 
     class Meta:
-        model = models.OutageUpdate
+        model = models.AnnouncementUpdate
         fields = ('content', 'time', 'status', 'severity')
 
 
@@ -46,7 +47,7 @@ class OutageSerializer(serializers.ModelSerializer):
     updates = OutageUpdateSerializer(many=True, read_only=True)
 
     class Meta:
-        model = models.Outage
+        model = models.Announcement
         # Public fields only -- new model fields don't leak by default.
         fields = (
             'id',
@@ -72,7 +73,7 @@ class OutageFilter(rest_filters.FilterSet, filters.ActivityFilterMixin):
     activity = rest_filters.CharFilter(method='filter_activity')
 
     class Meta:
-        model = models.Outage
+        model = models.Announcement
 
         fields = {
             'scheduled': ['exact'],
@@ -94,4 +95,4 @@ class OutageViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = OutagePagination
 
     def get_queryset(self):
-        return models.Outage.objects.prefetch_related('updates')
+        return models.Announcement.objects.prefetch_related('updates')

@@ -19,10 +19,10 @@ def _make_outage(user, **overrides):
         "created_by": user,
     }
     defaults.update(overrides)
-    return models.Outage.objects.create(**defaults)
+    return models.Announcement.objects.create(**defaults)
 
 
-class OutageAdminTests(TestCase):
+class AnnouncementAdminTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         Group.objects.get_or_create(name='outage_managers')
@@ -35,15 +35,17 @@ class OutageAdminTests(TestCase):
 
     def setUp(self):
         self.site = AdminSite()
-        self.outage_admin = admin.OutageAdmin(models.Outage, self.site)
+        self.outage_admin = admin.AnnouncementAdmin(
+            models.Announcement, self.site
+        )
 
     def test_summary(self):
-        outage = models.Outage(id=42, title="Hi")
+        outage = models.Announcement(id=42, title="Hi")
         self.assertEqual("42: Hi", self.outage_admin.summary(outage))
 
     def test_save_model_new(self):
         request = mock.Mock(user=self.user)
-        outage = models.Outage(
+        outage = models.Announcement(
             title="t",
             description="d",
             start=timezone.now(),
@@ -70,7 +72,7 @@ class OutageAdminTests(TestCase):
     def test_save_formset_new_update(self):
         outage = _make_outage(self.user)
         new_sub = mock.Mock()
-        new_sub.instance = models.OutageUpdate(
+        new_sub.instance = models.AnnouncementUpdate(
             outage=outage,
             status=models.INVESTIGATING,
             content="x",
@@ -78,7 +80,7 @@ class OutageAdminTests(TestCase):
         new_sub.instance.id = None
         new_sub.has_changed = mock.Mock(return_value=True)
 
-        existing_update = models.OutageUpdate.objects.create(
+        existing_update = models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=outage.modification_time,
             status=models.INVESTIGATING,

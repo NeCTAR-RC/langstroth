@@ -5,13 +5,13 @@ from langstroth.outages import models
 
 
 class UpdateInline(admin.TabularInline):
-    model = models.OutageUpdate
+    model = models.AnnouncementUpdate
     extra = 0
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 
 
-@admin.register(models.Outage)
-class OutageAdmin(admin.ModelAdmin):
+@admin.register(models.Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ('summary',)
     inlines = (UpdateInline,)
     readonly_fields = ('created_by', 'modified_by', 'modification_time')

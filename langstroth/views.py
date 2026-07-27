@@ -124,13 +124,13 @@ class SimpleActivityFilter(filters.ActivityFilterMixin):
 
 def _add_outages(context):
     filter = SimpleActivityFilter()
-    queryset = models.Outage.objects.all()
+    queryset = models.Announcement.objects.all()
 
     context['active'] = filter.filter(queryset, "active")
     context['completed'] = filter.filter(queryset, "completed")[:3]
     context['upcoming'] = filter.filter(queryset, "upcoming")
 
-    context['current'] = models.Outage.objects.current_outages()
+    context['current'] = models.Announcement.objects.current()
 
 
 def index(request):

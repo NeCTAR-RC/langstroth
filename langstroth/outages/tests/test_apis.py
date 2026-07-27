@@ -20,7 +20,7 @@ class OutageSimpleTestCase(test.APITestCase):
         )
 
         # Outage starting now (unscheduled) with no updates.
-        self.one = models.Outage.objects.create(
+        self.one = models.Announcement.objects.create(
             title="one",
             description="Outage one",
             start=timezone.now(),
@@ -29,14 +29,14 @@ class OutageSimpleTestCase(test.APITestCase):
         )
 
         # Outage with one investigating update.
-        self.two = models.Outage.objects.create(
+        self.two = models.Announcement.objects.create(
             title="two",
             description="Outage two",
             start=timezone.now(),
             severity=models.SEVERE,
             created_by=self.user,
         )
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=self.two,
             status=models.INVESTIGATING,
             content="update one",
@@ -151,7 +151,7 @@ class OutageFilterTestCase(test.APITestCase):
         now = timezone.now()
 
         # Active: started, no end.
-        self.active = models.Outage.objects.create(
+        self.active = models.Announcement.objects.create(
             title="active",
             description="d",
             start=now - timedelta(hours=1),
@@ -160,7 +160,7 @@ class OutageFilterTestCase(test.APITestCase):
         )
 
         # Completed: end set.
-        self.completed = models.Outage.objects.create(
+        self.completed = models.Announcement.objects.create(
             title="completed",
             description="d",
             start=now - timedelta(days=1),
@@ -170,7 +170,7 @@ class OutageFilterTestCase(test.APITestCase):
         )
 
         # Upcoming: future start.
-        self.upcoming = models.Outage.objects.create(
+        self.upcoming = models.Announcement.objects.create(
             title="upcoming",
             description="d",
             start=now + timedelta(days=1),
@@ -212,7 +212,7 @@ class OutageFilterLookupTestCase(test.APITestCase):
         )
         cls.now = timezone.now().replace(microsecond=0)
         # past: started a week ago, ended two days ago, severe.
-        cls.past = models.Outage.objects.create(
+        cls.past = models.Announcement.objects.create(
             title="past",
             description="d",
             start=cls.now - timedelta(days=7),
@@ -221,7 +221,7 @@ class OutageFilterLookupTestCase(test.APITestCase):
             created_by=cls.user,
         )
         # active: started yesterday, no end, significant.
-        cls.active = models.Outage.objects.create(
+        cls.active = models.Announcement.objects.create(
             title="active",
             description="d",
             start=cls.now - timedelta(days=1),
@@ -229,7 +229,7 @@ class OutageFilterLookupTestCase(test.APITestCase):
             created_by=cls.user,
         )
         # future: starts tomorrow, planned 2h window, minimal.
-        cls.future = models.Outage.objects.create(
+        cls.future = models.Announcement.objects.create(
             title="future",
             description="d",
             start=cls.now + timedelta(days=1),

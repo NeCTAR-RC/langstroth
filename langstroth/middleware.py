@@ -20,7 +20,7 @@ class TimezoneMiddleware:
     +09:39:52, ~20 minutes off AEST) rather than the standard offset.
     Form rendering still converts via ``astimezone``, which pytz handles
     correctly, so every datetime round-tripped through a form (notably
-    the Django admin's Outage start/planned_end/end fields) was saved
+    the Django admin's Announcement start/planned_end/end fields) was saved
     ~20 minutes later than entered.
 
     Activating a ``zoneinfo`` zone instead computes the offset for the

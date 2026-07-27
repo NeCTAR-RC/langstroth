@@ -42,7 +42,7 @@ class OutageTestPopulated(SeleniumTestBase):
         )
         self.user.save()
 
-        self.outage = models.Outage(
+        self.outage = models.Announcement(
             title="Testing",
             description="one two three",
             start=timezone.now(),
@@ -50,7 +50,7 @@ class OutageTestPopulated(SeleniumTestBase):
             created_by=self.user,
         )
         self.outage.save()
-        self.update = models.OutageUpdate(
+        self.update = models.AnnouncementUpdate(
             outage=self.outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -249,14 +249,14 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_update_and_end_and_reopen(self):
         # Set up an in-progress outage directly to keep the test focused
         # on the update / end / reopen UI flow.
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="incident",
             description="bad",
             start=timezone.now() - timedelta(minutes=5),
             severity=models.SEVERE,
             created_by=self.admin,
         )
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -345,7 +345,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertIsNone(outage.end)
 
     def test_cancel_future_outage(self):
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="April 1st is cancelled this year",
             description="Courtesy of the humor police.",
             start=timezone.now() + timedelta(days=365),
