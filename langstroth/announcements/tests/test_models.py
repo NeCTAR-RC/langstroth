@@ -4,6 +4,7 @@ import time
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils import timezone
+from freezegun import freeze_time
 
 from langstroth.announcements import models
 from langstroth import models as auth_models
@@ -182,3 +183,108 @@ class CategoryTests(TestCase):
         self._make().clean()
         self._make(category=models.Category.NOTICE).clean()
         self._make(category=models.Category.NEWS, severity=None).clean()
+
+
+@freeze_time("2026-07-01 10:00:00")
+class ManagerQuerysetTests(TestCase):
+    """Cover upcoming() and recently_ended(), which drive the home
+    page's Upcoming and Recently Resolved sections.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="mgr", email="mgr@test"
+        )
+
+    def _make(self, **overrides):
+        defaults = {
+            "title": "t",
+            "description": "d",
+            "start": timezone.now() - timedelta(hours=1),
+            "severity": models.SIGNIFICANT,
+            "created_by": self.user,
+        }
+        defaults.update(overrides)
+        return models.Announcement.objects.create(**defaults)
+
+    def test_upcoming_membership(self):
+        started = self._make(title="started")
+        soon = self._make(
+            title="soon", start=timezone.now() + timedelta(hours=2)
+        )
+        later = self._make(
+            title="later", start=timezone.now() + timedelta(days=2)
+        )
+        cancelled = self._make(
+            title="cancelled", start=timezone.now() + timedelta(hours=3)
+        )
+        cancelled.cancelled = True
+        cancelled.save()
+        future_news = self._make(
+            title="future news",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() + timedelta(hours=4),
+        )
+        future_notice = self._make(
+            title="future notice",
+            category=models.Category.NOTICE,
+            start=timezone.now() + timedelta(hours=5),
+        )
+
+        upcoming = list(models.Announcement.objects.upcoming())
+        self.assertNotIn(started, upcoming)
+        self.assertNotIn(cancelled, upcoming)
+        self.assertNotIn(future_news, upcoming)
+        # Ordered soonest first.
+        self.assertEqual([soon, future_notice, later], upcoming)
+
+    def test_recently_ended_window_boundaries(self):
+        now = timezone.now()
+        recent = self._make(
+            title="recent",
+            start=now - timedelta(days=10),
+            end=now - timedelta(days=5),
+        )
+        edge = self._make(
+            title="edge",
+            start=now - timedelta(days=30),
+            end=now - timedelta(days=29),
+        )
+        old = self._make(
+            title="old",
+            start=now - timedelta(days=40),
+            end=now - timedelta(days=31),
+        )
+        ongoing = self._make(title="ongoing")
+
+        ended = list(models.Announcement.objects.recently_ended())
+        self.assertNotIn(old, ended)
+        self.assertNotIn(ongoing, ended)
+        # Most recently ended first.
+        self.assertEqual([recent, edge], ended)
+
+    def test_recently_ended_days_argument(self):
+        now = timezone.now()
+        self._make(
+            title="last week",
+            start=now - timedelta(days=8),
+            end=now - timedelta(days=6),
+        )
+        self.assertEqual(
+            0, models.Announcement.objects.recently_ended(days=5).count()
+        )
+        self.assertEqual(
+            1, models.Announcement.objects.recently_ended(days=7).count()
+        )
+
+    def test_recently_ended_includes_notices(self):
+        now = timezone.now()
+        notice = self._make(
+            title="stood down",
+            category=models.Category.NOTICE,
+            start=now - timedelta(days=2),
+            end=now - timedelta(days=1),
+        )
+        self.assertIn(notice, models.Announcement.objects.recently_ended())

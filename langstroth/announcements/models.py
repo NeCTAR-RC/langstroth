@@ -125,6 +125,33 @@ class AnnouncementManager(models.Manager):
             .prefetch_related('updates')
         )
 
+    def upcoming(self):
+        """Not-yet-started outages and notices, soonest first.
+
+        News is excluded: a future `start` there is a scheduled
+        publication, not an upcoming event. No updates prefetch --
+        `status_display` short-circuits to "Scheduled" for these rows,
+        so templates never touch `latest_update`.
+        """
+        return (
+            self.filter(cancelled=False, start__gt=timezone.now())
+            .exclude(category=Category.NEWS)
+            .order_by('start')
+        )
+
+    def recently_ended(self, days=30):
+        """Outages and notices that ended within the last `days`,
+        most recently ended first.
+
+        `end__gte` naturally excludes news (its `end` is always null)
+        and cancelled rows (Cancel is only allowed before start and
+        End refuses cancelled rows, so `end` is never set on them).
+        No updates prefetch -- `status_display` short-circuits to
+        "Completed" for ended rows.
+        """
+        cutoff = timezone.now() - timedelta(days=days)
+        return self.filter(end__gte=cutoff).order_by('-end')
+
 
 class Announcement(models.Model):
     objects = AnnouncementManager()
