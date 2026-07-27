@@ -76,7 +76,7 @@ class AggregateSeriesTests(TestCase):
         self.assertEqual(
             [
                 'sum(avg_over_time(nectar_total_instances'
-                '{az=~"melbourne\\-qh2|melbourne\\-np"}[3600s] offset 1s))'
+                '{az=~"melbourne\\\\-qh2|melbourne\\\\-np"}[3600s] offset 1s))'
             ],
             params['query'],
         )
@@ -100,6 +100,21 @@ class AggregateSeriesTests(TestCase):
         metrics.aggregate_series(
             'nectar_used_vcpus',
             [('All', None)],
+            from_date='-1day',
+            summarise='1hour',
+            now=NOW,
+        )
+        url = mock_get.call_args[0][0]
+        params = parse_qs(urlparse(url).query)
+        self.assertIn('az=~".+"', params['query'][0])
+
+    def test_empty_azs_selector_means_all(self, mock_get):
+        # Helm 3 drops map keys whose override value is null, so chart
+        # values spell "all availability zones" as an empty list.
+        mock_get.return_value = fake_response([])
+        metrics.aggregate_series(
+            'nectar_used_vcpus',
+            [('All', [])],
             from_date='-1day',
             summarise='1hour',
             now=NOW,
@@ -155,7 +170,7 @@ class CompositionTests(TestCase):
         self.assertEqual(
             [
                 'sum by (domain) (last_over_time(nectar_domain_used_vcpus'
-                '{az=~"melbourne\\-qh2"}[1h]))'
+                '{az=~"melbourne\\\\-qh2"}[1h]))'
             ],
             params['query'],
         )

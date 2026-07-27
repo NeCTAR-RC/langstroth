@@ -160,9 +160,21 @@ def _grid_datapoints(result_values, start, end, step):
 
 
 def _az_selector(azs):
-    if azs is None:
+    """Regex alternation matching the given availability zones,
+    escaped for embedding in a double-quoted PromQL string literal:
+    backslashes introduced by re.escape are doubled, because the
+    string literal layer consumes one level of escaping (a bare
+    \\- is an invalid escape sequence and VictoriaMetrics rejects
+    the whole query with a 422).
+
+    None or an empty list selects all availability zones. The empty
+    list spelling exists because Helm 3 drops map keys whose override
+    value is null, so chart values cannot reliably deliver None.
+    """
+    if not azs:
         return '.+'
-    return '|'.join(re.escape(az) for az in azs)
+    regex = '|'.join(re.escape(az) for az in azs)
+    return regex.replace('\\', '\\\\').replace('"', '\\"')
 
 
 def aggregate_series(
