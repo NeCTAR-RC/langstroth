@@ -1,6 +1,7 @@
 from datetime import timedelta
 import time
 
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils import timezone
 
@@ -101,3 +102,83 @@ class OutageUpdateCascadeTests(TestCase):
         )
         outage.refresh_from_db()
         self.assertTrue(outage.scheduled)
+
+
+class CategoryTests(TestCase):
+    """Cover the category discriminator added for news/notice support."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="author", email="author@test"
+        )
+
+    def _make(self, **overrides):
+        defaults = {
+            "title": "t",
+            "description": "d",
+            "start": timezone.now() - timedelta(hours=1),
+            "severity": models.SIGNIFICANT,
+            "created_by": self.user,
+        }
+        defaults.update(overrides)
+        return models.Announcement.objects.create(**defaults)
+
+    def test_category_defaults_to_outage(self):
+        self.assertEqual(models.Category.OUTAGE, self._make().category)
+
+    def test_news_status_display_is_published(self):
+        news = self._make(category=models.Category.NEWS, severity=None)
+        self.assertEqual("Published", news.status_display)
+        # Even a cancelled (retracted) news item stays "Published" --
+        # retraction is admin-only and the item is filtered out of
+        # public views instead.
+        news.cancelled = True
+        self.assertEqual("Published", news.status_display)
+
+    def test_severity_display_none_for_null_severity(self):
+        news = self._make(category=models.Category.NEWS, severity=None)
+        self.assertIsNone(news.severity_display)
+
+    def test_severity_display_unknown_for_unrecognised_code(self):
+        outage = self._make(severity=99)
+        self.assertEqual("Unknown", outage.severity_display)
+
+    def test_current_includes_notices_and_outages_but_not_news(self):
+        outage = self._make(title="outage")
+        notice = self._make(title="notice", category=models.Category.NOTICE)
+        self._make(title="news", category=models.Category.NEWS, severity=None)
+        current = list(models.Announcement.objects.current())
+        self.assertIn(outage, current)
+        self.assertIn(notice, current)
+        self.assertEqual(2, len(current))
+
+    def test_clean_requires_severity_for_outage_and_notice(self):
+        for category in (models.Category.OUTAGE, models.Category.NOTICE):
+            announcement = models.Announcement(
+                title="t",
+                description="d",
+                category=category,
+                start=timezone.now(),
+                severity=None,
+                created_by=self.user,
+            )
+            with self.assertRaises(ValidationError):
+                announcement.clean()
+
+    def test_clean_rejects_severity_on_news(self):
+        news = models.Announcement(
+            title="t",
+            description="d",
+            category=models.Category.NEWS,
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+        with self.assertRaises(ValidationError):
+            news.clean()
+
+    def test_clean_accepts_valid_rows(self):
+        self._make().clean()
+        self._make(category=models.Category.NOTICE).clean()
+        self._make(category=models.Category.NEWS, severity=None).clean()

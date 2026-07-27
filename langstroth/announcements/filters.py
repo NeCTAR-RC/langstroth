@@ -9,9 +9,13 @@ from langstroth.announcements import models
 
 
 class ActivityFilterMixin:
-    """Filter outages by their notional activity.
+    """Filter announcements by their notional activity.
 
-    Predicates:
+    Predicates (outages and notices only -- news is lifecycle-free,
+    never "active", and is discovered by recency, so every predicate
+    excludes it; without the exclusion a news item, whose `end` is
+    always null, would be "active" forever):
+
         'active'    => has started, not ended, not cancelled
         'completed' => `end` is set
         'upcoming'  => has not yet started, not cancelled
@@ -22,11 +26,15 @@ class ActivityFilterMixin:
         if value == "active":
             return queryset.filter(
                 start__lte=now, end__isnull=True, cancelled=False
-            )
+            ).exclude(category=models.Category.NEWS)
         if value == "completed":
-            return queryset.filter(end__isnull=False)
+            return queryset.filter(end__isnull=False).exclude(
+                category=models.Category.NEWS
+            )
         if value == "upcoming":
-            return queryset.filter(start__gt=now, cancelled=False)
+            return queryset.filter(start__gt=now, cancelled=False).exclude(
+                category=models.Category.NEWS
+            )
         return queryset
 
 

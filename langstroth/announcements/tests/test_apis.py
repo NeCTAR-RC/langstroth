@@ -290,3 +290,66 @@ class OutageFilterLookupTestCase(test.APITestCase):
             {self.past.id, self.future.id},
             self._ids(f"severity__in={models.SEVERE},{models.MINIMAL}"),
         )
+
+
+class OutageEndpointPinningTestCase(test.APITestCase):
+    """/api/v1/outages/ is a stable external contract: it must only
+    ever return outage-category rows, whatever else the announcements
+    table holds.
+    """
+
+    def setUp(self):
+        self.user = auth_models.User.objects.create(
+            username="test", email="test@test.com"
+        )
+        self.outage = models.Announcement.objects.create(
+            title="outage",
+            description="d",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+        self.news = models.Announcement.objects.create(
+            title="news",
+            description="d",
+            category=models.Category.NEWS,
+            start=timezone.now(),
+            severity=None,
+            created_by=self.user,
+        )
+        self.notice = models.Announcement.objects.create(
+            title="notice",
+            description="d",
+            category=models.Category.NOTICE,
+            start=timezone.now(),
+            severity=models.SEVERE,
+            created_by=self.user,
+        )
+
+    def test_list_returns_outages_only(self):
+        response = self.client.get('/api/v1/outages/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        content = json.loads(response.content)
+        titles = {item['title'] for item in content['results']}
+        self.assertEqual({"outage"}, titles)
+
+    def test_active_filter_excludes_news_and_notice(self):
+        response = self.client.get('/api/v1/outages/?activity=active')
+        content = json.loads(response.content)
+        titles = {item['title'] for item in content['results']}
+        self.assertEqual({"outage"}, titles)
+
+    def test_news_and_notice_detail_404(self):
+        for pk in (self.news.pk, self.notice.pk):
+            response = self.client.get(f'/api/v1/outages/{pk}/')
+            self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_outage_detail_still_served(self):
+        response = self.client.get(f'/api/v1/outages/{self.outage.pk}/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_no_category_field_in_response(self):
+        # The legacy serializer must stay byte-compatible; category is
+        # exposed on /api/v1/announcements/ only.
+        response = self.client.get(f'/api/v1/outages/{self.outage.pk}/')
+        self.assertNotIn('category', json.loads(response.content))

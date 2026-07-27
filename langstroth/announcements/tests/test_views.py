@@ -530,3 +530,35 @@ class OldUrlRedirectTests(test.TestCase):
         self.assertEqual(
             '/announcements/?activity=active', response['Location']
         )
+
+
+class CalendarCategoryTests(test.TestCase):
+    """News is not a calendar event; notices are."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="cal-cat", email="cal-cat@test"
+        )
+
+    def test_calendar_excludes_news_includes_notices(self):
+        _make_outage(self.user, title="An outage", start=timezone.now())
+        _make_outage(
+            self.user,
+            title="A notice",
+            category=models.Category.NOTICE,
+            start=timezone.now(),
+        )
+        _make_outage(
+            self.user,
+            title="Some news",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now(),
+        )
+        response = self.client.get(reverse('announcements:calendar'))
+        cal = Calendar.from_ical(response.content)
+        summaries = {str(e['summary']) for e in cal.walk('VEVENT')}
+        self.assertIn("An outage", summaries)
+        self.assertIn("A notice", summaries)
+        self.assertNotIn("Some news", summaries)

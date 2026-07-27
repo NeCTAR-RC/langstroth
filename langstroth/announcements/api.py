@@ -95,4 +95,10 @@ class OutageViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = OutagePagination
 
     def get_queryset(self):
-        return models.Announcement.objects.prefetch_related('updates')
+        # Pinned to outages: this endpoint is a stable external
+        # contract (nectar-dashboard renders every row it returns as
+        # an outage), so news and notices must never appear here.
+        # They are exposed via /api/v1/announcements/ instead.
+        return models.Announcement.objects.filter(
+            category=models.Category.OUTAGE
+        ).prefetch_related('updates')

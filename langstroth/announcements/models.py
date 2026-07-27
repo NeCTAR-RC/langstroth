@@ -1,6 +1,7 @@
 from datetime import timedelta
 import logging
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -9,8 +10,22 @@ from langstroth.models import User
 
 LOG = logging.getLogger(__name__)
 
-# An Announcement (historically "Outage") represents a planned or
-# unplanned service interruption.
+# An Announcement (historically "Outage") is one of three categories,
+# discriminated by `category`:
+#
+#   outage -- a planned or unplanned service interruption.
+#   notice -- a hazard or security notice (e.g. a CVE advisory, or a
+#             heatwave that may affect DC cooling). Same lifecycle as
+#             an outage: severity, a real window, operator updates;
+#             the End action means the notice is "stood down".
+#   news   -- a lifecycle-free post (feature release, component
+#             upgrade). `start` is the publication time;
+#             `planned_end`, `end` and `severity` are always null; it
+#             has no updates and no state machine. News is never
+#             "active" (see filters.ActivityFilterMixin) -- it is
+#             discovered by recency.
+#
+# For outages and notices:
 #
 # `start` and `end` are real timestamps. The outage is in progress when
 # `start <= now`, `end is None`, and `cancelled is False`.
@@ -50,6 +65,13 @@ SEVERITY_CHOICES = [
     (SEVERE, 'Severe'),
 ]
 
+
+class Category(models.TextChoices):
+    OUTAGE = 'outage', 'Outage'
+    NEWS = 'news', 'News'
+    NOTICE = 'notice', 'Notice'
+
+
 # An outage is labelled "scheduled" if its start is more than this far
 # in the future at creation time.
 SCHEDULED_THRESHOLD = timedelta(hours=1)
@@ -81,18 +103,27 @@ def _status_display(status):
 
 
 def _severity_display(severity):
+    # None is legitimate (news rows have no severity); only an
+    # unrecognised code is "Unknown".
     if severity is None:
-        return "Unknown"
+        return None
     return _SEVERITY_DISPLAYS.get(severity, "Unknown")
 
 
 class AnnouncementManager(models.Manager):
     def current(self):
-        return self.filter(
-            cancelled=False,
-            start__lte=timezone.now(),
-            end__isnull=True,
-        ).prefetch_related('updates')
+        # Ongoing outages and notices. News is lifecycle-free (`end`
+        # is always null), so without the exclusion every news item
+        # would be "current" forever.
+        return (
+            self.filter(
+                cancelled=False,
+                start__lte=timezone.now(),
+                end__isnull=True,
+            )
+            .exclude(category=Category.NEWS)
+            .prefetch_related('updates')
+        )
 
 
 class Announcement(models.Model):
@@ -100,14 +131,20 @@ class Announcement(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField()
+    category = models.CharField(
+        max_length=10, choices=Category.choices, default=Category.OUTAGE
+    )
+    # For news, `start` is the publication time.
     start = models.DateTimeField()
     # `planned_end` is informational (the announced end of a scheduled
     # window); `end` is the actual end of the outage, set by the End
     # action. Status display keys off `end`, not `planned_end`.
+    # Both are always null for news.
     planned_end = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
+    # Null exactly when category is news; see clean().
     severity = models.IntegerField(
-        choices=SEVERITY_CHOICES, default=SIGNIFICANT
+        choices=SEVERITY_CHOICES, blank=True, null=True
     )
     scheduled = models.BooleanField(blank=True, default=False, editable=False)
     cancelled = models.BooleanField(blank=True, default=False)
@@ -131,6 +168,19 @@ class Announcement(models.Model):
         if self._state.adding and self.start is not None:
             self.scheduled = self.start > timezone.now() + SCHEDULED_THRESHOLD
         super().save(*args, **kwargs)
+
+    def clean(self):
+        # Enforced here (rather than only in the create forms) so the
+        # admin -- the de facto edit UI -- upholds the invariant too.
+        if self.category == Category.NEWS:
+            if self.severity is not None:
+                raise ValidationError(
+                    {'severity': "News must not have a severity."}
+                )
+        elif self.severity is None:
+            raise ValidationError(
+                {'severity': "Outages and notices require a severity."}
+            )
 
     def get_absolute_url(self):
         return reverse("announcements:detail", kwargs={'pk': self.pk})
@@ -172,6 +222,8 @@ class Announcement(models.Model):
 
     @property
     def status_display(self):
+        if self.category == Category.NEWS:
+            return "Published"
         if self.cancelled:
             return "Cancelled"
         if self.end:

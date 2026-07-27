@@ -27,10 +27,12 @@ def outage_calendar(request):
         'Service announcements for the ARDC Nectar Research Cloud',
     )
 
-    # Only include the last 1 year of events
+    # Only include the last 1 year of events. News is not a calendar
+    # event, so the feed carries outages and notices only.
     cutoff = timezone.now() - timedelta(days=365)
     outages = (
         models.Announcement.objects.filter(start__gte=cutoff)
+        .exclude(category=models.Category.NEWS)
         .prefetch_related('updates')
         .order_by('-start')
     )

@@ -65,6 +65,14 @@ class OutageForm(forms.ModelForm):
     tz_name = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
+    # The model field is nullable (null severity is the news marker),
+    # so require it and preselect the old model default here.
+    severity = forms.TypedChoiceField(
+        required=True,
+        coerce=int,
+        choices=models.SEVERITY_CHOICES,
+        initial=models.SIGNIFICANT,
+    )
 
     class Meta:
         model = models.Announcement
