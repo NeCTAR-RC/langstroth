@@ -83,6 +83,21 @@ class TimeWindowFilter(ChoiceFilter):
         )
 
 
+class CategoryFilter(ChoiceFilter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            **kwargs,
+            method='filter_category',
+            choices=[
+                ('all', 'All'),
+                (models.Category.OUTAGE, 'Outages'),
+                (models.Category.NOTICE, 'Notices'),
+                (models.Category.NEWS, 'News'),
+            ],
+        )
+
+
 class OrderingFilter(ChoiceFilter):
     def __init__(self, *args, **kwargs):
         super().__init__(
@@ -110,6 +125,7 @@ class CustomBooleanFilter(django_filters.BooleanFilter):
 
 
 class AnnouncementFilters(django_filters.FilterSet, ActivityFilterMixin):
+    category = CategoryFilter(label='Category')
     activity = ActivityFilter(label='Activity')
     time_window = TimeWindowFilter(label='Time window')
     ordering = OrderingFilter(label='Time ordering')
@@ -141,6 +157,11 @@ class AnnouncementFilters(django_filters.FilterSet, ActivityFilterMixin):
             return self._range_filter(queryset, 180)
         if value == '1y':
             return self._range_filter(queryset, 365)
+        return queryset
+
+    def filter_category(self, queryset, name, value):
+        if value in models.Category.values:
+            return queryset.filter(category=value)
         return queryset
 
     def filter_start_ordering(self, queryset, name, value):

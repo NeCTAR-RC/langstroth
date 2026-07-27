@@ -84,13 +84,15 @@ class OutageTestPopulated(SeleniumTestBase):
         self.assertTrue(summary.text.startswith("Status: Investigating"))
 
         # The two old per-flow create buttons are gone; only the
-        # unified "create" button exists, and only for staff.
+        # unified "create" dropdown exists, and only for staff.
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "scheduled")
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "unscheduled")
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "create")
+        with self.assertRaises(NoSuchElementException):
+            self.driver.find_element(By.ID, "create-outage")
 
     def test_outage_0(self):
         self.driver.get(
@@ -183,9 +185,10 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_create_future_outage_is_scheduled(self):
         _login_admin(self.driver, self.live_server_url, self.admin)
 
-        # Create page reachable from the one "Create outage" button.
+        # Create page reachable from the "Create" dropdown.
         self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
+        self.driver.find_element(By.ID, "create-outage").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Outage Announcement",
             self.driver.title,
@@ -225,6 +228,7 @@ class OutageWorkflowTests(SeleniumTestBase):
 
         self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
+        self.driver.find_element(By.ID, "create-outage").click()
 
         now = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
         self._fill_create_form(

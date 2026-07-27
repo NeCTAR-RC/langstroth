@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'announcements:list' %}">Announcements</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create news item</li>
+    </ol>
+  </nav>
+  <h1 class="pb-4">Create a News Item</h1>
+  <p>
+    A news item is a simple post &mdash; a feature release, a component
+    upgrade, or other cloud news. It has no severity, updates or end; it is
+    simply published at the given time.
+  </p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mb-4">
+  <div class="card">
+    <div class="card-body">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.tz_name }}
+        <fieldset>
+          <div class="mb-3">
+            <div class="form-label">Title</div>
+            <div>
+              {{ form.title }}
+              {% for error in form.title.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-label">Description</div>
+            <div>
+              {{ form.description }}
+              {% for error in form.description.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="form-label">Publish date &amp; time</div>
+            <div class="col-md-6 col-lg-4">
+              {{ form.start }}
+              {% for error in form.start.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{% url 'announcements:list' %}" class="btn btn-link">Back to announcements</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+{{ form.media }}
+<script>
+  // Populate the tz_name hidden field with the operator's IANA
+  // timezone name so the server interprets the naive publish time
+  // correctly; see create.html for the rationale.
+  (function () {
+    const input = document.getElementById('id_tz_name');
+    if (input) {
+      try {
+        input.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch (e) {
+        // Older browsers without Intl: server falls back to Django's
+        // active timezone, same as if JS is disabled.
+      }
+    }
+  })();
+</script>
+{% endblock %}

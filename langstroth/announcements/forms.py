@@ -30,6 +30,36 @@ def _apply_bootstrap_classes(form):
             )
 
 
+def _resolve_browser_timezone(form, cleaned_data, fields):
+    """Reinterpret naive datetime fields in the operator's timezone.
+
+    Django's form field parses naive strings against whatever timezone
+    is active for the request, which is unreliable on the first POST
+    (tz_detect cookies aren't read yet) and silently shifts the saved
+    time by the operator's UTC offset. The browser supplies its IANA
+    timezone name via the hidden `tz_name` field; resolve it with
+    zoneinfo so the *offset at the field's instant* is used -- a time
+    across a DST boundary picks up the offset in force at that time,
+    not the offset in force at submission time.
+    """
+    tz_name = cleaned_data.get('tz_name')
+    if not tz_name:
+        return True
+    try:
+        user_tz = zoneinfo.ZoneInfo(tz_name)
+    except zoneinfo.ZoneInfoNotFoundError:
+        form.add_error(None, f"Unknown browser timezone: {tz_name}")
+        return False
+    for field in fields:
+        dt = cleaned_data.get(field)
+        if dt is not None:
+            cleaned_data[field] = dt.replace(tzinfo=None).replace(
+                tzinfo=user_tz
+            )
+            setattr(form.instance, field, cleaned_data[field])
+    return True
+
+
 class OutageForm(forms.ModelForm):
     start = forms.DateTimeField(
         required=True,
@@ -74,12 +104,22 @@ class OutageForm(forms.ModelForm):
         initial=models.SIGNIFICANT,
     )
 
+    # Relaxed by NoticeForm: a notice's forecast end is always
+    # optional, and a notice may start immediately with just its
+    # description.
+    require_planned_end_when_scheduled = True
+    require_initial_update = True
+    category = models.Category.OUTAGE
+
     class Meta:
         model = models.Announcement
         fields = ['title', 'description', 'start', 'planned_end', 'severity']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Set before validation: Model.clean() checks the
+        # severity-vs-category invariant on the unsaved instance.
+        self.instance.category = self.category
         _apply_bootstrap_classes(self)
 
     def _is_starting_now(self, start):
@@ -87,47 +127,32 @@ class OutageForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        # Reinterpret datetime fields in the operator's timezone if the
-        # browser supplied its IANA name. Django's form field parses
-        # naive strings against whatever timezone is active for the
-        # request, which is unreliable on the first POST (tz_detect
-        # cookies aren't read yet) and silently shifts the saved time
-        # by the operator's UTC offset.
-        #
-        # Resolve via zoneinfo so the *offset at the start instant* is
-        # used -- an outage scheduled across a DST boundary picks up
-        # the correct offset for the outage time, not the offset in
-        # force at submission time.
-        tz_name = cleaned_data.get('tz_name')
-        if tz_name:
-            try:
-                user_tz = zoneinfo.ZoneInfo(tz_name)
-            except zoneinfo.ZoneInfoNotFoundError:
-                self.add_error(
-                    None,
-                    f"Unknown browser timezone: {tz_name}",
-                )
-                return cleaned_data
-            for field in ('start', 'planned_end'):
-                dt = cleaned_data.get(field)
-                if dt is not None:
-                    cleaned_data[field] = dt.replace(tzinfo=None).replace(
-                        tzinfo=user_tz
-                    )
-                    setattr(self.instance, field, cleaned_data[field])
+        if not _resolve_browser_timezone(
+            self, cleaned_data, ('start', 'planned_end')
+        ):
+            return cleaned_data
         start = cleaned_data.get('start')
         planned_end = cleaned_data.get('planned_end')
 
         if start and planned_end and planned_end <= start:
             self.add_error('planned_end', 'Planned end must be after start.')
 
-        if start and not self._is_starting_now(start) and not planned_end:
+        if (
+            self.require_planned_end_when_scheduled
+            and start
+            and not self._is_starting_now(start)
+            and not planned_end
+        ):
             self.add_error(
                 'planned_end',
                 'Planned end is required for scheduled outages.',
             )
 
-        if start and self._is_starting_now(start):
+        if (
+            self.require_initial_update
+            and start
+            and self._is_starting_now(start)
+        ):
             if not cleaned_data.get('status'):
                 self.add_error(
                     'status',
@@ -164,6 +189,54 @@ class OutageForm(forms.ModelForm):
                     created_by=outage.created_by,
                 )
         return outage
+
+
+class NoticeForm(OutageForm):
+    """Create a hazard or security notice.
+
+    Same lifecycle machinery as an outage, but a notice's forecast end
+    is always optional and it may start immediately with just its
+    description (no initial update required).
+    """
+
+    require_planned_end_when_scheduled = False
+    require_initial_update = False
+    category = models.Category.NOTICE
+
+
+class NewsForm(forms.ModelForm):
+    """Create a news item: a lifecycle-free post.
+
+    No severity, planned end, or initial update -- `start` is simply
+    the publication time.
+    """
+
+    start = forms.DateTimeField(
+        required=True,
+        label="Publish time",
+        initial=timezone.now,
+        widget=DateTimePickerInput(options=PICKER_OPTS),
+    )
+    # Same browser-timezone resolution as OutageForm; see
+    # _resolve_browser_timezone.
+    tz_name = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+
+    class Meta:
+        model = models.Announcement
+        fields = ['title', 'description', 'start']
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Set before validation, as in OutageForm.
+        self.instance.category = models.Category.NEWS
+        _apply_bootstrap_classes(self)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        _resolve_browser_timezone(self, cleaned_data, ('start',))
+        return cleaned_data
 
 
 class OutageUpdateForm(forms.ModelForm):

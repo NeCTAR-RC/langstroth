@@ -80,7 +80,9 @@
         </fieldset>
         <fieldset id="initial-update-fieldset" class="mt-4" hidden>
           <legend class="h5">Initial update</legend>
+          {% block initial-update-help %}
           <p class="form-text">Required when the outage is starting now (start &le; now + 1 hour). Leave blank for future-scheduled outages.</p>
+          {% endblock %}
           <div class="row mb-3">
             <div class="form-label">Status</div>
             <div class="col-md-6 col-lg-4">

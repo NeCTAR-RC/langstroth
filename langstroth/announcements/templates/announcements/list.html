@@ -13,7 +13,14 @@
     <h1 class="pb-4">Service Announcements</h1>
     {% if request.user.is_staff %}
       <div class="ms-auto btn-bar">
-        <a href="{% url 'announcements:create' %}" id="create" class="btn btn-outline-primary btn-sm">Create outage</a>
+        <div class="dropdown">
+          <button type="button" id="create" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Create</button>
+          <ul class="dropdown-menu" aria-labelledby="create">
+            <li><a class="dropdown-item" id="create-outage" href="{% url 'announcements:create' %}">Outage</a></li>
+            <li><a class="dropdown-item" id="create-notice" href="{% url 'announcements:create_notice' %}">Notice</a></li>
+            <li><a class="dropdown-item" id="create-news" href="{% url 'announcements:create_news' %}">News item</a></li>
+          </ul>
+        </div>
       </div>
     {% endif %}
   </div>
@@ -27,6 +34,10 @@
       <div class="card-title">Filters</div>
       <div class="card-body">
         <div class="row">
+          <div class="col">
+            <label for="category_id">Category</label>
+            {{ filter.form.category }}
+          </div>
           <div class="col">
             <label for="scheduled_id">Type</label>
             {{ filter.form.scheduled }}

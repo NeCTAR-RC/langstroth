@@ -12,7 +12,8 @@ class UpdateInline(admin.TabularInline):
 
 @admin.register(models.Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display = ('summary',)
+    list_display = ('summary', 'category')
+    list_filter = ('category',)
     inlines = (UpdateInline,)
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 

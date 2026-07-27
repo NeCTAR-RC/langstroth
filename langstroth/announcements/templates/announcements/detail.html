@@ -15,16 +15,18 @@
       <h1 class="pb-4">Service Announcement</h1>
       {% if request.user.is_staff %}
         <div class="ms-auto btn-bar">
-          {% if outage.is_current %}
-            <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
-          {% elif outage.end %}
-            <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
-          {% endif %}
-          {% if outage.is_upcoming %}
-            <a href="{% url 'announcements:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
+          {% if outage.category != 'news' %}
+            {% if outage.is_current %}
+              <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
+            {% elif outage.end %}
+              <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
+            {% endif %}
+            {% if outage.is_upcoming %}
+              <a href="{% url 'announcements:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
+            {% endif %}
           {% endif %}
           <a href="/admin/announcements/announcement/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
-          {% if outage.is_current %}
+          {% if outage.category != 'news' and outage.is_current %}
             <a href="{% url 'announcements:end' outage.id %}" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
           {% endif %}
         </div>
@@ -32,7 +34,15 @@
     </div>
     <div class="row">
       <div class="col-12 col-md-8 col-xl-9" id="outage-{{ outage.id }}">
-        <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+        <h5 class="text-uppercase">
+          {% if outage.category == 'news' %}
+            News
+          {% elif outage.category == 'notice' %}
+            Notice
+          {% else %}
+            {{ outage.scheduled_display }} Outage
+          {% endif %}
+        </h5>
         <h3>{{ outage.title }}</h3>
         <ul class="list-unstyled">
           {% if request.user.is_staff %}
@@ -41,6 +51,9 @@
           </li>
           {% endif %}
           <li>
+            {% if outage.category == 'news' %}
+            <strong>Published:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
+            {% else %}
             <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}{% if outage.is_upcoming %} (scheduled){% endif %},
             {% if outage.end %}
             <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
@@ -50,11 +63,12 @@
             <strong>Outage is ongoing</strong>
             {% endif %}
             {% if outage.cancelled %}, <strong>Cancelled</strong>{% endif %}
+            {% endif %}
           </li>
         </ul>
         {{ outage.description|linebreaks|urlize }}
       </div>
-      {% if not outage.cancelled %}
+      {% if not outage.cancelled and outage.category != 'news' %}
       <div class="col-12 col-md-4 col-xl-3">
         <div class="card bg-light">
           <div class="card-body text-center">
@@ -75,6 +89,7 @@
 {% endblock %}
 
 {% block content %}
+  {% if outage.category != 'news' %}
   {% with updates=outage.visible_updates %}
 
   <div class="container mb-4">
@@ -108,4 +123,5 @@
     </div>
   </div>
   {% endwith %}
+  {% endif %}
 {% endblock %}

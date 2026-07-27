@@ -15,6 +15,16 @@ urlpatterns = [
     ),
     re_path(r'^create/$', views.OutageCreateView.as_view(), name='create'),
     re_path(
+        r'^create/notice/$',
+        views.NoticeCreateView.as_view(),
+        name='create_notice',
+    ),
+    re_path(
+        r'^create/news/$',
+        views.NewsCreateView.as_view(),
+        name='create_news',
+    ),
+    re_path(
         r'^(?P<pk>\d+)/add_update/$',
         views.UpdateOutageView.as_view(),
         name='add_update',

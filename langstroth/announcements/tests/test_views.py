@@ -562,3 +562,236 @@ class CalendarCategoryTests(test.TestCase):
         self.assertIn("An outage", summaries)
         self.assertIn("A notice", summaries)
         self.assertNotIn("Some news", summaries)
+
+
+class CreateNoticeAndNewsTests(test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = auth_models.User.objects.create(
+            username="staff", email="staff@test.com", is_staff=True
+        )
+        cls.enduser = auth_models.User.objects.create(
+            username="end", email="end@test.com"
+        )
+
+    def test_get_requires_staff(self):
+        self.client.force_login(self.enduser)
+        for name in ('create_notice', 'create_news'):
+            response = self.client.get(reverse(f'announcements:{name}'))
+            self.assertEqual(response.status_code, 403)
+
+    def test_get(self):
+        self.client.force_login(self.staff)
+        for name in ('create_notice', 'create_news'):
+            response = self.client.get(reverse(f'announcements:{name}'))
+            self.assertEqual(response.status_code, 200)
+
+    def test_post_notice_starting_now_without_initial_update(self):
+        # Unlike an outage, a notice may start immediately with just
+        # its description, and needs no planned end.
+        self.client.force_login(self.staff)
+        now = timezone.now()
+        response = self.client.post(
+            reverse('announcements:create_notice'),
+            data={
+                "title": "CVE-2026-0001",
+                "description": "Patch your instances",
+                "start": now.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SEVERE,
+                "planned_end": "",
+                "status": "",
+                "content": "",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        notice = models.Announcement.objects.get(title="CVE-2026-0001")
+        self.assertEqual(models.Category.NOTICE, notice.category)
+        self.assertEqual(models.SEVERE, notice.severity)
+        self.assertEqual(self.staff, notice.created_by)
+        self.assertEqual(0, notice.updates.count())
+
+    def test_post_future_notice_without_planned_end(self):
+        self.client.force_login(self.staff)
+        future = timezone.now() + timedelta(days=1)
+        response = self.client.post(
+            reverse('announcements:create_notice'),
+            data={
+                "title": "Heatwave",
+                "description": "DC cooling at risk",
+                "start": future.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SIGNIFICANT,
+                "planned_end": "",
+                "status": "",
+                "content": "",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        notice = models.Announcement.objects.get(title="Heatwave")
+        self.assertEqual(models.Category.NOTICE, notice.category)
+
+    def test_post_news(self):
+        self.client.force_login(self.staff)
+        now = timezone.now()
+        response = self.client.post(
+            reverse('announcements:create_news'),
+            data={
+                "title": "New flavors available",
+                "description": "Bigger and better",
+                "start": now.strftime("%Y-%m-%dT%H:%M:%S"),
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        news = models.Announcement.objects.get(title="New flavors available")
+        self.assertEqual(models.Category.NEWS, news.category)
+        self.assertIsNone(news.severity)
+        self.assertIsNone(news.planned_end)
+        self.assertEqual(self.staff, news.created_by)
+        self.assertEqual("Published", news.status_display)
+
+
+class NewsLifecycleGuardTests(test.TestCase):
+    """News is lifecycle-free: update/end/cancel must all refuse it."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = auth_models.User.objects.create(
+            username="staff", email="staff@test.com", is_staff=True
+        )
+
+    def setUp(self):
+        self.client.force_login(self.staff)
+        self.news = _make_outage(
+            self.staff,
+            title="Some news",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() - timedelta(hours=1),
+        )
+
+    def _assert_bad_request(self, response):
+        self.assertTemplateUsed(response, "error.html")
+
+    def test_add_update_refused(self):
+        response = self.client.get(
+            reverse('announcements:add_update', args=[self.news.id])
+        )
+        self._assert_bad_request(response)
+
+    def test_add_update_post_refused(self):
+        response = self.client.post(
+            reverse('announcements:add_update', args=[self.news.id]),
+            data={
+                "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": models.INVESTIGATING,
+                "content": "nope",
+            },
+        )
+        self._assert_bad_request(response)
+        self.assertEqual(0, self.news.updates.count())
+
+    def test_end_refused(self):
+        response = self.client.get(
+            reverse('announcements:end', args=[self.news.id])
+        )
+        self._assert_bad_request(response)
+        response = self.client.post(
+            reverse('announcements:end', args=[self.news.id]), data={}
+        )
+        self._assert_bad_request(response)
+        self.news.refresh_from_db()
+        self.assertIsNone(self.news.end)
+
+    def test_cancel_refused_even_for_future_news(self):
+        future_news = _make_outage(
+            self.staff,
+            title="Scheduled post",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() + timedelta(hours=2),
+        )
+        response = self.client.get(
+            reverse('announcements:cancel', args=[future_news.id])
+        )
+        self._assert_bad_request(response)
+
+    def test_news_detail_renders_without_lifecycle_ui(self):
+        response = self.client.get(self.news.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Published:")
+        self.assertNotContains(response, 'id="update"')
+        self.assertNotContains(response, 'id="end"')
+        self.assertNotContains(response, 'id="cancel"')
+        self.assertNotContains(response, "<h2>Updates</h2>", html=False)
+        # Admin edit stays available to staff.
+        self.assertContains(response, 'id="edit"')
+
+
+class NoticeLifecycleTests(test.TestCase):
+    """A notice reuses the outage lifecycle: updates and End work."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = auth_models.User.objects.create(
+            username="staff", email="staff@test.com", is_staff=True
+        )
+
+    def setUp(self):
+        self.client.force_login(self.staff)
+        self.notice = _make_outage(
+            self.staff,
+            title="A hazard",
+            category=models.Category.NOTICE,
+            start=timezone.now() - timedelta(hours=1),
+        )
+
+    def test_add_update(self):
+        response = self.client.post(
+            reverse('announcements:add_update', args=[self.notice.id]),
+            data={
+                "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": models.INVESTIGATING,
+                "content": "assessing",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(1, self.notice.updates.count())
+
+    def test_end_stands_down_the_notice(self):
+        response = self.client.post(
+            reverse('announcements:end', args=[self.notice.id]), data={}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.notice.refresh_from_db()
+        self.assertIsNotNone(self.notice.end)
+
+
+class ListCategoryFilterTests(test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="filt", email="filt@test.com"
+        )
+        _make_outage(cls.user, title="an outage")
+        _make_outage(
+            cls.user, title="a notice", category=models.Category.NOTICE
+        )
+        _make_outage(
+            cls.user,
+            title="some news",
+            category=models.Category.NEWS,
+            severity=None,
+        )
+
+    def _titles(self, params=None):
+        response = self.client.get(reverse('announcements:list'), params or {})
+        return {o.title for o in response.context['filter'].qs}
+
+    def test_all_categories_by_default(self):
+        self.assertEqual(
+            {"an outage", "a notice", "some news"}, self._titles()
+        )
+
+    def test_category_filter(self):
+        self.assertEqual({"an outage"}, self._titles({'category': 'outage'}))
+        self.assertEqual({"a notice"}, self._titles({'category': 'notice'}))
+        self.assertEqual({"some news"}, self._titles({'category': 'news'}))

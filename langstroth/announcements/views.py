@@ -142,6 +142,26 @@ class OutageCreateView(BaseCreateView):
         return reverse('announcements:detail', args=[self.object.id])
 
 
+class NoticeCreateView(OutageCreateView):
+    """Create a hazard or security notice.
+
+    The category comes from the form (NoticeForm), which stamps it on
+    the instance before validation.
+    """
+
+    form_class = forms.NoticeForm
+    template_name = "announcements/create_notice.html"
+    title = "Create Notice"
+
+
+class NewsCreateView(OutageCreateView):
+    """Create a news item (lifecycle-free post)."""
+
+    form_class = forms.NewsForm
+    template_name = "announcements/create_news.html"
+    title = "Create News Item"
+
+
 class BaseUpdateCreateView(BaseCreateView):
     model = models.AnnouncementUpdate
     form_class = forms.OutageUpdateForm
@@ -205,9 +225,13 @@ class UpdateOutageView(BaseUpdateCreateView):
             outage = models.Announcement.objects.select_for_update().get(
                 pk=self.pk
             )
-            if outage.cancelled or outage.start > timezone.now():
+            if (
+                outage.category == models.Category.NEWS
+                or outage.cancelled
+                or outage.start > timezone.now()
+            ):
                 raise BadRequest(
-                    f"Outage {self.pk} in wrong state for update."
+                    f"Announcement {self.pk} in wrong state for update."
                 )
             # If the operator is reopening a resolved outage, clear `end`.
             if (
@@ -220,9 +244,16 @@ class UpdateOutageView(BaseUpdateCreateView):
             return super().form_valid(form)
 
     def check_state(self):
+        # News is lifecycle-free: no updates, ever.
         outage = self.get_outage()
-        if outage.cancelled or outage.start > timezone.now():
-            raise BadRequest(f"Outage {self.pk} in wrong state for update.")
+        if (
+            outage.category == models.Category.NEWS
+            or outage.cancelled
+            or outage.start > timezone.now()
+        ):
+            raise BadRequest(
+                f"Announcement {self.pk} in wrong state for update."
+            )
 
 
 class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
@@ -265,11 +296,14 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
                 pk=self.pk
             )
             if (
-                outage.cancelled
+                outage.category == models.Category.NEWS
+                or outage.cancelled
                 or outage.end is not None
                 or outage.start > now
             ):
-                raise BadRequest(f"Outage {self.pk} in wrong state to end.")
+                raise BadRequest(
+                    f"Announcement {self.pk} in wrong state to end."
+                )
             outage.end = now
             outage.modified_by = self.request.user
             outage.save()
@@ -285,13 +319,15 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
         return super().form_valid(form)
 
     def check_state(self):
+        # News is lifecycle-free: it has no End action.
         outage = self.get_outage()
         if (
-            outage.cancelled
+            outage.category == models.Category.NEWS
+            or outage.cancelled
             or outage.end is not None
             or outage.start > timezone.now()
         ):
-            raise BadRequest(f"Outage {self.pk} in wrong state to end.")
+            raise BadRequest(f"Announcement {self.pk} in wrong state to end.")
 
     def test_func(self):
         return self.request.user.is_staff
@@ -317,17 +353,27 @@ class CancelOutageView(
             outage = models.Announcement.objects.select_for_update().get(
                 pk=kwargs['pk']
             )
-            if outage.cancelled or outage.start <= timezone.now():
-                raise BadRequest("Outage is in wrong state to cancel.")
+            if (
+                outage.category == models.Category.NEWS
+                or outage.cancelled
+                or outage.start <= timezone.now()
+            ):
+                raise BadRequest("Announcement is in wrong state to cancel.")
             outage.cancelled = True
             outage.modified_by = self.request.user
             outage.save()
         return shortcuts.redirect(reverse('announcements:list'))
 
     def _check_state(self):
+        # Retracting a news item is admin-only (set `cancelled` there);
+        # the Cancel action is for not-yet-started outages/notices.
         outage = self.get_object()
-        if outage.cancelled or outage.start <= timezone.now():
-            raise BadRequest("Outage is in wrong state to cancel.")
+        if (
+            outage.category == models.Category.NEWS
+            or outage.cancelled
+            or outage.start <= timezone.now()
+        ):
+            raise BadRequest("Announcement is in wrong state to cancel.")
         return outage
 
     def test_func(self):

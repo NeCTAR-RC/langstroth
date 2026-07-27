@@ -1,23 +1,36 @@
 {% load static %}
 <div class="d-flex">
+  {% if outage.severity %}
   <div class="announcement-severity">
     <img class="severity-dial-sm" src="{% get_static_prefix %}img/severity{{ outage.severity }}.svg" />
   </div>
+  {% endif %}
   <div class="announcement-details ps-4">
     <h5 class="text-uppercase">
-      {% if outage.end %}(Completed)&nbsp;{% endif %}
-      {{ outage.scheduled_display }} Outage
+      {% if outage.category == 'news' %}
+        News
+      {% elif outage.category == 'notice' %}
+        {% if outage.end %}(Completed)&nbsp;{% endif %}
+        Notice
+      {% else %}
+        {% if outage.end %}(Completed)&nbsp;{% endif %}
+        {{ outage.scheduled_display }} Outage
+      {% endif %}
     </h5>
     <h4>
       {{ outage.title }}
     </h4>
     <p>
+      {% if outage.category == 'news' %}
+      <strong>Published:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}
+      {% else %}
       <strong>Status:</strong> {{ outage.status_display }}
       <strong>Start:</strong> {{ outage.start|date:"D, j M Y g:ia (T)" }}{% if outage.is_upcoming %} (scheduled){% endif %}
       {% if outage.end %}
       <strong>End:</strong> {{ outage.end|date:"D, j M Y g:ia (T)" }}
       {% elif outage.planned_end %}
       <strong>Planned end:</strong> {{ outage.planned_end|date:"D, j M Y g:ia (T)" }}
+      {% endif %}
       {% endif %}
     </p>
     <a href="{{ outage.get_absolute_url }}" class="card-link"><span class="card-link-btn">View announcement</span></a>

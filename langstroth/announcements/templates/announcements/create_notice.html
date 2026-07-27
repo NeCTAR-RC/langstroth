@@ -1,0 +1,26 @@
+{% extends "announcements/create.html" %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'announcements:list' %}">Announcements</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create notice</li>
+    </ol>
+  </nav>
+  <h1 class="pb-4">Create a Notice</h1>
+  <p>
+    A notice announces a hazard or security issue that is not (yet) a service
+    outage &mdash; for example a CVE affecting instances, or a heatwave that
+    may affect data centre cooling. It carries a severity and can be updated
+    as the situation evolves; end it when the hazard is stood down. Unlike an
+    outage, a planned end is always optional and no initial update is
+    required.
+  </p>
+</div>
+{% endblock %}
+
+{% block initial-update-help %}
+<p class="form-text">Optional for notices &mdash; provide one to record the initial assessment.</p>
+{% endblock %}
