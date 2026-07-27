@@ -16,6 +16,9 @@ from langstroth import views
 
 router = routers.DefaultRouter()
 router.register(r'outages', api.OutageViewSet, basename='outage')
+router.register(
+    r'announcements', api.AnnouncementViewSet, basename='announcement'
+)
 
 
 urlpatterns = [

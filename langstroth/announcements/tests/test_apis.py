@@ -353,3 +353,136 @@ class OutageEndpointPinningTestCase(test.APITestCase):
         # exposed on /api/v1/announcements/ only.
         response = self.client.get(f'/api/v1/outages/{self.outage.pk}/')
         self.assertNotIn('category', json.loads(response.content))
+
+
+@freeze_time("2026-07-01 10:00:00")
+class AnnouncementEndpointTestCase(test.APITestCase):
+    """/api/v1/announcements/ serves every category with a clean
+    contract: a `category` discriminator and none of the scheduled_*
+    back-compat aliases carried by /api/v1/outages/.
+    """
+
+    def setUp(self):
+        self.user = auth_models.User.objects.create(
+            username="test", email="test@test.com"
+        )
+        self.outage = models.Announcement.objects.create(
+            title="outage",
+            description="d",
+            start=timezone.now() - timedelta(hours=1),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+        models.AnnouncementUpdate.objects.create(
+            outage=self.outage,
+            status=models.INVESTIGATING,
+            content="looking",
+            time=timezone.now(),
+            created_by=self.user,
+        )
+        self.news = models.Announcement.objects.create(
+            title="news",
+            description="we shipped a thing",
+            category=models.Category.NEWS,
+            start=timezone.now() - timedelta(days=1),
+            severity=None,
+            created_by=self.user,
+        )
+        self.notice = models.Announcement.objects.create(
+            title="notice",
+            description="CVE-2026-0001",
+            category=models.Category.NOTICE,
+            start=timezone.now() - timedelta(hours=2),
+            severity=models.SEVERE,
+            created_by=self.user,
+        )
+
+    def _results(self, url):
+        response = self.client.get(url)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        return json.loads(response.content)['results']
+
+    def test_list_serves_all_categories(self):
+        results = self._results('/api/v1/announcements/')
+        self.assertEqual(
+            {"outage", "news", "notice"}, {r['title'] for r in results}
+        )
+        self.assertEqual(
+            {'outage', 'news', 'notice'}, {r['category'] for r in results}
+        )
+
+    def test_news_serialisation(self):
+        results = self._results('/api/v1/announcements/?category=news')
+        self.assertEqual(1, len(results))
+        news = results[0]
+        self.assertEqual(
+            {
+                'id': self.news.id,
+                'title': "news",
+                'description': "we shipped a thing",
+                'category': 'news',
+                'start': '2026-06-30T10:00:00+0000',
+                'planned_end': None,
+                'end': None,
+                'severity': None,
+                'severity_display': None,
+                'scheduled': False,
+                'scheduled_display': 'unscheduled',
+                'status_display': 'Published',
+                'cancelled': False,
+                'updates': [],
+            },
+            news,
+        )
+
+    def test_no_backcompat_aliases(self):
+        results = self._results('/api/v1/announcements/')
+        for result in results:
+            self.assertNotIn('scheduled_start', result)
+            self.assertNotIn('scheduled_end', result)
+            self.assertNotIn('scheduled_severity', result)
+
+    def test_nested_updates_have_no_severity_alias(self):
+        results = self._results('/api/v1/announcements/?category=outage')
+        self.assertEqual(
+            [
+                {
+                    'content': "looking",
+                    'time': '2026-07-01T10:00:00+0000',
+                    'status': models.INVESTIGATING,
+                }
+            ],
+            results[0]['updates'],
+        )
+
+    def test_category_in_filter(self):
+        results = self._results(
+            '/api/v1/announcements/?category__in=news,notice'
+        )
+        self.assertEqual({"news", "notice"}, {r['title'] for r in results})
+
+    def test_activity_active_excludes_news(self):
+        results = self._results('/api/v1/announcements/?activity=active')
+        self.assertEqual({"outage", "notice"}, {r['title'] for r in results})
+
+    def test_severity_filter(self):
+        results = self._results('/api/v1/announcements/?severity=3')
+        self.assertEqual({"notice"}, {r['title'] for r in results})
+
+    def test_read_only(self):
+        response = self.client.post('/api/v1/announcements/', {})
+        self.assertEqual(
+            status.HTTP_405_METHOD_NOT_ALLOWED, response.status_code
+        )
+
+    def test_detail_serves_any_category(self):
+        for item in (self.outage, self.news, self.notice):
+            response = self.client.get(f'/api/v1/announcements/{item.pk}/')
+            self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_pagination_shape(self):
+        response = self.client.get('/api/v1/announcements/?page_size=2')
+        content = json.loads(response.content)
+        self.assertEqual(3, content['count'])
+        self.assertEqual(2, len(content['results']))
+        self.assertIsNotNone(content['next'])

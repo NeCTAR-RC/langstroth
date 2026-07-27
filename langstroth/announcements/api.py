@@ -102,3 +102,68 @@ class OutageViewSet(viewsets.ReadOnlyModelViewSet):
         return models.Announcement.objects.filter(
             category=models.Category.OUTAGE
         ).prefetch_related('updates')
+
+
+class AnnouncementUpdateSerializer(serializers.ModelSerializer):
+    # Unlike OutageUpdateSerializer there is no `severity` alias: that
+    # exists only for pre-refactor clients of /api/v1/outages/.
+
+    class Meta:
+        model = models.AnnouncementUpdate
+        fields = ('content', 'time', 'status')
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    severity_display = serializers.ReadOnlyField()
+    scheduled_display = serializers.ReadOnlyField()
+    status_display = serializers.ReadOnlyField()
+    updates = AnnouncementUpdateSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Announcement
+        # Public fields only -- new model fields don't leak by default.
+        # Clean contract: none of the scheduled_* back-compat aliases
+        # that /api/v1/outages/ carries. Consumers discriminate item
+        # types on `category`.
+        fields = (
+            'id',
+            'title',
+            'description',
+            'category',
+            'start',
+            'planned_end',
+            'end',
+            'severity',
+            'severity_display',
+            'scheduled',
+            'scheduled_display',
+            'status_display',
+            'cancelled',
+            'updates',
+        )
+
+
+class AnnouncementFilter(OutageFilter):
+    class Meta(OutageFilter.Meta):
+        fields = {
+            **OutageFilter.Meta.fields,
+            'category': ['exact', 'in'],
+        }
+
+
+class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
+    """All announcement categories: outages, news, notices.
+
+    /api/v1/outages/ stays pinned to outages for backwards
+    compatibility; new consumers should use this endpoint.
+    """
+
+    serializer_class = AnnouncementSerializer
+    filterset_class = AnnouncementFilter
+    filter_backends = [rest_filters.DjangoFilterBackend]
+    # Public status-page data, as above.
+    permission_classes = [permissions.AllowAny]
+    pagination_class = OutagePagination
+
+    def get_queryset(self):
+        return models.Announcement.objects.prefetch_related('updates')
