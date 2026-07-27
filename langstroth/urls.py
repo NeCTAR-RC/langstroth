@@ -9,8 +9,8 @@ from health_check.views import HealthCheckView
 from mozilla_django_oidc import views as oidc_views
 from rest_framework import routers
 
+from langstroth.announcements import api
 from langstroth import error
-from langstroth.outages import api
 from langstroth import views
 
 
@@ -43,7 +43,19 @@ urlpatterns = [
     # Allocations Browser
     re_path(r'^allocations/', include('langstroth.nectar_allocations.urls')),
     # Outages
-    re_path(r'^outages/', include('langstroth.outages.urls')),
+    re_path(r'^announcements/', include('langstroth.announcements.urls')),
+    # Redirect from the old announcement URLs. Deployed dashboards
+    # link to /outages/<pk>/ (OUTAGE_BASE_URL) and calendar clients
+    # subscribe to /outages/calendar.ics, so keep these working.
+    re_path(
+        r'^outages/(?P<rest>.*)$',
+        RedirectView.as_view(
+            url='/announcements/%(rest)s',
+            permanent=True,
+            query_string=True,
+        ),
+        name='outages-redirect',
+    ),
     # API
     re_path(r'^api/v1/', include(router.urls)),
     # Favicon (dev)

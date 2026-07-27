@@ -367,6 +367,11 @@ TEMPLATES = [
 
 INSTALLED_APPS = [
     'langstroth',
+    'langstroth.announcements',
+    # Migrations-only stub kept so existing databases and fresh
+    # installs share one migration history across the outages ->
+    # announcements app rename. Remove after the rename release has
+    # been deployed everywhere.
     'langstroth.outages',
     'langstroth.nectar_allocations',
     'langstroth.user_statistics',

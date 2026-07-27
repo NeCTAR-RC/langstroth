@@ -1,8 +1,8 @@
 from django.urls import re_path
 
-from langstroth.outages import views
+from langstroth.announcements import views
 
-app_name = 'outages'
+app_name = 'announcements'
 urlpatterns = [
     re_path(r'^$', views.index_page, name='list'),
     re_path(

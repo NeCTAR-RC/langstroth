@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from langstroth.outages import models
+from langstroth.announcements import models
 
 
 class UpdateInline(admin.TabularInline):

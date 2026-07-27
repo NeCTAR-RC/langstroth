@@ -5,7 +5,7 @@ from django.db import transaction
 from django import forms
 from django.utils import timezone
 
-from langstroth.outages import models
+from langstroth.announcements import models
 
 
 PICKER_OPTS = {

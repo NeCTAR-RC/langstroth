@@ -4,9 +4,9 @@ from django.test import TestCase
 from django.utils import timezone
 from freezegun import freeze_time
 
+from langstroth.announcements import forms
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import forms
-from langstroth.outages import models
 
 
 class OutageFormTests(TestCase):

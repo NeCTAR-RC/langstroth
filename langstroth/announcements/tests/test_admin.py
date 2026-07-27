@@ -5,9 +5,9 @@ from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.utils import timezone
 
+from langstroth.announcements import admin
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import admin
-from langstroth.outages import models
 
 
 def _make_outage(user, **overrides):

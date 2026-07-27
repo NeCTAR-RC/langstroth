@@ -6,8 +6,8 @@ from django.utils import timezone
 from freezegun import freeze_time
 from icalendar import Calendar
 
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import models
 
 
 def _make_outage(user, **overrides):
@@ -34,12 +34,12 @@ class ListAndDetailTests(test.TestCase):
         )
 
     def test_list(self):
-        response = self.client.get(reverse('outages:list'))
+        response = self.client.get(reverse('announcements:list'))
         self.assertEqual(response.status_code, 200)
 
     def test_list_staff(self):
         self.client.force_login(self.user)
-        response = self.client.get(reverse('outages:list'))
+        response = self.client.get(reverse('announcements:list'))
         self.assertEqual(response.status_code, 200)
 
     def test_detail(self):
@@ -69,7 +69,7 @@ class ListAndDetailTests(test.TestCase):
         # updates = 4. If this number drifts upward without an
         # explanation, an N+1 has probably been reintroduced.
         with self.assertNumQueries(4):
-            response = self.client.get(reverse('outages:list'))
+            response = self.client.get(reverse('announcements:list'))
         self.assertEqual(response.status_code, 200)
 
 
@@ -85,12 +85,12 @@ class CreateOutageTests(test.TestCase):
 
     def test_get_requires_staff(self):
         self.client.force_login(self.enduser)
-        response = self.client.get(reverse('outages:create'))
+        response = self.client.get(reverse('announcements:create'))
         self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         self.client.force_login(self.staff)
-        response = self.client.get(reverse('outages:create'))
+        response = self.client.get(reverse('announcements:create'))
         self.assertEqual(response.status_code, 200)
 
     def test_post_future_start(self):
@@ -98,7 +98,7 @@ class CreateOutageTests(test.TestCase):
         future = timezone.now() + timedelta(days=1)
         planned_end = future + timedelta(hours=2)
         response = self.client.post(
-            reverse('outages:create'),
+            reverse('announcements:create'),
             data={
                 "title": "Maintenance",
                 "description": "Routine",
@@ -118,7 +118,7 @@ class CreateOutageTests(test.TestCase):
         self.client.force_login(self.staff)
         now = timezone.now()
         response = self.client.post(
-            reverse('outages:create'),
+            reverse('announcements:create'),
             data={
                 "title": "Broken",
                 "description": "Down",
@@ -163,7 +163,7 @@ class UpdateAndEndFlowTests(test.TestCase):
 
     def test_add_update_get(self):
         response = self.client.get(
-            reverse('outages:add_update', args=[self.outage.id])
+            reverse('announcements:add_update', args=[self.outage.id])
         )
         self.assertEqual(response.status_code, 200)
 
@@ -172,7 +172,7 @@ class UpdateAndEndFlowTests(test.TestCase):
             self.staff, start=timezone.now() + timedelta(hours=2)
         )
         response = self.client.get(
-            reverse('outages:add_update', args=[future.id])
+            reverse('announcements:add_update', args=[future.id])
         )
         self._assert_bad_request(response)
 
@@ -183,13 +183,13 @@ class UpdateAndEndFlowTests(test.TestCase):
         future.cancelled = True
         future.save()
         response = self.client.get(
-            reverse('outages:add_update', args=[future.id])
+            reverse('announcements:add_update', args=[future.id])
         )
         self._assert_bad_request(response)
 
     def test_add_update_post(self):
         response = self.client.post(
-            reverse('outages:add_update', args=[self.outage.id]),
+            reverse('announcements:add_update', args=[self.outage.id]),
             data={
                 "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
                 "status": models.INVESTIGATING,
@@ -206,7 +206,7 @@ class UpdateAndEndFlowTests(test.TestCase):
         self._add_update(status=models.RESOLVED)
 
         response = self.client.post(
-            reverse('outages:add_update', args=[self.outage.id]),
+            reverse('announcements:add_update', args=[self.outage.id]),
             data={
                 "time": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
                 "status": models.PROGRESSING,
@@ -219,7 +219,7 @@ class UpdateAndEndFlowTests(test.TestCase):
 
     def test_end_get(self):
         response = self.client.get(
-            reverse('outages:end', args=[self.outage.id])
+            reverse('announcements:end', args=[self.outage.id])
         )
         self.assertEqual(response.status_code, 200)
 
@@ -227,7 +227,7 @@ class UpdateAndEndFlowTests(test.TestCase):
         self.outage.end = timezone.now()
         self.outage.save()
         response = self.client.get(
-            reverse('outages:end', args=[self.outage.id])
+            reverse('announcements:end', args=[self.outage.id])
         )
         self._assert_bad_request(response)
 
@@ -235,20 +235,22 @@ class UpdateAndEndFlowTests(test.TestCase):
         future = _make_outage(
             self.staff, start=timezone.now() + timedelta(hours=2)
         )
-        response = self.client.get(reverse('outages:end', args=[future.id]))
+        response = self.client.get(
+            reverse('announcements:end', args=[future.id])
+        )
         self._assert_bad_request(response)
 
     def test_end_blocked_when_cancelled(self):
         self.outage.cancelled = True
         self.outage.save()
         response = self.client.get(
-            reverse('outages:end', args=[self.outage.id])
+            reverse('announcements:end', args=[self.outage.id])
         )
         self._assert_bad_request(response)
 
     def test_end_post_sets_end_field(self):
         response = self.client.post(
-            reverse('outages:end', args=[self.outage.id]),
+            reverse('announcements:end', args=[self.outage.id]),
             data={"content": ""},
         )
         self.assertEqual(response.status_code, 302)
@@ -258,7 +260,7 @@ class UpdateAndEndFlowTests(test.TestCase):
 
     def test_end_post_with_final_note_creates_resolved_update(self):
         response = self.client.post(
-            reverse('outages:end', args=[self.outage.id]),
+            reverse('announcements:end', args=[self.outage.id]),
             data={"content": "all clear"},
         )
         self.assertEqual(response.status_code, 302)
@@ -285,13 +287,13 @@ class CancelOutageTests(test.TestCase):
 
     def test_cancel_get(self):
         response = self.client.get(
-            reverse('outages:cancel', args=[self.future.id])
+            reverse('announcements:cancel', args=[self.future.id])
         )
         self.assertEqual(response.status_code, 200)
 
     def test_cancel_post(self):
         response = self.client.post(
-            reverse('outages:cancel', args=[self.future.id])
+            reverse('announcements:cancel', args=[self.future.id])
         )
         self.assertEqual(response.status_code, 302)
         self.future.refresh_from_db()
@@ -302,7 +304,7 @@ class CancelOutageTests(test.TestCase):
             self.staff, start=timezone.now() - timedelta(minutes=1)
         )
         response = self.client.get(
-            reverse('outages:cancel', args=[started.id])
+            reverse('announcements:cancel', args=[started.id])
         )
         self.assertTemplateUsed(response, "error.html")
 
@@ -310,7 +312,7 @@ class CancelOutageTests(test.TestCase):
         self.future.cancelled = True
         self.future.save()
         response = self.client.get(
-            reverse('outages:cancel', args=[self.future.id])
+            reverse('announcements:cancel', args=[self.future.id])
         )
         self.assertTemplateUsed(response, "error.html")
 
@@ -342,43 +344,43 @@ class FilterTests(test.TestCase):
 
     def test_filter_time_window_1m(self):
         response = self.client.get(
-            reverse('outages:list'), {'time_window': '1m'}
+            reverse('announcements:list'), {'time_window': '1m'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_time_window_6m(self):
         response = self.client.get(
-            reverse('outages:list'), {'time_window': '6m'}
+            reverse('announcements:list'), {'time_window': '6m'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_time_window_1y(self):
         response = self.client.get(
-            reverse('outages:list'), {'time_window': '1y'}
+            reverse('announcements:list'), {'time_window': '1y'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_ordering_reverse(self):
         response = self.client.get(
-            reverse('outages:list'), {'ordering': 'reverse'}
+            reverse('announcements:list'), {'ordering': 'reverse'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_activity_upcoming(self):
         response = self.client.get(
-            reverse('outages:list'), {'activity': 'upcoming'}
+            reverse('announcements:list'), {'activity': 'upcoming'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_activity_active(self):
         response = self.client.get(
-            reverse('outages:list'), {'activity': 'active'}
+            reverse('announcements:list'), {'activity': 'active'}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_filter_activity_completed(self):
         response = self.client.get(
-            reverse('outages:list'), {'activity': 'completed'}
+            reverse('announcements:list'), {'activity': 'completed'}
         )
         self.assertEqual(response.status_code, 200)
 
@@ -412,7 +414,7 @@ class CalendarTests(test.TestCase):
         )
 
     def _get_calendar(self):
-        response = self.client.get(reverse('outages:calendar'))
+        response = self.client.get(reverse('announcements:calendar'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response['Content-Type'], 'text/calendar; charset=utf-8'
@@ -421,7 +423,7 @@ class CalendarTests(test.TestCase):
 
     def test_calendar_is_public(self):
         # No authentication required.
-        response = self.client.get(reverse('outages:calendar'))
+        response = self.client.get(reverse('announcements:calendar'))
         self.assertEqual(response.status_code, 200)
 
     def test_calendar_lists_all_outages(self):
@@ -497,3 +499,34 @@ class CalendarTests(test.TestCase):
         # The recent outages are still present.
         self.assertIn("Scheduled maintenance", summaries)
         self.assertIn("Resolved outage", summaries)
+
+
+class OldUrlRedirectTests(test.TestCase):
+    """The web pages moved /outages/... -> /announcements/...
+
+    Deployed dashboards link to /outages/<pk>/ (OUTAGE_BASE_URL) and
+    calendar clients subscribe to /outages/calendar.ics, so the old
+    paths must permanently redirect.
+    """
+
+    def test_list_redirects(self):
+        response = self.client.get('/outages/')
+        self.assertEqual(301, response.status_code)
+        self.assertEqual('/announcements/', response['Location'])
+
+    def test_detail_redirects(self):
+        response = self.client.get('/outages/42/')
+        self.assertEqual(301, response.status_code)
+        self.assertEqual('/announcements/42/', response['Location'])
+
+    def test_calendar_redirects(self):
+        response = self.client.get('/outages/calendar.ics')
+        self.assertEqual(301, response.status_code)
+        self.assertEqual('/announcements/calendar.ics', response['Location'])
+
+    def test_query_string_preserved(self):
+        response = self.client.get('/outages/?activity=active')
+        self.assertEqual(301, response.status_code)
+        self.assertEqual(
+            '/announcements/?activity=active', response['Location']
+        )

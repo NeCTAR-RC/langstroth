@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'outages:list' %}">Announcements</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'announcements:list' %}">Announcements</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ outage.title }}</li>
       </ol>
     </nav>
@@ -16,16 +16,16 @@
       {% if request.user.is_staff %}
         <div class="ms-auto btn-bar">
           {% if outage.is_current %}
-            <a href="{% url 'outages:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
+            <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="update"><i class="fa fa-plus"></i> New update</a>
           {% elif outage.end %}
-            <a href="{% url 'outages:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
+            <a href="{% url 'announcements:add_update' outage.id %}" class="btn btn-outline-primary btn-sm" id="reopen"><i class="fas fa-undo"></i> Reopen</a>
           {% endif %}
           {% if outage.is_upcoming %}
-            <a href="{% url 'outages:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
+            <a href="{% url 'announcements:cancel' outage.id %}" class="btn btn-outline-primary btn-sm" id="cancel"><i class="fa fa-times"></i> Cancel</a>
           {% endif %}
-          <a href="/admin/outages/announcement/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
+          <a href="/admin/announcements/announcement/{{ outage.id }}/change/" class="btn btn-outline-primary btn-sm" id="edit"><i class="fa fa-pen"></i> Edit</a>
           {% if outage.is_current %}
-            <a href="{% url 'outages:end' outage.id %}" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
+            <a href="{% url 'announcements:end' outage.id %}" class="btn btn-outline-primary btn-sm" id="end"><i class="fa fa-stop"></i> End</a>
           {% endif %}
         </div>
       {% endif %}

@@ -133,7 +133,7 @@ class Announcement(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("outages:detail", kwargs={'pk': self.pk})
+        return reverse("announcements:detail", kwargs={'pk': self.pk})
 
     @property
     def visible_updates(self):

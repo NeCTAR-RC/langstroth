@@ -15,11 +15,11 @@ from django.utils import timezone
 import lxml.etree
 import requests
 
+from langstroth.announcements import filters
+from langstroth.announcements import models
 from langstroth import metrics
 from langstroth.nagios import get_availability
 from langstroth.nagios import get_status
-from langstroth.outages import filters
-from langstroth.outages import models
 
 LOG = logging.getLogger(__name__)
 

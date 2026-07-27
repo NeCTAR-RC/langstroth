@@ -7,8 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import models
 from langstroth.tests.base import SeleniumTestBase
 
 PASSWORD = '12345'
@@ -19,7 +19,7 @@ class OutageTestEmpty(SeleniumTestBase):
     """Unauthenticated tests when there are no outages."""
 
     def test_outages(self):
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
             self.driver.title,
@@ -28,7 +28,7 @@ class OutageTestEmpty(SeleniumTestBase):
             self.driver.find_element(By.CLASS_NAME, "card-body")
 
     def test_outage_0(self):
-        self.driver.get(f'{self.live_server_url}/outages/0')
+        self.driver.get(f'{self.live_server_url}/announcements/0')
         self.assertEqual("Not Found", self.driver.title)
 
 
@@ -69,12 +69,12 @@ class OutageTestPopulated(SeleniumTestBase):
         banner = self.driver.find_element(By.ID, "status-banner")
         link = banner.find_element(By.TAG_NAME, "a")
         self.assertEqual(
-            f"{self.live_server_url}/outages/{self.outage.id}/",
+            f"{self.live_server_url}/announcements/{self.outage.id}/",
             link.get_attribute("href"),
         )
 
     def test_outages(self):
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
             self.driver.title,
@@ -93,7 +93,9 @@ class OutageTestPopulated(SeleniumTestBase):
             self.driver.find_element(By.ID, "create")
 
     def test_outage_0(self):
-        self.driver.get(f'{self.live_server_url}/outages/{self.outage.id}')
+        self.driver.get(
+            f'{self.live_server_url}/announcements/{self.outage.id}'
+        )
         self.assertEqual(
             "Compute Cloud Dashboard - Announcement Details",
             self.driver.title,
@@ -182,7 +184,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         _login_admin(self.driver, self.live_server_url, self.admin)
 
         # Create page reachable from the one "Create outage" button.
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Outage Announcement",
@@ -221,7 +223,7 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_create_now_outage_with_initial_update(self):
         _login_admin(self.driver, self.live_server_url, self.admin)
 
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
 
         now = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -265,7 +267,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         )
 
         _login_admin(self.driver, self.live_server_url, self.admin)
-        self.driver.get(f'{self.live_server_url}/outages/{outage.id}/')
+        self.driver.get(f'{self.live_server_url}/announcements/{outage.id}/')
 
         # Add an update.
         self.driver.find_element(By.ID, "update").click()
@@ -354,7 +356,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         )
 
         _login_admin(self.driver, self.live_server_url, self.admin)
-        self.driver.get(f'{self.live_server_url}/outages/{outage.id}/')
+        self.driver.get(f'{self.live_server_url}/announcements/{outage.id}/')
 
         self.driver.find_element(By.ID, "cancel").click()
         self.assertEqual(

@@ -4,8 +4,8 @@ from rest_framework import permissions
 from rest_framework import serializers
 from rest_framework import viewsets
 
-from langstroth.outages import filters
-from langstroth.outages import models
+from langstroth.announcements import filters
+from langstroth.announcements import models
 
 
 class OutagePagination(PageNumberPagination):

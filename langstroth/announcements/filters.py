@@ -5,7 +5,7 @@ from django import forms
 from django.utils import timezone
 import django_filters
 
-from langstroth.outages import models
+from langstroth.announcements import models
 
 
 class ActivityFilterMixin:
@@ -89,8 +89,8 @@ class OrderingFilter(ChoiceFilter):
 
 
 class CustomRadioSelect(forms.widgets.RadioSelect):
-    option_template_name = 'outages/widgets/radio_option.html'
-    template_name = 'outages/widgets/radio.html'
+    option_template_name = 'announcements/widgets/radio_option.html'
+    template_name = 'announcements/widgets/radio.html'
 
 
 class CustomBooleanFilter(django_filters.BooleanFilter):

@@ -6,7 +6,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'outages:list' %}">Announcements</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'announcements:list' %}">Announcements</a></li>
       <li class="breadcrumb-item active" aria-current="page">Create</li>
     </ol>
   </nav>
@@ -101,7 +101,7 @@
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Create</button>
-        <a href="{% url 'outages:list' %}" class="btn btn-link">Back to announcements</a>
+        <a href="{% url 'announcements:list' %}" class="btn btn-link">Back to announcements</a>
       </form>
     </div>
   </div>

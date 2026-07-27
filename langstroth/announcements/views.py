@@ -12,9 +12,9 @@ from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView
 
-from langstroth.outages import filters
-from langstroth.outages import forms
-from langstroth.outages import models
+from langstroth.announcements import filters
+from langstroth.announcements import forms
+from langstroth.announcements import models
 
 
 def outage_calendar(request):
@@ -84,7 +84,7 @@ def index_page(request):
         queryset=models.Announcement.objects.prefetch_related('updates'),
     )
     context = {"title": "Service Announcements", "tagline": "", "filter": f}
-    return shortcuts.render(request, "outages/list.html", context)
+    return shortcuts.render(request, "announcements/list.html", context)
 
 
 class BaseDetailView(DetailView):
@@ -116,7 +116,7 @@ class BaseCreateView(
 
 class OutageDetailView(BaseDetailView):
     queryset = models.Announcement.objects.all()
-    template_name = "outages/detail.html"
+    template_name = "announcements/detail.html"
     title = "Announcement Details"
 
 
@@ -129,7 +129,7 @@ class OutageCreateView(BaseCreateView):
 
     model = models.Announcement
     form_class = forms.OutageForm
-    template_name = "outages/create.html"
+    template_name = "announcements/create.html"
     title = "Create Outage Announcement"
 
     def form_valid(self, form):
@@ -137,7 +137,7 @@ class OutageCreateView(BaseCreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.object.id])
+        return reverse('announcements:detail', args=[self.object.id])
 
 
 class BaseUpdateCreateView(BaseCreateView):
@@ -172,10 +172,10 @@ class BaseUpdateCreateView(BaseCreateView):
 class UpdateOutageView(BaseUpdateCreateView):
     """Add an update to an outage that is in progress."""
 
-    template_name = "outages/add_update.html"
+    template_name = "announcements/add_update.html"
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.pk])
+        return reverse('announcements:detail', args=[self.pk])
 
     def get_initial(self):
         outage = self.get_outage()
@@ -226,7 +226,7 @@ class UpdateOutageView(BaseUpdateCreateView):
 class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
     """End an in-progress outage by stamping `outage.end`."""
 
-    template_name = "outages/end.html"
+    template_name = "announcements/end.html"
     form_class = forms.OutageEndForm
     title = "End Outage Announcement"
 
@@ -249,7 +249,7 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
         return context
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.pk])
+        return reverse('announcements:detail', args=[self.pk])
 
     def get_outage(self):
         return models.Announcement.objects.get(pk=self.pk)
@@ -301,7 +301,7 @@ class CancelOutageView(
     """Cancel an outage that has not yet started."""
 
     queryset = models.Announcement.objects.all()
-    template_name = "outages/cancel.html"
+    template_name = "announcements/cancel.html"
     title = "Confirm Cancellation"
 
     def get(self, request, **kwargs):
@@ -320,7 +320,7 @@ class CancelOutageView(
             outage.cancelled = True
             outage.modified_by = self.request.user
             outage.save()
-        return shortcuts.redirect(reverse('outages:list'))
+        return shortcuts.redirect(reverse('announcements:list'))
 
     def _check_state(self):
         outage = self.get_object()

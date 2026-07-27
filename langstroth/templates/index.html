@@ -174,7 +174,7 @@
       {% for outage in active %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
@@ -185,7 +185,7 @@
       {% for outage in upcoming %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
@@ -196,14 +196,14 @@
       {% for outage in completed %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
     {% endif %}
 
     <div class="my-5 text-center">
-      <a class="btn btn-primary" href="/outages">View all announcements</a>
+      <a class="btn btn-primary" href="{% url 'announcements:list' %}">View all announcements</a>
     </div>
 
   </div> <!-- .container -->

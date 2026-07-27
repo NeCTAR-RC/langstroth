@@ -11,7 +11,7 @@ migration_0008 = import_module(
 
 
 class RenamePermissionsTests(TestCase):
-    """Cover the auth.Permission remap in migration 0008.
+    """Cover the auth.Permission remap in outages migration 0008.
 
     On a fresh database the RunPython is a no-op (permissions are only
     created by post_migrate, after all migrations ran), so the full
@@ -22,20 +22,15 @@ class RenamePermissionsTests(TestCase):
     """
 
     def setUp(self):
-        # The renamed model's content type as it looks mid-upgrade
-        # (RenameModel has already updated the `model` field).
-        self.content_type = ContentType.objects.get(
+        # Recreate the content type as it looked when 0008 ran
+        # mid-upgrade: RenameModel had updated the `model` field, but
+        # the app move to `announcements` had not yet happened.
+        self.content_type = ContentType.objects.create(
             app_label='outages', model='announcement'
         )
         self.group = Group.objects.get_or_create(name='outage_managers')[0]
 
     def _make_legacy_permission(self):
-        # Post-migrate has already created the new-codename permissions
-        # in the test database; remove one to recreate the pre-remap
-        # state where only the old codename exists.
-        Permission.objects.filter(
-            content_type=self.content_type, codename='add_announcement'
-        ).delete()
         permission = Permission.objects.create(
             content_type=self.content_type,
             codename='add_outage',
@@ -53,7 +48,9 @@ class RenamePermissionsTests(TestCase):
         self.assertEqual('add_announcement', permission.codename)
         self.assertEqual('Can add announcement', permission.name)
         self.assertTrue(
-            self.group.permissions.filter(codename='add_announcement').exists()
+            self.group.permissions.filter(codename='add_announcement')
+            .exclude(content_type__app_label='announcements')
+            .exists()
         )
 
     def test_remap_is_idempotent(self):
@@ -70,14 +67,42 @@ class RenamePermissionsTests(TestCase):
             ).count(),
         )
 
-    def test_fresh_database_permissions_use_new_codenames(self):
-        # post_migrate created the standard permissions from the
-        # renamed models: new codenames present, old ones absent.
+
+class AppMoveTests(TestCase):
+    """Assert the end state of the outages -> announcements app move.
+
+    The test database is built by running the full migration chain, so
+    these tests prove outages/0009 + announcements/0001 leave content
+    types and permissions where the application expects them.
+    """
+
+    def test_content_types_moved_to_announcements(self):
+        self.assertTrue(
+            ContentType.objects.filter(
+                app_label='announcements', model='announcement'
+            ).exists()
+        )
+        self.assertTrue(
+            ContentType.objects.filter(
+                app_label='announcements', model='announcementupdate'
+            ).exists()
+        )
+        self.assertFalse(
+            ContentType.objects.filter(app_label='outages').exists()
+        )
+
+    def test_permissions_use_new_codenames_and_label(self):
         codenames = set(
             Permission.objects.filter(
-                content_type__app_label='outages'
+                content_type__app_label='announcements'
             ).values_list('codename', flat=True)
         )
         self.assertIn('add_announcement', codenames)
         self.assertIn('view_announcementupdate', codenames)
         self.assertNotIn('add_outage', codenames)
+        # No duplicate permission set survived under the old label.
+        self.assertFalse(
+            Permission.objects.filter(
+                content_type__app_label='outages'
+            ).exists()
+        )

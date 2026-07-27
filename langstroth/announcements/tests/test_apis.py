@@ -6,8 +6,8 @@ from freezegun import freeze_time
 from rest_framework import status
 from rest_framework import test
 
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import models
 
 
 @freeze_time("2012-01-14 14:32:24")
