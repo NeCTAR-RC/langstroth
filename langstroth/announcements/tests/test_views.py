@@ -757,6 +757,14 @@ class NoticeLifecycleTests(test.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(1, self.notice.updates.count())
 
+    def test_end_page_uses_notice_wording(self):
+        response = self.client.get(
+            reverse('announcements:end', args=[self.notice.id])
+        )
+        self.assertContains(response, "End this notice")
+        self.assertContains(response, "End Notice")
+        self.assertNotContains(response, "End this outage")
+
     def test_end_stands_down_the_notice(self):
         response = self.client.post(
             reverse('announcements:end', args=[self.notice.id]), data={}
@@ -781,6 +789,9 @@ class ListCategoryFilterTests(test.TestCase):
             title="some news",
             category=models.Category.NEWS,
             severity=None,
+            # Published: _make_outage's default start is in the
+            # future, which would be an embargoed scheduled post.
+            start=timezone.now() - timedelta(hours=1),
         )
 
     def _titles(self, params=None):
@@ -862,3 +873,62 @@ class ListPaginationTests(test.TestCase):
     def test_empty_state(self):
         response = self._get({'time_window': '1m', 'activity': 'completed'})
         self.assertContains(response, "No announcements match these filters.")
+
+
+class NewsEmbargoAndRetractionTests(test.TestCase):
+    """Scheduled (future-start) news is embargoed on every public
+    surface until its publish time; retracted (cancelled) news is
+    visibly labelled.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = auth_models.User.objects.create(
+            username="staff", email="staff@test.com", is_staff=True
+        )
+        cls.embargoed = _make_outage(
+            cls.staff,
+            title="Embargoed feature news",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() + timedelta(days=2),
+        )
+        cls.retracted = _make_outage(
+            cls.staff,
+            title="Retracted news",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() - timedelta(days=1),
+            cancelled=True,
+        )
+
+    def test_archive_hides_embargoed_news(self):
+        response = self.client.get(reverse('announcements:list'))
+        self.assertNotContains(response, "Embargoed feature news")
+
+    def test_detail_404s_embargoed_news_for_public(self):
+        response = self.client.get(self.embargoed.get_absolute_url())
+        self.assertEqual(404, response.status_code)
+
+    def test_detail_serves_embargoed_news_to_staff(self):
+        # The create flow redirects to the detail page, so staff must
+        # be able to preview scheduled news.
+        self.client.force_login(self.staff)
+        response = self.client.get(self.embargoed.get_absolute_url())
+        self.assertEqual(200, response.status_code)
+
+    def test_upcoming_outages_and_notices_unaffected_by_embargo(self):
+        upcoming = _make_outage(
+            self.staff,
+            title="Upcoming maintenance",
+            start=timezone.now() + timedelta(days=1),
+        )
+        response = self.client.get(reverse('announcements:list'))
+        self.assertContains(response, upcoming.title)
+
+    def test_retracted_news_is_labelled(self):
+        response = self.client.get(self.retracted.get_absolute_url())
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "(Retracted)")
+        list_response = self.client.get(reverse('announcements:list'))
+        self.assertContains(list_response, "(Retracted)")

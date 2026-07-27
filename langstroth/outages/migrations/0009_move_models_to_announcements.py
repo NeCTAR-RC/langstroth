@@ -4,9 +4,15 @@
 # stay in place and are adopted (and renamed) by the announcements
 # app's 0001_initial, which depends on this migration. This app then
 # remains as a migrations-only stub so existing databases and fresh
-# installs share one migration history; it can be deleted (leaving
-# harmless orphan django_migrations rows) once the rename release has
-# been deployed everywhere.
+# installs share one migration history.
+#
+# The stub must NOT simply be deleted later: announcements/0001
+# declares a dependency on this migration, so removing the app makes
+# MigrationLoader raise NodeNotFoundError on every migrate (and
+# dropping the dependency instead would break fresh installs, whose
+# tables are built by this app's chain). It stays until the migration
+# history is squashed/reset as a whole. It is a single tiny package,
+# so the carrying cost is negligible.
 
 from django.db import migrations
 

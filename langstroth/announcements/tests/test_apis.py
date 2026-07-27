@@ -486,3 +486,42 @@ class AnnouncementEndpointTestCase(test.APITestCase):
         self.assertEqual(3, content['count'])
         self.assertEqual(2, len(content['results']))
         self.assertIsNotNone(content['next'])
+
+
+class AnnouncementEmbargoAPITestCase(test.APITestCase):
+    def setUp(self):
+        self.user = auth_models.User.objects.create(
+            username="embargo", email="embargo@test.com"
+        )
+        self.embargoed = models.Announcement.objects.create(
+            title="Embargoed news",
+            description="secret until launch",
+            category=models.Category.NEWS,
+            start=timezone.now() + timedelta(days=1),
+            severity=None,
+            created_by=self.user,
+        )
+        self.retracted = models.Announcement.objects.create(
+            title="Retracted news",
+            description="was wrong",
+            category=models.Category.NEWS,
+            start=timezone.now() - timedelta(days=1),
+            severity=None,
+            cancelled=True,
+            created_by=self.user,
+        )
+
+    def test_embargoed_news_absent_from_list_and_detail(self):
+        response = self.client.get('/api/v1/announcements/')
+        titles = {r['title'] for r in json.loads(response.content)['results']}
+        self.assertNotIn("Embargoed news", titles)
+        detail = self.client.get(f'/api/v1/announcements/{self.embargoed.pk}/')
+        self.assertEqual(status.HTTP_404_NOT_FOUND, detail.status_code)
+
+    def test_retracted_news_reports_retracted(self):
+        response = self.client.get(
+            f'/api/v1/announcements/{self.retracted.pk}/'
+        )
+        content = json.loads(response.content)
+        self.assertEqual("Retracted", content['status_display'])
+        self.assertTrue(content['cancelled'])

@@ -111,3 +111,38 @@ class HelperTests(TestCase):
         Group.objects.get_or_create(name='outage_managers')
         group = admin.get_outage_manager_group()
         self.assertEqual('outage_managers', group.name)
+
+
+class UpdateInlineNewsGuardTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="inline", email="inline@test", is_superuser=True
+        )
+
+    def _inline(self):
+        return admin.UpdateInline(models.Announcement, AdminSite())
+
+    def test_no_add_rows_for_news(self):
+        news = models.Announcement.objects.create(
+            title="n",
+            description="d",
+            category=models.Category.NEWS,
+            start=timezone.now(),
+            severity=None,
+            created_by=self.user,
+        )
+        request = mock.Mock(user=self.user)
+        self.assertFalse(self._inline().has_add_permission(request, news))
+
+    def test_add_rows_allowed_for_outages_and_add_page(self):
+        outage = models.Announcement.objects.create(
+            title="o",
+            description="d",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+        request = mock.Mock(user=self.user)
+        self.assertTrue(self._inline().has_add_permission(request, outage))
+        self.assertTrue(self._inline().has_add_permission(request, None))

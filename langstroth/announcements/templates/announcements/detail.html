@@ -36,6 +36,7 @@
       <div class="col-12 col-md-8 col-xl-9" id="outage-{{ outage.id }}">
         <h5 class="text-uppercase">
           {% if outage.category == 'news' %}
+            {% if outage.cancelled %}(Retracted)&nbsp;{% endif %}
             News
           {% elif outage.category == 'notice' %}
             Notice

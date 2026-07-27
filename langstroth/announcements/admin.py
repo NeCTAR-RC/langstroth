@@ -9,6 +9,13 @@ class UpdateInline(admin.TabularInline):
     extra = 0
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 
+    def has_add_permission(self, request, obj=None):
+        # News is lifecycle-free: no updates. (Model-level clean()
+        # enforces this too; hiding the add rows is admin UX.)
+        if obj is not None and obj.category == models.Category.NEWS:
+            return False
+        return super().has_add_permission(request, obj)
+
 
 @admin.register(models.Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):

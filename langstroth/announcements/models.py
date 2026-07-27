@@ -199,11 +199,24 @@ class Announcement(models.Model):
     def clean(self):
         # Enforced here (rather than only in the create forms) so the
         # admin -- the de facto edit UI -- upholds the invariant too.
+        # The whole news invariant matters: recently_ended() relies
+        # on news never having `end`/`planned_end`.
         if self.category == Category.NEWS:
+            errors = {}
             if self.severity is not None:
-                raise ValidationError(
-                    {'severity': "News must not have a severity."}
+                errors['severity'] = "News must not have a severity."
+            if self.planned_end is not None:
+                errors['planned_end'] = (
+                    "News is lifecycle-free and must not have a "
+                    "planned end. Retract it by setting cancelled."
                 )
+            if self.end is not None:
+                errors['end'] = (
+                    "News is lifecycle-free and must not have an "
+                    "end. Retract it by setting cancelled."
+                )
+            if errors:
+                raise ValidationError(errors)
         elif self.severity is None:
             raise ValidationError(
                 {'severity': "Outages and notices require a severity."}
@@ -250,7 +263,8 @@ class Announcement(models.Model):
     @property
     def status_display(self):
         if self.category == Category.NEWS:
-            return "Published"
+            # `cancelled` on news means retracted (admin-only action).
+            return "Retracted" if self.cancelled else "Published"
         if self.cancelled:
             return "Cancelled"
         if self.end:
@@ -289,6 +303,12 @@ class AnnouncementUpdate(models.Model):
 
     class Meta:
         ordering = ['time', 'pk']
+
+    def clean(self):
+        # News is lifecycle-free: no updates, ever. The web views
+        # refuse this; enforce it for the admin inline too.
+        if self.outage_id and self.outage.category == Category.NEWS:
+            raise ValidationError("News must not have updates.")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -131,11 +131,14 @@ class CategoryTests(TestCase):
     def test_news_status_display_is_published(self):
         news = self._make(category=models.Category.NEWS, severity=None)
         self.assertEqual("Published", news.status_display)
-        # Even a cancelled (retracted) news item stays "Published" --
-        # retraction is admin-only and the item is filtered out of
-        # public views instead.
+
+    def test_retracted_news_status_display(self):
+        # Retraction (cancelled, admin-only) must be visible --
+        # otherwise a retracted item is indistinguishable from live
+        # news on every surface.
+        news = self._make(category=models.Category.NEWS, severity=None)
         news.cancelled = True
-        self.assertEqual("Published", news.status_display)
+        self.assertEqual("Retracted", news.status_display)
 
     def test_severity_display_none_for_null_severity(self):
         news = self._make(category=models.Category.NEWS, severity=None)
@@ -178,6 +181,36 @@ class CategoryTests(TestCase):
         )
         with self.assertRaises(ValidationError):
             news.clean()
+
+    def test_clean_rejects_end_and_planned_end_on_news(self):
+        # recently_ended() relies on news never having an end; without
+        # this an admin edit makes a news row look like a recently
+        # ended outage.
+        for field in ('end', 'planned_end'):
+            news = models.Announcement(
+                title="t",
+                description="d",
+                category=models.Category.NEWS,
+                start=timezone.now(),
+                severity=None,
+                created_by=self.user,
+                **{field: timezone.now()},
+            )
+            with self.assertRaises(ValidationError) as caught:
+                news.clean()
+            self.assertIn(field, caught.exception.message_dict)
+
+    def test_update_clean_rejects_news_parent(self):
+        news = self._make(category=models.Category.NEWS, severity=None)
+        update = models.AnnouncementUpdate(
+            outage=news,
+            time=timezone.now(),
+            status=models.INVESTIGATING,
+            content="nope",
+            created_by=self.user,
+        )
+        with self.assertRaises(ValidationError):
+            update.clean()
 
     def test_clean_accepts_valid_rows(self):
         self._make().clean()

@@ -78,13 +78,23 @@ def outage_calendar(request):
     return response
 
 
+def _hide_unpublished_news(queryset):
+    # A future `start` on news is a scheduled publication (an
+    # embargo); it must not be visible on public surfaces until then.
+    return queryset.exclude(
+        category=models.Category.NEWS, start__gt=timezone.now()
+    )
+
+
 def index_page(request):
     # `status_display` reads `latest_update`, which iterates
     # self.updates.all() -- prefetch keeps it O(1) queries per page
     # instead of O(n).
     f = filters.AnnouncementFilters(
         request.GET,
-        queryset=models.Announcement.objects.prefetch_related('updates'),
+        queryset=_hide_unpublished_news(
+            models.Announcement.objects.prefetch_related('updates')
+        ),
     )
     paginator = Paginator(f.qs, 20)
     # get_page() absorbs invalid and out-of-range page numbers. The
@@ -134,9 +144,16 @@ class BaseCreateView(
 
 
 class OutageDetailView(BaseDetailView):
-    queryset = models.Announcement.objects.all()
     template_name = "announcements/detail.html"
     title = "Announcement Details"
+
+    def get_queryset(self):
+        # Staff can preview scheduled (embargoed) news -- the create
+        # flow redirects here; everyone else 404s until publication.
+        queryset = models.Announcement.objects.all()
+        if self.request.user.is_staff:
+            return queryset
+        return _hide_unpublished_news(queryset)
 
 
 class OutageCreateView(BaseCreateView):
@@ -187,6 +204,12 @@ class BaseUpdateCreateView(BaseCreateView):
     def setup(self, request, *args, **kwargs):
         self.pk = kwargs.pop('pk')
         return super().setup(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_outage().category == models.Category.NOTICE:
+            context['title'] = "Notice Update"
+        return context
 
     def get(self, request, **kwargs):
         self.check_state()
@@ -294,8 +317,13 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.title
-        context['outage'] = self.get_outage()
+        outage = self.get_outage()
+        context['title'] = (
+            "End Notice"
+            if outage.category == models.Category.NOTICE
+            else self.title
+        )
+        context['outage'] = outage
         return context
 
     def get_success_url(self):

@@ -370,8 +370,10 @@ INSTALLED_APPS = [
     'langstroth.announcements',
     # Migrations-only stub kept so existing databases and fresh
     # installs share one migration history across the outages ->
-    # announcements app rename. Remove after the rename release has
-    # been deployed everywhere.
+    # announcements app rename. Do not remove: announcements/0001
+    # depends on outages/0009, so deleting the stub breaks migrate
+    # with NodeNotFoundError. It stays until the migration history is
+    # squashed/reset as a whole.
     'langstroth.outages',
     'langstroth.nectar_allocations',
     'langstroth.user_statistics',

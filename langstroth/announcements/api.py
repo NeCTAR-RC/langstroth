@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django_filters import rest_framework as rest_filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions
@@ -166,4 +167,9 @@ class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = OutagePagination
 
     def get_queryset(self):
-        return models.Announcement.objects.prefetch_related('updates')
+        # A future `start` on news is a scheduled publication (an
+        # embargo): hidden until then, like the other public surfaces.
+        return models.Announcement.objects.exclude(
+            category=models.Category.NEWS,
+            start__gt=timezone.now(),
+        ).prefetch_related('updates')

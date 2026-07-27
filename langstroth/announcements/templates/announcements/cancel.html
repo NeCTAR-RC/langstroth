@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mb-4">
   <div class="alert alert-danger">
-    Are you sure you want to cancel this Service Outage?
+    Are you sure you want to cancel this announcement?
   </div>
   <form action="{% url 'announcements:cancel' outage.id %}" method="post">
     {% csrf_token %}

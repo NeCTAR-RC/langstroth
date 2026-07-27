@@ -8,6 +8,7 @@
   <div class="announcement-details ps-4">
     <h5 class="text-uppercase">
       {% if outage.category == 'news' %}
+        {% if outage.cancelled %}(Retracted)&nbsp;{% endif %}
         News
       {% elif outage.category == 'notice' %}
         {% if outage.end %}(Completed)&nbsp;{% endif %}

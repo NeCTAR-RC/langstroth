@@ -14,7 +14,7 @@
   <h1 class="pb-4">Service Announcement</h1>
   <div class="row">
     <div class="col-12 col-md-8 col-xl-9">
-      <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+      <h5 class="text-uppercase">{% if outage.category == 'notice' %}Notice{% else %}{{ outage.scheduled_display }} Outage{% endif %}</h5>
       <h3>{{ outage.title }}</h3>
     </div>
   </div>
@@ -25,9 +25,15 @@
 <div class="container mb-4">
   <div class="card">
     <div class="card-body">
+      {% if outage.category == 'notice' %}
+      <h2>End this notice</h2>
+      <hr />
+      <p>Ending the notice stands it down and stamps the end time as now. You may optionally add a final resolved-status update.</p>
+      {% else %}
       <h2>End this outage</h2>
       <hr />
       <p>Ending the outage stamps the end time as now. You may optionally add a final resolved-status update.</p>
+      {% endif %}
       <form action="" method="post">
         {% csrf_token %}
         <fieldset>
@@ -44,7 +50,7 @@
             {% endif %}
           </div>
         </fieldset>
-        <button type="submit" class="btn btn-danger">End the Outage</button>
+        <button type="submit" class="btn btn-danger">{% if outage.category == 'notice' %}End the Notice{% else %}End the Outage{% endif %}</button>
         <a href="{% url 'announcements:detail' outage.id %}" class="btn btn-link">Back to announcement</a>
       </form>
     </div>
