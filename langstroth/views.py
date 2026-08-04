@@ -1,4 +1,3 @@
-from collections import defaultdict
 import datetime
 from dateutil.relativedelta import relativedelta
 from json import dumps
@@ -16,7 +15,6 @@ from django.utils import timezone
 import lxml.etree
 import requests
 
-from langstroth import graphite
 from langstroth import metrics
 from langstroth.nagios import get_availability
 from langstroth.nagios import get_status
@@ -265,43 +263,39 @@ def composition(request, name):
         raise Http404
 
 
-# Allowed Graphite time-window expressions for the from= / until= /
-# summarise= query parameters. Restricting these prevents callers from
-# slipping arbitrary Graphite functions into the metric target string
-# (which is built by f-string interpolation in graphite.Target).
-_GRAPHITE_RELATIVE_RE = re.compile(
+# Allowed time-window expressions for the from= / until= / summarise=
+# query parameters. Restricting these keeps arbitrary text out of the
+# queries the metrics backend builds by string interpolation.
+_RELATIVE_RE = re.compile(
     r'^-?\d+(?:s|seconds?|min|minutes?|h|hours?|d|days?|w|weeks?|mon|months?|y|years?)$'
 )
-_GRAPHITE_ABSOLUTE_RE = re.compile(r'^\d{8}$')  # yyyymmdd
-_GRAPHITE_SUMMARISE_RE = re.compile(
+_ABSOLUTE_RE = re.compile(r'^\d{8}$')  # yyyymmdd
+_SUMMARISE_RE = re.compile(
     r'^\d+(?:s|seconds?|min|minutes?|h|hours?|d|days?|w|weeks?|mon|months?|y|years?)$'
 )
 
 
-def _safe_graphite_window(value, default=None):
-    """Return value if it is a recognised relative-or-absolute Graphite
-    time expression; else default. Rejects anything that could break out
-    of a Graphite function-call string."""
+def _safe_window(value, default=None):
+    """Return value if it is a recognised relative-or-absolute time
+    expression; else default."""
     if value is None:
         return default
-    if _GRAPHITE_RELATIVE_RE.match(value) or _GRAPHITE_ABSOLUTE_RE.match(
-        value
-    ):
+    if _RELATIVE_RE.match(value) or _ABSOLUTE_RE.match(value):
         return value
     return default
 
 
-def _safe_graphite_summarise(value):
+def _safe_summarise(value):
     if value is None:
         return None
-    if _GRAPHITE_SUMMARISE_RE.match(value):
+    if _SUMMARISE_RE.match(value):
         return value
     return None
 
 
-def _safe_graphite_token(value, default='all'):
+def _safe_token(value, default='all'):
     """Allow only alphanumeric / underscore / dash so the value cannot
-    close a Graphite function-call string or inject extra expressions."""
+    inject extra query expressions."""
     if value is None:
         return default
     if re.match(r'^[A-Za-z0-9_-]+$', value):
@@ -309,28 +303,13 @@ def _safe_graphite_token(value, default='all'):
     return default
 
 
-def _graphite_unavailable():
-    return HttpResponse(dumps([]), content_type='application/json', status=503)
-
-
-def _graphite_json(req):
-    """Pull JSON from a Graphite response or raise to the caller.
-
-    Graphite returns text/html with a stack trace on error; raise so the
-    caller can surface a 503 instead of leaking the trace into the JSON
-    deserialiser.
-    """
-    req.raise_for_status()
-    return req.json()
-
-
 def _metrics_unavailable():
     return HttpResponse(dumps([]), content_type='application/json', status=503)
 
 
-def _growth_from_victoriametrics(metric, series, q_from, q_until, q_summarise):
-    """Growth chart data from VictoriaMetrics in the same JSON shape
-    (including null-fill behaviour) as the Graphite path."""
+def _growth_series(metric, series, q_from, q_until, q_summarise):
+    """Growth chart data in the null-filled JSON shape the front-end
+    charts consume."""
     try:
         data = metrics.aggregate_series(
             metric,
@@ -339,132 +318,58 @@ def _growth_from_victoriametrics(metric, series, q_from, q_until, q_summarise):
             until_date=q_until,
             summarise=q_summarise,
         )
-        data = graphite.fill_null_datapoints(data, q_summarise)
+        data = metrics.fill_null_datapoints(data, q_summarise)
     except (requests.RequestException, ValueError, IndexError) as ex:
         LOG.warning(
-            "Problem fetching %s from VictoriaMetrics", metric, exc_info=ex
+            "Problem fetching %s from the metrics backend",
+            metric,
+            exc_info=ex,
         )
         return _metrics_unavailable()
     return HttpResponse(dumps(data), content_type='application/json')
 
 
 def total_instance_count(request):
-    q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
-    q_until = _safe_graphite_window(request.GET.get('until'))
-    q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
+    q_from = _safe_window(request.GET.get('from'), "-6months")
+    q_until = _safe_window(request.GET.get('until'))
+    q_summarise = _safe_summarise(request.GET.get('summarise'))
 
-    if settings.METRICS_BACKEND == 'victoriametrics':
-        return _growth_from_victoriametrics(
-            'nectar_total_instances',
-            settings.INST_SERIES,
-            q_from,
-            q_until,
-            q_summarise,
-        )
-
-    targets = [
-        graphite.Target(target).summarize(q_summarise).alias(alias)
-        for alias, target in settings.INST_TARGETS
-    ]
-
-    try:
-        req = graphite.get(
-            from_date=q_from, until_date=q_until, targets=targets
-        )
-        data = graphite.fill_null_datapoints(_graphite_json(req), q_summarise)
-    except (requests.RequestException, ValueError, IndexError) as ex:
-        LOG.warning(
-            "Problem fetching instance count from Graphite", exc_info=ex
-        )
-        return _graphite_unavailable()
-    return HttpResponse(dumps(data), content_type='application/json')
+    return _growth_series(
+        'nectar_total_instances',
+        settings.INST_SERIES,
+        q_from,
+        q_until,
+        q_summarise,
+    )
 
 
 def total_used_cores(request):
-    q_from = _safe_graphite_window(request.GET.get('from'), "-6months")
-    q_until = _safe_graphite_window(request.GET.get('until'))
-    q_summarise = _safe_graphite_summarise(request.GET.get('summarise'))
+    q_from = _safe_window(request.GET.get('from'), "-6months")
+    q_until = _safe_window(request.GET.get('until'))
+    q_summarise = _safe_summarise(request.GET.get('summarise'))
 
-    if settings.METRICS_BACKEND == 'victoriametrics':
-        return _growth_from_victoriametrics(
-            'nectar_used_vcpus',
-            settings.CORES_SERIES,
-            q_from,
-            q_until,
-            q_summarise,
-        )
-
-    targets = [
-        graphite.Target(target).summarize(q_summarise).alias(alias)
-        for alias, target in settings.CORES_TARGETS
-    ]
-
-    try:
-        req = graphite.get(
-            from_date=q_from, until_date=q_until, targets=targets
-        )
-        data = graphite.fill_null_datapoints(_graphite_json(req), q_summarise)
-    except (requests.RequestException, ValueError, IndexError) as ex:
-        LOG.warning("Problem fetching used cores from Graphite", exc_info=ex)
-        return _graphite_unavailable()
-    return HttpResponse(dumps(data), content_type='application/json')
-
-
-def first_truthy_value(datapoints):
-    """Return the first truthy value in a sequence of (value, time)
-    tuples, or 0 if none are found."""
-    for value, _time in datapoints:
-        if value:
-            return value
-    return 0
+    return _growth_series(
+        'nectar_used_vcpus',
+        settings.CORES_SERIES,
+        q_from,
+        q_until,
+        q_summarise,
+    )
 
 
 def composition_cores(request, name):
-    q_from = _safe_graphite_window(request.GET.get('from'), "-60minutes")
-    q_az = _safe_graphite_token(request.GET.get('az'), "all")
+    q_az = _safe_token(request.GET.get('az'), "all")
 
-    if settings.METRICS_BACKEND == 'victoriametrics':
-        if q_az in settings.COMPOSITION_AZ_GROUPS:
-            azs = settings.COMPOSITION_AZ_GROUPS[q_az]
-        else:
-            azs = [q_az]
-        try:
-            cleaned = metrics.composition_values(name, azs)
-        except (requests.RequestException, ValueError) as ex:
-            LOG.warning(
-                "Problem fetching composition from VictoriaMetrics",
-                exc_info=ex,
-            )
-            return _metrics_unavailable()
-        return HttpResponse(dumps(cleaned), content_type='application/json')
-
-    targets = []
-
-    if q_az in settings.COMPOSITION_QUERY:
-        targets.extend(
-            [
-                graphite.Target(target % name)
-                for target in settings.COMPOSITION_QUERY[q_az]
-            ]
-        )
+    if q_az in settings.COMPOSITION_AZ_GROUPS:
+        azs = settings.COMPOSITION_AZ_GROUPS[q_az]
     else:
-        targets.append(graphite.Target(f"az.{q_az}.{name}.*.used_vcpus"))
+        azs = [q_az]
     try:
-        req = graphite.get(from_date=q_from, targets=targets)
-        items = _graphite_json(req)
+        cleaned = metrics.composition_values(name, azs)
     except (requests.RequestException, ValueError) as ex:
-        LOG.warning("Problem fetching composition from Graphite", exc_info=ex)
-        return _graphite_unavailable()
-    cleaned = defaultdict(dict)
-    for item in items:
-        item_name = '.'.join(item['target'].split('.')[-2].split('_'))
-        data = cleaned[item_name]
-        data['target'] = item_name
-        count = first_truthy_value(item['datapoints'])
-        if data.get('value'):
-            data['value'] += count
-        else:
-            data['value'] = count
-    cleaned = list(cleaned.values())
-    cleaned.sort(key=lambda x: x['value'])
+        LOG.warning(
+            "Problem fetching composition from the metrics backend",
+            exc_info=ex,
+        )
+        return _metrics_unavailable()
     return HttpResponse(dumps(cleaned), content_type='application/json')

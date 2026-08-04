@@ -9,7 +9,7 @@ from langstroth.user_statistics.services.user_statistics import (
 )
 
 
-# Graphite time-window patterns: yyyymmdd or a relative offset like "-6months".
+# Time-window patterns: yyyymmdd or a relative offset like "-6months".
 # Anything else is dropped (the service falls back to its configured default).
 _RELATIVE_RE = re.compile(
     r'^-?\d+(?:s|seconds?|min|minutes?|h|hours?|d|days?|w|weeks?|mon|months?|y|years?)$'

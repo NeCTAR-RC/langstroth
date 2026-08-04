@@ -3,7 +3,6 @@ import logging
 from django.conf import settings
 import requests
 
-from langstroth import graphite
 from langstroth import metrics
 
 
@@ -12,8 +11,8 @@ from langstroth import metrics
 Including:
     a history of cumulative user registrations by day.
 
-Daily accumulated user counts are obtained
-by querying the Graphite service end-point.
+Daily accumulated user counts are obtained from the configured
+metrics backend.
 '''
 
 LOG = logging.getLogger(__name__)
@@ -25,41 +24,13 @@ def find_daily_accumulated_users(from_date=None, until_date=None):
 
     Returns an empty list if the metrics backend is unavailable.
     '''
-    if settings.METRICS_BACKEND == 'victoriametrics':
-        from_date = from_date or settings.USER_STATISTICS_START_DATE
-        try:
-            data = metrics.user_statistics_series(from_date, until_date)
-            return graphite.filter_null_datapoints(data)
-        except (requests.RequestException, ValueError) as ex:
-            LOG.warning(
-                "Problem fetching user statistics from VictoriaMetrics",
-                exc_info=ex,
-            )
-            return []
-
-    targets = []
-
-    targets.append(
-        graphite.Target('users.total')
-        .smartSummarize('1d', 'max')
-        .alias('Cumulative')
-    )
-    targets.append(
-        graphite.Target('users.total')
-        .smartSummarize('1d', 'max')
-        .derivative()
-        .alias('Frequency')
-    )
-
     from_date = from_date or settings.USER_STATISTICS_START_DATE
     try:
-        response = graphite.get(
-            from_date=from_date, until_date=until_date, targets=targets
-        )
-        response.raise_for_status()
-        return graphite.filter_null_datapoints(response.json())
+        data = metrics.user_statistics_series(from_date, until_date)
+        return metrics.filter_null_datapoints(data)
     except (requests.RequestException, ValueError) as ex:
         LOG.warning(
-            "Problem fetching user statistics from Graphite", exc_info=ex
+            "Problem fetching user statistics from the metrics backend",
+            exc_info=ex,
         )
         return []

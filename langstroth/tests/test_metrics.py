@@ -3,10 +3,12 @@ from unittest import mock
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
+from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 from django.test import TestCase
 
 from langstroth import metrics
+from langstroth.metrics import victoriametrics
 
 
 # Divisible by 86400 so the step-aligned query grids in these tests
@@ -23,30 +25,52 @@ def fake_response(result):
     return response
 
 
+class BackendDispatchTests(TestCase):
+    def test_default_backend_is_victoriametrics(self):
+        self.assertIs(victoriametrics, metrics.get_backend())
+
+    @override_settings(METRICS_BACKEND='langstroth.metrics.victoriametrics')
+    def test_dotted_module_path(self):
+        self.assertIs(victoriametrics, metrics.get_backend())
+
+    @override_settings(METRICS_BACKEND='no.such.backend')
+    def test_unknown_backend_raises(self):
+        with self.assertRaises(ImproperlyConfigured):
+            metrics.get_backend()
+
+    @mock.patch('langstroth.metrics.victoriametrics.aggregate_series')
+    def test_wrappers_delegate_to_backend(self, mock_agg):
+        mock_agg.return_value = []
+        self.assertEqual([], metrics.aggregate_series('nectar_used_vcpus', []))
+        mock_agg.assert_called_once_with('nectar_used_vcpus', [])
+
+
 class TimeParsingTests(TestCase):
     def test_window_seconds(self):
-        self.assertEqual(3600, metrics.window_seconds('1hour'))
-        self.assertEqual(43200, metrics.window_seconds('12hours'))
-        self.assertEqual(86400, metrics.window_seconds('1days'))
-        self.assertEqual(864000, metrics.window_seconds('10days'))
-        self.assertEqual(15552000, metrics.window_seconds('-6months'))
-        self.assertEqual(31536000, metrics.window_seconds('-1years'))
+        self.assertEqual(3600, victoriametrics.window_seconds('1hour'))
+        self.assertEqual(43200, victoriametrics.window_seconds('12hours'))
+        self.assertEqual(86400, victoriametrics.window_seconds('1days'))
+        self.assertEqual(864000, victoriametrics.window_seconds('10days'))
+        self.assertEqual(15552000, victoriametrics.window_seconds('-6months'))
+        self.assertEqual(31536000, victoriametrics.window_seconds('-1years'))
 
     def test_window_seconds_invalid(self):
         with self.assertRaises(ValueError):
-            metrics.window_seconds('drop table')
+            victoriametrics.window_seconds('drop table')
 
     def test_parse_time_relative(self):
-        self.assertEqual(NOW - 86400, metrics.parse_time('-1day', NOW))
-        self.assertEqual(NOW, metrics.parse_time(None, NOW))
+        self.assertEqual(NOW - 86400, victoriametrics.parse_time('-1day', NOW))
+        self.assertEqual(NOW, victoriametrics.parse_time(None, NOW))
 
     @override_settings(TIME_ZONE='UTC')
     def test_parse_time_absolute_utc(self):
         # 2012-01-01T00:00:00Z
-        self.assertEqual(1325376000, metrics.parse_time('20120101', NOW))
+        self.assertEqual(
+            1325376000, victoriametrics.parse_time('20120101', NOW)
+        )
 
 
-@mock.patch('langstroth.metrics._SESSION.get')
+@mock.patch('langstroth.metrics.victoriametrics._SESSION.get')
 @override_settings(VICTORIAMETRICS_URL='http://vm.test:8428')
 class AggregateSeriesTests(TestCase):
     def test_query_and_reshape(self, mock_get):
@@ -61,7 +85,7 @@ class AggregateSeriesTests(TestCase):
                 }
             ]
         )
-        data = metrics.aggregate_series(
+        data = victoriametrics.aggregate_series(
             'nectar_total_instances',
             [('Melbourne', ['melbourne-qh2', 'melbourne-np'])],
             from_date='-12hours',
@@ -97,7 +121,7 @@ class AggregateSeriesTests(TestCase):
 
     def test_all_azs_selector(self, mock_get):
         mock_get.return_value = fake_response([])
-        metrics.aggregate_series(
+        victoriametrics.aggregate_series(
             'nectar_used_vcpus',
             [('All', None)],
             from_date='-1day',
@@ -112,7 +136,7 @@ class AggregateSeriesTests(TestCase):
         # Helm 3 drops map keys whose override value is null, so chart
         # values spell "all availability zones" as an empty list.
         mock_get.return_value = fake_response([])
-        metrics.aggregate_series(
+        victoriametrics.aggregate_series(
             'nectar_used_vcpus',
             [('All', [])],
             from_date='-1day',
@@ -127,7 +151,7 @@ class AggregateSeriesTests(TestCase):
         # summarise=0days passes the views' sanitiser; a zero step must
         # raise ValueError (-> 503) rather than ZeroDivisionError (-> 500)
         with self.assertRaises(ValueError):
-            metrics.aggregate_series(
+            victoriametrics.aggregate_series(
                 'nectar_used_vcpus',
                 [('All', None)],
                 from_date='-1day',
@@ -141,7 +165,7 @@ class AggregateSeriesTests(TestCase):
         response.json.return_value = {'status': 'error', 'error': 'boom'}
         mock_get.return_value = response
         with self.assertRaises(ValueError):
-            metrics.aggregate_series(
+            victoriametrics.aggregate_series(
                 'nectar_used_vcpus',
                 [('All', None)],
                 from_date='-1day',
@@ -149,7 +173,7 @@ class AggregateSeriesTests(TestCase):
             )
 
 
-@mock.patch('langstroth.metrics._SESSION.get')
+@mock.patch('langstroth.metrics.victoriametrics._SESSION.get')
 @override_settings(VICTORIAMETRICS_URL='http://vm.test:8428')
 class CompositionTests(TestCase):
     def test_composition_values(self, mock_get):
@@ -162,7 +186,9 @@ class CompositionTests(TestCase):
                 {'metric': {'domain': 'edu.au'}, 'value': [NOW, '100']},
             ]
         )
-        data = metrics.composition_values('domain', ['melbourne-qh2'], now=NOW)
+        data = victoriametrics.composition_values(
+            'domain', ['melbourne-qh2'], now=NOW
+        )
         url = mock_get.call_args[0][0]
         parsed = urlparse(url)
         params = parse_qs(parsed.query)
@@ -185,21 +211,23 @@ class CompositionTests(TestCase):
 
     def test_allocation_home_metric(self, mock_get):
         mock_get.return_value = fake_response([])
-        metrics.composition_values('allocation_home', None, now=NOW)
+        victoriametrics.composition_values('allocation_home', None, now=NOW)
         params = parse_qs(urlparse(mock_get.call_args[0][0]).query)
         self.assertIn('nectar_allocation_home_used_vcpus', params['query'][0])
         self.assertIn('sum by (home)', params['query'][0])
 
     def test_unknown_name_is_empty(self, mock_get):
-        self.assertEqual([], metrics.composition_values('junk', None, now=NOW))
+        self.assertEqual(
+            [], victoriametrics.composition_values('junk', None, now=NOW)
+        )
         mock_get.assert_not_called()
 
 
-@mock.patch('langstroth.metrics._SESSION.get')
+@mock.patch('langstroth.metrics.victoriametrics._SESSION.get')
 @override_settings(VICTORIAMETRICS_URL='http://vm.test:8428', TIME_ZONE='UTC')
 class UserStatisticsTests(TestCase):
     def test_cumulative_and_frequency(self, mock_get):
-        start = metrics.parse_time('20200101', NOW)
+        start = victoriametrics.parse_time('20200101', NOW)
         # window-end evaluation timestamps, one step ahead of the
         # bucket starts asserted below
         mock_get.return_value = fake_response(
@@ -215,7 +243,7 @@ class UserStatisticsTests(TestCase):
                 }
             ]
         )
-        data = metrics.user_statistics_series(
+        data = victoriametrics.user_statistics_series(
             '20200101', until_date=None, now=NOW
         )
         params = parse_qs(urlparse(mock_get.call_args[0][0]).query)
@@ -234,7 +262,7 @@ class UserStatisticsTests(TestCase):
         self.assertEqual([None, start + 2 * 86400], cumulative[2])
         self.assertEqual([130.0, start + 3 * 86400], cumulative[3])
         # derivative: first point None, gap blanks itself AND the
-        # following point (graphite semantics)
+        # following point (legacy derivative() semantics)
         self.assertEqual([None, start], frequency[0])
         self.assertEqual([10.0, start + 86400], frequency[1])
         self.assertEqual([None, start + 2 * 86400], frequency[2])
@@ -242,10 +270,84 @@ class UserStatisticsTests(TestCase):
 
     def test_json_shape_round_trips(self, mock_get):
         mock_get.return_value = fake_response([])
-        data = metrics.user_statistics_series('20200101', now=NOW)
+        data = victoriametrics.user_statistics_series('20200101', now=NOW)
         # must serialise to the legacy JSON contract
         parsed = json.loads(json.dumps(data))
         self.assertEqual(
             ['Cumulative', 'Frequency'],
             [series['target'] for series in parsed],
         )
+
+
+class FilterNullDatapointsTests(TestCase):
+    def test_filter_strips_nulls(self):
+        data = [
+            {
+                "target": "x",
+                "datapoints": [
+                    [None, 1],
+                    [1.0, 2],
+                    [None, 3],
+                    [2.0, 4],
+                ],
+            }
+        ]
+        result = metrics.filter_null_datapoints(data)
+        self.assertEqual([[1.0, 2], [2.0, 4]], result[0]['datapoints'])
+
+
+class FillNullDatapointsTests(TestCase):
+    def test_fill_basic(self):
+        data = [
+            {
+                "datapoints": [
+                    [None, 1324130400],
+                    [1.0, 1324216800],
+                    [3.0, 1325599200],
+                    [None, 1413208800],
+                ]
+            }
+        ]
+        result = metrics.fill_null_datapoints(data)
+        self.assertEqual(
+            [
+                [0.0, 1324130400],
+                [1.0, 1324216800],
+                [3.0, 1325599200],
+                [3.0, 1413208800],
+            ],
+            result[0]['datapoints'],
+        )
+
+    def test_fill_picks_longest_template(self):
+        data = [
+            {"datapoints": [[1.0, 100], [2.0, 200]]},
+            {"datapoints": [[5.0, 100], [6.0, 200], [7.0, 300]]},
+        ]
+        result = metrics.fill_null_datapoints(data)
+        # both series end up with 3 points
+        self.assertEqual(3, len(result[0]['datapoints']))
+        self.assertEqual(3, len(result[1]['datapoints']))
+
+    def test_fill_summarise_3days_resets_after_two_misses(self):
+        # max_no_data is 2 for "3days"; once exceeded, previous_value
+        # resets to 0.0
+        tmpl_ts = list(range(1, 11))
+        data = [
+            {
+                "datapoints": [[5.0, 1]] + [[None, t] for t in tmpl_ts[1:]],
+            }
+        ]
+        result = metrics.fill_null_datapoints(data, summarise='3days')
+        # First point is the original 5.0
+        self.assertEqual(5.0, result[0]['datapoints'][0][0])
+        # Should eventually drop to 0.0 after the threshold
+        self.assertEqual(0.0, result[0]['datapoints'][-1][0])
+
+    def test_fill_summarise_1days(self):
+        data = [{"datapoints": [[1.0, 1]] + [[None, t] for t in range(2, 12)]}]
+        metrics.fill_null_datapoints(data, summarise='1days')
+
+    def test_fill_summarise_12hours(self):
+        data = [{"datapoints": [[1.0, 1]] + [[None, t] for t in range(2, 20)]}]
+        metrics.fill_null_datapoints(data, summarise='12hours')

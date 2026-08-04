@@ -1,5 +1,4 @@
-"""Tests for the VictoriaMetrics branches of the metrics views and
-the user statistics service."""
+"""Tests for the metrics views and the user statistics service."""
 
 from json import loads
 from unittest import mock
@@ -24,12 +23,11 @@ COMPOSITION = [
 
 
 @override_settings(
-    METRICS_BACKEND='victoriametrics',
     INST_SERIES=[('Melbourne', ['melbourne-qh2'])],
     CORES_SERIES=[('Melbourne', ['melbourne-qh2'])],
     COMPOSITION_AZ_GROUPS={'all': None, 'melbourne': ['melbourne-qh2']},
 )
-class VictoriaGrowthViewTests(TestCase):
+class GrowthViewTests(TestCase):
     @mock.patch('langstroth.metrics.aggregate_series')
     def test_instance_count(self, mock_agg):
         mock_agg.return_value = [
@@ -77,10 +75,9 @@ class VictoriaGrowthViewTests(TestCase):
 
 
 @override_settings(
-    METRICS_BACKEND='victoriametrics',
     COMPOSITION_AZ_GROUPS={'all': None, 'melbourne': ['melbourne-qh2']},
 )
-class VictoriaCompositionViewTests(TestCase):
+class CompositionViewTests(TestCase):
     @mock.patch('langstroth.metrics.composition_values')
     def test_known_az_group(self, mock_comp):
         mock_comp.return_value = COMPOSITION
@@ -103,11 +100,8 @@ class VictoriaCompositionViewTests(TestCase):
         self.assertEqual(503, response.status_code)
 
 
-@override_settings(
-    METRICS_BACKEND='victoriametrics',
-    USER_STATISTICS_START_DATE='20200101',
-)
-class VictoriaUserStatisticsServiceTests(TestCase):
+@override_settings(USER_STATISTICS_START_DATE='20200101')
+class UserStatisticsServiceTests(TestCase):
     @mock.patch('langstroth.metrics.user_statistics_series')
     def test_success_strips_nulls(self, mock_series):
         mock_series.return_value = [

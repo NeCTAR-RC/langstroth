@@ -44,8 +44,6 @@ NAGIOS_AUTH = ("user", "password")
 AVAILABILITY_QUERY_TEMPLATE = ""
 STATUS_QUERY_TEMPLATE = ""
 
-GRAPHITE_URL = "http://graphite.dev.rc.nectar.org.au"
-
 DEBUG_LOG = path_merge(__file__, "../logs/debug.log")  # NOQA
 
 if not path.exists(path.dirname(DEBUG_LOG)):

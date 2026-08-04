@@ -31,7 +31,7 @@ CACHES = {
 }
 
 # The URL to your Nagios installation.
-NAGIOS_URL = "http://graphite.example.com/cgi-bin/nagios3/"
+NAGIOS_URL = "http://nagios.example.com/cgi-bin/nagios3/"
 
 # The user and password to authenticate to Nagios as.
 NAGIOS_AUTH = ("user", "secret")
@@ -40,8 +40,13 @@ NAGIOS_AUTH = ("user", "secret")
 # their availability.
 NAGIOS_SERVICE_GROUP = 'api-endpoints'
 
-# The URL to the graphite web interface
-GRAPHITE_URL = "http://graphite.example.com"
+# The URL to the VictoriaMetrics server (Prometheus-compatible API).
+VICTORIAMETRICS_URL = "http://victoriametrics.example.com:8428"
+
+# Growth chart series and composition tab groupings; see defaults.py.
+# INST_SERIES = [('Melbourne', ['melbourne-qh2', 'melbourne-np'])]
+# CORES_SERIES = [('Melbourne', ['melbourne-qh2', 'melbourne-np'])]
+# COMPOSITION_AZ_GROUPS = {'all': None}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

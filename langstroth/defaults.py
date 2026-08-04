@@ -109,21 +109,18 @@ AVAILABILITY_QUERY_TEMPLATE = (
 )
 STATUS_QUERY_TEMPLATE = "status.cgi?servicegroup=%s&style=detail"
 
-# The URL to the graphite web interface
-GRAPHITE_URL = "http://graphite.test"
-
 # Which time-series backend serves the growth/composition/user
-# statistics pages: 'graphite' (legacy) or 'victoriametrics'.
-# Switching is a settings change so cutover and rollback need no
-# code deployment.
-METRICS_BACKEND = 'graphite'
+# statistics pages: a short name registered in
+# langstroth.metrics.BACKENDS or a dotted module path implementing
+# the backend interface (see langstroth/metrics/__init__.py), so a
+# future backend is one module plus a settings change.
+METRICS_BACKEND = 'victoriametrics'
 
 # The URL to the VictoriaMetrics server (Prometheus-compatible API).
 VICTORIAMETRICS_URL = "http://victoriametrics.test"
 
-# VictoriaMetrics replacements for the Graphite target lists
-# (INST_TARGETS/CORES_TARGETS/COMPOSITION_QUERY in the production
-# settings): chart alias -> the availability zones summed into it.
+# Growth chart series: chart alias -> the availability zones summed
+# into it.
 INST_SERIES = []  # [(alias, [az, ...]), ...]
 CORES_SERIES = []  # [(alias, [az, ...]), ...]
 
@@ -146,7 +143,7 @@ FOR_CODE_RANGES = {
     "all": ("00", "99"),
 }
 
-# Date from which graphite user statistics began to be collected.
+# Date from which user statistics began to be collected.
 USER_STATISTICS_START_DATE = '20111201'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False

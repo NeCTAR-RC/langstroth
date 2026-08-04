@@ -31,9 +31,9 @@ class UserStatisticsViewTest(TestCase):
         self.assertEqual(200, response.status_code)
 
     # Web services with JSON pay loads.
-    @mock.patch('langstroth.graphite._SESSION.get')
-    def test_rest_for_frequency(self, mock_get):
-        mock_get.return_value.json.return_value = daily_accumulated_users
+    @mock.patch('langstroth.metrics.user_statistics_series')
+    def test_rest_for_frequency(self, mock_series):
+        mock_series.return_value = daily_accumulated_users
         response = self.client.get(
             "/growth/users/rest/registrations/frequency"
         )

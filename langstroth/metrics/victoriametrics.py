@@ -1,17 +1,16 @@
-"""VictoriaMetrics client for the growth, composition and user
+"""VictoriaMetrics backend for the growth, composition and user
 statistics pages.
 
 Queries the Prometheus-compatible /api/v1/query_range and
 /api/v1/query endpoints with MetricsQL and reshapes the responses to
-the same JSON structures the Graphite render API produced
-([{"target": ..., "datapoints": [[value|null, ts], ...]}]), so the
-front-end JavaScript and the null-fill helpers in
-langstroth.graphite keep working unchanged.
+the JSON structures described in langstroth.metrics ([{"target": ...,
+"datapoints": [[value|null, ts], ...]}] -- originally the Graphite
+render API format, which the front-end JavaScript still consumes).
 
 Series definitions come from settings:
 
-- INST_SERIES / CORES_SERIES: [(alias, [az, ...]), ...] replacing the
-  Graphite sumSeries(...) target lists.
+- INST_SERIES / CORES_SERIES: [(alias, [az, ...]), ...] naming each
+  chart series and the availability zones summed into it.
 - COMPOSITION_AZ_GROUPS: {tab_key: [az, ...] or None} where None
   means all availability zones.
 """
@@ -28,15 +27,16 @@ from urllib3.util.retry import Retry
 
 from django.conf import settings
 
-# Matches the values accepted by the views' _safe_graphite_window /
-# _safe_graphite_summarise sanitisers.
+# Matches the values accepted by the views' _safe_window /
+# _safe_summarise sanitisers.
 _RELATIVE_RE = re.compile(
     r'^-?(?P<num>\d+)(?P<unit>s|seconds?|min|minutes?|h|hours?|d|days?'
     r'|w|weeks?|mon|months?|y|years?)$'
 )
 _ABSOLUTE_RE = re.compile(r'^(\d{4})(\d{2})(\d{2})$')  # yyyymmdd
 
-# Graphite's time unit sizes (months are 30 days, years 365).
+# Time unit sizes for the URL time expressions (months are 30 days,
+# years 365 -- inherited from Graphite, which defined this grammar).
 _UNIT_SECONDS = {
     's': 1,
     'min': 60,
@@ -87,11 +87,10 @@ def window_seconds(value):
 
 
 def parse_time(value, now=None):
-    """Convert a Graphite-style from/until value to a unix timestamp.
+    """Convert a from/until time expression to a unix timestamp.
 
     Relative expressions (-6months) are offsets from now; absolute
-    yyyymmdd dates are midnight in the Django timezone (matching a
-    graphite-web configured with the same TIME_ZONE).
+    yyyymmdd dates are midnight in the Django timezone.
     """
     now = now or int(time.time())
     if value is None:
@@ -148,7 +147,7 @@ def _shift_timestamps(result_values, step):
 
 def _grid_datapoints(result_values, start, end, step):
     """Re-grid a Prometheus matrix onto the full start..end step grid
-    with nulls for missing points, in Graphite datapoint order
+    with nulls for missing points, in the front-end's datapoint order
     ([value, timestamp])."""
     values = dict(
         (int(float(ts)), float(value)) for ts, value in result_values
@@ -183,8 +182,7 @@ def aggregate_series(
     """Range data for the growth charts.
 
     For each (alias, azs) pair, sums the per-bucket averages of the
-    metric across the availability zones - the equivalent of the old
-    alias(summarize(sumSeries(...), step, "avg"), name) targets.
+    metric across the availability zones.
     """
     now = now or int(time.time())
     start = parse_time(from_date, now)
@@ -225,8 +223,7 @@ def aggregate_series(
 
 def composition_values(name, azs, now=None):
     """Latest per-group used_vcpus composition, summed across the
-    given availability zones - the equivalent of reading the first
-    truthy value of az.<az>.<name>.<group>.used_vcpus wildcards.
+    given availability zones.
 
     Returns [{"target": group, "value": total}, ...] sorted by value.
     """
@@ -236,7 +233,7 @@ def composition_values(name, azs, now=None):
     elif name == 'allocation_home':
         metric, label = 'nectar_allocation_home_used_vcpus', 'home'
     else:
-        # Unknown composition names matched nothing in Graphite too.
+        # Unknown composition names have no data.
         return []
     query = f'sum by ({label}) (last_over_time({metric}{{az=~"{_az_selector(azs)}"}}[1h]))'
     result = query_instant(query, now)
