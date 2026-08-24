@@ -1,4 +1,4 @@
-FROM python:3.12-trixie
+FROM python:3.14-trixie
 
 ADD requirements.txt /app/requirements.txt
 

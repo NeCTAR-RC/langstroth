@@ -10,8 +10,8 @@ Langstroth is the Django-based status page for the NeCTAR Research Cloud. It sur
 
 Tests and linting run through `tox`:
 
-- `tox` — run the default envlist (`py312`, `pep8`, `jshint`).
-- `tox -e py312` — Django unit tests via `django-admin test --settings=langstroth.settings_test --exclude-tag selenium` (Python 3.12; use this env to run the unit tests). Extra args pass through as `{posargs}` (e.g. `tox -e py312 -- langstroth.outages.tests.test_foo.SomeTest.test_bar`).
+- `tox` — run the default envlist (`py314`, `pep8`, `jshint`).
+- `tox -e py314` — Django unit tests via `django-admin test --settings=langstroth.settings_test --exclude-tag selenium` (Python 3.14; use this env to run the unit tests). Extra args pass through as `{posargs}` (e.g. `tox -e py314 -- langstroth.outages.tests.test_foo.SomeTest.test_bar`).
 - `tox -e pep8` — runs `pre-commit run --all-files` (ruff, ruff-format, hacking/flake8-import-order, doc8, plus the standard hygiene hooks).
 - `tox -e cover` — coverage run + HTML/XML report; fails under 90%.
 - `tox -e jshint` / `tox -e jscs` — JS lint/style; installs node via `nodeenv`.
@@ -32,7 +32,7 @@ Container build is via `make build` / `make push` (uses `docker/Dockerfile`, tag
 
 `langstroth/settings.py` imports `defaults.py` then `exec`s `/etc/langstroth/settings.py` if it exists — production overrides live outside the repo. There are three other settings modules selected via `--settings=`:
 
-- `settings_test` — used by `tox -e py312` and `tox -e cover`. SQLite, dummy Nagios/VictoriaMetrics URLs.
+- `settings_test` — used by `tox -e py314` and `tox -e cover`. SQLite, dummy Nagios/VictoriaMetrics URLs.
 - `settings_selenium` — used by `tox -e selenium`.
 - `settings_example` — reference template, not imported.
 
