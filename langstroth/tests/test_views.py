@@ -1,12 +1,17 @@
+from datetime import timedelta
 import os
+import re
 from unittest.mock import call
 from unittest.mock import patch
 
 from django.conf import settings
 from django.test import RequestFactory
 from django.test import TestCase
+from django.utils import timezone
 import requests
 
+from langstroth.announcements import models as announcement_models
+from langstroth import models as auth_models
 from langstroth import nagios
 from langstroth import views
 
@@ -81,6 +86,62 @@ class IndexDateParsingTests(TestCase):
         # Doesn't match the regex inside the try, exception swallowed
         views.index(self.rf.get("/", {'start': '-garbage'}))
         self.assertTrue(mock_render.called)
+
+
+class IndexBannerTests(TestCase):
+    """The home page banner labels each current announcement by
+    category: notices say "Notice", outages keep the Scheduled /
+    Unscheduled Outage wording. News never reaches the banner (the
+    manager excludes it from current())."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="test", email="test@test.com"
+        )
+
+    def setUp(self):
+        self.rf = RequestFactory()
+
+    def _make_current(self, **overrides):
+        defaults = {
+            "title": "t",
+            "description": "d",
+            "start": timezone.now() - timedelta(hours=1),
+            "severity": announcement_models.SIGNIFICANT,
+            "created_by": self.user,
+        }
+        defaults.update(overrides)
+        return announcement_models.Announcement.objects.create(**defaults)
+
+    def _banner_headings(self):
+        with (
+            patch('langstroth.views.get_availability', return_value=None),
+            patch('langstroth.views.get_status', return_value=None),
+            patch('langstroth.views.cache') as mock_cache,
+        ):
+            mock_cache.get.return_value = None
+            response = views.index(self.rf.get("/"))
+        headings = re.findall(
+            r'class="alert-heading[^"]*">(.*?)</h5>',
+            response.content.decode(),
+        )
+        return [' '.join(h.split()) for h in headings]
+
+    def test_current_notice_is_labelled_notice(self):
+        self._make_current(category=announcement_models.Category.NOTICE)
+        self.assertEqual(["Notice"], self._banner_headings())
+
+    def test_current_outage_keeps_outage_wording(self):
+        self._make_current()
+        self.assertEqual(["Unscheduled Outage"], self._banner_headings())
+
+    def test_mixed_current_announcements(self):
+        self._make_current(category=announcement_models.Category.NOTICE)
+        self._make_current()
+        self.assertCountEqual(
+            ["Notice", "Unscheduled Outage"], self._banner_headings()
+        )
 
 
 def _load_html(name):
