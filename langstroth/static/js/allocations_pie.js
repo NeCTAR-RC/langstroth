@@ -162,11 +162,11 @@ function zoomIn(data) {
   }
 }
 
-function zoomInPie(p, i) {
+function zoomInPie(event, p) {
   var data = p.data;
   var segment = null;
   if (this.nodeName == "text") {
-    segment = d3.select("#segment-" + i);
+    segment = d3.select("#segment-" + p.dataIndex);
   } else {
     segment = d3.select(this);
   }
@@ -174,7 +174,7 @@ function zoomInPie(p, i) {
   zoomIn(data);
 }
 
-function zoomOut(p) {
+function zoomOut() {
   if (!breadcrumbs.isHome()) {
     var route = breadcrumbs.routeOut();
     var resource = {};
@@ -199,10 +199,10 @@ function calculateOpacity0(d) {
   return isCramped(d) ? 1.0 : 0.0 ;
 }
 
-function showRelatedLabels(d, i) {
+function showRelatedLabels(event, d) {
   var segment = null;
   if (this.nodeName == "text") {
-    segment = d3.select("#segment-" + i);
+    segment = d3.select("#segment-" + d.dataIndex);
   } else {
     segment = d3.select(this);
   }
@@ -228,9 +228,9 @@ function showRelatedLabels(d, i) {
   toolTip.style("visibility", "visible");
 }
 
-function moveRelatedLabels(d, i) {
-  var top = (d3.event.pageY - 10) + "px";
-  var left = (d3.event.pageX + 10) + "px";
+function moveRelatedLabels(event) {
+  var top = (event.pageY - 10) + "px";
+  var left = (event.pageX + 10) + "px";
   toolTip.style("top", top).style("left", left);
 }
 
@@ -248,10 +248,10 @@ function _hideRelatedLabels(segment, data) {
   toolTip.style("visibility", "hidden");
 }
 
-function hideRelatedLabels(d, i) {
+function hideRelatedLabels(event, d) {
   var segment = null;
   if (this.nodeName == "text") {
-    segment = d3.select("#segment-" + i);
+    segment = d3.select("#segment-" + d.dataIndex);
   } else {
     segment = d3.select(this);
   }
@@ -317,6 +317,14 @@ function visualise( dataset, totalResource ) {
 
   // Build the node list, attaching the new data.
   var nodes = pie(dataset);
+
+  // The segment/label element ids are built from the input-order
+  // index. d3 v7 event handlers no longer receive an index argument
+  // (and the pie arcs' own .index is the value-sorted position), so
+  // record the input-order index on each arc for the handlers.
+  nodes.forEach(function(node, i) {
+    node.dataIndex = i;
+  });
 
   slices = plotGroup.selectAll("g.slice").data(nodes);
 
@@ -577,29 +585,22 @@ function populatePalette(route) {
 //---- Data Loading.
 
 function load() {
-  if (forcodeSeries == "") {
-    suffix = forcodeSeries;
-  } else {
-    suffix = "-" + forcodeSeries;
-  }
-  d3.json(
-    allocationURL + "/for-codes" + suffix + "/",
-    function(error, forObjects) {
-      d3.json(
-        allocationURL + "/for-tree" + suffix + "/",
-        function(error, allocationObjects) {
-          forTitleMap = forObjects;
-          allocations = new Allocations(allocationObjects.children);
-          var route = null;
-          var pathExtension = window.location.hash;
-          if (pathExtension) {
-            route = allocations.parseForPath(pathExtension);
-            breadcrumbs.setRoute(route);
-            populatePalette(route);
-          }
-          refreshPlotAndTable(route);
-        });
-    });
+  var suffix = (forcodeSeries == "") ? "" : "-" + forcodeSeries;
+  Promise.all([
+    d3.json(allocationURL + "/for-codes" + suffix + "/"),
+    d3.json(allocationURL + "/for-tree" + suffix + "/")
+  ]).then(function(results) {
+    forTitleMap = results[0];
+    allocations = new Allocations(results[1].children);
+    var route = null;
+    var pathExtension = window.location.hash;
+    if (pathExtension) {
+      route = allocations.parseForPath(pathExtension);
+      breadcrumbs.setRoute(route);
+      populatePalette(route);
+    }
+    refreshPlotAndTable(route);
+  });
 }
 
 load();

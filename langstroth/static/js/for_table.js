@@ -30,7 +30,7 @@ function getTextColour(colour) {
   return dark ? "#fff" : "#000";
 }
 
-function inflateChartSegment(d, i) {
+function inflateChartSegment(d) {
   // Scope to the pie chart's paths: other page components (e.g. the
   // ARDC footer's SVG icon sprites) add <path> elements with no d3
   // datum bound, so an unscoped selectAll("path") throws in filter().
@@ -186,10 +186,10 @@ function tabulateAllocations(table, dataset, total, quota) {
         .append("tr")
         .attr('data-row',function(d,i){return i; })
         .attr('class', "row-click")
-        .on("click", zoomInTable)
-        .on("mouseover", inflateChartSegment)
+        .on("click", function(event, d) { zoomInTable(d); })
+        .on("mouseover", function(event, d) { inflateChartSegment(d); })
         .on("mousemove", moveRelatedLabels)
-        .on("mouseout", deflateChartSegment);
+        .on("mouseout", function(event, d) { deflateChartSegment(d); });
 
   newRows.append("td")
     .attr("class", "col0")

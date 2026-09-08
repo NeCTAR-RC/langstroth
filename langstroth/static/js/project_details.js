@@ -110,33 +110,33 @@ function tabulateQuotas(pageAreaSelector, projectSummary) {
 
 function projectDetails() {
   var suffix = forcodeSeries == "" ? "" : "-" + forcodeSeries;
-  d3.json(
-    allocationURL + "/for-codes" + suffix + "/",
-    function(error, forTranslation) {
-      d3.json(allocationURL + "/allocations/" + allocationId + "/",
-        function(error, projectSummary) {
-          tabulateSummary("#project-summary", projectSummary, forTranslation);
-          tabulateQuotas("#project-quota", projectSummary);
-          /*
-            forTitleMap = forTranslation;
-            var pathExtension = window.location.hash;
-            if (pathExtension) {
-              var route = allocations.parseForPath(pathExtension);
-              route.unshift(projectDescription);
-              breadcrumbs.setRoute(route);
-              breadcrumbs.navigate(function(route, i) {
-                var urlExtension = "";
-                if (route.length > 0) {
-                    var forCode = route[0];
-                    var padding = ZERO_PADDING[i - forCode.length / 2];
-                    urlExtension = '#/FOR/' + forCode + padding;
-                }
-                var destinationUrl = '/allocations/applications/approved/visualisation' + urlExtension;
-                window.location.href = destinationUrl;
-              });
+  Promise.all([
+    d3.json(allocationURL + "/for-codes" + suffix + "/"),
+    d3.json(allocationURL + "/allocations/" + allocationId + "/")
+  ]).then(function(results) {
+    var forTranslation = results[0];
+    var projectSummary = results[1];
+    tabulateSummary("#project-summary", projectSummary, forTranslation);
+    tabulateQuotas("#project-quota", projectSummary);
+    /*
+      forTitleMap = forTranslation;
+      var pathExtension = window.location.hash;
+      if (pathExtension) {
+        var route = allocations.parseForPath(pathExtension);
+        route.unshift(projectDescription);
+        breadcrumbs.setRoute(route);
+        breadcrumbs.navigate(function(route, i) {
+          var urlExtension = "";
+          if (route.length > 0) {
+              var forCode = route[0];
+              var padding = ZERO_PADDING[i - forCode.length / 2];
+              urlExtension = '#/FOR/' + forCode + padding;
           }
-          */
-      });
+          var destinationUrl = '/allocations/applications/approved/visualisation' + urlExtension;
+          window.location.href = destinationUrl;
+        });
+      }
+    */
   });
 }
 

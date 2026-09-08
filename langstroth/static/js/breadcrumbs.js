@@ -82,14 +82,15 @@ Breadcrumbs.prototype.navigate = function(adjustPage) {
         .attr("style", "text-transform: capitalize")
         .text(self.title(d, i));
     }
-  });
-
-  items.on("click", function(d, i) {
-    if (self.breadCrumbs.length > 1 && i < self.breadCrumbs.length - 1) {
-      self.breadCrumbs = self.breadCrumbs.slice(0, i + 1);
-      if (adjustPage) {
-          adjustPage(self.route(), i);
+    // d3 v7 click handlers no longer receive the item index, so bind
+    // the handler here, closing over this accessor's index instead.
+    li.on("click", function() {
+      if (self.breadCrumbs.length > 1 && i < self.breadCrumbs.length - 1) {
+        self.breadCrumbs = self.breadCrumbs.slice(0, i + 1);
+        if (adjustPage) {
+            adjustPage(self.route(), i);
+        }
       }
-    }
+    });
   });
 };
