@@ -318,6 +318,8 @@ function arcTweenOut(a) {
   };
 }
 
-$(".navlink.active").ready(function() {
+// Collection .ready() was removed in jQuery 4; $(fn) is the
+// document-ready form (the old selector was ignored anyway).
+$(function() {
   setSource('all');
 });
