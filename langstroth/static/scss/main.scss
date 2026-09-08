@@ -354,22 +354,6 @@ img.graphite {
   text-align: center;
 }
 
-/* Override the default nv.d3 fonts */
-.nvd3 text {
-  font: normal 13px 'Figtree' !important;
-  color: #666666;
-}
-
-.nvd3 .title {
-  font: normal 13px 'Figtree' !important;
-  color: #666666;
-}
-
-.nvtooltip {
-  font-family: 'Figtree', sans-serif !important;
-  color: #666666;
-}
-
 .paused {
   animation-play-state: paused !important;
 }
