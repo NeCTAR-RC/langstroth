@@ -4,11 +4,9 @@
 @import "variables";
 // Bootstrap scss
 @import "./bootstrap/bootstrap";
-// Font awesome
-$fa-font-path: "../webfonts";
-@import "./fontawesome/fontawesome.scss";
-@import "./fontawesome/solid.scss";
-@import "./fontawesome/brands.scss";
+// Font Awesome is included as prebuilt CSS (css/fontawesome-*.min.css,
+// linked from base.html): its SCSS needs Sass modules (@use), which
+// libsass/django-libsass cannot compile.
 // ARDC theme styles
 @import "theme";
 
@@ -165,7 +163,8 @@ span.disabled {
 }
 
 .status-icon:before {
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 7 Free";
+  font-weight: 900;
   font-size: 1.8em;
   line-height: 0;
   display: inline-block;
