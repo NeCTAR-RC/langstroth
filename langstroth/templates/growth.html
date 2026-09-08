@@ -1,10 +1,6 @@
 {% extends "base_subnav.html" %}
 {% load static %}
 
-{% block extra_head %}
-<link href='{% static "css/nv.d3.min.css" %}' type='text/css' media='screen' rel='stylesheet'/>
-{% endblock %}
-
 {% block content %}
 <div class="container">
   <ul id="graph-buttons" class="nav nav-tabs">
@@ -19,7 +15,7 @@
     <div class="col-12">
       <h4>Total Instances</h4>
       <div class="chart-container">
-        <svg class="chart" id="instance_count" data-url="/growth/instance_count/"></svg>
+        <canvas class="chart" id="instance_count" data-url="/growth/instance_count/"></canvas>
       </div>
     </div>
   </div>
@@ -27,7 +23,7 @@
     <div class="col-12">
       <h4>Used VCPUs</h4>
       <div class="chart-container">
-        <svg class="chart" id="vcpu_used" data-url="/growth/used_cores/"></svg>
+        <canvas class="chart" id="vcpu_used" data-url="/growth/used_cores/"></canvas>
       </div>
     </div>
   </div>
@@ -35,7 +31,8 @@
 {% endblock %}
 
 {% block extra_script %}
-<script src='{% static "js/d3.v3.js" %}'></script>
-<script src='{% static "js/nv.d3.js" %}'></script>
+<script src='{% static "js/chart.umd.min.js" %}'></script>
+<script src='{% static "js/chartjs-adapter-date-fns.bundle.min.js" %}'></script>
+<script src='{% static "js/chart_common.js" %}'></script>
 <script src='{% static "js/growth.js" %}'></script>
 {% endblock %}

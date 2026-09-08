@@ -1,121 +1,120 @@
-function getQueryVariable(variable) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-    if(pair[0] == variable){return pair[1];}
-  }
-  return(false);
-}
+/* -*- Mode: js; tab-width: 2; indent-tabs-mode: nil; js-indent-level: 2; -*- */
+////// Growth charts: total instances and used VCPUs.
 
-var colors = d3.scale.category10();
-keyColor = function(d, i) {return colors(d.target);};
-
-unix_timestamp = function(timestamp){
-  return new Date(timestamp * 1000);
-};
-
-format_data = function(data) {
-  return data.map(function(series) {
-    series.values = series.datapoints;
-    series.values = series.values.map(
-      function (value) {
-        if (!value[0]) {
-          value[0] = 0;
-        }
-        return value;
-      });
-
-    delete series.datapoints;
-    series.key = series.target;
-    return series;
-  });};
+// Depends on chart_common.js. Each canvas.chart element carries a
+// data-url attribute naming a /growth/ endpoint that returns
+// Graphite-shape JSON: [{target: name, datapoints: [[value,
+// unix_seconds], ...]}, ...]. The series are drawn as a stacked area
+// chart with an all-series tooltip totalled in the footer.
 
 var charts = {};
 
-["instance_count", "vcpu_used"].map(
-  function (graph_name) {
-
-    var chart = nv.models.stackedAreaChart();
-    chart.margin({right: 100})
-      .x(function(d) { return d[1];})
-      .y(function(d) { return d[0];})
-      .useInteractiveGuideline(true)
-      .showTotalInTooltip(true)
-      .rightAlignYAxis(true)
-      .duration(500)
-      .showControls(true)
-      .clipEdge(true);
-
-    //Format x-axis labels with custom function.
-    chart.xAxis
-      .tickFormat(function(d) {
-        return d3.time.format("%Y-%m-%d")(unix_timestamp(d));
-      });
-
-    chart.yAxis
-      .tickFormat(d3.format(',.0f'));
-
-    charts[graph_name] = chart;
+function toDatasets(data) {
+  return data.map(function(series) {
+    var colour = chartColour(series.target);
+    return {
+      label: series.target,
+      data: chartPoints(series.datapoints),
+      borderColor: colour,
+      backgroundColor: colour + 'b3',
+      fill: true,
+      pointRadius: 0,
+      borderWidth: 1
+    };
   });
+}
 
-graphduration =
-  function (selector, summarise, from, duration_text) {
-    button = $(selector);
-    button.click(
-      function () {
-        $('#graph-buttons li a').removeClass('active');
+function tooltipLabel(item) {
+  return item.dataset.label + ': ' + formatCount(item.parsed.y);
+}
 
-        $(selector + " a").addClass('active');
-        $('small.lead').text(duration_text);
+function tooltipTotal(items) {
+  if (items.length < 2) {
+    return '';
+  }
+  var total = 0;
+  items.forEach(function(item) {
+    total += item.parsed.y;
+  });
+  return 'TOTAL: ' + formatCount(total);
+}
 
-        var graphs = $('.chart');
-        /* Set the default path to the resource */
-
-        var until = '';
-        graphs.each(function (index, graph) {
-          url = $(graph).data('url');
-          if (selector == "#alltime") {
-            if (getQueryVariable('from')) {
-                from = getQueryVariable('from');
-            }
-            if (getQueryVariable('until')) {
-                until = getQueryVariable('until');
-            }
+function makeChart(canvas) {
+  return new Chart(canvas, {
+    type: 'line',
+    data: {datasets: []},
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {duration: 500},
+      interaction: {mode: 'index', intersect: false},
+      scales: {
+        x: {
+          type: 'time',
+          time: {tooltipFormat: 'yyyy-MM-dd HH:mm'}
+        },
+        y: {
+          stacked: true,
+          position: 'right',
+          ticks: {callback: formatCount}
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: tooltipLabel,
+            footer: tooltipTotal
           }
-          d3.json(url + '?format=json&summarise=' + summarise + '&from=' + from + '&until=' + until, function(data) {
-            data = format_data(data);
-            d3.select(graph)
-              .datum(data)
-              .transition().duration(500)
-              .call(charts[graph.id]);
-          });
-        });
-      });
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+}
 
-  };
+function loadChart(canvas, summarise, from, until) {
+  var url = $(canvas).data('url') + '?format=json&summarise=' + summarise +
+      '&from=' + from + '&until=' + until;
+  fetch(url)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      var chart = charts[canvas.id];
+      chart.data.datasets = toDatasets(data);
+      chart.update();
+    });
+}
 
-graphduration('#1day', '1hour', '-1day', 'Over the last day.');
-graphduration('#1week', '1hour', '-7days', 'Over the last week.');
+function graphduration(selector, summarise, from, durationText) {
+  $(selector).click(function() {
+    $('#graph-buttons li a').removeClass('active');
+    $(selector + " a").addClass('active');
+    $('small.lead').text(durationText);
+
+    var until = '';
+    if (selector == "#alltime") {
+      if (getQueryVariable('from')) {
+        from = getQueryVariable('from');
+      }
+      if (getQueryVariable('until')) {
+        until = getQueryVariable('until');
+      }
+    }
+    $('.chart').each(function(index, canvas) {
+      loadChart(canvas, summarise, from, until);
+    });
+  });
+}
+
 graphduration('#1month', '1hour', '-1months', 'Over the last month.');
-graphduration('#6months','12hours', '-6months', 'Over the last 6 months.');
+graphduration('#6months', '12hours', '-6months', 'Over the last 6 months.');
 graphduration('#1year', '1days', '-1years', 'Over the last year.');
 graphduration('#3years', '3days', '-3years', 'Over the last 3 years.');
 graphduration('#5years', '5days', '-5years', 'Over the last 5 years.');
 graphduration('#alltime', '10days', '20120101', 'Since January 2012.');
 
-$('.chart').each(function (index, graph) {
-  url = $(graph).data('url');
-
-  d3.json(url + '?format=json&summarise=' + '12hours' + '&from=' + '-6months', function(data) {
-    nv.addGraph(function() {
-      data = format_data(data);
-
-      d3.select(graph)
-        .datum(data)
-        .call(charts[graph.id]);
-
-      nv.utils.windowResize(charts[graph.id].update);
-    });
-  });
+$('.chart').each(function(index, canvas) {
+  charts[canvas.id] = makeChart(canvas);
+  loadChart(canvas, '12hours', '-6months', '');
 });
