@@ -27,7 +27,7 @@ def find_daily_accumulated_users(from_date=None, until_date=None):
     from_date = from_date or settings.USER_STATISTICS_START_DATE
     try:
         data = metrics.user_statistics_series(from_date, until_date)
-        return metrics.filter_null_datapoints(data)
+        return metrics.filter_null_points(data)
     except (requests.RequestException, ValueError) as ex:
         LOG.warning(
             "Problem fetching user statistics from the metrics backend",

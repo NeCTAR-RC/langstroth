@@ -13,12 +13,11 @@ A backend module must provide three functions:
 - user_statistics_series(from_date, until_date=None, now=None)
 
 aggregate_series and user_statistics_series return the JSON structure
-the front-end charts consume ([{"target": <series name>,
-"datapoints": [[value|None, timestamp], ...]}], timestamps in unix
-seconds); composition_values returns [{"target": <group>, "value":
+the front-end charts consume ([{"name": <series name>, "points":
+[[timestamp_ms, value|None], ...]}], timestamps in unix
+milliseconds); composition_values returns [{"name": <group>, "value":
 <total>}, ...] sorted ascending by value. The filter/fill helpers
-below post-process the datapoint structure and are backend
-independent.
+below post-process the point structure and are backend independent.
 """
 
 from importlib import import_module
@@ -57,39 +56,37 @@ def user_statistics_series(*args, **kwargs):
 
 
 # Addressing the history components
-# within a 2-member data-point array.
-VALUE_INDEX = 0
-TIMESTAMP_INDEX = 1
+# within a 2-member point array.
+TIMESTAMP_INDEX = 0
+VALUE_INDEX = 1
 
 
-def filter_null_datapoints(response_data):
+def filter_null_points(response_data):
     """Example response =
     [
         {
-            "target": "Cumulative",
-            "datapoints": [
-                [null, 1324130400],
-                [0.0, 1324216800],
-                [null, 1413208800]
+            "name": "Cumulative",
+            "points": [
+                [1324130400000, null],
+                [1324216800000, 0.0],
+                [1413208800000, null]
             ]
         },
     ]
 
-    Remove any datapoint with a null value component.
+    Remove any point with a null value component.
     """
 
     for data_series in response_data:
-        data_points = data_series['datapoints']
-        data_series['datapoints'] = [
-            datapoint
-            for datapoint in data_points
-            if datapoint[VALUE_INDEX] is not None
+        points = data_series['points']
+        data_series['points'] = [
+            point for point in points if point[VALUE_INDEX] is not None
         ]
     return response_data
 
 
 def _fill_nulls(data, template, summarise=None):
-    data = dict([(timestamp, value) for value, timestamp in data])
+    data = dict([(timestamp, value) for timestamp, value in data])
     previous_value = 0.0
     no_data_count = 0
     if summarise == '3days':
@@ -110,33 +107,30 @@ def _fill_nulls(data, template, summarise=None):
             if no_data_count > max_no_data:
                 previous_value = 0.0
             no_data_count += 1
-            yield [previous_value, timestamp]
+            yield [timestamp, previous_value]
         else:
             previous_value = value
-            yield [value, timestamp]
+            yield [timestamp, value]
 
 
-def fill_null_datapoints(response_data, summarise=None):
+def fill_null_points(response_data, summarise=None):
     """Extend the data sets to the same length and fill in any missing
     values with either 0.0 or the previous real value that existed.
 
+    Stacked charts need every series defined at every x position, so
+    all series are gridded onto the longest series' timestamps.
     """
     if not response_data:
         return response_data
-    # Use the longest series as the template.  NVD3 requires that all
-    # the datasets have the same data points.
     tmpl = sorted(
-        [
-            (len(data['datapoints']), data['datapoints'])
-            for data in response_data
-        ],
+        [(len(data['points']), data['points']) for data in response_data],
         key=itemgetter(0),
     )[-1][1]
-    tmpl = [[None, t] for v, t in tmpl]
+    tmpl = [[t, None] for t, v in tmpl]
     for data_series in response_data:
-        data_points = data_series['datapoints']
-        data_series['datapoints'] = list(
-            _fill_nulls(data_points, template=tmpl, summarise=summarise)
+        points = data_series['points']
+        data_series['points'] = list(
+            _fill_nulls(points, template=tmpl, summarise=summarise)
         )
 
     return response_data

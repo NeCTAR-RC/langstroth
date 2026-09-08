@@ -12,13 +12,13 @@ from langstroth.user_statistics.services import user_statistics
 
 SERIES = [
     {
-        'target': 'Melbourne',
-        'datapoints': [[1.0, 1000], [2.0, 1010], [3.0, 1020]],
+        'name': 'Melbourne',
+        'points': [[1000, 1.0], [1010, 2.0], [1020, 3.0]],
     }
 ]
 COMPOSITION = [
-    {'target': 'edu.au', 'value': 100.0},
-    {'target': 'unimelb.edu.au', 'value': 500.0},
+    {'name': 'edu.au', 'value': 100.0},
+    {'name': 'unimelb.edu.au', 'value': 500.0},
 ]
 
 
@@ -31,17 +31,16 @@ class GrowthViewTests(TestCase):
     @mock.patch('langstroth.metrics.aggregate_series')
     def test_instance_count(self, mock_agg):
         mock_agg.return_value = [
-            {'target': s['target'], 'datapoints': list(s['datapoints'])}
-            for s in SERIES
+            {'name': s['name'], 'points': list(s['points'])} for s in SERIES
         ]
         response = self.client.get(
             '/growth/instance_count/?from=-1day&summarise=1hour'
         )
         self.assertEqual(200, response.status_code)
         data = loads(response.content)
-        self.assertEqual('Melbourne', data[0]['target'])
+        self.assertEqual('Melbourne', data[0]['name'])
         self.assertEqual(
-            [[1.0, 1000], [2.0, 1010], [3.0, 1020]], data[0]['datapoints']
+            [[1000, 1.0], [1010, 2.0], [1020, 3.0]], data[0]['points']
         )
         mock_agg.assert_called_once_with(
             'nectar_total_instances',
@@ -106,18 +105,18 @@ class UserStatisticsServiceTests(TestCase):
     def test_success_strips_nulls(self, mock_series):
         mock_series.return_value = [
             {
-                'target': 'Cumulative',
-                'datapoints': [[None, 990], [100.0, 1000]],
+                'name': 'Cumulative',
+                'points': [[990, None], [1000, 100.0]],
             },
             {
-                'target': 'Frequency',
-                'datapoints': [[None, 990], [1.0, 1000]],
+                'name': 'Frequency',
+                'points': [[990, None], [1000, 1.0]],
             },
         ]
         data = user_statistics.find_daily_accumulated_users()
         mock_series.assert_called_once_with('20200101', None)
-        self.assertEqual([[100.0, 1000]], data[0]['datapoints'])
-        self.assertEqual([[1.0, 1000]], data[1]['datapoints'])
+        self.assertEqual([[1000, 100.0]], data[0]['points'])
+        self.assertEqual([[1000, 1.0]], data[1]['points'])
 
     @mock.patch('langstroth.metrics.user_statistics_series')
     def test_explicit_range_passed_through(self, mock_series):

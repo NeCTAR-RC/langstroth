@@ -71,11 +71,11 @@ d3.selectAll("#graph-buttons li a").on("click", changeSource);
 function updateData(dest, source) {
   hash_map = {};
   for (var i in source) {
-    hash_map[source[i].target] = source[i];
+    hash_map[source[i].name] = source[i];
   }
 
   for (var j in dest) {
-    var key = dest[j].target;
+    var key = dest[j].name;
     if (source[key]) {
       dest[j].value = source[key].value;
     }
@@ -163,7 +163,7 @@ function setSource(az) {
       .filter(function(d) { return d.endAngle - d.startAngle > 0.05; })
       .append("text")
       .text(function(d) {
-        return d.data.target;
+        return d.data.name;
       })
       .style("font", "11px Roboto")
       .attr("transform", function(d) {
@@ -184,7 +184,7 @@ function setSource(az) {
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", function (d) {
-        var colour = stringToColour(d.data.target);
+        var colour = stringToColour(d.data.name);
         return getTextColour(colour);
       })
       .style("font", "bold 10px Roboto")
@@ -201,7 +201,7 @@ function setSource(az) {
 
     g.append("path")
       .attr("fill", function (d, i) {
-        return stringToColour(d.data.target);
+        return stringToColour(d.data.name);
       })
       .attr('d', arc(enterClockwise))
       .each(function (d) {
@@ -220,7 +220,7 @@ function setSource(az) {
       tooltip.style("left", event.pageX+10+"px");
       tooltip.style("top", event.pageY-30+"px");
       tooltip.style("display", "inline-block");
-      tooltip.html("<b>"+d.data.target+"</b><br>"+(d.data.value)+" VCPUs");
+      tooltip.html("<b>"+d.data.name+"</b><br>"+(d.data.value)+" VCPUs");
     });
     g.on("mouseout", function(d){
       tooltip.style("display", "none");
@@ -229,7 +229,7 @@ function setSource(az) {
     g.filter(function(d) { return d.endAngle - d.startAngle > 0.05; })
       .append("text")
       .text(function(d) {
-        return d.data.target;
+        return d.data.name;
       })
       .style("font", "11px Roboto")
       .attr("transform", function(d) {
@@ -248,7 +248,7 @@ function setSource(az) {
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", function (d) {
-        var colour = stringToColour(d.data.target);
+        var colour = stringToColour(d.data.name);
         return getTextColour(colour);
       })
       .style("font", "bold 10px Roboto")

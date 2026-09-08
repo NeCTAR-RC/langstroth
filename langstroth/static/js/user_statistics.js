@@ -1,23 +1,23 @@
 /* -*- Mode: js; tab-width: 2; indent-tabs-mode: nil; js-indent-level: 2; -*- */
 ////// User registrations chart: cumulative area or monthly frequency bars.
 
-// Depends on chart_common.js. The REST endpoint returns two
-// Graphite-shape series: [0] the daily cumulative user count, [1] the
-// per-day registration count, which is aggregated to calendar months
-// here before charting.
+// Depends on chart_common.js. The REST endpoint returns two series
+// ([{name: ..., points: [[timestamp_ms, value], ...]}]): [0] the
+// daily cumulative user count, [1] the per-day registration count,
+// which is aggregated to calendar months here before charting.
 
 var chart = null;
 var trends = null;
 
-function sumByMonth(datapoints) {
+function sumByMonth(points) {
   var totals = {};
-  datapoints.forEach(function(point) {
-    if (point[0] === null) {
+  points.forEach(function(point) {
+    if (point[1] === null) {
       return;
     }
-    var date = new Date(point[1] * 1000);
+    var date = new Date(point[0]);
     var month = new Date(date.getFullYear(), date.getMonth()).getTime();
-    totals[month] = (totals[month] || 0) + point[0];
+    totals[month] = (totals[month] || 0) + point[1];
   });
   return Object.keys(totals)
     .map(function(month) {
@@ -111,8 +111,8 @@ function load() {
     })
     .then(function(data) {
       trends = {
-        cumulative: chartPoints(data[0].datapoints),
-        frequency: sumByMonth(data[1].datapoints)
+        cumulative: chartPoints(data[0].points),
+        frequency: sumByMonth(data[1].points)
       };
       visualise(areaConfig(trends.cumulative));
     });

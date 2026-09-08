@@ -6,19 +6,19 @@ from django.test import TestCase
 
 daily_accumulated_users = [
     {
-        "target": "Cumulative",
-        "datapoints": [
-            [0.0, 1324216800],
-            [0.0, 1324303200],
-            [2.0, 1325512800],
-            [3.0, 1325599200],
+        "name": "Cumulative",
+        "points": [
+            [1324216800000, 0.0],
+            [1324303200000, 0.0],
+            [1325512800000, 2.0],
+            [1325599200000, 3.0],
         ],
     },
     {
-        "target": "Frequency",
-        "datapoints": [
-            [0.0, 1324303200],
-            [2.0, 1325512800],
+        "name": "Frequency",
+        "points": [
+            [1324303200000, 0.0],
+            [1325512800000, 2.0],
         ],
     },
 ]

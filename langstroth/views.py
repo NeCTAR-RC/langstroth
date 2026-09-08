@@ -318,7 +318,7 @@ def _growth_series(metric, series, q_from, q_until, q_summarise):
             until_date=q_until,
             summarise=q_summarise,
         )
-        data = metrics.fill_null_datapoints(data, q_summarise)
+        data = metrics.fill_null_points(data, q_summarise)
     except (requests.RequestException, ValueError, IndexError) as ex:
         LOG.warning(
             "Problem fetching %s from the metrics backend",

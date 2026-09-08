@@ -75,8 +75,8 @@ class TimeParsingTests(TestCase):
 class AggregateSeriesTests(TestCase):
     def test_query_and_reshape(self, mock_get):
         start = NOW - 43200
-        # evaluation timestamps are window ENDS: one step ahead of the
-        # bucket-start labels the response is reshaped to
+        # points are labelled by their rollup window END, the standard
+        # Prometheus evaluation-timestamp convention
         mock_get.return_value = fake_response(
             [
                 {
@@ -100,24 +100,24 @@ class AggregateSeriesTests(TestCase):
         self.assertEqual(
             [
                 'sum(avg_over_time(nectar_total_instances'
-                '{az=~"melbourne\\\\-qh2|melbourne\\\\-np"}[3600s] offset 1s))'
+                '{az=~"melbourne\\\\-qh2|melbourne\\\\-np"}[3600s]))'
             ],
             params['query'],
         )
-        # queried one step ahead so the [end, end+step) bucket exists
-        self.assertEqual([str(start + 3600)], params['start'])
-        self.assertEqual([str(NOW + 3600)], params['end'])
+        self.assertEqual([str(start)], params['start'])
+        self.assertEqual([str(NOW)], params['end'])
         self.assertEqual(['3600'], params['step'])
 
         self.assertEqual(1, len(data))
-        self.assertEqual('Melbourne', data[0]['target'])
-        datapoints = data[0]['datapoints']
-        # full grid start..end inclusive with nulls for missing steps
-        self.assertEqual(13, len(datapoints))
-        self.assertEqual([10.0, start], datapoints[0])
-        self.assertEqual([11.5, start + 3600], datapoints[1])
-        self.assertEqual([None, start + 7200], datapoints[2])
-        self.assertEqual([None, NOW], datapoints[-1])
+        self.assertEqual('Melbourne', data[0]['name'])
+        points = data[0]['points']
+        # full grid start..end inclusive with nulls for missing steps,
+        # timestamps in milliseconds
+        self.assertEqual(13, len(points))
+        self.assertEqual([start * 1000, None], points[0])
+        self.assertEqual([(start + 3600) * 1000, 10.0], points[1])
+        self.assertEqual([(start + 7200) * 1000, 11.5], points[2])
+        self.assertEqual([NOW * 1000, None], points[-1])
 
     def test_all_azs_selector(self, mock_get):
         mock_get.return_value = fake_response([])
@@ -200,11 +200,11 @@ class CompositionTests(TestCase):
             ],
             params['query'],
         )
-        # sorted ascending by value, label used as target
+        # sorted ascending by value, label used as name
         self.assertEqual(
             [
-                {'target': 'edu.au', 'value': 100.0},
-                {'target': 'unimelb.edu.au', 'value': 500.0},
+                {'name': 'edu.au', 'value': 100.0},
+                {'name': 'unimelb.edu.au', 'value': 500.0},
             ],
             data,
         )
@@ -228,17 +228,15 @@ class CompositionTests(TestCase):
 class UserStatisticsTests(TestCase):
     def test_cumulative_and_frequency(self, mock_get):
         start = victoriametrics.parse_time('20200101', NOW)
-        # window-end evaluation timestamps, one step ahead of the
-        # bucket starts asserted below
         mock_get.return_value = fake_response(
             [
                 {
                     'metric': {},
                     'values': [
-                        [start + 86400, '100'],
-                        [start + 2 * 86400, '110'],
-                        # gap at start + 2 * 86400 (bucket-start labelling)
-                        [start + 4 * 86400, '130'],
+                        [start, '100'],
+                        [start + 86400, '110'],
+                        # gap at start + 2 days
+                        [start + 3 * 86400, '130'],
                     ],
                 }
             ]
@@ -248,86 +246,87 @@ class UserStatisticsTests(TestCase):
         )
         params = parse_qs(urlparse(mock_get.call_args[0][0]).query)
         self.assertEqual(
-            ['max_over_time(nectar_users_total[1d] offset 1s)'],
+            ['max_over_time(nectar_users_total[1d])'],
             params['query'],
         )
         self.assertEqual(['86400'], params['step'])
 
-        self.assertEqual('Cumulative', data[0]['target'])
-        self.assertEqual('Frequency', data[1]['target'])
-        cumulative = data[0]['datapoints']
-        frequency = data[1]['datapoints']
-        self.assertEqual([100.0, start], cumulative[0])
-        self.assertEqual([110.0, start + 86400], cumulative[1])
-        self.assertEqual([None, start + 2 * 86400], cumulative[2])
-        self.assertEqual([130.0, start + 3 * 86400], cumulative[3])
+        self.assertEqual('Cumulative', data[0]['name'])
+        self.assertEqual('Frequency', data[1]['name'])
+        cumulative = data[0]['points']
+        frequency = data[1]['points']
+        ms = 1000
+        self.assertEqual([start * ms, 100.0], cumulative[0])
+        self.assertEqual([(start + 86400) * ms, 110.0], cumulative[1])
+        self.assertEqual([(start + 2 * 86400) * ms, None], cumulative[2])
+        self.assertEqual([(start + 3 * 86400) * ms, 130.0], cumulative[3])
         # derivative: first point None, gap blanks itself AND the
-        # following point (legacy derivative() semantics)
-        self.assertEqual([None, start], frequency[0])
-        self.assertEqual([10.0, start + 86400], frequency[1])
-        self.assertEqual([None, start + 2 * 86400], frequency[2])
-        self.assertEqual([None, start + 3 * 86400], frequency[3])
+        # following point
+        self.assertEqual([start * ms, None], frequency[0])
+        self.assertEqual([(start + 86400) * ms, 10.0], frequency[1])
+        self.assertEqual([(start + 2 * 86400) * ms, None], frequency[2])
+        self.assertEqual([(start + 3 * 86400) * ms, None], frequency[3])
 
     def test_json_shape_round_trips(self, mock_get):
         mock_get.return_value = fake_response([])
         data = victoriametrics.user_statistics_series('20200101', now=NOW)
-        # must serialise to the legacy JSON contract
+        # must serialise to the front-end JSON contract
         parsed = json.loads(json.dumps(data))
         self.assertEqual(
             ['Cumulative', 'Frequency'],
-            [series['target'] for series in parsed],
+            [series['name'] for series in parsed],
         )
 
 
-class FilterNullDatapointsTests(TestCase):
+class FilterNullPointsTests(TestCase):
     def test_filter_strips_nulls(self):
         data = [
             {
-                "target": "x",
-                "datapoints": [
-                    [None, 1],
-                    [1.0, 2],
-                    [None, 3],
-                    [2.0, 4],
+                "name": "x",
+                "points": [
+                    [1, None],
+                    [2, 1.0],
+                    [3, None],
+                    [4, 2.0],
                 ],
             }
         ]
-        result = metrics.filter_null_datapoints(data)
-        self.assertEqual([[1.0, 2], [2.0, 4]], result[0]['datapoints'])
+        result = metrics.filter_null_points(data)
+        self.assertEqual([[2, 1.0], [4, 2.0]], result[0]['points'])
 
 
-class FillNullDatapointsTests(TestCase):
+class FillNullPointsTests(TestCase):
     def test_fill_basic(self):
         data = [
             {
-                "datapoints": [
-                    [None, 1324130400],
-                    [1.0, 1324216800],
-                    [3.0, 1325599200],
-                    [None, 1413208800],
+                "points": [
+                    [1324130400, None],
+                    [1324216800, 1.0],
+                    [1325599200, 3.0],
+                    [1413208800, None],
                 ]
             }
         ]
-        result = metrics.fill_null_datapoints(data)
+        result = metrics.fill_null_points(data)
         self.assertEqual(
             [
-                [0.0, 1324130400],
-                [1.0, 1324216800],
-                [3.0, 1325599200],
-                [3.0, 1413208800],
+                [1324130400, 0.0],
+                [1324216800, 1.0],
+                [1325599200, 3.0],
+                [1413208800, 3.0],
             ],
-            result[0]['datapoints'],
+            result[0]['points'],
         )
 
     def test_fill_picks_longest_template(self):
         data = [
-            {"datapoints": [[1.0, 100], [2.0, 200]]},
-            {"datapoints": [[5.0, 100], [6.0, 200], [7.0, 300]]},
+            {"points": [[100, 1.0], [200, 2.0]]},
+            {"points": [[100, 5.0], [200, 6.0], [300, 7.0]]},
         ]
-        result = metrics.fill_null_datapoints(data)
+        result = metrics.fill_null_points(data)
         # both series end up with 3 points
-        self.assertEqual(3, len(result[0]['datapoints']))
-        self.assertEqual(3, len(result[1]['datapoints']))
+        self.assertEqual(3, len(result[0]['points']))
+        self.assertEqual(3, len(result[1]['points']))
 
     def test_fill_summarise_3days_resets_after_two_misses(self):
         # max_no_data is 2 for "3days"; once exceeded, previous_value
@@ -335,19 +334,19 @@ class FillNullDatapointsTests(TestCase):
         tmpl_ts = list(range(1, 11))
         data = [
             {
-                "datapoints": [[5.0, 1]] + [[None, t] for t in tmpl_ts[1:]],
+                "points": [[1, 5.0]] + [[t, None] for t in tmpl_ts[1:]],
             }
         ]
-        result = metrics.fill_null_datapoints(data, summarise='3days')
+        result = metrics.fill_null_points(data, summarise='3days')
         # First point is the original 5.0
-        self.assertEqual(5.0, result[0]['datapoints'][0][0])
+        self.assertEqual(5.0, result[0]['points'][0][1])
         # Should eventually drop to 0.0 after the threshold
-        self.assertEqual(0.0, result[0]['datapoints'][-1][0])
+        self.assertEqual(0.0, result[0]['points'][-1][1])
 
     def test_fill_summarise_1days(self):
-        data = [{"datapoints": [[1.0, 1]] + [[None, t] for t in range(2, 12)]}]
-        metrics.fill_null_datapoints(data, summarise='1days')
+        data = [{"points": [[1, 1.0]] + [[t, None] for t in range(2, 12)]}]
+        metrics.fill_null_points(data, summarise='1days')
 
     def test_fill_summarise_12hours(self):
-        data = [{"datapoints": [[1.0, 1]] + [[None, t] for t in range(2, 20)]}]
-        metrics.fill_null_datapoints(data, summarise='12hours')
+        data = [{"points": [[1, 1.0]] + [[t, None] for t in range(2, 20)]}]
+        metrics.fill_null_points(data, summarise='12hours')

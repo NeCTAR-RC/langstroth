@@ -3,9 +3,9 @@ statistics pages.
 
 Queries the Prometheus-compatible /api/v1/query_range and
 /api/v1/query endpoints with MetricsQL and reshapes the responses to
-the JSON structures described in langstroth.metrics ([{"target": ...,
-"datapoints": [[value|null, ts], ...]}] -- originally the Graphite
-render API format, which the front-end JavaScript still consumes).
+the JSON structures described in langstroth.metrics ([{"name": ...,
+"points": [[ts_ms, value|null], ...]}], timestamps in unix
+milliseconds ready for the front-end charts).
 
 Series definitions come from settings:
 
@@ -140,20 +140,14 @@ def query_instant(query, at):
     return _get('/api/v1/query', [('query', query), ('time', int(at))])
 
 
-def _shift_timestamps(result_values, step):
-    """Relabel window-ending evaluation timestamps as bucket starts."""
-    return [[float(ts) - step, value] for ts, value in result_values]
-
-
-def _grid_datapoints(result_values, start, end, step):
+def _grid_points(result_values, start, end, step):
     """Re-grid a Prometheus matrix onto the full start..end step grid
-    with nulls for missing points, in the front-end's datapoint order
-    ([value, timestamp])."""
+    with nulls for missing points, as [timestamp_ms, value] pairs."""
     values = dict(
         (int(float(ts)), float(value)) for ts, value in result_values
     )
     return [
-        [values.get(ts), ts]
+        [ts * 1000, values.get(ts)]
         for ts in range(int(start), int(end) + 1, int(step))
     ]
 
@@ -198,24 +192,19 @@ def aggregate_series(
 
     data = []
     for alias, azs in series:
-        # offset 1s turns the (T, T+step] rollup window into
-        # [T, T+step) membership - same closed-open buckets as
-        # Graphite's summarize, so slot-aligned datapoints land in the
-        # same bucket on both backends.
+        # xxx_over_time at timestamp T covers the window (T-step, T]:
+        # points are labelled by their window END, the standard
+        # Prometheus convention.
         query = (
             f'sum(avg_over_time({metric}{{az=~"{_az_selector(azs)}"}}'
-            f'[{step}s] offset 1s))'
+            f'[{step}s]))'
         )
-        # xxx_over_time at timestamp T covers the window ENDING at T,
-        # while Graphite's summarize labels buckets by their START.
-        # Query one step ahead and relabel, so the bucket covering
-        # [T, T+step) is emitted at T like summarize did.
-        result = query_range(query, start + step, end + step, step)
-        values = _shift_timestamps(result[0]['values'] if result else [], step)
+        result = query_range(query, start, end, step)
+        values = result[0]['values'] if result else []
         data.append(
             {
-                'target': alias,
-                'datapoints': _grid_datapoints(values, start, end, step),
+                'name': alias,
+                'points': _grid_points(values, start, end, step),
             }
         )
     return data
@@ -225,7 +214,7 @@ def composition_values(name, azs, now=None):
     """Latest per-group used_vcpus composition, summed across the
     given availability zones.
 
-    Returns [{"target": group, "value": total}, ...] sorted by value.
+    Returns [{"name": group, "value": total}, ...] sorted by value.
     """
     now = now or int(time.time())
     if name == 'domain':
@@ -239,7 +228,7 @@ def composition_values(name, azs, now=None):
     result = query_instant(query, now)
     cleaned = [
         {
-            'target': item['metric'].get(label, 'unknown'),
+            'name': item['metric'].get(label, 'unknown'),
             'value': float(item['value'][1]),
         }
         for item in result
@@ -249,9 +238,7 @@ def composition_values(name, azs, now=None):
 
 
 def user_statistics_series(from_date, until_date=None, now=None):
-    """Daily cumulative and per-day user registration counts - the
-    equivalent of smartSummarize(users.total, "1d", "max") and its
-    derivative()."""
+    """Daily cumulative and per-day user registration counts."""
     now = now or int(time.time())
     start = parse_time(from_date, now)
     end = parse_time(until_date, now)
@@ -261,30 +248,24 @@ def user_statistics_series(from_date, until_date=None, now=None):
     start -= start % step
     end -= end % step
 
-    # Same bucket-start relabelling and closed-open bucket membership
-    # (offset 1s) as aggregate_series.
     result = query_range(
-        'max_over_time(nectar_users_total[1d] offset 1s)',
-        start + step,
-        end + step,
-        step,
+        'max_over_time(nectar_users_total[1d])', start, end, step
     )
-    values = _shift_timestamps(result[0]['values'] if result else [], step)
-    cumulative = _grid_datapoints(values, start, end, step)
+    values = result[0]['values'] if result else []
+    cumulative = _grid_points(values, start, end, step)
 
-    # Graphite's derivative(): difference between consecutive points,
-    # None when either side is missing (a gap also blanks the point
-    # immediately after it, matching graphite exactly).
+    # Difference between consecutive points, None when either side is
+    # missing (a gap also blanks the point immediately after it).
     frequency = []
     previous = None
-    for value, ts in cumulative:
+    for ts, value in cumulative:
         if previous is None or value is None:
-            frequency.append([None, ts])
+            frequency.append([ts, None])
         else:
-            frequency.append([value - previous, ts])
+            frequency.append([ts, value - previous])
         previous = value
 
     return [
-        {'target': 'Cumulative', 'datapoints': cumulative},
-        {'target': 'Frequency', 'datapoints': frequency},
+        {'name': 'Cumulative', 'points': cumulative},
+        {'name': 'Frequency', 'points': frequency},
     ]

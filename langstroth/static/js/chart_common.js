@@ -27,11 +27,11 @@ function formatCount(value) {
   return Number(value).toLocaleString();
 }
 
-// Convert one Graphite-shape series' datapoints ([[value, unix_seconds],
-// ...], value possibly null) to Chart.js {x: milliseconds, y} points.
-function chartPoints(datapoints) {
-  return datapoints.map(function(point) {
-    return {x: point[1] * 1000, y: point[0] || 0};
+// Convert one metrics series' points ([[timestamp_ms, value], ...],
+// value possibly null) to Chart.js {x, y} points.
+function chartPoints(points) {
+  return points.map(function(point) {
+    return {x: point[0], y: point[1] || 0};
   });
 }
 

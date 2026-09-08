@@ -3,18 +3,18 @@
 
 // Depends on chart_common.js. Each canvas.chart element carries a
 // data-url attribute naming a /growth/ endpoint that returns
-// Graphite-shape JSON: [{target: name, datapoints: [[value,
-// unix_seconds], ...]}, ...]. The series are drawn as a stacked area
-// chart with an all-series tooltip totalled in the footer.
+// [{name: ..., points: [[timestamp_ms, value], ...]}, ...]. The
+// series are drawn as a stacked area chart with an all-series
+// tooltip totalled in the footer.
 
 var charts = {};
 
 function toDatasets(data) {
   return data.map(function(series) {
-    var colour = chartColour(series.target);
+    var colour = chartColour(series.name);
     return {
-      label: series.target,
-      data: chartPoints(series.datapoints),
+      label: series.name,
+      data: chartPoints(series.points),
       borderColor: colour,
       backgroundColor: colour + 'b3',
       fill: true,
@@ -73,7 +73,7 @@ function makeChart(canvas) {
 }
 
 function loadChart(canvas, summarise, from, until) {
-  var url = $(canvas).data('url') + '?format=json&summarise=' + summarise +
+  var url = $(canvas).data('url') + '?summarise=' + summarise +
       '&from=' + from + '&until=' + until;
   fetch(url)
     .then(function(response) {
