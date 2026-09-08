@@ -31,9 +31,13 @@ function getTextColour(colour) {
 }
 
 function inflateChartSegment(d, i) {
-  var segment = d3.selectAll("path").filter(function(row) {
-    return (row.data.colourIndex == d.colourIndex);
-  });
+  // Scope to the pie chart's paths: other page components (e.g. the
+  // ARDC footer's SVG icon sprites) add <path> elements with no d3
+  // datum bound, so an unscoped selectAll("path") throws in filter().
+  var segment = d3.select("#plot-area").selectAll("path")
+    .filter(function(row) {
+      return (row.data.colourIndex == d.colourIndex);
+    });
   segment.style("stroke", HILITE_SEGMENT_COLOUR)
     .style("stroke-width", HILITE_SEGMENT_WIDTH)
     .attr("transform", function(row) {
@@ -53,9 +57,10 @@ function inflateChartSegment(d, i) {
 }
 
 function deflateChartSegment(d) {
-  var segment = d3.selectAll("path").filter(function(row) {
-    return (row.data.colourIndex == d.colourIndex);
-  });
+  var segment = d3.select("#plot-area").selectAll("path")
+    .filter(function(row) {
+      return (row.data.colourIndex == d.colourIndex);
+    });
   segment.style("stroke", UNHILITE_SEGMENT_COLOUR)
     .style("stroke-width", UNHILITE_SEGMENT_WIDTH)
     .attr("transform", "translate(0, 0)");
