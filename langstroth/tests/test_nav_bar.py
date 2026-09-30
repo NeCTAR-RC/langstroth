@@ -12,10 +12,12 @@ class NavBarActiveTests(TestCase):
         self.assertEqual('active', active(self.rf.get('/'), 'availability'))
 
     def test_root_not_active_for_other_section(self):
-        self.assertEqual('', active(self.rf.get('/'), 'outages'))
+        self.assertEqual('', active(self.rf.get('/'), 'announcements'))
 
     def test_segment_match(self):
-        self.assertEqual('active', active(self.rf.get('/outages/'), 'outages'))
+        self.assertEqual(
+            'active', active(self.rf.get('/announcements/'), 'announcements')
+        )
         self.assertEqual(
             'active',
             active(self.rf.get('/growth/infrastructure/'), 'infrastructure'),
@@ -32,8 +34,10 @@ class NavBarActiveTests(TestCase):
         # which would mark the Growth nav active for any path with the
         # substring "growth" anywhere.  The segment-aware impl shouldn't.
         self.assertEqual(
-            '', active(self.rf.get('/outages/growth-of-bees/'), 'growth')
+            '', active(self.rf.get('/announcements/growth-of-bees/'), 'growth')
         )
 
     def test_no_match_for_unrelated_section(self):
-        self.assertEqual('', active(self.rf.get('/growth/users/'), 'outages'))
+        self.assertEqual(
+            '', active(self.rf.get('/growth/users/'), 'announcements')
+        )

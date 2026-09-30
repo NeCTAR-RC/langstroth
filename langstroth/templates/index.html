@@ -24,7 +24,7 @@
           {% for outage in current %}
           <div class="alert alert-severity{{ outage.severity }}" role="alert">
             <a href="{{outage.get_absolute_url}}" class="alert-link stretched-link float-end">View announcement<i class="fa fa-chevron-right"></i></a>
-            <h5 class="alert-heading text-uppercase">{% if outage.scheduled %} Scheduled {% else %} Unscheduled {% endif %} Outage</h5>
+            <h5 class="alert-heading text-uppercase">{% if outage.category == 'notice' %} Notice {% else %}{% if outage.scheduled %} Scheduled {% else %} Unscheduled {% endif %} Outage{% endif %}</h5>
             <p class="fs-4">{{outage.title}}</p>
             <p class="mb-0">
               <strong>Severity:</strong> {{outage.severity_display}},
@@ -174,7 +174,7 @@
       {% for outage in active %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
@@ -185,7 +185,7 @@
       {% for outage in upcoming %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
@@ -196,14 +196,14 @@
       {% for outage in completed %}
         <div class="card my-4">
           <div class="card-body">
-            {% include "outages/outage_summary.html" %}
+            {% include "announcements/announcement_summary.html" %}
           </div>
         </div>
       {% endfor %}
     {% endif %}
 
     <div class="my-5 text-center">
-      <a class="btn btn-primary" href="/outages">View all announcements</a>
+      <a class="btn btn-primary" href="{% url 'announcements:list' %}">View all announcements</a>
     </div>
 
   </div> <!-- .container -->

@@ -4,6 +4,7 @@ from icalendar import Calendar, Event
 
 from django.contrib.auth import mixins
 from django.core.exceptions import BadRequest
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponse
 from django import shortcuts
@@ -12,9 +13,9 @@ from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView
 
-from langstroth.outages import filters
-from langstroth.outages import forms
-from langstroth.outages import models
+from langstroth.announcements import filters
+from langstroth.announcements import forms
+from langstroth.announcements import models
 
 
 def outage_calendar(request):
@@ -27,10 +28,12 @@ def outage_calendar(request):
         'Service announcements for the ARDC Nectar Research Cloud',
     )
 
-    # Only include the last 1 year of events
+    # Only include the last 1 year of events. News is not a calendar
+    # event, so the feed carries outages and notices only.
     cutoff = timezone.now() - timedelta(days=365)
     outages = (
-        models.Outage.objects.filter(start__gte=cutoff)
+        models.Announcement.objects.filter(start__gte=cutoff)
+        .exclude(category=models.Category.NEWS)
         .prefetch_related('updates')
         .order_by('-start')
     )
@@ -75,19 +78,49 @@ def outage_calendar(request):
     return response
 
 
+def _hide_unpublished_news(queryset):
+    # A future `start` on news is a scheduled publication (an
+    # embargo); it must not be visible on public surfaces until then.
+    return queryset.exclude(
+        category=models.Category.NEWS, start__gt=timezone.now()
+    )
+
+
 def index_page(request):
     # `status_display` reads `latest_update`, which iterates
     # self.updates.all() -- prefetch keeps it O(1) queries per page
     # instead of O(n).
-    f = filters.OutageFilters(
+    f = filters.AnnouncementFilters(
         request.GET,
-        queryset=models.Outage.objects.prefetch_related('updates'),
+        queryset=_hide_unpublished_news(
+            models.Announcement.objects.prefetch_related('updates')
+        ),
     )
-    context = {"title": "Service Announcements", "tagline": "", "filter": f}
-    return shortcuts.render(request, "outages/list.html", context)
+    paginator = Paginator(f.qs, 20)
+    # get_page() absorbs invalid and out-of-range page numbers. The
+    # auto-submitting filter form carries no `page` input, so changing
+    # a filter naturally resets to page 1.
+    page_obj = paginator.get_page(request.GET.get('page'))
+    context = {
+        "title": "Service Announcements",
+        "tagline": "",
+        "filter": f,
+        "page_obj": page_obj,
+        # Computed here because the template can't pass arguments;
+        # yields page numbers with Paginator.ELLIPSIS gaps, matching
+        # the theme's numeric page-button styling.
+        "elided_page_range": paginator.get_elided_page_range(
+            page_obj.number, on_each_side=2, on_ends=1
+        ),
+    }
+    return shortcuts.render(request, "announcements/list.html", context)
 
 
 class BaseDetailView(DetailView):
+    # DetailView derives the default context name from the model class
+    # name; keep the templates' `outage` variable across the
+    # Outage -> Announcement rename.
+    context_object_name = "outage"
     title = ""
 
     def get_context_data(self, **kwargs):
@@ -111,9 +144,16 @@ class BaseCreateView(
 
 
 class OutageDetailView(BaseDetailView):
-    queryset = models.Outage.objects.all()
-    template_name = "outages/detail.html"
+    template_name = "announcements/detail.html"
     title = "Announcement Details"
+
+    def get_queryset(self):
+        # Staff can preview scheduled (embargoed) news -- the create
+        # flow redirects here; everyone else 404s until publication.
+        queryset = models.Announcement.objects.all()
+        if self.request.user.is_staff:
+            return queryset
+        return _hide_unpublished_news(queryset)
 
 
 class OutageCreateView(BaseCreateView):
@@ -123,9 +163,9 @@ class OutageCreateView(BaseCreateView):
     the submitted start time -- there is no separate workflow.
     """
 
-    model = models.Outage
+    model = models.Announcement
     form_class = forms.OutageForm
-    template_name = "outages/create.html"
+    template_name = "announcements/create.html"
     title = "Create Outage Announcement"
 
     def form_valid(self, form):
@@ -133,17 +173,43 @@ class OutageCreateView(BaseCreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.object.id])
+        return reverse('announcements:detail', args=[self.object.id])
+
+
+class NoticeCreateView(OutageCreateView):
+    """Create a hazard or security notice.
+
+    The category comes from the form (NoticeForm), which stamps it on
+    the instance before validation.
+    """
+
+    form_class = forms.NoticeForm
+    template_name = "announcements/create_notice.html"
+    title = "Create Notice"
+
+
+class NewsCreateView(OutageCreateView):
+    """Create a news item (lifecycle-free post)."""
+
+    form_class = forms.NewsForm
+    template_name = "announcements/create_news.html"
+    title = "Create News Item"
 
 
 class BaseUpdateCreateView(BaseCreateView):
-    model = models.OutageUpdate
+    model = models.AnnouncementUpdate
     form_class = forms.OutageUpdateForm
     title = "Outage Announcement Update"
 
     def setup(self, request, *args, **kwargs):
         self.pk = kwargs.pop('pk')
         return super().setup(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.get_outage().category == models.Category.NOTICE:
+            context['title'] = "Notice Update"
+        return context
 
     def get(self, request, **kwargs):
         self.check_state()
@@ -154,7 +220,7 @@ class BaseUpdateCreateView(BaseCreateView):
         return super().post(request, **kwargs)
 
     def get_outage(self):
-        return models.Outage.objects.get(pk=self.pk)
+        return models.Announcement.objects.get(pk=self.pk)
 
     def form_valid(self, form):
         form.instance.outage = self.get_outage()
@@ -168,10 +234,10 @@ class BaseUpdateCreateView(BaseCreateView):
 class UpdateOutageView(BaseUpdateCreateView):
     """Add an update to an outage that is in progress."""
 
-    template_name = "outages/add_update.html"
+    template_name = "announcements/add_update.html"
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.pk])
+        return reverse('announcements:detail', args=[self.pk])
 
     def get_initial(self):
         outage = self.get_outage()
@@ -196,10 +262,16 @@ class UpdateOutageView(BaseUpdateCreateView):
         # operators racing to update / reopen don't end up clobbering
         # each other's modified_by / end state.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
-            if outage.cancelled or outage.start > timezone.now():
+            outage = models.Announcement.objects.select_for_update().get(
+                pk=self.pk
+            )
+            if (
+                outage.category == models.Category.NEWS
+                or outage.cancelled
+                or outage.start > timezone.now()
+            ):
                 raise BadRequest(
-                    f"Outage {self.pk} in wrong state for update."
+                    f"Announcement {self.pk} in wrong state for update."
                 )
             # If the operator is reopening a resolved outage, clear `end`.
             if (
@@ -212,15 +284,22 @@ class UpdateOutageView(BaseUpdateCreateView):
             return super().form_valid(form)
 
     def check_state(self):
+        # News is lifecycle-free: no updates, ever.
         outage = self.get_outage()
-        if outage.cancelled or outage.start > timezone.now():
-            raise BadRequest(f"Outage {self.pk} in wrong state for update.")
+        if (
+            outage.category == models.Category.NEWS
+            or outage.cancelled
+            or outage.start > timezone.now()
+        ):
+            raise BadRequest(
+                f"Announcement {self.pk} in wrong state for update."
+            )
 
 
 class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
     """End an in-progress outage by stamping `outage.end`."""
 
-    template_name = "outages/end.html"
+    template_name = "announcements/end.html"
     form_class = forms.OutageEndForm
     title = "End Outage Announcement"
 
@@ -238,34 +317,44 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.title
-        context['outage'] = self.get_outage()
+        outage = self.get_outage()
+        context['title'] = (
+            "End Notice"
+            if outage.category == models.Category.NOTICE
+            else self.title
+        )
+        context['outage'] = outage
         return context
 
     def get_success_url(self):
-        return reverse('outages:detail', args=[self.pk])
+        return reverse('announcements:detail', args=[self.pk])
 
     def get_outage(self):
-        return models.Outage.objects.get(pk=self.pk)
+        return models.Announcement.objects.get(pk=self.pk)
 
     def form_valid(self, form):
         now = timezone.now()
         # Lock the outage row so the state check and end-stamping are
         # atomic against a concurrent end/cancel/update.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(pk=self.pk)
+            outage = models.Announcement.objects.select_for_update().get(
+                pk=self.pk
+            )
             if (
-                outage.cancelled
+                outage.category == models.Category.NEWS
+                or outage.cancelled
                 or outage.end is not None
                 or outage.start > now
             ):
-                raise BadRequest(f"Outage {self.pk} in wrong state to end.")
+                raise BadRequest(
+                    f"Announcement {self.pk} in wrong state to end."
+                )
             outage.end = now
             outage.modified_by = self.request.user
             outage.save()
             content = form.cleaned_data.get('content')
             if content:
-                models.OutageUpdate.objects.create(
+                models.AnnouncementUpdate.objects.create(
                     outage=outage,
                     time=now,
                     status=models.RESOLVED,
@@ -275,13 +364,15 @@ class EndOutageView(mixins.UserPassesTestMixin, mixins.AccessMixin, FormView):
         return super().form_valid(form)
 
     def check_state(self):
+        # News is lifecycle-free: it has no End action.
         outage = self.get_outage()
         if (
-            outage.cancelled
+            outage.category == models.Category.NEWS
+            or outage.cancelled
             or outage.end is not None
             or outage.start > timezone.now()
         ):
-            raise BadRequest(f"Outage {self.pk} in wrong state to end.")
+            raise BadRequest(f"Announcement {self.pk} in wrong state to end.")
 
     def test_func(self):
         return self.request.user.is_staff
@@ -292,8 +383,8 @@ class CancelOutageView(
 ):
     """Cancel an outage that has not yet started."""
 
-    queryset = models.Outage.objects.all()
-    template_name = "outages/cancel.html"
+    queryset = models.Announcement.objects.all()
+    template_name = "announcements/cancel.html"
     title = "Confirm Cancellation"
 
     def get(self, request, **kwargs):
@@ -304,20 +395,30 @@ class CancelOutageView(
         # Lock the row so the state check and cancellation can't race
         # against a concurrent end/update.
         with transaction.atomic():
-            outage = models.Outage.objects.select_for_update().get(
+            outage = models.Announcement.objects.select_for_update().get(
                 pk=kwargs['pk']
             )
-            if outage.cancelled or outage.start <= timezone.now():
-                raise BadRequest("Outage is in wrong state to cancel.")
+            if (
+                outage.category == models.Category.NEWS
+                or outage.cancelled
+                or outage.start <= timezone.now()
+            ):
+                raise BadRequest("Announcement is in wrong state to cancel.")
             outage.cancelled = True
             outage.modified_by = self.request.user
             outage.save()
-        return shortcuts.redirect(reverse('outages:list'))
+        return shortcuts.redirect(reverse('announcements:list'))
 
     def _check_state(self):
+        # Retracting a news item is admin-only (set `cancelled` there);
+        # the Cancel action is for not-yet-started outages/notices.
         outage = self.get_object()
-        if outage.cancelled or outage.start <= timezone.now():
-            raise BadRequest("Outage is in wrong state to cancel.")
+        if (
+            outage.category == models.Category.NEWS
+            or outage.cancelled
+            or outage.start <= timezone.now()
+        ):
+            raise BadRequest("Announcement is in wrong state to cancel.")
         return outage
 
     def test_func(self):

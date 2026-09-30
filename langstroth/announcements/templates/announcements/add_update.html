@@ -7,14 +7,14 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'outages:list' %}">Announcements</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'announcements:list' %}">Announcements</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ outage.title }}</li>
     </ol>
   </nav>
   <h1 class="pb-4">Service Announcement</h1>
   <div class="row">
     <div class="col-12 col-md-8 col-xl-9">
-      <h5 class="text-uppercase">{{ outage.scheduled_display }} Outage </h5>
+      <h5 class="text-uppercase">{% if outage.category == 'notice' %}Notice{% else %}{{ outage.scheduled_display }} Outage{% endif %}</h5>
       <h3>{{ outage.title }}</h3>
     </div>
   </div>
@@ -60,7 +60,7 @@
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary">Add Update</button>
-        <a href="{% url 'outages:detail' view.pk %}" class="btn btn-link">Back to announcement</a>
+        <a href="{% url 'announcements:detail' view.pk %}" class="btn btn-link">Back to announcement</a>
       </form>
     </div>
   </div>

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page-header %}
+<div id="page-header" class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Announcements</li>
+    </ol>
+  </nav>
+  <div class="d-md-flex">
+    <h1 class="pb-4">Service Announcements</h1>
+    {% if request.user.is_staff %}
+      <div class="ms-auto btn-bar">
+        <div class="dropdown">
+          <button type="button" id="create" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Create</button>
+          <ul class="dropdown-menu" aria-labelledby="create">
+            <li><a class="dropdown-item" id="create-outage" href="{% url 'announcements:create' %}">Outage</a></li>
+            <li><a class="dropdown-item" id="create-notice" href="{% url 'announcements:create_notice' %}">Notice</a></li>
+            <li><a class="dropdown-item" id="create-news" href="{% url 'announcements:create_news' %}">News item</a></li>
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mb-4">
+  <form id="filter-form" method="get">
+    <div class="card filter-panel">
+      <div class="card-title">Filters</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <label for="category_id">Category</label>
+            {{ filter.form.category }}
+          </div>
+          <div class="col">
+            <label for="scheduled_id">Type</label>
+            {{ filter.form.scheduled }}
+          </div>
+          <div class="col">
+            <label for="cancelled_id">Cancelled</label>
+            {{ filter.form.cancelled }}
+          </div>
+          <div class="col">
+            <label for="activity_id">Activity</label>
+            {{ filter.form.activity }}
+          </div>
+          <div class="col">
+            <label for="time_window_id">Time Window</label>
+            {{ filter.form.time_window }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p class="text-center text-muted">
+    {% if page_obj.paginator.count %}
+      Showing {{ page_obj.start_index }}&ndash;{{ page_obj.end_index }} of {{ page_obj.paginator.count }} announcement{{ page_obj.paginator.count|pluralize }}.
+    {% else %}
+      No announcements match these filters.
+    {% endif %}
+  </p>
+  {% for outage in page_obj %}
+    <div class="card my-4">
+      <div class="card-body">
+        {% include "announcements/announcement_summary.html" %}
+      </div>
+    </div>
+  {% endfor %}
+  {% if page_obj.paginator.num_pages > 1 %}
+    {# Numeric page buttons: the ARDC theme styles .page-link as #}
+    {# fixed 35x35px squares (see .pagination in _theme.scss), so #}
+    {# the buttons must hold at most a couple of characters. #}
+    <nav aria-label="Announcement pages">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.previous_page_number %}" aria-label="Previous">&laquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link" aria-hidden="true">&laquo;</span></li>
+        {% endif %}
+        {% for num in elided_page_range %}
+          {% if num == page_obj.paginator.ELLIPSIS %}
+            <li class="page-item disabled"><span class="page-link">{{ num }}</span></li>
+          {% elif num == page_obj.number %}
+            <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="{% querystring page=num %}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.next_page_number %}" aria-label="Next">&raquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link" aria-hidden="true">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

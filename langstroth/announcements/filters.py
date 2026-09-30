@@ -5,13 +5,17 @@ from django import forms
 from django.utils import timezone
 import django_filters
 
-from langstroth.outages import models
+from langstroth.announcements import models
 
 
 class ActivityFilterMixin:
-    """Filter outages by their notional activity.
+    """Filter announcements by their notional activity.
 
-    Predicates:
+    Predicates (outages and notices only -- news is lifecycle-free,
+    never "active", and is discovered by recency, so every predicate
+    excludes it; without the exclusion a news item, whose `end` is
+    always null, would be "active" forever):
+
         'active'    => has started, not ended, not cancelled
         'completed' => `end` is set
         'upcoming'  => has not yet started, not cancelled
@@ -22,11 +26,15 @@ class ActivityFilterMixin:
         if value == "active":
             return queryset.filter(
                 start__lte=now, end__isnull=True, cancelled=False
-            )
+            ).exclude(category=models.Category.NEWS)
         if value == "completed":
-            return queryset.filter(end__isnull=False)
+            return queryset.filter(end__isnull=False).exclude(
+                category=models.Category.NEWS
+            )
         if value == "upcoming":
-            return queryset.filter(start__gt=now, cancelled=False)
+            return queryset.filter(start__gt=now, cancelled=False).exclude(
+                category=models.Category.NEWS
+            )
         return queryset
 
 
@@ -75,6 +83,21 @@ class TimeWindowFilter(ChoiceFilter):
         )
 
 
+class CategoryFilter(ChoiceFilter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            **kwargs,
+            method='filter_category',
+            choices=[
+                ('all', 'All'),
+                (models.Category.OUTAGE, 'Outages'),
+                (models.Category.NOTICE, 'Notices'),
+                (models.Category.NEWS, 'News'),
+            ],
+        )
+
+
 class OrderingFilter(ChoiceFilter):
     def __init__(self, *args, **kwargs):
         super().__init__(
@@ -89,8 +112,8 @@ class OrderingFilter(ChoiceFilter):
 
 
 class CustomRadioSelect(forms.widgets.RadioSelect):
-    option_template_name = 'outages/widgets/radio_option.html'
-    template_name = 'outages/widgets/radio.html'
+    option_template_name = 'announcements/widgets/radio_option.html'
+    template_name = 'announcements/widgets/radio.html'
 
 
 class CustomBooleanFilter(django_filters.BooleanFilter):
@@ -101,7 +124,8 @@ class CustomBooleanFilter(django_filters.BooleanFilter):
         )
 
 
-class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
+class AnnouncementFilters(django_filters.FilterSet, ActivityFilterMixin):
+    category = CategoryFilter(label='Category')
     activity = ActivityFilter(label='Activity')
     time_window = TimeWindowFilter(label='Time window')
     ordering = OrderingFilter(label='Time ordering')
@@ -115,7 +139,7 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
     )
 
     class Meta:
-        model = models.Outage
+        model = models.Announcement
         fields = []
 
     def _range_filter(self, queryset, days):
@@ -135,8 +159,13 @@ class OutageFilters(django_filters.FilterSet, ActivityFilterMixin):
             return self._range_filter(queryset, 365)
         return queryset
 
+    def filter_category(self, queryset, name, value):
+        if value in models.Category.values:
+            return queryset.filter(category=value)
+        return queryset
+
     def filter_start_ordering(self, queryset, name, value):
-        # "Default" keeps Outage.Meta.ordering (-modification_time) so
+        # "Default" keeps Announcement.Meta.ordering (-modification_time) so
         # the list surfaces recently-updated outages first. Only the
         # explicit 'reverse' choice overrides it.
         if value == 'reverse':

@@ -1,8 +1,8 @@
 from django.urls import re_path
 
-from langstroth.outages import views
+from langstroth.announcements import views
 
-app_name = 'outages'
+app_name = 'announcements'
 urlpatterns = [
     re_path(r'^$', views.index_page, name='list'),
     re_path(
@@ -14,6 +14,16 @@ urlpatterns = [
         r'^(?P<pk>\d+)/$', views.OutageDetailView.as_view(), name='detail'
     ),
     re_path(r'^create/$', views.OutageCreateView.as_view(), name='create'),
+    re_path(
+        r'^create/notice/$',
+        views.NoticeCreateView.as_view(),
+        name='create_notice',
+    ),
+    re_path(
+        r'^create/news/$',
+        views.NewsCreateView.as_view(),
+        name='create_news',
+    ),
     re_path(
         r'^(?P<pk>\d+)/add_update/$',
         views.UpdateOutageView.as_view(),

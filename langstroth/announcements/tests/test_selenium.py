@@ -7,8 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import models
 from langstroth.tests.base import SeleniumTestBase
 
 PASSWORD = '12345'
@@ -19,7 +19,7 @@ class OutageTestEmpty(SeleniumTestBase):
     """Unauthenticated tests when there are no outages."""
 
     def test_outages(self):
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
             self.driver.title,
@@ -28,7 +28,7 @@ class OutageTestEmpty(SeleniumTestBase):
             self.driver.find_element(By.CLASS_NAME, "card-body")
 
     def test_outage_0(self):
-        self.driver.get(f'{self.live_server_url}/outages/0')
+        self.driver.get(f'{self.live_server_url}/announcements/0')
         self.assertEqual("Not Found", self.driver.title)
 
 
@@ -42,7 +42,7 @@ class OutageTestPopulated(SeleniumTestBase):
         )
         self.user.save()
 
-        self.outage = models.Outage(
+        self.outage = models.Announcement(
             title="Testing",
             description="one two three",
             start=timezone.now(),
@@ -50,7 +50,7 @@ class OutageTestPopulated(SeleniumTestBase):
             created_by=self.user,
         )
         self.outage.save()
-        self.update = models.OutageUpdate(
+        self.update = models.AnnouncementUpdate(
             outage=self.outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -69,12 +69,12 @@ class OutageTestPopulated(SeleniumTestBase):
         banner = self.driver.find_element(By.ID, "status-banner")
         link = banner.find_element(By.TAG_NAME, "a")
         self.assertEqual(
-            f"{self.live_server_url}/outages/{self.outage.id}/",
+            f"{self.live_server_url}/announcements/{self.outage.id}/",
             link.get_attribute("href"),
         )
 
     def test_outages(self):
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.assertEqual(
             "Compute Cloud Dashboard - Service Announcements",
             self.driver.title,
@@ -84,16 +84,20 @@ class OutageTestPopulated(SeleniumTestBase):
         self.assertTrue(summary.text.startswith("Status: Investigating"))
 
         # The two old per-flow create buttons are gone; only the
-        # unified "create" button exists, and only for staff.
+        # unified "create" dropdown exists, and only for staff.
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "scheduled")
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "unscheduled")
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.ID, "create")
+        with self.assertRaises(NoSuchElementException):
+            self.driver.find_element(By.ID, "create-outage")
 
     def test_outage_0(self):
-        self.driver.get(f'{self.live_server_url}/outages/{self.outage.id}')
+        self.driver.get(
+            f'{self.live_server_url}/announcements/{self.outage.id}'
+        )
         self.assertEqual(
             "Compute Cloud Dashboard - Announcement Details",
             self.driver.title,
@@ -181,9 +185,10 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_create_future_outage_is_scheduled(self):
         _login_admin(self.driver, self.live_server_url, self.admin)
 
-        # Create page reachable from the one "Create outage" button.
-        self.driver.get(f'{self.live_server_url}/outages')
+        # Create page reachable from the "Create" dropdown.
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
+        self.driver.find_element(By.ID, "create-outage").click()
         self.assertEqual(
             "Compute Cloud Dashboard - Create Outage Announcement",
             self.driver.title,
@@ -221,8 +226,9 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_create_now_outage_with_initial_update(self):
         _login_admin(self.driver, self.live_server_url, self.admin)
 
-        self.driver.get(f'{self.live_server_url}/outages')
+        self.driver.get(f'{self.live_server_url}/announcements')
         self.driver.find_element(By.ID, "create").click()
+        self.driver.find_element(By.ID, "create-outage").click()
 
         now = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
         self._fill_create_form(
@@ -249,14 +255,14 @@ class OutageWorkflowTests(SeleniumTestBase):
     def test_update_and_end_and_reopen(self):
         # Set up an in-progress outage directly to keep the test focused
         # on the update / end / reopen UI flow.
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="incident",
             description="bad",
             start=timezone.now() - timedelta(minutes=5),
             severity=models.SEVERE,
             created_by=self.admin,
         )
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -265,7 +271,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         )
 
         _login_admin(self.driver, self.live_server_url, self.admin)
-        self.driver.get(f'{self.live_server_url}/outages/{outage.id}/')
+        self.driver.get(f'{self.live_server_url}/announcements/{outage.id}/')
 
         # Add an update.
         self.driver.find_element(By.ID, "update").click()
@@ -345,7 +351,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         self.assertIsNone(outage.end)
 
     def test_cancel_future_outage(self):
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="April 1st is cancelled this year",
             description="Courtesy of the humor police.",
             start=timezone.now() + timedelta(days=365),
@@ -354,7 +360,7 @@ class OutageWorkflowTests(SeleniumTestBase):
         )
 
         _login_admin(self.driver, self.live_server_url, self.admin)
-        self.driver.get(f'{self.live_server_url}/outages/{outage.id}/')
+        self.driver.get(f'{self.live_server_url}/announcements/{outage.id}/')
 
         self.driver.find_element(By.ID, "cancel").click()
         self.assertEqual(

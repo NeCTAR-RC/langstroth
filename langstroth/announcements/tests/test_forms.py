@@ -4,9 +4,9 @@ from django.test import TestCase
 from django.utils import timezone
 from freezegun import freeze_time
 
+from langstroth.announcements import forms
+from langstroth.announcements import models
 from langstroth import models as auth_models
-from langstroth.outages import forms
-from langstroth.outages import models
 
 
 class OutageFormTests(TestCase):
@@ -322,7 +322,7 @@ class OutageUpdateFormTests(TestCase):
         )
 
     def _make_outage(self):
-        return models.Outage.objects.create(
+        return models.Announcement.objects.create(
             title="t",
             description="d",
             start=timezone.now(),
@@ -340,7 +340,7 @@ class OutageUpdateFormTests(TestCase):
         # RESOLVED is reachable only via the End action, so the update
         # form must not offer it as a choice.
         outage = self._make_outage()
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.INVESTIGATING,
@@ -364,7 +364,7 @@ class OutageUpdateFormTests(TestCase):
         # When outage.end is set the form is only reachable via the
         # reopen flow, which must transition through PROGRESSING.
         outage = self._make_outage()
-        models.OutageUpdate.objects.create(
+        models.AnnouncementUpdate.objects.create(
             outage=outage,
             time=timezone.now(),
             status=models.RESOLVED,
@@ -397,7 +397,7 @@ class FrozenScheduledLabelTests(TestCase):
 
     @freeze_time("2024-01-01 12:00:00")
     def test_scheduled_true_when_start_far_in_future(self):
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="t",
             description="d",
             start=timezone.now() + timedelta(hours=2),
@@ -408,7 +408,7 @@ class FrozenScheduledLabelTests(TestCase):
 
     @freeze_time("2024-01-01 12:00:00")
     def test_scheduled_false_when_start_within_threshold(self):
-        outage = models.Outage.objects.create(
+        outage = models.Announcement.objects.create(
             title="t",
             description="d",
             start=timezone.now() + timedelta(minutes=30),
@@ -416,3 +416,105 @@ class FrozenScheduledLabelTests(TestCase):
             created_by=self.user,
         )
         self.assertFalse(outage.scheduled)
+
+
+class NoticeFormTests(TestCase):
+    def test_starting_now_without_initial_update_is_valid(self):
+        form = forms.NoticeForm(
+            data={
+                "title": "CVE",
+                "description": "patch now",
+                "start": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SEVERE,
+                "planned_end": "",
+                "status": "",
+                "content": "",
+            }
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_future_start_without_planned_end_is_valid(self):
+        future = timezone.now() + timedelta(days=2)
+        form = forms.NoticeForm(
+            data={
+                "title": "Heatwave",
+                "description": "cooling risk",
+                "start": future.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SIGNIFICANT,
+                "planned_end": "",
+                "status": "",
+                "content": "",
+            }
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_planned_end_before_start_still_rejected(self):
+        future = timezone.now() + timedelta(days=2)
+        form = forms.NoticeForm(
+            data={
+                "title": "Heatwave",
+                "description": "cooling risk",
+                "start": future.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SIGNIFICANT,
+                "planned_end": (future - timedelta(hours=1)).strftime(
+                    "%Y-%m-%dT%H:%M:%S"
+                ),
+                "status": "",
+                "content": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('planned_end', form.errors)
+
+    def test_severity_still_required(self):
+        form = forms.NoticeForm(
+            data={
+                "title": "CVE",
+                "description": "patch now",
+                "start": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": "",
+                "planned_end": "",
+                "status": "",
+                "content": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('severity', form.errors)
+
+
+class NewsFormTests(TestCase):
+    def test_minimal_fields_are_sufficient(self):
+        form = forms.NewsForm(
+            data={
+                "title": "We shipped a thing",
+                "description": "It is great",
+                "start": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            }
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_start_required(self):
+        form = forms.NewsForm(
+            data={
+                "title": "We shipped a thing",
+                "description": "It is great",
+                "start": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('start', form.errors)
+
+    def test_unknown_browser_timezone_rejected(self):
+        form = forms.NewsForm(
+            data={
+                "title": "t",
+                "description": "d",
+                "start": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "tz_name": "Mars/Olympus_Mons",
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Unknown browser timezone: Mars/Olympus_Mons",
+            form.non_field_errors(),
+        )

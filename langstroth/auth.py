@@ -4,7 +4,7 @@ import unicodedata
 from django.shortcuts import redirect
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 
-from langstroth.outages import admin as outage_admin
+from langstroth.announcements import admin as outage_admin
 
 
 logger = logging.getLogger(__name__)

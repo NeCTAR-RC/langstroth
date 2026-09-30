@@ -1,18 +1,26 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from langstroth.outages import models
+from langstroth.announcements import models
 
 
 class UpdateInline(admin.TabularInline):
-    model = models.OutageUpdate
+    model = models.AnnouncementUpdate
     extra = 0
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 
+    def has_add_permission(self, request, obj=None):
+        # News is lifecycle-free: no updates. (Model-level clean()
+        # enforces this too; hiding the add rows is admin UX.)
+        if obj is not None and obj.category == models.Category.NEWS:
+            return False
+        return super().has_add_permission(request, obj)
 
-@admin.register(models.Outage)
-class OutageAdmin(admin.ModelAdmin):
-    list_display = ('summary',)
+
+@admin.register(models.Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('summary', 'category')
+    list_filter = ('category',)
     inlines = (UpdateInline,)
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 
