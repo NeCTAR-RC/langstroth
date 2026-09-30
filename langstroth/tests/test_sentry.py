@@ -87,13 +87,13 @@ class SecurityEndpointTests(SimpleTestCase):
 class BuildCspTests(SimpleTestCase):
     def test_report_uri_with_dsn(self):
         csp = defaults.build_csp("http://allocations.test/rest_api/", DSN)
-        self.assertEqual((SECURITY_ENDPOINT,), csp['DIRECTIVES']['report-uri'])
+        self.assertEqual([SECURITY_ENDPOINT], csp['report-uri'])
 
     def test_no_report_uri_without_dsn(self):
         with mock.patch.dict(os.environ):
             os.environ.pop("SENTRY_DSN", None)
             csp = defaults.build_csp("http://allocations.test/rest_api/")
-        self.assertNotIn('report-uri', csp['DIRECTIVES'])
+        self.assertNotIn('report-uri', csp)
 
 
 class ReleaseTests(SimpleTestCase):

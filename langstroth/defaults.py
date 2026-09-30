@@ -3,6 +3,8 @@ from os import path
 import sys
 from urllib.parse import urlsplit
 
+from django.utils.csp import CSP
+
 from langstroth import sentry
 
 # Define this in the actual setting file
@@ -243,19 +245,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csp.middleware.CSPMiddleware',
+    'django.middleware.csp.ContentSecurityPolicyMiddleware',
     'langstroth.auth.NoDjangoAdminForEndUserMiddleware',
     # Replaces tz_detect.middleware.TimezoneMiddleware, which activates a
     # pytz zone -- broken under Django 5+ (see langstroth/middleware.py).
     'langstroth.middleware.TimezoneMiddleware',
 ]
 
-# Content Security Policy. The site has inline scripts in several
-# templates (allocation_visualisation.html, index.html starfield,
-# create.html tz-offset, footer.html mailchimp + date.getFullYear,
-# etc.) and bootstrap-datepicker injects inline styles, so we allow
+# Content Security Policy, served by Django's own middleware (built in
+# since 6.0; this replaced the django-csp package). SECURE_CSP maps
+# each directive to its list of sources.
+#
+# The site has inline scripts in several templates
+# (allocation_visualisation.html, index.html starfield, create.html
+# tz-offset, footer.html mailchimp + date.getFullYear, etc.) and
+# bootstrap-datepicker injects inline styles, so we allow
 # 'unsafe-inline' here. Tighten further by extracting inline blocks
-# into static files and adopting nonces.
+# into static files and adopting nonces: add CSP.NONCE to script-src
+# and the django.template.context_processors.csp context processor,
+# then stamp the nonce on the remaining inline blocks.
 #
 # bootstrap_datepicker_plus's default widget media references
 # moment.js, eonasdan-bootstrap-datetimepicker, bootstrap-icons and
@@ -272,7 +280,7 @@ MIDDLEWARE = [
 # /allocations/ fetches data straight from ALLOCATION_API_URL in
 # the browser (see static/js/allocations_pie.js, project_details.js),
 # so its origin needs to be in connect-src. settings.py re-runs
-# _build_csp() after the override file has had a chance to change
+# build_csp() after the override file has had a chance to change
 # ALLOCATION_API_URL -- otherwise prod would only allow the
 # placeholder value baked into defaults.
 #
@@ -307,50 +315,51 @@ def _origin(url):
 
 
 def build_csp(allocation_api_url, sentry_dsn=None, sentry_environment=None):
-    connect_src = ["'self'", ARDC_WEBSITE, CLOUDFLARE_TURNSTILE]
+    """Return the SECURE_CSP policy: directive -> list of sources."""
+    connect_src = [CSP.SELF, ARDC_WEBSITE, CLOUDFLARE_TURNSTILE]
     allocation_origin = _origin(allocation_api_url)
     if allocation_origin and allocation_origin not in connect_src:
         connect_src.append(allocation_origin)
-    directives = {
-        'default-src': ("'self'",),
-        'script-src': (
-            "'self'",
-            "'unsafe-inline'",
+    policy = {
+        'default-src': [CSP.SELF],
+        'script-src': [
+            CSP.SELF,
+            CSP.UNSAFE_INLINE,
             CDN_JSDELIVR,
             ARDC_WEBSITE,
             CLOUDFLARE_TURNSTILE,
-        ),
-        'style-src': (
-            "'self'",
-            "'unsafe-inline'",
+        ],
+        'style-src': [
+            CSP.SELF,
+            CSP.UNSAFE_INLINE,
             CDN_JSDELIVR,
             GOOGLE_FONTS_CSS,
-        ),
-        'img-src': ("'self'", 'data:', 'https:'),
-        'font-src': (
-            "'self'",
+        ],
+        'img-src': [CSP.SELF, 'data:', 'https:'],
+        'font-src': [
+            CSP.SELF,
             'data:',
             CDN_JSDELIVR,
             GOOGLE_FONTS_FILES,
             ARDC_WEBSITE,
-        ),
-        'connect-src': tuple(connect_src),
-        'frame-src': (CLOUDFLARE_TURNSTILE,),
-        'frame-ancestors': ("'none'",),
-        'base-uri': ("'self'",),
-        'form-action': ("'self'",),
-        'object-src': ("'none'",),
+        ],
+        'connect-src': connect_src,
+        'frame-src': [CLOUDFLARE_TURNSTILE],
+        'frame-ancestors': [CSP.NONE],
+        'base-uri': [CSP.SELF],
+        'form-action': [CSP.SELF],
+        'object-src': [CSP.NONE],
     }
     # When Sentry error reporting is configured, send CSP violation
     # reports to the same GlitchTip/Sentry project via its security
     # endpoint.
     report_uri = sentry.security_endpoint(sentry_dsn, sentry_environment)
     if report_uri:
-        directives['report-uri'] = (report_uri,)
-    return {'DIRECTIVES': directives}
+        policy['report-uri'] = [report_uri]
+    return policy
 
 
-CONTENT_SECURITY_POLICY = build_csp(ALLOCATION_API_URL)
+SECURE_CSP = build_csp(ALLOCATION_API_URL)
 
 ROOT_URLCONF = 'langstroth.urls'
 

@@ -65,7 +65,7 @@ if USE_OIDC:  # noqa: F405
 # connect-src, and when a DSN is set the CSP report-uri points at the
 # GlitchTip/Sentry security endpoint so violation reports show up
 # alongside error reports.
-CONTENT_SECURITY_POLICY = build_csp(
+SECURE_CSP = build_csp(
     ALLOCATION_API_URL,  # noqa: F405
     SENTRY_DSN,  # noqa: F405
     SENTRY_ENVIRONMENT,  # noqa: F405
