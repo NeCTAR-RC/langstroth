@@ -23,7 +23,7 @@
   {{ forcode_series|json_script:"forcode-series" }}
   {{ allocation_request_id|json_script:"allocation-id" }}
   {{ title|json_script:"project-name" }}
-  <script>
+  <script {% csp_nonce_attr %}>
     // Global vars, JSON-decoded so embedded quotes / HTML in the source
     // values can never break out of the JS string context.
     var allocationURL = JSON.parse(document.getElementById('allocation-url').textContent);

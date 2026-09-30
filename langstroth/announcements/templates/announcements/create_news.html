@@ -63,8 +63,8 @@
 </div>
 {% endblock %}
 {% block extra_script %}
-{{ form.media }}
-<script>
+{% csp_nonce_attr form.media %}
+<script {% csp_nonce_attr %}>
   // Populate the tz_name hidden field with the operator's IANA
   // timezone name so the server interprets the naive publish time
   // correctly; see create.html for the rationale.

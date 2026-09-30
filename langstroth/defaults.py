@@ -256,14 +256,28 @@ MIDDLEWARE = [
 # since 6.0; this replaced the django-csp package). SECURE_CSP maps
 # each directive to its list of sources.
 #
-# The site has inline scripts in several templates
-# (allocation_visualisation.html, index.html starfield, create.html
-# tz-offset, footer.html mailchimp + date.getFullYear, etc.) and
-# bootstrap-datepicker injects inline styles, so we allow
-# 'unsafe-inline' here. Tighten further by extracting inline blocks
-# into static files and adopting nonces: add CSP.NONCE to script-src
-# and the django.template.context_processors.csp context processor,
-# then stamp the nonce on the remaining inline blocks.
+# script-src is nonce-based: CSP.NONCE is swapped for a per-request
+# 'nonce-...' token by the middleware, and the csp context processor
+# exposes the same value to templates as {{ csp_nonce }}. Every
+# inline <script> in our templates carries {% csp_nonce_attr %}
+# (index.html starfield, the allocation pages' JSON bootstrap, the
+# create forms' tz_name capture) and base.html passes the nonce to
+# {% tz_detect %}. Inline event handlers (onclick=...) are never
+# allowed under this policy, so use real links or addEventListener.
+# The tests in langstroth/tests/test_csp.py audit the templates for
+# unnonced inline scripts and inline handlers.
+#
+# Third-party HTML that this policy also has to satisfy: the Django
+# admin and the DRF browsable API ship no inline scripts (both use
+# external files plus JSON data blocks), and bootstrap_datepicker_plus
+# only emits one for its debug-time media check, which
+# BOOTSTRAP_DATEPICKER_PLUS below switches off.
+#
+# style-src keeps 'unsafe-inline': nonces cannot cover style="..."
+# attributes (footer.html, admin/base_site.html), the ARDC footer
+# loader injects <style> elements, and third-party widgets set
+# inline styles. Tightening that means moving those styles into the
+# stylesheet and adopting nonces for <style> blocks.
 #
 # bootstrap_datepicker_plus's default widget media references
 # moment.js, eonasdan-bootstrap-datetimepicker, bootstrap-icons and
@@ -294,7 +308,12 @@ MIDDLEWARE = [
 # challenge: it loads api.js from challenges.cloudflare.com
 # (script-src), renders the widget in an iframe from the same
 # origin (frame-src), and posts verification requests back to it
-# (connect-src).
+# (connect-src). Cloudflare documents that Turnstile needs neither
+# 'unsafe-inline' nor 'unsafe-eval', and inspection of the footer
+# bundle (manifest version 1.0.0+20260914), the newsletter-form
+# bundle it pulls in and Turnstile's api.js confirmed none of them
+# injects inline script: they add external <script> elements from
+# the hosts above, <style> elements, and fetch() ardc.edu.au.
 #
 # The footer component also loads its own Figtree webfont files
 # (.woff2) straight from ardc.edu.au, so that origin needs to be
@@ -324,7 +343,7 @@ def build_csp(allocation_api_url, sentry_dsn=None, sentry_environment=None):
         'default-src': [CSP.SELF],
         'script-src': [
             CSP.SELF,
-            CSP.UNSAFE_INLINE,
+            CSP.NONCE,
             CDN_JSDELIVR,
             ARDC_WEBSITE,
             CLOUDFLARE_TURNSTILE,
@@ -372,6 +391,9 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                # Exposes the per-request CSP nonce as {{ csp_nonce }}
+                # for {% csp_nonce_attr %}; see SECURE_CSP.
+                'django.template.context_processors.csp',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -436,6 +458,14 @@ WSGI_APPLICATION = 'langstroth.wsgi.application'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 REST_FRAMEWORK = {'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S%z"}
+
+# The date picker widget's debug flag follows DEBUG and makes it render
+# an inline "form.media was not loaded" checker script. That script
+# can't carry the CSP nonce (widget templates render without the
+# request context), so under DEBUG it is blocked and logs a violation
+# on every create-form load. We always render form.media, so turn the
+# checker off.
+BOOTSTRAP_DATEPICKER_PLUS = {'debug': False}
 
 # GlitchTip/Sentry compatible DSN. When set (in the override file or
 # via the SENTRY_DSN environment variable), unhandled exceptions and

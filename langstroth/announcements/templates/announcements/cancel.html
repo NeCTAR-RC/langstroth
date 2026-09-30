@@ -10,8 +10,9 @@
   <form action="{% url 'announcements:cancel' outage.id %}" method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes</button>
-    <button type="button" class="btn btn-secondary"
-            onclick="window.location.href='{% url 'announcements:detail' outage.id %}';">No</button>
+    {# A plain link: the CSP forbids inline event handlers. #}
+    <a class="btn btn-secondary" role="button"
+       href="{% url 'announcements:detail' outage.id %}">No</a>
   </form>
 </div>
 {% endblock %}

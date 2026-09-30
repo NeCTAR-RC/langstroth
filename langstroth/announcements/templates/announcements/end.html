@@ -58,5 +58,5 @@
 </div>
 {% endblock %}
 {% block extra_script %}
-{{ form.media }}
+{% csp_nonce_attr form.media %}
 {% endblock %}

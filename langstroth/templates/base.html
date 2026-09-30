@@ -41,7 +41,8 @@
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_script %}
     {% endblock %}
-    {% tz_detect %}
+    {# tz_detect renders an inline script; kwargs become its attributes. #}
+    {% tz_detect nonce=csp_nonce %}
     <script
       src="https://ardc.edu.au/wp-content/plugins/ardc-custom-web-components/dist/loaders/footer.min.js"
       defer

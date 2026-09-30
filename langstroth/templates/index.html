@@ -211,7 +211,7 @@
 
 {% block extra_script %}
 <script src='{% static "js/index.js"%}'></script>
-<script type="text/javascript">
+<script {% csp_nonce_attr %}>
   function getRandom(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
