@@ -190,11 +190,11 @@ class Announcement(models.Model):
     class Meta:
         ordering = ['-modification_time']
 
-    def save(self, *args, **kwargs):
+    def save(self, **kwargs):
         # `scheduled` is a historical label fixed at creation time.
         if self._state.adding and self.start is not None:
             self.scheduled = self.start > timezone.now() + SCHEDULED_THRESHOLD
-        super().save(*args, **kwargs)
+        super().save(**kwargs)
 
     def clean(self):
         # Enforced here (rather than only in the create forms) so the
@@ -310,8 +310,8 @@ class AnnouncementUpdate(models.Model):
         if self.outage_id and self.outage.category == Category.NEWS:
             raise ValidationError("News must not have updates.")
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+    def save(self, **kwargs):
+        super().save(**kwargs)
         # Bubble activity onto the parent outage so list views ordered
         # by -modification_time surface recent updates. Use a queryset
         # update rather than self.outage.save() to:

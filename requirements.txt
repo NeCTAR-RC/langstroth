@@ -5,7 +5,10 @@ Django~=6.1
 djangorestframework
 django-filter
 python-dateutil
-mysqlclient
+# Django 6.0 requires mysqlclient 2.2.1+. Pin the floor so pip upgrades
+# a stale driver (e.g. the distro's python3-mysqldb 1.4.6 seen through a
+# --system-site-packages venv) instead of treating it as satisfied.
+mysqlclient>=2.2.1
 pymemcache
 pbr
 django_compressor

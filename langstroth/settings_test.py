@@ -28,13 +28,12 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 DATABASES = {
-    # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
+    # See: https://docs.djangoproject.com/en/stable/ref/settings/#databases
+    # The test runner uses an in-memory SQLite database for this
+    # engine, so no TEST['NAME'] is needed.
     'default': {
-        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.sqlite3',
-        # Or path to database file if using sqlite3.
         'NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),  # NOQA
-        'TEST_NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),  # NOQA
     },
 }
 

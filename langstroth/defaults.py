@@ -52,9 +52,13 @@ OIDC_OP_JWKS_ENDPOINT = f'{OIDC_SERVER_URL}/certs'
 
 OIDC_USERNAME_ALGO = 'langstroth.auth.generate_username'
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
+# Recipients of the AdminEmailHandler error reports (see LOGGING). A
+# list of plain address strings; Django 6.0 deprecated the old
+# ('Name', 'email') tuple entries.
+ADMINS = [
+    # 'your_email@example.com',
+    # '"Your Name" <your_email@example.com>',
+]
 
 MANAGERS = ADMINS
 
@@ -66,12 +70,13 @@ def path_merge(pathname, filename):
     return path.abspath(path.join(path.dirname(pathname), filename))
 
 
+# Production overrides this with the MariaDB connection
+# (django.db.backends.mysql); Django 6.1 requires MariaDB 10.11+.
+# See: https://docs.djangoproject.com/en/stable/ref/settings/#databases
 DATABASES = {
-    # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
-        'TEST_NAME': path_merge(__file__, DEFAULT_DATABASE_NAME),
     },
 }
 
@@ -147,7 +152,7 @@ FOR_CODE_RANGES = {
 USER_STATISTICS_START_DATE = '20111201'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+# See https://docs.djangoproject.com/en/stable/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
 
 # Local time zone for this installation. Choices can be found here:
@@ -393,7 +398,18 @@ INSTALLED_APPS = [
     'health_check',
 ]
 
+# Django 6.0 changed the global default to BigAutoField. Every model
+# here was created with AutoField (see the migrations), so keep the
+# original explicitly: switching would generate an AlterField
+# migration against every primary key for no benefit.
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# Templates run announcement text through the ``urlize`` filter. For
+# URLs written without a scheme (e.g. "www.example.org") Django 6.x
+# still links to http:// and warns that the default becomes https://
+# in Django 7.0; opt in now. This transitional setting can be dropped
+# once the project is on Django 7.0.
+URLIZE_ASSUME_HTTPS = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

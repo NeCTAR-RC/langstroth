@@ -19,21 +19,12 @@ First run
 For initial demonstration purposes navigate into the top-level Langstroth
 directory and execute::
 
-  ./manage.py syncdb
-  ./manage.py syncdb --database allocations_db
+  ./manage.py migrate
   ./manage.py runserver
 
-For production purposes the allocations table (allocations_db) will already
-exist.
-The settings file will need to be adjusted to reference this database
-and the reference data file.
-
-Once these adjustments have been made execute the scripts to load the reference
-data::
-
-  ./manage.py syncdb
-  ./manage.py syncdb --database allocations_db
-  ./manage.py runserver
+Production settings live outside the repository in
+``/etc/langstroth/settings.py`` (see ``langstroth/settings_example.py``
+for a template).
 
 Contributing
 ------------

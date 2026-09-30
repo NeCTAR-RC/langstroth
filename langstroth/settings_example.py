@@ -1,25 +1,27 @@
 SITE_DOMAIN = "status.rc.nectar.edu.au"
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
-# Required for Django 1.5.
 # If langstroth is running in production (DEBUG is False), set this
 # with the list of host/domain names that the application can serve.
 # For more information see:
-# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+# https://docs.djangoproject.com/en/stable/ref/settings/#allowed-hosts
 # ALLOWED_HOSTS = ['status.rc.nectar.org.au', ]
 
+# Site administrators who receive error emails from the
+# AdminEmailHandler below. Django 6.0 deprecated the old
+# ('Name', 'email') tuple entries; use plain address strings.
+# ADMINS = ['ops@example.com', '"Ops Team" <ops@example.com>']
+# MANAGERS = ADMINS
+
+# Production runs against MariaDB (django.db.backends.mysql); Django
+# 6.1 requires MariaDB 10.11+ or MySQL 8.4+. SQLite is fine for a
+# local install.
+# See: https://docs.djangoproject.com/en/stable/ref/settings/#databases
 DATABASES = {
-    # See: https://docs.djangoproject.com/en/1.6/intro/tutorial01/
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': '/var/lib/langstroth/langstroth.db',
-    },
-    # See: https://docs.djangoproject.com/en/1.6/topics/db/multi-db/
-    'allocations_db': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/lib/langstroth/nectar_allocations.db',
     },
 }
 
@@ -57,8 +59,6 @@ TIME_ZONE = 'Australia/Melbourne'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
