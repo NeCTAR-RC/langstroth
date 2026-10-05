@@ -11,7 +11,7 @@ from langstroth.announcements import models
 PICKER_OPTS = {
     'showTodayButton': True,
     'showClear': True,
-    'format': 'MM/DD/YYYY HH:mm',
+    'format': 'YYYY-MM-DD HH:mm',
 }
 
 

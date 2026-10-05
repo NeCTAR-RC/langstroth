@@ -159,7 +159,7 @@
       setTimeout(() => {
         const startInput = document.getElementById('id_start');
         if (!startInput || !startInput.value || !window.moment) return;
-        const m = window.moment(startInput.value, 'MM/DD/YYYY HH:mm', true);
+        const m = window.moment(startInput.value, 'YYYY-MM-DD HH:mm', true);
         if (m.isValid()) toggleInitialUpdate(m);
       });
     });
