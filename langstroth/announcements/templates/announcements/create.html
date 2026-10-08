@@ -42,6 +42,26 @@
             </div>
           </div>
           <div class="row mb-3">
+            <div class="form-label">Affected services</div>
+            <div class="col-md-6 col-lg-4">
+              {{ form.services }}
+              {% for error in form.services.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+            <div class="form-text">{{ form.services.help_text }} Hold Ctrl (Cmd on Mac) to select several.</div>
+          </div>
+          <div class="row mb-3">
+            <div class="form-label">Affected availability zones</div>
+            <div class="col-md-6 col-lg-4">
+              {{ form.availability_zones }}
+              {% for error in form.availability_zones.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+            <div class="form-text">{{ form.availability_zones.help_text }} Hold Ctrl (Cmd on Mac) to select several.</div>
+          </div>
+          <div class="row mb-3">
             <div class="form-label">Severity</div>
             <div class="col-md-6 col-lg-4">
               {{ form.severity }}

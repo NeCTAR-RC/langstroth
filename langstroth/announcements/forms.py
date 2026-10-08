@@ -113,7 +113,15 @@ class OutageForm(forms.ModelForm):
 
     class Meta:
         model = models.Announcement
-        fields = ['title', 'description', 'start', 'planned_end', 'severity']
+        fields = [
+            'title',
+            'description',
+            'start',
+            'planned_end',
+            'severity',
+            'services',
+            'availability_zones',
+        ]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -225,7 +233,13 @@ class NewsForm(forms.ModelForm):
 
     class Meta:
         model = models.Announcement
-        fields = ['title', 'description', 'start']
+        fields = [
+            'title',
+            'description',
+            'start',
+            'services',
+            'availability_zones',
+        ]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

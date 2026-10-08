@@ -66,6 +66,19 @@
             {% if outage.cancelled %}, <strong>Cancelled</strong>{% endif %}
             {% endif %}
           </li>
+          {# No tags means "affects all"; see the comment in models.py. #}
+          <li>
+            {% with services=outage.services.all %}
+            <strong>Service{{ services|pluralize }}:</strong>
+            {% if services %}{{ services|join:", " }}{% else %}All services{% endif %}
+            {% endwith %}
+          </li>
+          <li>
+            {% with zones=outage.availability_zones.all %}
+            <strong>Availability zone{{ zones|pluralize }}:</strong>
+            {% if zones %}{{ zones|join:", " }}{% else %}All availability zones{% endif %}
+            {% endwith %}
+          </li>
         </ul>
         {{ outage.description|linebreaks|urlize }}
       </div>

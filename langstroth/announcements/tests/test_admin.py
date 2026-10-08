@@ -1,5 +1,6 @@
 from unittest import mock
 
+from django.contrib.admin import site as admin_site
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.models import Group
 from django.test import TestCase
@@ -111,6 +112,82 @@ class HelperTests(TestCase):
         Group.objects.get_or_create(name='outage_managers')
         group = admin.get_outage_manager_group()
         self.assertEqual('outage_managers', group.name)
+
+
+class VocabularyAdminTests(TestCase):
+    """The admin is the only UI for managing the vocabularies, so make
+    sure both are registered with the slug tooling operators need.
+    """
+
+    def test_vocabularies_registered_with_slug_tooling(self):
+        for model in (models.Service, models.AvailabilityZone):
+            self.assertTrue(admin_site.is_registered(model))
+            model_admin = admin_site.get_model_admin(model)
+            self.assertEqual(
+                {'slug': ('name',)}, model_admin.prepopulated_fields
+            )
+            self.assertIn('slug', model_admin.list_display)
+            self.assertIn('name', model_admin.search_fields)
+
+    def test_announcement_admin_exposes_tags(self):
+        model_admin = admin.AnnouncementAdmin(models.Announcement, AdminSite())
+        self.assertEqual(
+            ('services', 'availability_zones'), model_admin.filter_horizontal
+        )
+        self.assertIn('services', model_admin.list_filter)
+        self.assertIn('availability_zones', model_admin.list_filter)
+
+
+class AdminPageRenderTests(TestCase):
+    """The admin is the de facto edit UI, so render the pages that
+    carry the new widgets rather than trusting the system checks.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.superuser = auth_models.User.objects.create_user(
+            'super', email='super@test.com', is_staff=True, is_superuser=True
+        )
+        cls.compute = models.Service.objects.create(
+            name="Compute", slug="compute"
+        )
+        models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.superuser)
+
+    def test_add_pages_render(self):
+        for url in (
+            '/admin/announcements/announcement/add/',
+            '/admin/announcements/service/add/',
+            '/admin/announcements/availabilityzone/add/',
+        ):
+            response = self.client.get(url)
+            self.assertEqual(200, response.status_code, url)
+
+    def test_change_page_shows_help_text_and_tags(self):
+        outage = _make_outage(self.superuser)
+        outage.services.add(self.compute)
+        response = self.client.get(
+            f'/admin/announcements/announcement/{outage.pk}/change/'
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertContains(
+            response, "Leave empty if this affects all services."
+        )
+        self.assertContains(
+            response, "Leave empty if this affects all availability zones."
+        )
+        self.assertContains(response, "Compute")
+
+    def test_changelist_offers_tag_filters(self):
+        response = self.client.get('/admin/announcements/announcement/')
+        self.assertEqual(200, response.status_code)
+        # RelatedFieldListFilter lists every vocabulary term.
+        self.assertContains(response, "Compute")
+        self.assertContains(response, "melbourne-qh2")
 
 
 class UpdateInlineNewsGuardTests(TestCase):
