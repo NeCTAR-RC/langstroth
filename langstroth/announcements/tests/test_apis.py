@@ -120,6 +120,21 @@ class OutageSimpleTestCase(test.APITestCase):
         self.assertEqual(data['count'], 2)
         self.assertEqual(data['results'], self.expected)
 
+    def test_tags_not_exposed(self):
+        # /api/v1/outages/ is a frozen contract: the Service /
+        # AvailabilityZone tags are only on /api/v1/announcements/, and
+        # the tag filters are ignored here like any unknown parameter.
+        service = models.Service.objects.create(name="Compute", slug="compute")
+        self.one.services.add(service)
+        response = self.client.get(f"/api/v1/outages/{self.one.id}/")
+        data = json.loads(response.content)
+        self.assertNotIn('services', data)
+        self.assertNotIn('availability_zones', data)
+        self.assertEqual(self.expected[0], data)
+        response = self.client.get("/api/v1/outages/?service=nope")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(2, json.loads(response.content)['count'])
+
     def test_get_filtered_cancelled(self):
         response = self.client.get("/api/v1/outages/?cancelled=true")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -430,6 +445,8 @@ class AnnouncementEndpointTestCase(test.APITestCase):
                 'scheduled_display': 'unscheduled',
                 'status_display': 'Published',
                 'cancelled': False,
+                'services': [],
+                'availability_zones': [],
                 'updates': [],
             },
             news,
@@ -525,3 +542,246 @@ class AnnouncementEmbargoAPITestCase(test.APITestCase):
         content = json.loads(response.content)
         self.assertEqual("Retracted", content['status_display'])
         self.assertTrue(content['cancelled'])
+
+
+@freeze_time("2026-07-01 10:00:00")
+class AnnouncementTagAPITestCase(test.APITestCase):
+    """Cover the services / availability_zones fields and the
+    `service` / `availability_zone` filters on /api/v1/announcements/.
+
+    The consumer is a per-service status page. An announcement with
+    no tags affects all services and zones, so the filters must return
+    untagged rows alongside rows tagged with the requested term.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="tags", email="tags@test.com"
+        )
+        cls.compute = models.Service.objects.create(
+            name="Compute", slug="compute"
+        )
+        cls.volume = models.Service.objects.create(
+            name="Volume", slug="volume"
+        )
+        cls.qh2 = models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+        cls.monash = models.AvailabilityZone.objects.create(
+            name="monash-01", slug="monash-01"
+        )
+        cls.untagged = cls._make(title="untagged")
+        cls.compute_only = cls._make(
+            title="compute only", services=[cls.compute]
+        )
+        cls.volume_only = cls._make(title="volume only", services=[cls.volume])
+        cls.both_qh2 = cls._make(
+            title="compute and volume at qh2",
+            services=[cls.compute, cls.volume],
+            zones=[cls.qh2],
+        )
+        cls.monash_only = cls._make(title="monash", zones=[cls.monash])
+        # Embargoed news tagged compute: hidden everywhere until start.
+        cls.embargoed = cls._make(
+            title="embargoed",
+            category=models.Category.NEWS,
+            severity=None,
+            start=timezone.now() + timedelta(days=1),
+            services=[cls.compute],
+        )
+
+    @classmethod
+    def _make(cls, services=(), zones=(), **overrides):
+        defaults = {
+            "title": "t",
+            "description": "d",
+            "start": timezone.now() - timedelta(hours=1),
+            "severity": models.SIGNIFICANT,
+            "created_by": cls.user,
+        }
+        defaults.update(overrides)
+        announcement = models.Announcement.objects.create(**defaults)
+        announcement.services.set(services)
+        announcement.availability_zones.set(zones)
+        return announcement
+
+    def _titles(self, query):
+        response = self.client.get(f'/api/v1/announcements/?{query}')
+        self.assertEqual(
+            status.HTTP_200_OK, response.status_code, response.content
+        )
+        data = json.loads(response.content)
+        titles = [r['title'] for r in data['results']]
+        # The paginator count must agree with the de-duplicated rows.
+        self.assertEqual(data['count'], len(titles))
+        return titles
+
+    def test_tags_serialised_as_name_and_slug_ordered_by_name(self):
+        response = self.client.get(
+            f'/api/v1/announcements/{self.both_qh2.pk}/'
+        )
+        data = json.loads(response.content)
+        self.assertEqual(
+            [
+                {'name': 'Compute', 'slug': 'compute'},
+                {'name': 'Volume', 'slug': 'volume'},
+            ],
+            data['services'],
+        )
+        self.assertEqual(
+            [{'name': 'melbourne-qh2', 'slug': 'melbourne-qh2'}],
+            data['availability_zones'],
+        )
+
+    def test_untagged_serialises_as_empty_lists(self):
+        response = self.client.get(
+            f'/api/v1/announcements/{self.untagged.pk}/'
+        )
+        data = json.loads(response.content)
+        self.assertEqual([], data['services'])
+        self.assertEqual([], data['availability_zones'])
+
+    def test_service_filter_includes_untagged(self):
+        # The untagged row and the zone-only row have no services, so
+        # they affect Compute too; the volume-only row does not.
+        self.assertEqual(
+            {
+                "untagged",
+                "compute only",
+                "compute and volume at qh2",
+                "monash",
+            },
+            set(self._titles('service=compute')),
+        )
+
+    def test_repeated_service_is_or_without_duplicates(self):
+        titles = self._titles('service=compute&service=volume')
+        self.assertEqual(
+            {
+                "untagged",
+                "compute only",
+                "volume only",
+                "compute and volume at qh2",
+                "monash",
+            },
+            set(titles),
+        )
+        # Tagged with both requested services, but listed once.
+        self.assertEqual(1, titles.count("compute and volume at qh2"))
+
+    def test_zone_filter_includes_untagged(self):
+        self.assertEqual(
+            {"untagged", "compute only", "volume only", "monash"},
+            set(self._titles('availability_zone=monash-01')),
+        )
+
+    def test_service_and_zone_are_anded(self):
+        # "monash" affects all services but only the monash-01 zone, so
+        # it drops out when the zone is pinned to melbourne-qh2.
+        self.assertEqual(
+            {"untagged", "compute only", "compute and volume at qh2"},
+            set(
+                self._titles('service=compute&availability_zone=melbourne-qh2')
+            ),
+        )
+
+    def test_tag_filters_combine_with_activity(self):
+        now = timezone.now()
+        self._make(
+            title="ended compute",
+            services=[self.compute],
+            start=now - timedelta(hours=3),
+            end=now - timedelta(hours=1),
+        )
+        self.assertEqual(
+            ["ended compute"],
+            self._titles('service=compute&activity=completed'),
+        )
+        self.assertNotIn(
+            "ended compute", self._titles('service=compute&activity=active')
+        )
+        self.assertNotIn(
+            "ended compute", self._titles('service=volume&activity=completed')
+        )
+
+    def test_unknown_slug_is_400(self):
+        for query in ('service=nope', 'availability_zone=nope'):
+            response = self.client.get(f'/api/v1/announcements/?{query}')
+            self.assertEqual(
+                status.HTTP_400_BAD_REQUEST, response.status_code, query
+            )
+
+    def test_embargoed_news_stays_hidden_when_filtering(self):
+        self.assertNotIn("embargoed", self._titles('service=compute'))
+
+    def test_list_query_count_bounded(self):
+        # COUNT(*) + page SELECT + one prefetch each for updates,
+        # services and availability_zones = 5, independent of the
+        # number of rows or tags.
+        with self.assertNumQueries(5):
+            response = self.client.get('/api/v1/announcements/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+
+class VocabularyEndpointTestCase(test.APITestCase):
+    """/api/v1/services/ and /api/v1/availability-zones/ let a consumer
+    discover the slugs to filter announcements by.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        models.Service.objects.create(name="Volume", slug="volume")
+        models.Service.objects.create(name="Compute", slug="compute")
+        models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+
+    def test_lists_ordered_by_name(self):
+        response = self.client.get('/api/v1/services/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        data = json.loads(response.content)
+        self.assertEqual(2, data['count'])
+        self.assertEqual(
+            [
+                {'name': 'Compute', 'slug': 'compute'},
+                {'name': 'Volume', 'slug': 'volume'},
+            ],
+            data['results'],
+        )
+        response = self.client.get('/api/v1/availability-zones/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(
+            [{'name': 'melbourne-qh2', 'slug': 'melbourne-qh2'}],
+            json.loads(response.content)['results'],
+        )
+
+    def test_detail_by_slug(self):
+        response = self.client.get('/api/v1/services/compute/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(
+            {'name': 'Compute', 'slug': 'compute'},
+            json.loads(response.content),
+        )
+        response = self.client.get('/api/v1/availability-zones/melbourne-qh2/')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(
+            {'name': 'melbourne-qh2', 'slug': 'melbourne-qh2'},
+            json.loads(response.content),
+        )
+
+    def test_unknown_slug_404(self):
+        for url in (
+            '/api/v1/services/nope/',
+            '/api/v1/availability-zones/nope/',
+        ):
+            self.assertEqual(
+                status.HTTP_404_NOT_FOUND, self.client.get(url).status_code
+            )
+
+    def test_read_only(self):
+        for url in ('/api/v1/services/', '/api/v1/availability-zones/'):
+            response = self.client.post(url, {'name': 'x', 'slug': 'x'})
+            self.assertEqual(
+                status.HTTP_405_METHOD_NOT_ALLOWED, response.status_code
+            )

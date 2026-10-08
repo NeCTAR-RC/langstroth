@@ -114,10 +114,27 @@ class AnnouncementUpdateSerializer(serializers.ModelSerializer):
         fields = ('content', 'time', 'status')
 
 
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Service
+        fields = ('name', 'slug')
+
+
+class AvailabilityZoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AvailabilityZone
+        fields = ('name', 'slug')
+
+
 class AnnouncementSerializer(serializers.ModelSerializer):
     severity_display = serializers.ReadOnlyField()
     scheduled_display = serializers.ReadOnlyField()
     status_display = serializers.ReadOnlyField()
+    # Nested name+slug so a consumer can render the label without a
+    # second request. An empty list means "affects all services" /
+    # "all availability zones" -- see the comment in models.py.
+    services = ServiceSerializer(many=True, read_only=True)
+    availability_zones = AvailabilityZoneSerializer(many=True, read_only=True)
     updates = AnnouncementUpdateSerializer(many=True, read_only=True)
 
     class Meta:
@@ -140,11 +157,31 @@ class AnnouncementSerializer(serializers.ModelSerializer):
             'scheduled_display',
             'status_display',
             'cancelled',
+            'services',
+            'availability_zones',
             'updates',
         )
 
 
-class AnnouncementFilter(OutageFilter):
+class AnnouncementFilter(OutageFilter, filters.TagFilterMixin):
+    # ?service=compute&service=volume matches rows tagged with either,
+    # plus untagged rows (which affect all services); `service` and
+    # `availability_zone` combine with AND. Lookup is by slug, the
+    # stable identifier. An unknown slug fails field validation, which
+    # DjangoFilterBackend reports as HTTP 400 -- deliberately loud, so
+    # a consumer with a misconfigured slug doesn't render an empty
+    # "no outages" page.
+    service = rest_filters.ModelMultipleChoiceFilter(
+        method='filter_service',
+        to_field_name='slug',
+        queryset=models.Service.objects.all(),
+    )
+    availability_zone = rest_filters.ModelMultipleChoiceFilter(
+        method='filter_availability_zone',
+        to_field_name='slug',
+        queryset=models.AvailabilityZone.objects.all(),
+    )
+
     class Meta(OutageFilter.Meta):
         fields = {
             **OutageFilter.Meta.fields,
@@ -172,4 +209,26 @@ class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
         return models.Announcement.objects.exclude(
             category=models.Category.NEWS,
             start__gt=timezone.now(),
-        ).prefetch_related('updates')
+        ).prefetch_related('updates', 'services', 'availability_zones')
+
+
+class VocabularyViewSet(viewsets.ReadOnlyModelViewSet):
+    """Read-only lookup of a tag vocabulary, addressed by slug.
+
+    Lets a consumer discover the slugs it can pass to the `service` /
+    `availability_zone` filters on /api/v1/announcements/.
+    """
+
+    permission_classes = [permissions.AllowAny]
+    pagination_class = OutagePagination
+    lookup_field = 'slug'
+
+
+class ServiceViewSet(VocabularyViewSet):
+    queryset = models.Service.objects.all()
+    serializer_class = ServiceSerializer
+
+
+class AvailabilityZoneViewSet(VocabularyViewSet):
+    queryset = models.AvailabilityZone.objects.all()
+    serializer_class = AvailabilityZoneSerializer
