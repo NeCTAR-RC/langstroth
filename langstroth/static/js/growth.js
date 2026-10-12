@@ -55,6 +55,7 @@ function makeChart(canvas) {
         },
         y: {
           stacked: true,
+          beginAtZero: true,
           position: 'right',
           ticks: {callback: formatCount}
         }

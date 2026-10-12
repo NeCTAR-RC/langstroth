@@ -40,6 +40,7 @@ function baseOptions(tooltipFormat) {
         time: {tooltipFormat: tooltipFormat}
       },
       y: {
+        beginAtZero: true,
         position: 'right',
         ticks: {callback: formatCount}
       }
