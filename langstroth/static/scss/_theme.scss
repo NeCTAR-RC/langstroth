@@ -1050,6 +1050,7 @@ nav {
   }
   &#navbar-bottom {
     background-color: #f3f3f3;
+    .container,
     .container-xl {
       @include media-breakpoint-down(lg) {
         padding: 0;
