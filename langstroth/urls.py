@@ -5,6 +5,7 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.views.generic.base import RedirectView
+from django.views.generic.base import TemplateView
 from health_check.views import HealthCheckView
 from mozilla_django_oidc import views as oidc_views
 from rest_framework import routers
@@ -95,6 +96,19 @@ urlpatterns = [
         ),
     ),
 ]
+
+if settings.DEBUG:
+    # Design System style guide, for checking theme changes locally.
+    urlpatterns += [
+        path(
+            'style-guide/',
+            TemplateView.as_view(
+                template_name='dev/style_guide.html',
+                extra_context={'title': 'Style guide'},
+            ),
+            name='style-guide',
+        ),
+    ]
 
 if settings.USE_OIDC:
     urlpatterns += [

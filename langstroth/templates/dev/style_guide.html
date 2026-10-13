@@ -1,0 +1,539 @@
+{% extends 'base.html' %}
+
+{% block page-header %}{% endblock %}
+
+{% block content %}
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Style Guide</li>
+                </ol>
+            </nav>
+            <h1 class="page-title">Style Guide</h1>
+            <h2 class="page-subtitle">This page contains examples of web elements styled to match the ARDC theme and is based on the <a href="https://getbootstrap.com/">Bootstrap 5</a> framework. Some of the frameworks components are customized and shown below, but more code snippets for components, form elements and utility classes can be found on the <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap 5 docs</a>.</h2>
+
+            <hr class="my-4">
+
+            <h3>ARDC Colours</h3>
+            <p><i class="fa fa-square fa-xl text-blue"></i> Blue (.text-blue or .bg-blue)</p>
+            <p><i class="fa fa-square fa-xl text-pink"></i> Pink (.text-pink or .bg-pink)</p>
+            <p><i class="fa fa-square fa-xl text-yellow"></i> Yellow (.text-yellow or .bg-yellow)</p>
+            <p><i class="fa fa-square fa-xl text-purple"></i> Purple (.text-purple or .bg-purple)</p>
+            <p><i class="fa fa-square fa-xl text-navy"></i> People (.text-navy or .bg-navy)</p>
+            <p><i class="fa fa-square fa-xl text-green"></i> Planet (.text-green or .bg-green)</p>
+            <p><i class="fa fa-square fa-xl text-orange"></i> HASS (.text-orange or .bg-orange)</p>
+
+            <hr class="my-4">
+
+            <h3>Typography</h3>
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+            <h2 class="text-uppercase">Uppercase Heading</h2>
+            <p>Sed egestas, ante et <a href="">vulputate volutpat</a>, eros pede semper est, vitae luctus metus
+                libero eu augue.
+                Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent
+                elementum hendrerit
+                <a href="">tortor</a>. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis,
+                mi neque euismod
+                dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus
+                sed, urna.
+            </p>
+
+            <hr class="my-4">
+
+            <h3>Unordered list</h3>
+            <ul class="list-bullet">
+                <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+                <li>Aliquam tincidunt mauris eu risus.</li>
+                <li>Vestibulum auctor dapibus neque.</li>
+            </ul>
+
+            <hr class="my-4">
+
+            <h3>Ordered list</h3>
+            <ol>
+                <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+                <li>Aliquam tincidunt mauris eu risus.</li>
+                <li>Vestibulum auctor dapibus neque.</li>
+            </ol>
+
+            <hr class="my-4">
+
+            <h3>Buttons and Inputs</h3>
+            <div class="my-3">
+                <button type="button" class="btn btn-primary">Primary</button>
+                <button type="button" class="btn btn-secondary">Secondary</button>
+                <button type="button" class="btn btn-success">Success</button>
+                <button type="button" class="btn btn-danger">Danger</button>
+                <button type="button" class="btn btn-warning">Warning</button>
+                <button type="button" class="btn btn-info">Info</button>
+                <button type="button" class="btn btn-light">Light</button>
+                <button type="button" class="btn btn-dark">Dark</button>
+            </div>
+
+            <div class="my-3">
+                <button type="button" class="btn btn-outline-primary">Primary</button>
+                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                <button type="button" class="btn btn-outline-success">Success</button>
+                <button type="button" class="btn btn-outline-danger">Danger</button>
+                <button type="button" class="btn btn-outline-warning">Warning</button>
+                <button type="button" class="btn btn-outline-info">Info</button>
+                <button type="button" class="btn btn-outline-light">Light</button>
+                <button type="button" class="btn btn-outline-dark">Dark</button>
+            </div>
+            <div class="my-3">
+                <a href="#" class="btn btn-link">Explore</a>
+                <a href="#" class="btn btn-back">Back</a>
+            </div>
+            <h4>Button sizes and states</h4>
+            <div class="my-3">
+                <button type="button" class="btn btn-primary btn-sm">Small</button>
+                <button type="button" class="btn btn-primary">Default (40px)</button>
+                <button type="button" class="btn btn-primary btn-lg">Large (48px)</button>
+                <button type="button" class="btn btn-primary" disabled>Disabled</button>
+                <button type="button" class="btn btn-outline-primary btn-sm">Small</button>
+                <button type="button" class="btn btn-outline-primary">Default (40px)</button>
+                <button type="button" class="btn btn-outline-primary btn-lg">Large (48px)</button>
+                <button type="button" class="btn btn-outline-primary" disabled>Disabled</button>
+                <a href="#" class="btn btn-link disabled" aria-disabled="true">Link disabled</a>
+            </div>
+            <p class="text-muted">Press Tab to move through the page and check the purple focus outline on buttons, inputs, tabs, pagination and the accordion.</p>
+
+            <form class="my-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                        anyone else.</small>
+                </div>
+            </form>
+
+            <h3>Form controls</h3>
+            <form class="my-3">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="sg-text" class="form-label">Text input</label>
+                            <input type="text" class="form-control" id="sg-text" placeholder="Placeholder">
+                            <div class="form-text">Help text sits below the field.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sg-select" class="form-label">Select</label>
+                            <select class="form-select" id="sg-select">
+                                <option selected>Select an option</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sg-textarea" class="form-label">Textarea</label>
+                            <textarea class="form-control" id="sg-textarea" placeholder="Minimum height is 120px"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sg-disabled" class="form-label">Disabled input</label>
+                            <input type="text" class="form-control" id="sg-disabled" value="Disabled" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sg-readonly" class="form-label">Read-only input</label>
+                            <input type="text" class="form-control" id="sg-readonly" value="Read-only" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="sg-valid" class="form-label">Valid input</label>
+                            <input type="text" class="form-control is-valid" id="sg-valid" value="Looks good">
+                            <div class="valid-feedback">Valid feedback message.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sg-invalid" class="form-label">Invalid input</label>
+                            <input type="text" class="form-control is-invalid" id="sg-invalid" value="Needs attention">
+                            <div class="invalid-feedback">Invalid feedback message.</div>
+                        </div>
+                        <fieldset class="mb-3">
+                            <legend class="form-label fs-6">Checkboxes</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="sg-cb1" checked>
+                                <label class="form-check-label" for="sg-cb1">Checked</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="sg-cb2">
+                                <label class="form-check-label" for="sg-cb2">Unchecked</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="sg-cb3" disabled>
+                                <label class="form-check-label" for="sg-cb3">Disabled</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input is-invalid" type="checkbox" id="sg-cb4">
+                                <label class="form-check-label" for="sg-cb4">Invalid</label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="mb-3">
+                            <legend class="form-label fs-6">Radio buttons</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sg-radio" id="sg-r1" checked>
+                                <label class="form-check-label" for="sg-r1">Selected</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sg-radio" id="sg-r2">
+                                <label class="form-check-label" for="sg-r2">Unselected</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sg-radio" id="sg-r3" disabled>
+                                <label class="form-check-label" for="sg-r3">Disabled</label>
+                            </div>
+                        </fieldset>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" role="switch" id="sg-switch" checked>
+                            <label class="form-check-label" for="sg-switch">Switch</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr class="my-4">
+
+            <h3>Accordion</h3>
+            <div class="my-2">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                Accordion Item #1
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
+                                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                                within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                Accordion Item #2
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse
+                                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                                within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                Accordion Item #3
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
+                                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                                within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Cards</h3>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Card with link</h2>
+                            <p class="card-text">Some quick example text to build on the card title and make
+                                up the bulk of the card's content.</p>
+                            <a href="#" class="card-link"><span class="card-link-btn">Card link</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Card without link</h2>
+                            <p class="card-text">Some quick example text to build on the card title and make
+                                up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <div class="card-labels">
+                                <span class="badge-theme badge-people">People</span>
+                                <span class="badge-label">Researcher</span>
+                            </div>
+                            <h4 class="card-title">Card with grey background</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make
+                                up the bulk of the card's content.</p>
+                            <a href="#" class="card-link"><span class="card-link-btn">Card link</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card bg-white">
+                        <div class="card-img-top"><img src="/images/thumbnail_researcher.jpg" alt="Card with image."></div>
+                        <div class="card-body">
+                            <h4 class="card-title">Card with image</h4>
+                            <p class="card-text">Some quick example text to build on the card title and make
+                                up the bulk of the card's content.</p>
+                            <a href="#" class="card-link"><span class="card-link-btn">Card link</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Modal</h3>
+            <div class="my-2">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch large modal
+                </button>
+
+                <p class="mt-3"><span class="badge bg-secondary">Note</span> Modal can be different sizes such as extra large (.modal-xl), large (.modal-lg) and small (.modal-sm).</p>
+
+                <!-- Modal -->
+                <div class="modal modal-lg fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Tooltips &amp; Popovers</h3>
+            <div class="my-2">
+                <p>Placeholder text to demonstrate some <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Default tooltip">inline links</a> with tooltips.</p>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tooltip on top">
+                    Tooltip on top
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Tooltip on right">
+                    Tooltip on right
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Tooltip on bottom">
+                    Tooltip on bottom
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Tooltip on left">
+                    Tooltip on left
+                </button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" data-bs-content="And here's some amazing content. It's very engaging. Right?" data-bs-original-title="Popover title">Click to toggle popover</button>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Pagination</h3>
+            <nav class="my-2" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <hr class="my-4">
+
+            <h3>Alerts</h3>
+            <div class="alert alert-info" role="alert"><strong>Information.</strong> This is an info alert with <a href="#" class="alert-link">a link</a>.</div>
+            <div class="alert alert-success" role="alert"><strong>Success.</strong> This is a success alert with <a href="#" class="alert-link">a link</a>.</div>
+            <div class="alert alert-warning" role="alert"><strong>Warning.</strong> This is a warning alert with <a href="#" class="alert-link">a link</a>.</div>
+            <div class="alert alert-danger" role="alert"><strong>Error.</strong> This is a danger alert with <a href="#" class="alert-link">a link</a>.</div>
+
+            <hr class="my-4">
+
+            <h3>Toasts</h3>
+            <div id="toast-container" class="position-static mb-3">
+                <div class="toast show bg-success-subtle border-success" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header"><span class="toast-title me-auto">Success</span><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>
+                    <div class="toast-body">Your changes have been saved.</div>
+                </div>
+                <div class="toast show bg-danger-subtle border-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header"><span class="toast-title me-auto">Error</span><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>
+                    <div class="toast-body">Something went wrong.</div>
+                </div>
+                <div class="toast show bg-warning-subtle border-warning" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header"><span class="toast-title me-auto">Warning</span><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>
+                    <div class="toast-body">Scheduled maintenance is coming up.</div>
+                </div>
+                <div class="toast show bg-info-subtle border-info" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header"><span class="toast-title me-auto">Information</span><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>
+                    <div class="toast-body">A new announcement is available.</div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Tabs</h3>
+            <ul class="nav nav-tabs" id="sgTabs" role="tablist">
+                <li class="nav-item" role="presentation"><button class="nav-link active" id="sg-tab-1" data-bs-toggle="tab" data-bs-target="#sg-pane-1" type="button" role="tab" aria-controls="sg-pane-1" aria-selected="true">Summary</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="sg-tab-2" data-bs-toggle="tab" data-bs-target="#sg-pane-2" type="button" role="tab" aria-controls="sg-pane-2" aria-selected="false">Details</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link disabled" type="button" role="tab" disabled>Disabled</button></li>
+            </ul>
+            <div class="tab-content p-3 mb-4">
+                <div class="tab-pane fade show active" id="sg-pane-1" role="tabpanel" aria-labelledby="sg-tab-1" tabindex="0">Content for the first tab.</div>
+                <div class="tab-pane fade" id="sg-pane-2" role="tabpanel" aria-labelledby="sg-tab-2" tabindex="0">Content for the second tab.</div>
+            </div>
+            <h4>Pills</h4>
+            <ul class="nav nav-pills mb-3">
+                <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+            </ul>
+
+            <hr class="my-4">
+
+            <h3>Table</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead><tr><th scope="col">Project</th><th scope="col">Status</th><th scope="col">Cores</th></tr></thead>
+                    <tbody>
+                        <tr><td>Genomics pipeline</td><td>Approved</td><td>128</td></tr>
+                        <tr><td>Climate model</td><td>Pending</td><td>512</td></tr>
+                        <tr><td>Imaging archive</td><td>Approved</td><td>64</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Badges</h3>
+            <p>
+                <span class="badge text-bg-primary">Primary</span>
+                <span class="badge text-bg-success">Success</span>
+                <span class="badge text-bg-danger">Danger</span>
+                <span class="badge text-bg-warning">Warning</span>
+                <span class="badge text-bg-info">Info</span>
+                <span class="badge text-bg-light">Light</span>
+            </p>
+            <div class="card-labels">
+                <span class="badge-theme">Default</span>
+                <span class="badge-theme badge-people">People</span>
+                <span class="badge-theme badge-planet">Planet</span>
+                <span class="badge-theme badge-hass">HASS</span>
+                <span class="badge-label">Label</span>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Breadcrumbs</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Library</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Data</li>
+                </ol>
+            </nav>
+
+            <hr class="my-4">
+
+            <h3>Blockquote</h3>
+            <figure>
+                <blockquote class="blockquote"><p>Data is only useful when it can be found, accessed and reused.</p></blockquote>
+                <figcaption class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></figcaption>
+            </figure>
+
+            <hr class="my-4">
+
+            <h3>Bullet list and filter panel</h3>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <ul class="list-bullet">
+                        <li>First item</li>
+                        <li>Second item</li>
+                        <li>Third item</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card filter-panel">
+                        <a class="card-title" data-bs-toggle="collapse" href="#sg-filter" role="button" aria-expanded="true" aria-controls="sg-filter">Filter</a>
+                        <div class="collapse show" id="sg-filter">
+                            <div class="card-body">
+                                <div class="filter-link"><a href="#" class="btn btn-sm btn-outline-primary">Option one</a><a href="#" class="btn btn-sm btn-outline-primary">Option two</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3>Banner Template</h3>
+        </div>
+    </div>
+</div>
+<section class="banner banner-with-search bg-dark">
+    <div class="container">
+        <div class="banner-content-box">
+            <h1 class="banner-title">Banner title</h1>
+            <p class="banner-subtitle">A banner subtitle in the 18px semibold hero description style.</p>
+        </div>
+        <div class="banner-search-box">
+            <label for="sg-search" class="form-label">Search</label>
+            <input type="search" class="form-control" id="sg-search" placeholder="Search">
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <hr class="my-4">
+
+            <h3>Container Widths</h3>
+            <p>This page uses <code>.container</code>. Current breakpoint:
+                <strong>
+                    <span class="d-sm-none">xs</span><span class="d-none d-sm-inline d-md-none">sm</span><span class="d-none d-md-inline d-lg-none">md</span><span class="d-none d-lg-inline d-xl-none">lg (container 1024px)</span><span class="d-none d-xl-inline d-xxl-none">xl (container 1280px)</span><span class="d-none d-xxl-inline">xxl (container 1440px)</span>
+                </strong>
+            </p>
+            <div class="container-fluid bg-light py-2 mb-4">A <code>.container-fluid</code> is always 100% of the viewport width.</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

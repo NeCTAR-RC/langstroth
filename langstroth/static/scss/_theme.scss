@@ -56,16 +56,181 @@
   background-color: $orange !important;
 }
 
+/*** Typography (ARDC Design System) ***/
+
+// Heading sizes are set in _variables.scss. Line heights follow the Design
+// System text styles (H1 44px, H2 36px, H3 32px, H4 28px, H5 26px).
+h1,
+.h1 {
+  line-height: 1.2222;
+}
+
+h2,
+.h2 {
+  line-height: 1.2857;
+}
+
+h3,
+.h3 {
+  line-height: 1.3333;
+}
+
+h4,
+.h4 {
+  line-height: 1.4;
+}
+
+h5,
+.h5 {
+  line-height: 1.4444;
+}
+
+h6,
+.h6 {
+  line-height: 1.5;
+}
+
+// Mobile sizes: H1 28/36, H2 24/32, H3 22/30. H4 and H5 do not change.
+@include media-breakpoint-down(md) {
+  h1,
+  .h1 {
+    font-size: 1.75rem;
+    line-height: 1.2857;
+  }
+
+  h2,
+  .h2 {
+    font-size: 1.5rem;
+    line-height: 1.3333;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.375rem;
+    line-height: 1.3636;
+  }
+}
+
+.blockquote {
+  font-weight: 600;
+  line-height: 1.4;
+  color: $purple;
+}
+
+// Text links in content are bold and underlined.
+main a:not([class]) {
+  font-weight: 700;
+}
+
 /*** Theme elements ***/
 
-a:hover {
-  text-decoration-color: $blue;
+main a:hover {
+  text-decoration-color: currentcolor;
+}
+
+// Keyboard focus is a 1.5px purple outline offset by 4px.
+.btn,
+.form-control,
+.form-select,
+.form-check-input,
+.page-link,
+.accordion-button,
+.nav-tabs .nav-link,
+.nav-pills .nav-link {
+  outline: 1.5px solid transparent;
+  outline-offset: 0;
+  transition: outline-offset 0.3s ease-in-out;
+  &:focus-visible {
+    outline-color: $purple;
+    outline-offset: 4px;
+  }
 }
 
 form label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   font-size: 1rem;
   font-weight: 700;
+  color: $gray-700;
+}
+
+.form-control,
+.form-select {
+  &:hover:not(:disabled):not(:read-only):not(:focus) {
+    border-color: $purple;
+  }
+  &:read-only:not(select) {
+    border-color: $gray-200;
+  }
+}
+
+textarea.form-control {
+  min-height: 120px;
+}
+
+.form-check-label {
+  font-size: $font-size-sm;
+  line-height: 1.42857;
+}
+
+.form-check-input {
+  &:hover:not(:disabled) {
+    border-color: $purple;
+  }
+  &:disabled {
+    border-color: $gray-300;
+    & ~ .form-check-label {
+      color: $gray-300;
+    }
+  }
+  &.is-invalid {
+    border-color: $danger;
+    & ~ .form-check-label {
+      color: $danger;
+    }
+  }
+}
+
+.invalid-feedback,
+.valid-feedback {
+  font-size: $font-size-sm;
+  line-height: 1.42857;
+}
+
+.alert {
+  font-size: $font-size-sm;
+  line-height: 1.25rem;
+}
+
+.alert[class] {
+  --bs-alert-color: #{$gray-900};
+  --bs-alert-link-color: #{$gray-900};
+}
+
+.badge {
+  line-height: 1rem;
+  &.text-bg-light,
+  &.bg-light {
+    color: $gray-700 !important;
+    border: 0.5px solid $gray-200;
+    background-color: $gray-100 !important;
+  }
+}
+
+.table {
+  font-size: $font-size-sm;
+  line-height: 1.25rem;
+  > :not(caption) > * > * {
+    border-bottom-width: 1px;
+  }
+  thead th {
+    color: $gray-700;
+    border-bottom: 2px solid $gray-200;
+    vertical-align: middle;
+  }
+  tbody td {
+    color: $gray-900;
+    vertical-align: middle;
+  }
 }
 
 nav:has(.breadcrumb) {
@@ -95,37 +260,51 @@ ul.list-bullet {
 
 .breadcrumb {
   padding-right: 15px;
+  line-height: 1rem;
   a {
-    color: $dark;
+    color: $gray-500;
     text-decoration: none;
-    &:hover {
+    &:hover,
+    &:focus-visible {
+      color: $purple;
       text-decoration: underline;
     }
+  }
+  .breadcrumb-item.active {
+    font-weight: 600;
   }
 }
 
 .page-title {
-  font-size: 35px;
-  line-height: 36px;
-  font-weight: 700;
+  // Same as .h1
+  margin-top: 0;
   margin-bottom: 20px;
+  font-size: $h1-font-size;
+  font-weight: $headings-font-weight;
+  line-height: 1.2222;
+  color: $headings-color;
+  @include media-breakpoint-down(md) {
+    font-size: 1.75rem;
+    line-height: 1.2857;
+  }
 }
 
 .page-subtitle {
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 1.125rem;
+  line-height: 1.4444;
   font-weight: 600;
   margin-bottom: 20px;
-  color: rgba(32, 32, 32, 0.8);
+  color: $gray-700;
 }
 
 .btn {
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
+  --bs-btn-focus-box-shadow: none;
 }
 
 .btn-link {
-  color: $dark;
-  font-weight: 600;
+  color: $gray-700;
+  font-weight: 700;
   text-decoration: none;
   position: relative;
   padding: 0;
@@ -137,11 +316,11 @@ ul.list-bullet {
     left: 0;
     height: 1px;
     width: 0;
-    background-color: #8e489b;
+    background-color: $purple;
     transition: all 0.3s ease-in-out 0s;
   }
   &:after {
-    color: $blue;
+    color: $purple;
     margin-left: 10px;
     vertical-align: initial;
     text-rendering: auto;
@@ -152,8 +331,8 @@ ul.list-bullet {
     transition: all 0.15s ease-in-out 0s;
   }
   &:hover {
-    color: $dark;
-    font-weight: 600;
+    color: $purple;
+    font-weight: 700;
     text-decoration: none;
     &:before {
       width: calc(100% - 20px);
@@ -172,8 +351,8 @@ ul.list-bullet {
 }
 
 .btn-back {
-  color: $dark;
-  font-weight: 600;
+  color: $gray-700;
+  font-weight: 700;
   text-decoration: none;
   position: relative;
   padding: 0;
@@ -185,11 +364,11 @@ ul.list-bullet {
     left: 20px;
     height: 1px;
     width: 0;
-    background-color: #8e489b;
+    background-color: $purple;
     transition: all 0.3s ease-in-out 0s;
   }
   &:before {
-    color: $blue;
+    color: $purple;
     margin-right: 10px;
     vertical-align: initial;
     text-rendering: auto;
@@ -200,8 +379,8 @@ ul.list-bullet {
     transition: all 0.15s ease-in-out 0s;
   }
   &:hover {
-    color: $dark;
-    font-weight: 600;
+    color: $purple;
+    font-weight: 700;
     text-decoration: none;
     &:after {
       width: calc(100% - 20px);
@@ -226,18 +405,25 @@ ul.list-bullet {
 }
 
 .btn-primary {
-  color: $black;
-  background-color: $yellow;
-  border-color: $yellow;
+  --bs-btn-color: #{$gray-900};
+  --bs-btn-bg: #{$yellow};
+  --bs-btn-border-color: #{$ardc-yellow-700};
+  --bs-btn-hover-color: #{$white};
+  --bs-btn-hover-bg: #{$purple};
+  --bs-btn-hover-border-color: #{$purple};
+  --bs-btn-focus-shadow-rgb: 0, 0, 0;
+  --bs-btn-active-color: #{$white};
+  --bs-btn-active-bg: #{$ardc-purple-700};
+  --bs-btn-active-border-color: #{$ardc-purple-700};
+  --bs-btn-disabled-color: #{$gray-500};
+  --bs-btn-disabled-bg: #{$gray-200};
+  --bs-btn-disabled-border-color: #{$gray-200};
   &:after {
     content: "";
     opacity: 0;
     transition: all 0.15s ease-in-out 0s;
   }
   &:hover {
-    color: $white;
-    background-color: $purple;
-    border-color: $purple;
     &:after {
       opacity: 1;
       color: $white;
@@ -250,25 +436,28 @@ ul.list-bullet {
       -webkit-font-smoothing: antialiased;
     }
   }
-  &:disabled {
-    background-color: $gray-600;
-    border-color: $gray-600;
-  }
 }
 
 .btn-outline-primary {
-  color: $dark;
-  background-color: $white;
-  border-color: $yellow;
+  --bs-btn-color: #{$gray-700};
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: #{$gray-500};
+  --bs-btn-hover-color: #{$purple};
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: #{$purple};
+  --bs-btn-focus-shadow-rgb: 0, 0, 0;
+  --bs-btn-active-color: #{$ardc-purple-700};
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: #{$ardc-purple-700};
+  --bs-btn-disabled-color: #{$gray-300};
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #{$gray-300};
   &:after {
     content: "";
     opacity: 0;
     transition: all 0.15s ease-in-out 0s;
   }
   &:hover {
-    color: $dark;
-    background-color: $white;
-    border-color: $purple;
     &:after {
       opacity: 1;
       color: $purple;
@@ -281,9 +470,6 @@ ul.list-bullet {
       -webkit-font-smoothing: antialiased;
     }
   }
-  &:disabled {
-    border-color: $gray-600;
-  }
 }
 
 .btn.btn-purple {
@@ -293,8 +479,8 @@ ul.list-bullet {
   &:hover,
   &:active {
     color: $white;
-    background-color: darken($purple, 10%);
-    border-color: darken($purple, 10%);
+    background-color: $ardc-purple-700;
+    border-color: $ardc-purple-700;
   }
 }
 
@@ -320,9 +506,10 @@ ul.list-bullet {
 }
 
 [class*="btn-outline"]:not(.btn-outline-dark):not(:hover) {
-  color: $dark !important;
+  color: $gray-700 !important;
   &:disabled {
-    border-color: $gray-600;
+    color: $gray-300 !important;
+    border-color: $gray-300;
   }
 }
 
@@ -477,6 +664,12 @@ a.more-details {
 }
 
 .card {
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: $gray-900;
+  }
   .card-body {
     font-size: 14px;
     p,
@@ -507,11 +700,11 @@ a.more-details {
           left: 0;
           height: 1px;
           width: 0;
-          background-color: #8e489b;
+          background-color: $purple;
           transition: all 0.3s ease-in-out 0s;
         }
         &:after {
-          color: $blue;
+          color: $purple;
           margin-left: 10px;
           vertical-align: initial;
           text-rendering: auto;
@@ -569,7 +762,7 @@ a.more-details {
       }
     }
     &:hover {
-      background-color: #f3f3f3;
+      background-color: $gray-100;
       > .card-img-top {
         &:after {
           opacity: 1;
@@ -583,7 +776,7 @@ a.more-details {
       transition: all 0.3s ease-in-out 0s;
       &:hover {
         background-color: $white !important;
-        border: 1px solid #b8b6c7 !important;
+        border: 1px solid $gray-300 !important;
       }
     }
   }
@@ -600,7 +793,7 @@ a.more-details {
       line-height: 14px;
       text-transform: uppercase;
       font-weight: bold;
-      color: #767676;
+      color: $gray-700;
       padding-top: 5px;
       &:before {
         content: "";
@@ -632,16 +825,19 @@ a.more-details {
       line-height: 14px;
       text-transform: uppercase;
       font-weight: bold;
-      color: #767676;
+      color: $gray-700;
       padding-top: 5px;
       margin-right: 10px;
     }
     .badge-label {
-      padding: 5px 10px;
-      font-size: 14px;
-      line-height: 1;
-      background-color: $white;
-      border: $gray-200 solid 1px;
+      padding: 6.5px 9.5px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      color: $gray-700;
+      background-color: $gray-100;
+      border: $gray-200 solid 0.5px;
+      border-radius: $border-radius;
       margin-left: auto;
     }
     &:has(.badge-theme),
@@ -732,26 +928,58 @@ a.more-details {
   }
 }
 
-.accordion.accordion-flush {
+.accordion-button {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  &:not(.collapsed) {
+    box-shadow: none;
+  }
+  &:focus-visible:after {
+    border-radius: 4px;
+    outline: 1.5px solid $purple;
+  }
+  // The button outline would sit around the full-width trigger, so the
+  // Design System outlines the icon instead.
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.accordion {
+  // Items have a left bar and horizontal dividers, not a full border.
+  --bs-accordion-border-width: 0;
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
   .accordion-item {
     border: none;
-    border-left: 5px solid $gray-200;
-    padding-left: 25px;
-    &:hover {
-      border-left: 5px solid $gray-800;
+    border-left: 0.375rem solid $gray-200;
+    padding-left: 2rem;
+    & + .accordion-item {
+      margin-top: -1px;
     }
     &:has(.show) {
-      border-left: 5px solid $primary;
+      border-left-color: $purple;
+      padding-bottom: 1rem;
+      .accordion-header {
+        border-top-color: transparent;
+      }
     }
     .accordion-header {
+      border-top: $gray-200 solid 1px;
       border-bottom: $gray-200 solid 1px;
       padding-left: 0;
       .accordion-button {
         padding-left: 0;
+        padding-right: 0;
+        background-color: transparent;
       }
     }
     .accordion-body {
       padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+      color: $gray-700;
     }
   }
 }
@@ -908,7 +1136,7 @@ nav {
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background-color: $gray-300;
+            background-color: #d8d8d8;
             &:hover {
               background-color: $purple;
               color: #fff;
@@ -928,6 +1156,9 @@ section#main {
   min-height: 50vh;
 }
 section.banner {
+  // Contain the content box margins so they show the banner background above
+  // and below the box, instead of collapsing out through the section.
+  display: flow-root;
   &.banner-with-search {
     margin-bottom: 100px;
     @include media-breakpoint-down(sm) {
@@ -940,21 +1171,31 @@ section.banner {
     padding: 40px;
     background: $white;
     .banner-title {
-      font-size: 35px;
-      font-weight: 700;
+      // Same as .h1
+      margin-top: 0;
       margin-bottom: 15px;
       padding-right: 30px;
+      font-size: $h1-font-size;
+      font-weight: $headings-font-weight;
+      line-height: 1.2222;
+      color: $headings-color;
+      @include media-breakpoint-down(md) {
+        font-size: 1.75rem;
+        line-height: 1.2857;
+      }
     }
     .banner-subtitle {
-      font-size: 20px;
-      color: rgba(32, 32, 32, 0.8);
+      font-size: 1.125rem;
+      line-height: 1.4444;
+      font-weight: 600;
+      color: $gray-700;
     }
   }
   .banner-search-box {
     position: relative;
     padding: 37px 40px;
     margin-bottom: -60px; // Half of height
-    background: $gray-300;
+    background: $gray-200;
   }
 }
 
@@ -1005,25 +1246,84 @@ section.banner {
 }
 
 .pagination {
+  gap: 0.5rem;
   .page-item {
     .page-link {
-      margin: 10px;
-      min-width: 35px;
-      height: 35px;
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      padding: 0 0.5rem;
+      border: 1px solid transparent;
       background: none;
-      border-radius: 4px;
-      color: $black;
+      border-radius: $border-radius;
+      color: $gray-500;
+      font-size: $font-size-sm;
+      font-weight: 700;
+      line-height: 1.25rem;
       text-align: center;
-      &:hover {
-        color: darken($yellow, 10%);
+      text-decoration: none;
+      &:hover,
+      &:focus-visible {
+        color: $purple;
+        background: none;
       }
     }
     &.active {
       > .page-link {
         background-color: $yellow;
-        color: $black !important;
+        border-color: $ardc-yellow-700;
+        color: $gray-700;
       }
+    }
+    &.disabled > .page-link {
+      color: $gray-300;
+      background: none;
+    }
+  }
+}
+
+.nav-tabs {
+  .nav-link {
+    position: relative;
+    padding: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.625rem;
+    color: $gray-900;
+    border-radius: $border-radius $border-radius 0 0;
+    &:hover {
+      background-color: $white;
+    }
+    &:focus-visible {
+      box-shadow: none;
+    }
+    &.active {
+      // 3px purple indicator on the selected tab
+      &:before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        height: 3px;
+        border-radius: $border-radius $border-radius 0 0;
+        background-color: $purple;
+      }
+    }
+    &.disabled {
+      color: $gray-500;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.nav-pills {
+  .nav-link {
+    &:focus-visible {
+      box-shadow: none;
     }
   }
 }
