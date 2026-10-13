@@ -19,6 +19,14 @@ router.register(r'outages', api.OutageViewSet, basename='outage')
 router.register(
     r'announcements', api.AnnouncementViewSet, basename='announcement'
 )
+# Tag vocabularies for the `service` / `availability_zone` filters on
+# the announcements endpoint.
+router.register(r'services', api.ServiceViewSet, basename='service')
+router.register(
+    r'availability-zones',
+    api.AvailabilityZoneViewSet,
+    basename='availability-zone',
+)
 
 
 urlpatterns = [

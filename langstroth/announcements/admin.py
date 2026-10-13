@@ -17,10 +17,20 @@ class UpdateInline(admin.TabularInline):
         return super().has_add_permission(request, obj)
 
 
+@admin.register(models.Service, models.AvailabilityZone)
+class VocabularyAdmin(admin.ModelAdmin):
+    """Shared admin for the Service / AvailabilityZone vocabularies."""
+
+    list_display = ('name', 'slug')
+    search_fields = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+
 @admin.register(models.Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ('summary', 'category')
-    list_filter = ('category',)
+    list_filter = ('category', 'services', 'availability_zones')
+    filter_horizontal = ('services', 'availability_zones')
     inlines = (UpdateInline,)
     readonly_fields = ('created_by', 'modified_by', 'modification_time')
 

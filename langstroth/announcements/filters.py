@@ -38,6 +38,39 @@ class ActivityFilterMixin:
         return queryset
 
 
+class TagFilterMixin:
+    """Filter announcements by service or availability-zone term.
+
+    An announcement with no services (or zones) affects all of them
+    (see the comment in models.py), so a per-service query must return
+    untagged rows as well as rows tagged with any requested term.
+    Terms within one parameter are OR'd; `service` and
+    `availability_zone` combine with AND like any two filters.
+
+    `value` is the list of model instances the filter field resolved
+    from the request (so unknown slugs never reach here).
+    """
+
+    def filter_service(self, queryset, name, value):
+        return self._filter_tag(queryset, 'services', value)
+
+    def filter_availability_zone(self, queryset, name, value):
+        return self._filter_tag(queryset, 'availability_zones', value)
+
+    @staticmethod
+    def _filter_tag(queryset, relation, terms):
+        if not terms:
+            return queryset
+        # Both predicates in one filter() call so they share a single
+        # LEFT OUTER JOIN on the through table. distinct() because a
+        # row tagged with two requested terms would otherwise appear
+        # twice (and inflate the paginator count).
+        return queryset.filter(
+            db_models.Q(**{f'{relation}__in': terms})
+            | db_models.Q(**{f'{relation}__isnull': True})
+        ).distinct()
+
+
 class ChoiceFilter(django_filters.ChoiceFilter):
     def __init__(
         self,

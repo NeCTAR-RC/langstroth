@@ -2,6 +2,8 @@ from datetime import timedelta
 import time
 
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.db import transaction
 from django.test import TestCase
 from django.utils import timezone
 from freezegun import freeze_time
@@ -321,3 +323,71 @@ class ManagerQuerysetTests(TestCase):
             end=now - timedelta(days=1),
         )
         self.assertIn(notice, models.Announcement.objects.recently_ended())
+
+
+class VocabularyTests(TestCase):
+    """Cover the Service / AvailabilityZone vocabularies and the tag
+    relations on Announcement. An untagged announcement affects all
+    services and zones (see the module comment in models.py), so the
+    relations must default to empty rather than require a value.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = auth_models.User.objects.create(
+            username="vocab", email="vocab@test"
+        )
+
+    def _announcement(self):
+        return models.Announcement.objects.create(
+            title="t",
+            description="d",
+            start=timezone.now(),
+            severity=models.SIGNIFICANT,
+            created_by=self.user,
+        )
+
+    def test_str_is_name(self):
+        service = models.Service(name="Compute", slug="compute")
+        zone = models.AvailabilityZone(name="melbourne-qh2", slug="qh2")
+        self.assertEqual("Compute", str(service))
+        self.assertEqual("melbourne-qh2", str(zone))
+
+    def test_ordered_by_name(self):
+        models.Service.objects.create(name="Volume", slug="volume")
+        models.Service.objects.create(name="Compute", slug="compute")
+        models.AvailabilityZone.objects.create(name="tasmania", slug="tas")
+        models.AvailabilityZone.objects.create(name="monash-01", slug="mon")
+        self.assertEqual(
+            ["Compute", "Volume"],
+            [s.name for s in models.Service.objects.all()],
+        )
+        self.assertEqual(
+            ["monash-01", "tasmania"],
+            [z.name for z in models.AvailabilityZone.objects.all()],
+        )
+
+    def test_name_and_slug_unique(self):
+        for model in (models.Service, models.AvailabilityZone):
+            model.objects.create(name="Compute", slug="compute")
+            for kwargs in (
+                {"name": "Compute", "slug": "compute-2"},
+                {"name": "Compute 2", "slug": "compute"},
+            ):
+                with self.assertRaises(IntegrityError), transaction.atomic():
+                    model.objects.create(**kwargs)
+
+    def test_tags_default_empty(self):
+        announcement = self._announcement()
+        self.assertFalse(announcement.services.exists())
+        self.assertFalse(announcement.availability_zones.exists())
+
+    def test_reverse_relations(self):
+        service = models.Service.objects.create(name="Compute", slug="compute")
+        zone = models.AvailabilityZone.objects.create(name="qh2", slug="qh2")
+        tagged = self._announcement()
+        tagged.services.add(service)
+        tagged.availability_zones.add(zone)
+        self._announcement()  # untagged; must not appear via the reverse
+        self.assertEqual([tagged], list(service.announcements.all()))
+        self.assertEqual([tagged], list(zone.announcements.all()))

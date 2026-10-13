@@ -312,6 +312,43 @@ class OutageFormTests(TestCase):
         self.assertIn(
             'form-select', form.fields['severity'].widget.attrs['class']
         )
+        # SelectMultiple inherits input_type 'select', so the helper
+        # must style it as a select, not as a text control.
+        for name in ('services', 'availability_zones'):
+            self.assertIn(
+                'form-select', form.fields[name].widget.attrs['class']
+            )
+
+    def test_tags_optional_and_explained(self):
+        # No tags means "affects all"; the fields must not be required
+        # and the help text (rendered by the create templates) must say
+        # so.
+        form = forms.OutageForm(data=self._data())
+        self.assertTrue(form.is_valid(), form.errors)
+        for name, noun in (
+            ('services', "all services"),
+            ('availability_zones', "all availability zones"),
+        ):
+            self.assertFalse(form.fields[name].required)
+            self.assertIn(noun, form.fields[name].help_text)
+
+    def test_tags_saved(self):
+        compute = models.Service.objects.create(name="Compute", slug="compute")
+        volume = models.Service.objects.create(name="Volume", slug="volume")
+        zone = models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+        form = forms.OutageForm(
+            data=self._data(
+                services=[compute.pk, volume.pk],
+                availability_zones=[zone.pk],
+            )
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = self.user
+        outage = form.save()
+        self.assertEqual({compute, volume}, set(outage.services.all()))
+        self.assertEqual([zone], list(outage.availability_zones.all()))
 
 
 class OutageUpdateFormTests(TestCase):
@@ -518,3 +555,24 @@ class NewsFormTests(TestCase):
             "Unknown browser timezone: Mars/Olympus_Mons",
             form.non_field_errors(),
         )
+
+    def test_tags_saved(self):
+        user = auth_models.User.objects.create(
+            username="news", email="news@test.com"
+        )
+        compute = models.Service.objects.create(name="Compute", slug="compute")
+        zone = models.AvailabilityZone.objects.create(name="qh2", slug="qh2")
+        form = forms.NewsForm(
+            data={
+                "title": "New flavours in qh2",
+                "description": "Bigger instances available",
+                "start": timezone.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "services": [compute.pk],
+                "availability_zones": [zone.pk],
+            }
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.instance.created_by = user
+        news = form.save()
+        self.assertEqual([compute], list(news.services.all()))
+        self.assertEqual([zone], list(news.availability_zones.all()))

@@ -40,6 +40,12 @@ LOG = logging.getLogger(__name__)
 # IDENTIFIED -> PROGRESSING -> FIXED -> RESOLVED). The outage itself is
 # ended by an explicit action that sets `end`; a RESOLVED update may
 # accompany this but is not what marks the outage as ended.
+#
+# Any announcement may be tagged with the Services and AvailabilityZones
+# it affects (admin-managed vocabularies). An empty set means "all":
+# an untagged announcement affects every service / every zone. The
+# API filters (filters.TagFilterMixin) and the detail page rely on
+# this, so never read "no tags" as "affects nothing".
 
 # Outage Status
 INVESTIGATING = 'IN'
@@ -110,6 +116,30 @@ def _severity_display(severity):
     return _SEVERITY_DISPLAYS.get(severity, "Unknown")
 
 
+class VocabularyBase(models.Model):
+    """An admin-managed vocabulary term operators tag announcements with."""
+
+    name = models.CharField(max_length=100, unique=True)
+    # Stable identifier for API filtering; `name` may be reworded later
+    # without breaking consumers that filter on the slug.
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        abstract = True
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Service(VocabularyBase):
+    pass
+
+
+class AvailabilityZone(VocabularyBase):
+    pass
+
+
 class AnnouncementManager(models.Manager):
     def current(self):
         # Ongoing outages and notices. News is lifecycle-free (`end`
@@ -175,6 +205,20 @@ class Announcement(models.Model):
     )
     scheduled = models.BooleanField(blank=True, default=False, editable=False)
     cancelled = models.BooleanField(blank=True, default=False)
+    # Empty means "affects all services" / "all availability zones",
+    # not "affects none"; see the module comment.
+    services = models.ManyToManyField(
+        Service,
+        blank=True,
+        related_name='announcements',
+        help_text="Leave empty if this affects all services.",
+    )
+    availability_zones = models.ManyToManyField(
+        AvailabilityZone,
+        blank=True,
+        related_name='announcements',
+        help_text="Leave empty if this affects all availability zones.",
+    )
     modification_time = models.DateTimeField(auto_now=True, editable=False)
     created_by = models.ForeignKey(
         User, editable=False, on_delete=models.PROTECT, related_name='+'

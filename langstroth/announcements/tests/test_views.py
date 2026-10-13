@@ -46,6 +46,40 @@ class ListAndDetailTests(test.TestCase):
         response = self.client.get(self.outage1.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
+    def test_detail_untagged_reads_as_all(self):
+        # No tags means "affects all"; the page must say so rather than
+        # show nothing, or an operator can't tell the two apart.
+        response = self.client.get(self.outage1.get_absolute_url())
+        self.assertContains(response, "Services:")
+        self.assertContains(response, "All services")
+        self.assertContains(response, "Availability zones:")
+        self.assertContains(response, "All availability zones")
+
+    def test_detail_lists_tags(self):
+        compute = models.Service.objects.create(name="Compute", slug="compute")
+        volume = models.Service.objects.create(name="Volume", slug="volume")
+        zone = models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+        self.outage1.services.add(compute)
+        self.outage1.availability_zones.add(zone)
+        response = self.client.get(self.outage1.get_absolute_url())
+        # Singular labels for a single tag.
+        self.assertContains(response, "Service:")
+        self.assertContains(response, "Compute")
+        self.assertNotContains(response, "Services:")
+        self.assertContains(response, "Availability zone:")
+        self.assertContains(response, "melbourne-qh2")
+        self.assertNotContains(response, "Availability zones:")
+        self.assertNotContains(response, "All services")
+        self.assertNotContains(response, "All availability zones")
+
+        self.outage1.services.add(volume)
+        response = self.client.get(self.outage1.get_absolute_url())
+        self.assertContains(response, "Services:")
+        self.assertContains(response, "Compute, Volume")
+        self.assertContains(response, "Availability zone:")
+
     def test_list_query_count_bounded(self):
         # Prefetch on the list view means status_display / latest_update
         # do not issue per-row queries. Add another outage with several
@@ -134,6 +168,43 @@ class CreateOutageTests(test.TestCase):
         outage = models.Announcement.objects.get(title="Broken")
         self.assertFalse(outage.scheduled)
         self.assertEqual(1, outage.updates.count())
+
+    def test_get_explains_empty_tags_mean_all(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse('announcements:create'))
+        self.assertContains(
+            response, "Leave empty if this affects all services."
+        )
+        self.assertContains(
+            response, "Leave empty if this affects all availability zones."
+        )
+
+    def test_post_with_tags(self):
+        self.client.force_login(self.staff)
+        compute = models.Service.objects.create(name="Compute", slug="compute")
+        zone = models.AvailabilityZone.objects.create(
+            name="melbourne-qh2", slug="melbourne-qh2"
+        )
+        future = timezone.now() + timedelta(days=1)
+        planned_end = future + timedelta(hours=2)
+        response = self.client.post(
+            reverse('announcements:create'),
+            data={
+                "title": "Tagged",
+                "description": "Routine",
+                "start": future.strftime("%Y-%m-%dT%H:%M:%S"),
+                "severity": models.SIGNIFICANT,
+                "planned_end": planned_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                "status": "",
+                "content": "",
+                "services": [compute.pk],
+                "availability_zones": [zone.pk],
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        outage = models.Announcement.objects.get(title="Tagged")
+        self.assertEqual([compute], list(outage.services.all()))
+        self.assertEqual([zone], list(outage.availability_zones.all()))
 
 
 class UpdateAndEndFlowTests(test.TestCase):
@@ -586,6 +657,22 @@ class CreateNoticeAndNewsTests(test.TestCase):
         for name in ('create_notice', 'create_news'):
             response = self.client.get(reverse(f'announcements:{name}'))
             self.assertEqual(response.status_code, 200)
+
+    def test_get_explains_empty_tags_mean_all(self):
+        # create_news.html lays its fields out by hand, so check it
+        # renders the tag fields and their "empty means all" hint too.
+        self.client.force_login(self.staff)
+        for name in ('create_notice', 'create_news'):
+            response = self.client.get(reverse(f'announcements:{name}'))
+            self.assertContains(
+                response, "Leave empty if this affects all services."
+            )
+            self.assertContains(
+                response,
+                "Leave empty if this affects all availability zones.",
+            )
+            self.assertContains(response, 'name="services"')
+            self.assertContains(response, 'name="availability_zones"')
 
     def test_post_notice_starting_now_without_initial_update(self):
         # Unlike an outage, a notice may start immediately with just

@@ -3,6 +3,7 @@ from importlib import import_module
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.management import call_command
 from django.test import TestCase
 
 migration_0008 = import_module(
@@ -106,3 +107,21 @@ class AppMoveTests(TestCase):
                 content_type__app_label='outages'
             ).exists()
         )
+
+
+class PendingMigrationTests(TestCase):
+    def test_models_match_migrations(self):
+        # `makemigrations --check` exits non-zero when a model change
+        # has no migration. Catch model drift here, in CI, rather than
+        # at deploy time when `migrate` silently does nothing.
+        try:
+            call_command(
+                'makemigrations',
+                'announcements',
+                'langstroth',
+                '--check',
+                '--dry-run',
+                verbosity=0,
+            )
+        except SystemExit:
+            self.fail("Model changes have no migration; run makemigrations.")
