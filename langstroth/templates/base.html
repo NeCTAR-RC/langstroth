@@ -44,6 +44,18 @@
     {# tz_detect renders an inline script; kwargs become its attributes. #}
     {% tz_detect nonce=csp_nonce %}
     <script
+      src="https://ardc.edu.au/wp-content/plugins/ardc-custom-web-components/dist/loaders/megamenu.min.js"
+      defer
+      data-no-optimize
+    ></script>
+    {# Drop the space reserved for the mega menu if its loader fails. #}
+    <script {% csp_nonce_attr %}>
+      document.querySelector('script[src*="megamenu.min.js"]')
+        .addEventListener('error', function () {
+          document.getElementById('ardc-menu').hidden = true;
+        });
+    </script>
+    <script
       src="https://ardc.edu.au/wp-content/plugins/ardc-custom-web-components/dist/loaders/footer.min.js"
       defer
       data-no-optimize

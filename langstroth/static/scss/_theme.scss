@@ -122,6 +122,18 @@ main a:not([class]) {
   font-weight: 700;
 }
 
+/*** ARDC web components ***/
+
+// Reserve space for the mega menu while its script loads, so the page does
+// not shift (CLS). base.html hides it if the loader fails.
+ardc-megamenu {
+  display: block;
+  min-height: 20px;
+  &[hidden] {
+    display: none;
+  }
+}
+
 /*** Theme elements ***/
 
 main a:hover {
