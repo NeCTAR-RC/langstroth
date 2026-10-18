@@ -250,9 +250,7 @@ class TestRequestCallers(TestCase):
     def test_gm_timestamp(self):
         # tz-aware UTC datetime
         ts = nagios.gm_timestamp(
-            datetime.datetime(
-                2024, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc
-            )
+            datetime.datetime(2024, 1, 1, 0, 0, 0, tzinfo=datetime.UTC)
         )
         self.assertEqual(1704067200, ts)
 
@@ -278,8 +276,8 @@ class TestRequestCallers(TestCase):
         html = open(os.path.join(DIR, 'test_availability.html'), 'rb').read()
         mock_get.return_value = mock.Mock(text=html)
         result = nagios.get_availability(
-            datetime.datetime(2024, 1, 1, tzinfo=datetime.timezone.utc),
-            datetime.datetime(2024, 1, 2, tzinfo=datetime.timezone.utc),
+            datetime.datetime(2024, 1, 1, tzinfo=datetime.UTC),
+            datetime.datetime(2024, 1, 2, tzinfo=datetime.UTC),
             service_group=settings.NAGIOS_SERVICE_GROUP,
         )
         self.assertIn('services', result)

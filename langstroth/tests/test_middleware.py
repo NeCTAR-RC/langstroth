@@ -49,7 +49,7 @@ class TimezoneMiddlewareTests(TestCase):
         self.mw(request)
         tz = timezone.get_current_timezone()
         self.assertIsInstance(tz, zoneinfo.ZoneInfo)
-        ref = datetime.datetime(2026, 6, 18, tzinfo=datetime.timezone.utc)
+        ref = datetime.datetime(2026, 6, 18, tzinfo=datetime.UTC)
         self.assertEqual(datetime.timedelta(hours=10), tz.utcoffset(ref))
 
     def test_unknown_name_deactivates_without_error(self):
@@ -64,9 +64,7 @@ class TimezoneMiddlewareTests(TestCase):
         # under the active timezone must not drift. Under the old pytz
         # middleware Australia/Melbourne drifted ~20 minutes per save.
         self.mw(self._request("Australia/Melbourne"))
-        stored = datetime.datetime(
-            2026, 6, 18, 0, 0, tzinfo=datetime.timezone.utc
-        )
+        stored = datetime.datetime(2026, 6, 18, 0, 0, tzinfo=datetime.UTC)
         shown = to_current_timezone(stored)  # what the widget renders
         # Operator re-submits the same wall-clock value unchanged.
         reparsed = from_current_timezone(shown.replace(tzinfo=None))

@@ -232,7 +232,7 @@ class OutageFormTests(TestCase):
             self.assertTrue(form.is_valid(), form.errors)
             form.instance.created_by = self.user
             outage = form.save()
-            expected_utc = local_dt.astimezone(_dt.timezone.utc)
+            expected_utc = local_dt.astimezone(_dt.UTC)
             diff = abs((outage.start - expected_utc).total_seconds())
             self.assertLess(
                 diff,
